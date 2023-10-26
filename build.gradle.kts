@@ -24,6 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     //implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
     implementation(kotlin("stdlib-jdk8"))
+    implementation("commons-validator:commons-validator:1.7")
 }
 
 publishing {
