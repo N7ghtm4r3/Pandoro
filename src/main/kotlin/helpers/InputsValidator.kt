@@ -126,8 +126,8 @@ fun isSurnameValid(surname: String): Boolean {
  */
 fun areCredentialsValid(email: String, password: String): InputStatus {
     if (isEmailValid(email)) {
-        if (isPasswordValid(password))
-            return OK
+        return if (isPasswordValid(password))
+            OK
         else
             WRONG_PASSWORD
     }
@@ -169,6 +169,22 @@ fun isPasswordValid(password: String): Boolean {
 }
 
 /**
+ * Function to check if all the notes of the list are correct
+ *
+ * @param notes: list of notes
+ * @return whether all the notes of the list are correct as boolean
+ */
+fun areNotesValid(notes: List<String>): Boolean {
+    var notesCorrect = true
+    for (note in notes) {
+        notesCorrect = isContentNoteValid(note)
+        if (!notesCorrect)
+            break
+    }
+    return notesCorrect
+}
+
+/**
  * Function to check the validity of a content for a note
  *
  * @param content: content to check
@@ -176,6 +192,22 @@ fun isPasswordValid(password: String): Boolean {
  */
 fun isContentNoteValid(content: String): Boolean {
     return content.length in 1..NOTE_CONTENT_MAX_LENGTH
+}
+
+/**
+ * Function to check the validity of a members list
+ *
+ * @param members: members list to check
+ * @return whether the members list is valid as [Boolean]
+ */
+fun checkMembersValidity(members: List<String>): Boolean {
+    var membersCorrect = true
+    for (member in members) {
+        membersCorrect = isEmailValid(member)
+        if (!membersCorrect)
+            break
+    }
+    return membersCorrect
 }
 
 /**

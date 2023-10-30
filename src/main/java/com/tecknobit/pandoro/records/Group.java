@@ -468,7 +468,6 @@ public class Group extends PandoroItem {
          * @param userLogged: the user logged in the session
          * @return whether the user logged in the session is the current member iterated as boolean
          */
-        // TODO: 25/10/2023 REPLACE user.id != member.id WITH THIS METHOD
         public boolean isLoggedUser(User userLogged) {
             return userLogged.getId().equals(id);
         }
