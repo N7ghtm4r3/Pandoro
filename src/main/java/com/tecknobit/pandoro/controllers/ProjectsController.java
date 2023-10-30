@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/projects" // TODO: 29/10/2023 INSERT THE CORRECT PATH
+@RequestMapping(path = "/api/v1/projects" // TODO: 29/10/2023 INSERT THE CORRECT PATH
 )
 public class ProjectsController {
 

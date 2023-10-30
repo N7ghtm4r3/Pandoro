@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/users" // TODO: 29/10/2023 INSERT THE CORRECT PATH
+@RequestMapping(path = "/api/v1/users" // TODO: 29/10/2023 INSERT THE CORRECT PATH
 )
 public class UsersController {
 
