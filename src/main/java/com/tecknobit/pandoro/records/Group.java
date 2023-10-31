@@ -277,7 +277,8 @@ public class Group extends PandoroItem {
     public Group(String id, String name, User author, String description, ArrayList<Member> members,
                  ArrayList<Project> projects) {
         super(id, name);
-        this.author = author;
+        this.author = new User(author.getId(), author.getName(), author.getProfilePic(), author.getSurname(),
+                author.getEmail(), null, null, null, null, null);
         this.description = description;
         this.members = members;
         totalMembers = members.size();
@@ -420,15 +421,10 @@ public class Group extends PandoroItem {
          * @param surname:    the surname of the member
          * @param email:      the email of the member
          * @param password:   the password of the member
-         * @param changelogs: list of action messages for the member
-         * @param groups:     list of the groups of the member
-         * @param projects:   list of the projects of the member
          * @param role:       the role of the member
          */
-        public Member(String id, String name, String profilePic, String surname, String email, String password,
-                      ArrayList<Group> groups, ArrayList<Changelog> changelogs, ArrayList<Project> projects,
-                      Role role) {
-            super(id, name, profilePic, surname, email, password, changelogs, groups, projects, null);
+        public Member(String id, String name, String profilePic, String surname, String email, String password, Role role) {
+            super(id, name, profilePic, surname, email, null, null, null, null, null);
             this.role = role;
         }
 
