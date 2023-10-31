@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_ENDPOINT;
+import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+
 @RestController
-@RequestMapping(path = "/api/v1/notes" // TODO: 29/10/2023 INSERT THE CORRECT PATH
-)
-public class NotesController {
+@RequestMapping(path = BASE_ENDPOINT + NOTES_ENDPOINT)
+public class NotesController extends PandoroController {
+
+    public static final String NOTES_ENDPOINT = "notes";
 
     private final NotesHelper notesHelper;
 

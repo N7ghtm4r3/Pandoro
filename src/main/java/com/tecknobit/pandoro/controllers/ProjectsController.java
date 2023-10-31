@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.controllers.ProjectsController.PROJECTS_ENDPOINT;
+
 @RestController
-@RequestMapping(path = "/api/v1/projects" // TODO: 29/10/2023 INSERT THE CORRECT PATH
-)
-public class ProjectsController {
+@RequestMapping(path = BASE_ENDPOINT + PROJECTS_ENDPOINT)
+public class ProjectsController extends PandoroController {
+
+    public static final String PROJECTS_ENDPOINT = "projects";
 
     private final ProjectsHelper projectsHelper;
 
