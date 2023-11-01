@@ -42,14 +42,6 @@ public abstract class PandoroController {
      *
      */
 
-    protected String decrypt() {
-        return "";
-    }
-
-    protected String encrypt() {
-        return "";
-    }
-
     protected String generateIdentifier() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }

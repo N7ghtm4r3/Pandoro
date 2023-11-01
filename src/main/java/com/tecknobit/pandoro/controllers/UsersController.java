@@ -17,8 +17,6 @@ public class UsersController extends PandoroController {
 
     public static final String USERS_ENDPOINT = "users";
 
-    public static final String PUBLIC_KEYS_ENDPOINT = "/publicKeys";
-
     public static final String SIGN_UP_ENDPOINT = "/signUp";
 
     public static final String SIGN_IN_ENDPOINT = "/signIn";
@@ -33,10 +31,6 @@ public class UsersController extends PandoroController {
 
     public static final String DELETE_ACCOUNT_ENDPOINT = "/deleteAccount";
 
-    public static final String PUBLIC_KEY = "publicKey";
-
-    public static final String PRIVATE_KEY = "privateKey";
-
     public static final String WRONG_EMAIL_MESSAGE = "Wrong email";
 
     public static final String WRONG_PASSWORD_MESSAGE = "Wrong password";
@@ -48,14 +42,6 @@ public class UsersController extends PandoroController {
     @Autowired
     public UsersController(UsersHelper usersHelper) {
         this.usersHelper = usersHelper;
-    }
-
-    @GetMapping(PUBLIC_KEYS_ENDPOINT)
-    public String getPublicKeys() {
-        // TODO: 31/10/2023 PASS THE REAL KEYS 
-        return new JSONObject()
-                .put(PUBLIC_KEY, "publicKey")
-                .put(PRIVATE_KEY, "privateKey").toString();
     }
 
     @PostMapping(
@@ -126,78 +112,121 @@ public class UsersController extends PandoroController {
 
     @GetMapping(
             path = "{" + IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT,
-            params = {
+            headers = {
                     TOKEN_KEY
             }
     )
     public String getProfileDetails(
-            @PathVariable String userId,
-            @RequestParam(TOKEN_KEY) String token
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token
     ) {
-        User user = usersHelper.getProfileDetails(userId);
-        return successResponse(new JSONObject()
-                .put(PROFILE_PIC_KEY, user.getProfilePic())
-                .put(NAME_KEY, user.getName())
-                .put(SURNAME_KEY, user.getSurname())
-                .put(EMAIL_KEY, user.getEmail())
-                .put(PASSWORD_KEY, user.getPassword())
-                .put(CHANGELOGS_KEY, user.getChangelogs())
-                .put(GROUPS_KEY, user.getGroups())
-        );
+        User user = usersHelper.getProfileDetails(id, token);
+        if (user != null) {
+            return successResponse(new JSONObject()
+                    .put(PROFILE_PIC_KEY, user.getProfilePic())
+                    .put(NAME_KEY, user.getName())
+                    .put(SURNAME_KEY, user.getSurname())
+                    .put(EMAIL_KEY, user.getEmail())
+                    .put(PASSWORD_KEY, user.getPassword())
+                    .put(CHANGELOGS_KEY, user.getChangelogs())
+                    .put(GROUPS_KEY, user.getGroups())
+            );
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
-    // TODO: 31/10/2023 CHANGE PROFILE PIC
+    // TODO: 01/11/2023 PASS CORRECT PROFILE PIC 
+    @PatchMapping(
+            path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PROFILE_PIC_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            },
+            params = {
+                    PROFILE_PIC_KEY
+            }
+    )
+    public String changeProfilePic(
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(PROFILE_PIC_KEY) String profilePic
+    ) {
+        if (!profilePic.isEmpty()) {
+            try {
+                usersHelper.changeProfilePic(id, token, profilePic);
+                return successResponse();
+            } catch (IllegalAccessException e) {
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
+        } else
+            return failedResponse("Wrong profile pic");
+    }
 
     @PatchMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_EMAIL_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            },
             params = {
-                    TOKEN_KEY,
                     EMAIL_KEY
             }
     )
     public String changeEmail(
-            @PathVariable String userId,
-            @RequestParam(TOKEN_KEY) String token,
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(EMAIL_KEY) String newEmail
     ) {
         if (isEmailValid(newEmail)) {
-            usersHelper.changeEmail(userId, newEmail);
-            return successResponse();
+            try {
+                usersHelper.changeEmail(id, token, newEmail);
+                return successResponse();
+            } catch (IllegalAccessException e) {
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
         } else
             return failedResponse(WRONG_EMAIL_MESSAGE);
     }
 
     @PatchMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PASSWORD_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            },
             params = {
-                    TOKEN_KEY,
                     PASSWORD_KEY
             }
     )
     public String changePassword(
-            @PathVariable String userId,
-            @RequestParam(TOKEN_KEY) String token,
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(PASSWORD_KEY) String newPassword
     ) {
         if (isPasswordValid(newPassword)) {
-            usersHelper.changePassword(userId, newPassword);
-            return successResponse();
+            try {
+                usersHelper.changePassword(id, token, newPassword);
+                return successResponse();
+            } catch (IllegalAccessException e) {
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
         } else
             return failedResponse(WRONG_PASSWORD_MESSAGE);
     }
 
     @DeleteMapping(
             path = "{" + IDENTIFIER_KEY + "}" + DELETE_ACCOUNT_ENDPOINT,
-            params = {
+            headers = {
                     TOKEN_KEY
             }
     )
     public String deleteAccount(
-            @PathVariable String userId,
-            @RequestParam(TOKEN_KEY) String token
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token
     ) {
-        usersHelper.delete(userId);
-        return successResponse();
+        try {
+            usersHelper.delete(id, token);
+            return successResponse();
+        } catch (IllegalAccessException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
     }
 
 }

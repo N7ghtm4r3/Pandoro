@@ -55,21 +55,37 @@ public class UsersHelper {
         return usersRepository.getUserByEmailAndPassword(email, password);
     }
 
-    public User getProfileDetails(String userId) {
-        // TODO: 31/10/2023 FETCH FROM SQL THEN
-        return new User();
+    public User getProfileDetails(String userId, String token) {
+        return usersRepository.getAuthorizedUser(userId, token);
     }
 
-    public void changeEmail(String userId, String newEmail) {
-        // TODO: 31/10/2023 EDIT IN SQL THEN
+    // TODO: 01/11/2023 PASS CORRECT PROFILE PIC
+    public void changeProfilePic(String userId, String token, String profilePic) throws IllegalAccessException {
+        if (usersRepository.getAuthorizedUser(userId, token) != null)
+            usersRepository.changeProfilePic(userId, token, profilePic);
+        else
+            throw new IllegalAccessException();
     }
 
-    public void changePassword(String userId, String newPassword) {
-        // TODO: 31/10/2023 EDIT IN SQL THEN
+    public void changeEmail(String userId, String token, String newEmail) throws IllegalAccessException {
+        if (usersRepository.getAuthorizedUser(userId, token) != null)
+            usersRepository.changeEmail(userId, token, newEmail);
+        else
+            throw new IllegalAccessException();
     }
 
-    public void delete(String userId) {
-        // TODO: 31/10/2023 EDIT IN SQL THEN
+    public void changePassword(String userId, String token, String newPassword) throws IllegalAccessException {
+        if (usersRepository.getAuthorizedUser(userId, token) != null)
+            usersRepository.changePassword(userId, token, newPassword);
+        else
+            throw new IllegalAccessException();
+    }
+
+    public void delete(String userId, String token) throws IllegalAccessException {
+        if (usersRepository.getAuthorizedUser(userId, token) != null)
+            usersRepository.deleteAccount(userId, token);
+        else
+            throw new IllegalAccessException();
     }
 
 }
