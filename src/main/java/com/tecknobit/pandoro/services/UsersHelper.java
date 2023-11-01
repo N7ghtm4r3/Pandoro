@@ -16,6 +16,8 @@ public class UsersHelper {
 
     public static final String NAME_KEY = "name";
 
+    public static final String TOKEN_KEY = "token";
+
     public static final String SURNAME_KEY = "surname";
 
     public static final String PROFILE_PIC_KEY = "profilePic";
@@ -32,27 +34,30 @@ public class UsersHelper {
 
     public static final String NOTES_KEY = "notes";
 
+    // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
+    public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
+
     @Autowired
     private UsersRepository usersRepository;
 
-    public void signUp(String userId, String name, String surname, String email, String password) {
-        // TODO: 31/10/2023 INSERT IN SQL THEN
+    public void signUp(String userId, String token, String name, String surname, String email, String password) {
+        usersRepository.save(new User(
+                userId,
+                name,
+                token,
+                surname,
+                email,
+                password
+        ));
     }
 
     public User signIn(String email, String password) {
-        usersRepository.getUserByEmailAndPassword(email, password);
-        // TODO: 31/10/2023 FETCH FROM SQL THEN
-        return new User();
+        return usersRepository.getUserByEmailAndPassword(email, password);
     }
 
     public User getProfileDetails(String userId) {
         // TODO: 31/10/2023 FETCH FROM SQL THEN
         return new User();
-    }
-
-    public String getDefaultProfilePic() {
-        // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
-        return "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
     }
 
     public void changeEmail(String userId, String newEmail) {

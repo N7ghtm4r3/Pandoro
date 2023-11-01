@@ -48,6 +48,12 @@ public class User extends PandoroItem {
     public static final int PASSWORD_MAX_LENGTH = 32;
 
     /**
+     * {@code token} token of the user
+     */
+    @Column(name = TOKEN_KEY, unique = true)
+    private final String token;
+
+    /**
      * {@code surname} the surname of the user
      */
     @Column(name = SURNAME_KEY)
@@ -56,13 +62,16 @@ public class User extends PandoroItem {
     /**
      * {@code profilePic} the profile picture of the user
      */
-    @Column(name = PROFILE_PIC_KEY)
+    @Column(
+            name = PROFILE_PIC_KEY,
+            columnDefinition = "text default " + DEFAULT_PROFILE_PIC
+    )
     private final String profilePic;
 
     /**
      * {@code email} the email of the user
      */
-    @Column(name = EMAIL_KEY)
+    @Column(name = EMAIL_KEY, unique = true)
     private final String email;
 
     /**
@@ -98,25 +107,42 @@ public class User extends PandoroItem {
     /**
      * Constructor to init a {@link User} object
      *
-     * @param id:      {@code id}
-     * @param name:    {@code name}
-     * @param surname: the surname of the user
+     * @param id         :         identifier of the user
+     * @param name       :       name of the user
+     * @param token:{@code token} token of the user
+     * @param surname : the surname of the user
+     * @param email   :   the email of the user
+     * @param password   :   the password of the user
+     *
      */
-    // TODO: 19/08/2023 TO REMOVE
-    public User(String id, String name, String surname) {
-        this(id, name, "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
+    public User(String id, String name, String token, String surname, String email, String password) {
+        this(id, name, token, null, surname, email, password, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     /**
      * Constructor to init a {@link User} object
      *
-     * @param name:    {@code name}
-     * @param surname: the surname of the userhm
+     * @param id         :         identifier of the user
+     * @param name       :       name of the user
+     * @param surname : the surname of the user
+     * @param token:token of the user
+     */
+    // TODO: 19/08/2023 TO REMOVE
+    public User(String id, String name, String surname, String token) {
+        this(id, name, token, "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    }
+
+    /**
+     * Constructor to init a {@link User} object
+     *
+     * @param name:    name of the user
+     * @param surname:{@code surname} the surname of the user
      */
     // TODO: 19/08/2023 TO REMOVE
     public User(String name, String surname) {
-        this("", name, "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
+        this("", name, "token", "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
@@ -126,7 +152,7 @@ public class User extends PandoroItem {
     // TODO: 19/08/2023 TO REMOVE
     public User() {
         this("manu0", "Manuel",
-                "https://www.oecd.org/media/oecdorg/directorates/directorateforsciencetechnologyandindustry/stp/space_astronaut_iStock-1353874144.jpg",
+                "token", "https://www.oecd.org/media/oecdorg/directorates/directorateforsciencetechnologyandindustry/stp/space_astronaut_iStock-1353874144.jpg",
                 "Maurizio", "maurizio.manuel2003@gmail.com", "pass",
                 new ArrayList<>(of(
                         new Changelog(
@@ -350,7 +376,7 @@ public class User extends PandoroItem {
                         new Project(
                                 "id0",
                                 "One",
-                                new User("manu0", "Manuel", "Maurizio"),
+                                new User("manu0", "Manuel", "Maurizio", "token"),
                                 "First project",
                                 "Lorem ipsum dolor sit amet. Ab veniam enim et aperiam perferendis aut veritatis corporis sit modi aperiam vel aperiam voluptate! Et voluptatem quia aut minus culpa aut nihil optio quo nihil illum ea velit voluptatibus. Et reiciendis voluptatibus ea fuga distinctio eum tenetur recusandae et rerum natus et quia aliquam. Id sint quod eum eligendi rerum sed porro asperiores. </p><p>Ut consequatur illum qui quia omnis et quam adipisci aut autem natus aut soluta sunt ut error veritatis. Et magni labore qui optio dolorem vel totam consequatur est quas iste. Est incidunt omnis sed odit unde nam fugit quia At quam unde sit veritatis asperiores et optio reiciendis. Qui earum eaque sit veritatis voluptate eos galisum harum est alias quia ut sint asperiores vel accusantium libero ea optio ipsam. </p><p>Nam dolor temporibus a molestias maiores est libero rerum et ullam repudiandae? Et repellendus earum a fuga magni est doloribus quia ad libero dicta a aperiam impedit. Ut quos odio a quisquam natus est dolores natus aut debitis cupiditate aut sunt corrupti. Sit quia exercitationem nam quos harum sit veniam accusamus eum corrupti rerum qui voluptas dolor sit officiis modi sit eius quia AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                 ,
@@ -364,7 +390,7 @@ public class User extends PandoroItem {
                                 new ArrayList<>(List.of(
                                         new Update(
                                                 "gaga",
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 System.currentTimeMillis(),
                                                 "1.0.2",
                                                 new ArrayList<>(List.of(new Note(
@@ -385,7 +411,7 @@ public class User extends PandoroItem {
                                         ),
                                         new Update(
                                                 "gagagaga",
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 System.currentTimeMillis(),
                                                 "1.0.1",
                                                 new User("Gabriele", "Marengo"),
@@ -413,11 +439,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1689854400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690286400000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -438,11 +464,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690286400000L,
-                                                new User("manu10", "Manuel", "Maurizio"),
+                                                new User("manu10", "Manuel", "Maurizio", "token"),
                                                 1694008593000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -463,11 +489,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691150400000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -537,7 +563,7 @@ public class User extends PandoroItem {
                                 new ArrayList<>(List.of(
                                         new Update(
                                                 "gagagaga",
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 System.currentTimeMillis(),
                                                 "1.0.1",
                                                 new User("Gabriele", "Marengo"),
@@ -565,11 +591,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690286400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690459200000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -590,11 +616,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691150400000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -612,7 +638,7 @@ public class User extends PandoroItem {
                                         ),
                                         new Update(
                                                 "gaga",
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 System.currentTimeMillis(),
                                                 "1.0.2",
                                                 new ArrayList<>(List.of(new Note(
@@ -658,11 +684,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1689854400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690286400000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -683,11 +709,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690286400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690459200000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -708,11 +734,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691409600000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -776,11 +802,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1689854400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690286400000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -801,11 +827,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690286400000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1690459200000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Fixed",
                                                         1691852915000L,
                                                         true,
@@ -826,11 +852,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691409600000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -853,11 +879,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691409600000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -880,11 +906,11 @@ public class User extends PandoroItem {
                                                 "1.0.0",
                                                 new User("Gabriele", "Marengo"),
                                                 1690891200000L,
-                                                new User("manu0", "Manuel", "Maurizio"),
+                                                new User("manu0", "Manuel", "Maurizio", "token"),
                                                 1691409600000L,
                                                 new ArrayList<>(List.of(new Note(
                                                         "e484081840f511eebe560242ac120002",
-                                                        new User("manu0", "Manuel", "Maurizio"),
+                                                        new User("manu0", "Manuel", "Maurizio", "token"),
                                                         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
                                                                 "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, " +
                                                                 "when an unknown printer took a galley of type and",
@@ -938,7 +964,7 @@ public class User extends PandoroItem {
                         new Project(
                                 "id19",
                                 "Fourth",
-                                new User("manu0", "Manuel", "Maurizio"),
+                                new User("manu0", "Manuel", "Maurizio", "token"),
                                 "Fourt31 project",
                                 "The fourth project",
                                 "1.0.3",
@@ -1092,21 +1118,23 @@ public class User extends PandoroItem {
     /**
      * Constructor to init a {@link User} object
      *
-     * @param id:         identifier of the user
-     * @param name:       name of the user
-     * @param profilePic: the profile picture of the user
-     * @param surname:    the surname of the user
-     * @param email:      the email of the user
-     * @param password:   the password of the user
-     * @param changelogs: list of action messages for the user
-     * @param groups:     list of the groups of the user
-     * @param projects:   list of the projects of the user
-     * @param notes:      list of the notes of the user
+     * @param id         :         identifier of the user
+     * @param name       :       name of the user
+     * @param token:{@code token} token of the user
+     * @param profilePic : the profile picture of the user
+     * @param surname    :    the surname of the user
+     * @param email      :      the email of the user
+     * @param password   :   the password of the user
+     * @param changelogs : list of action messages for the user
+     * @param groups     :     list of the groups of the user
+     * @param projects   :   list of the projects of the user
+     * @param notes      :      list of the notes of the user
      */
-    public User(String id, String name, String profilePic, String surname, String email, String password,
+    public User(String id, String name, String token, String profilePic, String surname, String email, String password,
                 ArrayList<Changelog> changelogs, ArrayList<Group> groups, ArrayList<Project> projects,
                 ArrayList<Note> notes) {
         super(id, name);
+        this.token = token;
         this.profilePic = profilePic;
         this.surname = surname;
         this.email = email;
@@ -1115,6 +1143,16 @@ public class User extends PandoroItem {
         this.changelogs = changelogs;
         this.projects = projects;
         this.notes = notes;
+    }
+
+    /**
+     * Method to get {@link #token} instance <br>
+     * No-any params required
+     *
+     * @return {@link #token} instance as {@link String}
+     */
+    public String getToken() {
+        return token;
     }
 
     /**

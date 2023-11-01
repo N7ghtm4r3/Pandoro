@@ -2,6 +2,8 @@ package com.tecknobit.pandoro.controllers;
 
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
 
@@ -46,6 +48,10 @@ public abstract class PandoroController {
 
     protected String encrypt() {
         return "";
+    }
+
+    protected String generateIdentifier() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     protected String successResponse() {

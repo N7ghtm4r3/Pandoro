@@ -6,8 +6,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
@@ -43,6 +41,8 @@ public class UsersController extends PandoroController {
 
     public static final String WRONG_PASSWORD_MESSAGE = "Wrong password";
 
+    public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
+
     private final UsersHelper usersHelper;
 
     @Autowired
@@ -77,11 +77,13 @@ public class UsersController extends PandoroController {
             if (isSurnameValid(surname)) {
                 if (isEmailValid(email)) {
                     if (isPasswordValid(password)) {
-                        String userId = UUID.randomUUID().toString().replaceAll("-", "");
-                        usersHelper.signUp(userId, name, surname, email, password);
+                        String userId = generateIdentifier();
+                        String token = generateIdentifier();
+                        usersHelper.signUp(userId, token, name, surname, email, password);
                         return successResponse(new JSONObject()
                                 .put(IDENTIFIER_KEY, userId)
-                                .put(PROFILE_PIC_KEY, usersHelper.getDefaultProfilePic())
+                                .put(TOKEN_KEY, token)
+                                .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
                         );
                     } else
                         return failedResponse(WRONG_PASSWORD_MESSAGE);
@@ -106,14 +108,16 @@ public class UsersController extends PandoroController {
     ) {
         if (isEmailValid(email)) {
             if (isPasswordValid(password)) {
-                // TODO: 31/10/2023 FETCH FROM SQL THEN
                 User user = usersHelper.signIn(email, password);
-                return successResponse(new JSONObject()
-                        .put(IDENTIFIER_KEY, user.getId())
-                        .put(NAME_KEY, user.getName())
-                        .put(SURNAME_KEY, user.getSurname())
-                        .put(PROFILE_PIC_KEY, user.getProfilePic())
-                );
+                if (user != null) {
+                    return successResponse(new JSONObject()
+                            .put(IDENTIFIER_KEY, user.getId())
+                            .put(NAME_KEY, user.getName())
+                            .put(SURNAME_KEY, user.getSurname())
+                            .put(PROFILE_PIC_KEY, user.getProfilePic())
+                    );
+                } else
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
             } else
                 return failedResponse(WRONG_PASSWORD_MESSAGE);
         } else
@@ -121,9 +125,15 @@ public class UsersController extends PandoroController {
     }
 
     @GetMapping(
-            path = "{" + IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT
+            path = "{" + IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT,
+            params = {
+                    TOKEN_KEY
+            }
     )
-    public String getProfileDetails(@PathVariable String userId) {
+    public String getProfileDetails(
+            @PathVariable String userId,
+            @RequestParam(TOKEN_KEY) String token
+    ) {
         User user = usersHelper.getProfileDetails(userId);
         return successResponse(new JSONObject()
                 .put(PROFILE_PIC_KEY, user.getProfilePic())
@@ -141,11 +151,13 @@ public class UsersController extends PandoroController {
     @PatchMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_EMAIL_ENDPOINT,
             params = {
+                    TOKEN_KEY,
                     EMAIL_KEY
             }
     )
     public String changeEmail(
             @PathVariable String userId,
+            @RequestParam(TOKEN_KEY) String token,
             @RequestParam(EMAIL_KEY) String newEmail
     ) {
         if (isEmailValid(newEmail)) {
@@ -158,11 +170,13 @@ public class UsersController extends PandoroController {
     @PatchMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PASSWORD_ENDPOINT,
             params = {
+                    TOKEN_KEY,
                     PASSWORD_KEY
             }
     )
     public String changePassword(
             @PathVariable String userId,
+            @RequestParam(TOKEN_KEY) String token,
             @RequestParam(PASSWORD_KEY) String newPassword
     ) {
         if (isPasswordValid(newPassword)) {
@@ -173,9 +187,15 @@ public class UsersController extends PandoroController {
     }
 
     @DeleteMapping(
-            path = "{" + IDENTIFIER_KEY + "}" + DELETE_ACCOUNT_ENDPOINT
+            path = "{" + IDENTIFIER_KEY + "}" + DELETE_ACCOUNT_ENDPOINT,
+            params = {
+                    TOKEN_KEY
+            }
     )
-    public String deleteAccount(@PathVariable String userId) {
+    public String deleteAccount(
+            @PathVariable String userId,
+            @RequestParam(TOKEN_KEY) String token
+    ) {
         usersHelper.delete(userId);
         return successResponse();
     }

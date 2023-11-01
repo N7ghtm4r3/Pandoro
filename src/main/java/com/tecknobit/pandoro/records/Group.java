@@ -261,7 +261,7 @@ public class Group extends PandoroItem {
      */
     // TODO: 19/08/2023 TO REMOVE
     public Group(String id, String name, String description, ArrayList<Member> members, ArrayList<Project> projects) {
-        this(id, name, new User("manu0", "Manuel", "Maurizio"), description, members, projects);
+        this(id, name, new User("manu0", "Manuel", "Maurizio", null), description, members, projects);
     }
 
     /**
@@ -277,7 +277,7 @@ public class Group extends PandoroItem {
     public Group(String id, String name, User author, String description, ArrayList<Member> members,
                  ArrayList<Project> projects) {
         super(id, name);
-        this.author = new User(author.getId(), author.getName(), author.getProfilePic(), author.getSurname(),
+        this.author = new User(author.getId(), author.getName(), null, author.getProfilePic(), author.getSurname(),
                 author.getEmail(), null, null, null, null, null);
         this.description = description;
         this.members = members;
@@ -396,7 +396,7 @@ public class Group extends PandoroItem {
          * @param role:    the role of the member
          */
         public Member(String id, String name, String surname, Role role) {
-            super(id, name, surname);
+            super(id, name, surname, null);
             this.role = role;
         }
 
@@ -424,7 +424,7 @@ public class Group extends PandoroItem {
          * @param role:       the role of the member
          */
         public Member(String id, String name, String profilePic, String surname, String email, String password, Role role) {
-            super(id, name, profilePic, surname, email, null, null, null, null, null);
+            super(id, name, null, profilePic, surname, email, null, null, null, null, null);
             this.role = role;
         }
 

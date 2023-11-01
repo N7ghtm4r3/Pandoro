@@ -12,7 +12,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 public interface UsersRepository extends JpaRepository<User, String> {
 
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + " ='u' AND " + PASSWORD_KEY + "='u'",
+            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:email AND " + PASSWORD_KEY + "=:password",
             nativeQuery = true
     )
     User getUserByEmailAndPassword(
