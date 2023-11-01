@@ -1,10 +1,14 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.User;
+import com.tecknobit.pandoro.services.repositories.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UsersHelper {
+
+    public static final String USERS_TABLE = "users";
 
     public static final String USER_KEY = "user";
 
@@ -26,11 +30,19 @@ public class UsersHelper {
 
     public static final String GROUPS_KEY = "groups";
 
+    public static final String PROJECTS_KEY = "projects";
+
+    public static final String NOTES_KEY = "notes";
+
+    @Autowired
+    private UsersRepository usersRepository;
+
     public void signUp(String userId, String name, String surname, String email, String password) {
         // TODO: 31/10/2023 INSERT IN SQL THEN
     }
 
     public User signIn(String email, String password) {
+        usersRepository.getUserByEmailAndPassword(email, password);
         // TODO: 31/10/2023 FETCH FROM SQL THEN
         return new User();
     }

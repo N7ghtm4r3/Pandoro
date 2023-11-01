@@ -1,9 +1,14 @@
 package com.tecknobit.pandoro.records;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.services.UsersHelper.*;
 import static java.util.List.of;
 
 /**
@@ -13,6 +18,8 @@ import static java.util.List.of;
  * @see PandoroItem
  * @see Serializable
  */
+@Entity
+@Table(name = USERS_TABLE)
 public class User extends PandoroItem {
 
     /**
@@ -43,41 +50,49 @@ public class User extends PandoroItem {
     /**
      * {@code surname} the surname of the user
      */
+    @Column(name = SURNAME_KEY)
     private final String surname;
 
     /**
      * {@code profilePic} the profile picture of the user
      */
+    @Column(name = PROFILE_PIC_KEY)
     private final String profilePic;
 
     /**
      * {@code email} the email of the user
      */
+    @Column(name = EMAIL_KEY)
     private final String email;
 
     /**
      * {@code password} the password of the user
      */
+    @Column(name = PASSWORD_KEY)
     private final String password;
 
     /**
      * {@code changelogs} list of action messages for the user
      */
+    @Column(name = CHANGELOGS_KEY)
     private final ArrayList<Changelog> changelogs;
 
     /**
      * {@code groups} list of the groups of the user
      */
+    @Column(name = GROUPS_KEY)
     private final ArrayList<Group> groups;
 
     /**
      * {@code projects} list of the projects of the user
      */
+    @Column(name = PROJECTS_KEY)
     private final ArrayList<Project> projects;
 
     /**
      * {@code notes} list of the notes of the user
      */
+    @Column(name = NOTES_KEY)
     private final ArrayList<Note> notes;
 
     /**

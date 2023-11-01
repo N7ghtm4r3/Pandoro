@@ -30,6 +30,11 @@ public abstract class PandoroController {
      *   "success" : false,
      *   "error" : "error_message"
      * }
+     *
+     *
+     *
+     * FOR DOCU README
+     *
      */
 
     protected String decrypt() {

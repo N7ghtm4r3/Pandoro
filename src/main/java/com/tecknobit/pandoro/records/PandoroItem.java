@@ -1,9 +1,12 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.annotations.Structure;
+import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+
+import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
 /**
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>
@@ -11,17 +14,21 @@ import java.io.Serializable;
  * @author N7ghtm4r3 - Tecknobit
  * @see Serializable
  */
+@Entity
 @Structure
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class PandoroItem implements Serializable {
 
     /**
      * {@code id} identifier of the item
      */
+    @Id
     protected final String id;
 
     /**
      * {@code name} of the item
      */
+    @Column(name = NAME_KEY)
     protected final String name;
 
     /**
