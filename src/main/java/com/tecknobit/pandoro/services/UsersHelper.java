@@ -14,8 +14,6 @@ public class UsersHelper {
 
     public static final String SERVER_ADDRESS_KEY = "serverAddress";
 
-    public static final String USER_IDENTIFIER_KEY = "userId";
-
     public static final String NAME_KEY = "name";
 
     public static final String SURNAME_KEY = "surname";

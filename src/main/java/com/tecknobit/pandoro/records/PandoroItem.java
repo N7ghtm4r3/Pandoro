@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
 /**
@@ -16,13 +17,14 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
  */
 @Entity
 @Structure
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class PandoroItem implements Serializable {
 
     /**
      * {@code id} identifier of the item
      */
     @Id
+    @Column(name = IDENTIFIER_KEY)
     protected final String id;
 
     /**

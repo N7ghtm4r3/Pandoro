@@ -17,6 +17,8 @@ public abstract class PandoroController {
 
     public static final String ERROR_KEY = "error";
 
+    public static final String IDENTIFIER_KEY = "id";
+
     /**
      * - SUCCESSFUL
      * {
@@ -34,6 +36,7 @@ public abstract class PandoroController {
      *
      *
      * FOR DOCU README
+     * - https://www.apachefriends.org/it/index.html
      *
      */
 

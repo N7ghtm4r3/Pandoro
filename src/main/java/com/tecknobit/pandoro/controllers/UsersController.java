@@ -80,7 +80,7 @@ public class UsersController extends PandoroController {
                         String userId = UUID.randomUUID().toString().replaceAll("-", "");
                         usersHelper.signUp(userId, name, surname, email, password);
                         return successResponse(new JSONObject()
-                                .put(USER_IDENTIFIER_KEY, userId)
+                                .put(IDENTIFIER_KEY, userId)
                                 .put(PROFILE_PIC_KEY, usersHelper.getDefaultProfilePic())
                         );
                     } else
@@ -109,7 +109,7 @@ public class UsersController extends PandoroController {
                 // TODO: 31/10/2023 FETCH FROM SQL THEN
                 User user = usersHelper.signIn(email, password);
                 return successResponse(new JSONObject()
-                        .put(USER_IDENTIFIER_KEY, user.getId())
+                        .put(IDENTIFIER_KEY, user.getId())
                         .put(NAME_KEY, user.getName())
                         .put(SURNAME_KEY, user.getSurname())
                         .put(PROFILE_PIC_KEY, user.getProfilePic())
@@ -121,7 +121,7 @@ public class UsersController extends PandoroController {
     }
 
     @GetMapping(
-            path = "{" + USER_IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT
+            path = "{" + IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT
     )
     public String getProfileDetails(@PathVariable String userId) {
         User user = usersHelper.getProfileDetails(userId);
@@ -139,7 +139,7 @@ public class UsersController extends PandoroController {
     // TODO: 31/10/2023 CHANGE PROFILE PIC
 
     @PatchMapping(
-            path = "{" + USER_IDENTIFIER_KEY + "}" + CHANGE_EMAIL_ENDPOINT,
+            path = "{" + IDENTIFIER_KEY + "}" + CHANGE_EMAIL_ENDPOINT,
             params = {
                     EMAIL_KEY
             }
@@ -156,7 +156,7 @@ public class UsersController extends PandoroController {
     }
 
     @PatchMapping(
-            path = "{" + USER_IDENTIFIER_KEY + "}" + CHANGE_PASSWORD_ENDPOINT,
+            path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PASSWORD_ENDPOINT,
             params = {
                     PASSWORD_KEY
             }
@@ -173,7 +173,7 @@ public class UsersController extends PandoroController {
     }
 
     @DeleteMapping(
-            path = "{" + USER_IDENTIFIER_KEY + "}" + DELETE_ACCOUNT_ENDPOINT
+            path = "{" + IDENTIFIER_KEY + "}" + DELETE_ACCOUNT_ENDPOINT
     )
     public String deleteAccount(@PathVariable String userId) {
         usersHelper.delete(userId);
