@@ -1,8 +1,15 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
+
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -10,6 +17,8 @@ import java.io.Serializable;
  * @author N7ghtm4r3 - Tecknobit
  * @see Serializable
  */
+@Entity
+@Table(name = CHANGELOGS_KEY)
 public class Changelog implements Serializable {
 
     /**
@@ -101,36 +110,44 @@ public class Changelog implements Serializable {
     /**
      * {@code id} the identifier of the changelogEvent message
      */
+    @Id
+    @Column(name = CHANGELOG_IDENTIFIER_KEY)
     private final String id;
 
     /**
      * {@code changelogEvent} the value of the changelogEvent
      */
+    @Column(name = CHANGELOG_EVENT_KEY)
     private final ChangelogEvent changelogEvent;
 
     /**
      * {@code timestamp} when the changelogEvent has been created
      */
+    @Column(name = CHANGELOG_TIMESTAMP_KEY)
     private final long timestamp;
 
     /**
      * {@code project} the project of the changelogEvent
      */
+    @Column(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
     private final Project project;
 
     /**
      * {@code group} the group of the changelogEvent
      */
+    @Column(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
     private final Group group;
 
     /**
      * {@code extraContent} extra content data of the changelogEvent
      */
+    @Column(name = CHANGELOG_EXTRA_CONTENT_KEY)
     private final String extraContent;
 
     /**
      * {@code red} whether the changelog has been red
      */
+    @Column(name = CHANGELOG_RED_KEY)
     private final boolean red;
 
     /**

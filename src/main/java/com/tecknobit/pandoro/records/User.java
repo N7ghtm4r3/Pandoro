@@ -49,7 +49,10 @@ public class User extends PandoroItem {
     /**
      * token of the user
      */
-    @Column(name = TOKEN_KEY, unique = true)
+    @Column(
+            name = TOKEN_KEY,
+            unique = true
+    )
     private final String token;
 
     /**
