@@ -1,13 +1,12 @@
 package com.tecknobit.pandoro.records;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 import static java.util.List.of;
 
@@ -48,7 +47,7 @@ public class User extends PandoroItem {
     public static final int PASSWORD_MAX_LENGTH = 32;
 
     /**
-     * {@code token} token of the user
+     * token of the user
      */
     @Column(name = TOKEN_KEY, unique = true)
     private final String token;
@@ -102,15 +101,18 @@ public class User extends PandoroItem {
     /**
      * {@code notes} list of the notes of the user
      */
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     @Column(name = NOTES_KEY)
-    private final ArrayList<Note> notes;
+    private final List<Note> notes;
 
     /**
      * Constructor to init a {@link User} object
      *
      * @param id         :         identifier of the user
      * @param name       :       name of the user
-     * @param token:{@code token} token of the user
+     * @param token:token of the user
      * @param surname : the surname of the user
      * @param email   :   the email of the user
      * @param password   :   the password of the user
@@ -1121,7 +1123,7 @@ public class User extends PandoroItem {
      *
      * @param id         :         identifier of the user
      * @param name       :       name of the user
-     * @param token:{@code token} token of the user
+     * @param token:token of the user
      * @param profilePic : the profile picture of the user
      * @param surname    :    the surname of the user
      * @param email      :      the email of the user
@@ -1258,7 +1260,7 @@ public class User extends PandoroItem {
      * @return {@link #notes} instance as {@link ArrayList} of {@link Note}
      */
     public ArrayList<Note> getNotes() {
-        return notes;
+        return new ArrayList<>(notes);
     }
 
     /**

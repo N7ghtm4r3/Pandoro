@@ -35,8 +35,6 @@ public class UsersController extends PandoroController {
 
     public static final String WRONG_PASSWORD_MESSAGE = "Wrong password";
 
-    public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
-
     private final UsersHelper usersHelper;
 
     @Autowired
@@ -98,6 +96,7 @@ public class UsersController extends PandoroController {
                 if (user != null) {
                     return successResponse(new JSONObject()
                             .put(IDENTIFIER_KEY, user.getId())
+                            .put(TOKEN_KEY, user.getToken())
                             .put(NAME_KEY, user.getName())
                             .put(SURNAME_KEY, user.getSurname())
                             .put(PROFILE_PIC_KEY, user.getProfilePic())
@@ -151,12 +150,11 @@ public class UsersController extends PandoroController {
             @RequestParam(PROFILE_PIC_KEY) String profilePic
     ) {
         if (!profilePic.isEmpty()) {
-            try {
+            if (isAuthenticatedUser(id, token)) {
                 usersHelper.changeProfilePic(id, token, profilePic);
                 return successResponse();
-            } catch (IllegalAccessException e) {
+            } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
-            }
         } else
             return failedResponse("Wrong profile pic");
     }
@@ -176,12 +174,11 @@ public class UsersController extends PandoroController {
             @RequestParam(EMAIL_KEY) String newEmail
     ) {
         if (isEmailValid(newEmail)) {
-            try {
+            if (isAuthenticatedUser(id, token)) {
                 usersHelper.changeEmail(id, token, newEmail);
                 return successResponse();
-            } catch (IllegalAccessException e) {
+            } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
-            }
         } else
             return failedResponse(WRONG_EMAIL_MESSAGE);
     }
@@ -201,12 +198,11 @@ public class UsersController extends PandoroController {
             @RequestParam(PASSWORD_KEY) String newPassword
     ) {
         if (isPasswordValid(newPassword)) {
-            try {
+            if (isAuthenticatedUser(id, token)) {
                 usersHelper.changePassword(id, token, newPassword);
                 return successResponse();
-            } catch (IllegalAccessException e) {
+            } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
-            }
         } else
             return failedResponse(WRONG_PASSWORD_MESSAGE);
     }
@@ -221,12 +217,11 @@ public class UsersController extends PandoroController {
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        try {
+        if (isAuthenticatedUser(id, token)) {
             usersHelper.delete(id, token);
             return successResponse();
-        } catch (IllegalAccessException e) {
+        } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        }
     }
 
 }

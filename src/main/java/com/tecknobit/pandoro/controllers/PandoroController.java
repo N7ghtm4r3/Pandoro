@@ -1,6 +1,8 @@
 package com.tecknobit.pandoro.controllers;
 
+import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -20,6 +22,11 @@ public abstract class PandoroController {
     public static final String ERROR_KEY = "error";
 
     public static final String IDENTIFIER_KEY = "id";
+
+    public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     /**
      * - SUCCESSFUL
@@ -44,6 +51,10 @@ public abstract class PandoroController {
 
     protected String generateIdentifier() {
         return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    protected boolean isAuthenticatedUser(String userId, String token) {
+        return usersRepository.getAuthorizedUser(userId, token) != null;
     }
 
     protected String successResponse() {

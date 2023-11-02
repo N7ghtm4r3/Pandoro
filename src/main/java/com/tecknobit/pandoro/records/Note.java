@@ -1,9 +1,17 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.services.NotesHelper.*;
 
 /**
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
@@ -11,6 +19,8 @@ import java.io.Serializable;
  * @author N7ghtm4r3 - Tecknobit
  * @see Serializable
  */
+@Entity
+@Table(name = NOTES_KEY)
 public class Note implements Serializable {
 
     /**
@@ -21,54 +31,47 @@ public class Note implements Serializable {
     /**
      * {@code id} the identifier of the note
      */
+    @Id
+    @Column(name = IDENTIFIER_KEY)
     private final String id;
 
     /**
      * {@code author} the author of the note
      */
+    @Column(name = AUTHOR_KEY)
     private final User author;
-
-    /**
-     * {@code group} the group where the note is placed
-     */
-    private final Group group;
 
     /**
      * {@code content} the content of the note
      */
+    @Column(name = CONTENT_NOTE_KEY)
     private final String content;
 
     /**
      * {@code creationDate} when the note has been created
      */
+    @Column(name = CREATION_DATE_KEY)
     private final long creationDate;
 
     /**
      * {@code markedAsDone} whether the note is marked as done
      */
+    @Column(name = MARKED_AS_DONE_KEY)
     private final boolean markedAsDone;
 
     /**
      * {@code markedAsDoneBy} who marked the note as done
      */
+    //@OneToOne
+    @Column(name = MARKED_AS_DONE_BY_KEY)
+    //@JoinColumn(name = MARKED_AS_DONE_BY_KEY, nullable = false)
     private final User markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
      */
+    @Column(name = MARKED_AS_DONE_DATE_KEY)
     private final long markedAsDoneDate;
-
-    /**
-     * Constructor to init a {@link Note} object
-     *
-     * @param id:           the identifier of the note
-     * @param author:       the author of the note
-     * @param content:      the content of the note
-     * @param creationDate: when the note has been created
-     */
-    public Note(String id, User author, String content, long creationDate) {
-        this(id, author, content, creationDate, false, null, -1);
-    }
 
     /**
      * Constructor to init a {@link Note} object
@@ -97,49 +100,29 @@ public class Note implements Serializable {
     /**
      * Constructor to init a {@link Note} object
      *
-     * @param id:               the identifier of the note
-     * @param author:           the author of the note
-     * @param content:          the content of the note
-     * @param creationDate:     when the note has been created
-     * @param markedAsDone:     whether the note is marked as done
-     * @param markedAsDoneBy:   who marked the note as done
-     * @param markedAsDoneDate: when the note has been marked as done
-     */
-    public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
-                User markedAsDoneBy, long markedAsDoneDate) {
-        this(id, author, null, content, creationDate, markedAsDone, markedAsDoneBy, markedAsDoneDate);
-    }
-
-    /**
-     * Constructor to init a {@link Note} object
-     *
      * @param id:           the identifier of the note
      * @param author:       the author of the note
-     * @param group:        the group where the note is placed
      * @param content:      the content of the note
      * @param creationDate: when the note has hja not the
      */
-    public Note(String id, User author, Group group, String content, long creationDate) {
-        this(id, author, group, content, creationDate, false, null, -1);
+    public Note(String id, User author, String content, long creationDate) {
+        this(id, author, content, creationDate, false, null, -1);
     }
 
     /**
      * Constructor to init a {@link Note} object
      *
      * @param id:               the identifier of the note
-     * @param author:           the author of the note
-     * @param group:            the group where the note is placed
      * @param content:          the content of the note
      * @param creationDate:when the note has been created
      * @param markedAsDone:     whether the note is marked as done
      * @param markedAsDoneBy:   who marked the note as done
      * @param markedAsDoneDate: when the note has been marked as done
      */
-    public Note(String id, User author, Group group, String content, long creationDate, boolean markedAsDone,
+    public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
                 User markedAsDoneBy, long markedAsDoneDate) {
         this.id = id;
         this.author = author;
-        this.group = group;
         this.content = content;
         this.creationDate = creationDate;
         this.markedAsDone = markedAsDone;
@@ -165,16 +148,6 @@ public class Note implements Serializable {
      */
     public User getAuthor() {
         return author;
-    }
-
-    /**
-     * Method to get {@link #group} instance <br>
-     * No-any params required
-     *
-     * @return {@link #group} instance as {@link Group}
-     */
-    public Group getGroup() {
-        return group;
     }
 
     /**

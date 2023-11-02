@@ -10,8 +10,6 @@ public class UsersHelper {
 
     public static final String USERS_TABLE = "users";
 
-    public static final String USER_KEY = "user";
-
     public static final String SERVER_ADDRESS_KEY = "serverAddress";
 
     public static final String NAME_KEY = "name";
@@ -31,8 +29,6 @@ public class UsersHelper {
     public static final String GROUPS_KEY = "groups";
 
     public static final String PROJECTS_KEY = "projects";
-
-    public static final String NOTES_KEY = "notes";
 
     // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
     public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
@@ -60,32 +56,20 @@ public class UsersHelper {
     }
 
     // TODO: 01/11/2023 PASS CORRECT PROFILE PIC
-    public void changeProfilePic(String userId, String token, String profilePic) throws IllegalAccessException {
-        if (usersRepository.getAuthorizedUser(userId, token) != null)
-            usersRepository.changeProfilePic(userId, token, profilePic);
-        else
-            throw new IllegalAccessException();
+    public void changeProfilePic(String userId, String token, String profilePic) {
+        usersRepository.changeProfilePic(userId, token, profilePic);
     }
 
-    public void changeEmail(String userId, String token, String newEmail) throws IllegalAccessException {
-        if (usersRepository.getAuthorizedUser(userId, token) != null)
-            usersRepository.changeEmail(userId, token, newEmail);
-        else
-            throw new IllegalAccessException();
+    public void changeEmail(String userId, String token, String newEmail) {
+        usersRepository.changeEmail(userId, token, newEmail);
     }
 
-    public void changePassword(String userId, String token, String newPassword) throws IllegalAccessException {
-        if (usersRepository.getAuthorizedUser(userId, token) != null)
-            usersRepository.changePassword(userId, token, newPassword);
-        else
-            throw new IllegalAccessException();
+    public void changePassword(String userId, String token, String newPassword) {
+        usersRepository.changePassword(userId, token, newPassword);
     }
 
-    public void delete(String userId, String token) throws IllegalAccessException {
-        if (usersRepository.getAuthorizedUser(userId, token) != null)
-            usersRepository.deleteAccount(userId, token);
-        else
-            throw new IllegalAccessException();
+    public void delete(String userId, String token) {
+        usersRepository.deleteAccount(userId, token);
     }
 
 }
