@@ -1,10 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -38,6 +35,7 @@ public class Note implements Serializable {
     /**
      * {@code author} the author of the note
      */
+    @Transient
     @Column(name = AUTHOR_KEY)
     private final User author;
 
@@ -50,28 +48,45 @@ public class Note implements Serializable {
     /**
      * {@code creationDate} when the note has been created
      */
+    @Transient
     @Column(name = CREATION_DATE_KEY)
     private final long creationDate;
 
     /**
      * {@code markedAsDone} whether the note is marked as done
      */
+    @Transient
     @Column(name = MARKED_AS_DONE_KEY)
     private final boolean markedAsDone;
 
     /**
      * {@code markedAsDoneBy} who marked the note as done
      */
-    //@OneToOne
+    @Transient
     @Column(name = MARKED_AS_DONE_BY_KEY)
-    //@JoinColumn(name = MARKED_AS_DONE_BY_KEY, nullable = false)
     private final User markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
      */
+    @Transient
     @Column(name = MARKED_AS_DONE_DATE_KEY)
     private final long markedAsDoneDate;
+
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
+    public Note() {
+        id = null;
+        author = null;
+        content = null;
+        creationDate = 0;
+        markedAsDone = false;
+        markedAsDoneBy = null;
+        markedAsDoneDate = 0;
+    }
 
     /**
      * Constructor to init a {@link Note} object
@@ -166,7 +181,7 @@ public class Note implements Serializable {
      *
      * @return {@link #creationDate} instance as long
      */
-    public long getCreationTimestamp() {
+    public long getCreation() {
         return creationDate;
     }
 
@@ -206,7 +221,7 @@ public class Note implements Serializable {
      *
      * @return {@link #markedAsDoneDate} instance as long
      */
-    public long getMarkedAsDoneTimestamp() {
+    public long getMarkedAsDone() {
         return markedAsDoneDate;
     }
 

@@ -10,7 +10,7 @@ public class UsersHelper {
 
     public static final String USERS_TABLE = "users";
 
-    public static final String SERVER_ADDRESS_KEY = "serverAddress";
+    public static final String SERVER_ADDRESS_KEY = "server_address";
 
     public static final String NAME_KEY = "name";
 
@@ -18,7 +18,7 @@ public class UsersHelper {
 
     public static final String SURNAME_KEY = "surname";
 
-    public static final String PROFILE_PIC_KEY = "profilePic";
+    public static final String PROFILE_PIC_KEY = "profile_pic";
 
     public static final String EMAIL_KEY = "email";
 

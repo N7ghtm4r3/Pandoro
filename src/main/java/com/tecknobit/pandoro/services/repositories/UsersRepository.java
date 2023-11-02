@@ -36,7 +36,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:profilePic WHERE " + IDENTIFIER_KEY
+            value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:profile_pic WHERE " + IDENTIFIER_KEY
                     + "=:id AND " + TOKEN_KEY + "=:token",
             nativeQuery = true
     )

@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.services.repositories;
 
 import com.tecknobit.pandoro.records.Note;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,13 @@ import static com.tecknobit.pandoro.services.NotesHelper.*;
 public interface NotesRepository extends JpaRepository<Note, String> {
 
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE id=:id",
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE author=:author",
             nativeQuery = true
     )
-    List<Note> getNotes(@Param(IDENTIFIER_KEY) String id);
+    List<Note> getNotes(@Param(AUTHOR_KEY) String id);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
     @Query(
             value = "INSERT INTO " + NOTES_KEY
                     + " (" + IDENTIFIER_KEY + ","
@@ -32,10 +36,10 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_DATE_KEY + ")"
                     + "VALUES ("
                     + ":id,"
-                    + ":authorId,"
-                    + ":contentNote,"
-                    + ":creationDate,"
-                    + "NULL,"
+                    + ":author,"
+                    + ":content_note,"
+                    + ":creation_date,"
+                    + "false,"
                     + "NULL,"
                     + "-1"
                     + ")",
