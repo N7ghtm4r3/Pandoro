@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 
 /**
@@ -29,33 +28,38 @@ public class Note implements Serializable {
      * {@code id} the identifier of the note
      */
     @Id
-    @Column(name = IDENTIFIER_KEY)
+    @Column(name = NOTE_IDENTIFIER_KEY)
     private final String id;
 
     /**
      * {@code author} the author of the note
      */
     @Transient
-    @Column(name = AUTHOR_KEY)
+    @Column(
+            name = AUTHOR_KEY,
+            nullable = false,
+            columnDefinition = "varchar(32)"
+    )
     private final User author;
 
     /**
      * {@code content} the content of the note
      */
-    @Column(name = CONTENT_NOTE_KEY)
+    @Column(
+            name = CONTENT_NOTE_KEY,
+            nullable = false
+    )
     private final String content;
 
     /**
      * {@code creationDate} when the note has been created
      */
-    @Transient
     @Column(name = CREATION_DATE_KEY)
     private final long creationDate;
 
     /**
      * {@code markedAsDone} whether the note is marked as done
      */
-    @Transient
     @Column(name = MARKED_AS_DONE_KEY)
     private final boolean markedAsDone;
 
@@ -63,13 +67,15 @@ public class Note implements Serializable {
      * {@code markedAsDoneBy} who marked the note as done
      */
     @Transient
-    @Column(name = MARKED_AS_DONE_BY_KEY)
+    @Column(
+            name = MARKED_AS_DONE_BY_KEY,
+            columnDefinition = "varchar(32) DEFAULT NULL"
+    )
     private final User markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
      */
-    @Transient
     @Column(name = MARKED_AS_DONE_DATE_KEY)
     private final long markedAsDoneDate;
 
@@ -79,13 +85,7 @@ public class Note implements Serializable {
      * @apiNote empty constructor required
      */
     public Note() {
-        id = null;
-        author = null;
-        content = null;
-        creationDate = 0;
-        markedAsDone = false;
-        markedAsDoneBy = null;
-        markedAsDoneDate = 0;
+        this(null, null, -1);
     }
 
     /**

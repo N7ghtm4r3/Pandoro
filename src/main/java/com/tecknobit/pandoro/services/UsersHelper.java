@@ -68,7 +68,7 @@ public class UsersHelper {
         usersRepository.changePassword(userId, token, newPassword);
     }
 
-    public void delete(String userId, String token) {
+    public void deleteAccount(String userId, String token) {
         usersRepository.deleteAccount(userId, token);
     }
 

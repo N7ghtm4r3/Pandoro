@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.services.NotesHelper.CONTENT_NOTE_KEY;
+import static com.tecknobit.pandoro.services.NotesHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 import static helpers.InputsValidatorKt.isContentNoteValid;
 
@@ -72,6 +72,67 @@ public class NotesController extends PandoroController {
                 return successResponse();
             } else
                 return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_DONE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String markAsDone(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
+            @RequestParam(
+                    value = MARKED_AS_DONE_BY_KEY,
+                    required = false
+            ) String markedAsDoneBy
+    ) {
+        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+            notesHelper.markAsDone(id, noteId, markedAsDoneBy);
+            return successResponse();
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_TO_DO_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String markAsToDo(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+            notesHelper.markAsToDo(id, noteId);
+            return successResponse();
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_NOTE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteNote(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+            notesHelper.deleteNote(id, noteId);
+            return successResponse();
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

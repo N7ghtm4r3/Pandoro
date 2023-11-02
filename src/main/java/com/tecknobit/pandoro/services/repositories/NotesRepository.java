@@ -11,23 +11,32 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 
 @Service
 public interface NotesRepository extends JpaRepository<Note, String> {
 
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE author=:author",
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:author",
             nativeQuery = true
     )
-    List<Note> getNotes(@Param(AUTHOR_KEY) String id);
+    List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);
+
+    @Query(
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
+                    + AUTHOR_KEY + "=:author",
+            nativeQuery = true
+    )
+    Note getNote(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId
+    );
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "INSERT INTO " + NOTES_KEY
-                    + " (" + IDENTIFIER_KEY + ","
+                    + " (" + NOTE_IDENTIFIER_KEY + ","
                     + AUTHOR_KEY + ","
                     + CONTENT_NOTE_KEY + ","
                     + CREATION_DATE_KEY + ","
@@ -35,7 +44,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ")"
                     + "VALUES ("
-                    + ":id,"
+                    + ":note_id,"
                     + ":author,"
                     + ":content_note,"
                     + ":creation_date,"
@@ -47,8 +56,40 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     void createNote(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(IDENTIFIER_KEY) String id,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId,
             @Param(CONTENT_NOTE_KEY) String contentNote,
             @Param(CREATION_DATE_KEY) long creationDate
     );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + NOTES_KEY + " SET "
+                    + MARKED_AS_DONE_KEY + "=:marked_as_done,"
+                    + MARKED_AS_DONE_BY_KEY + "=:marked_as_done_by,"
+                    + MARKED_AS_DONE_DATE_KEY + "=:marked_as_done_date"
+                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
+                    + AUTHOR_KEY + "=:author",
+            nativeQuery = true
+    )
+    void manageNoteStatus(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
+            @Param(MARKED_AS_DONE_BY_KEY) String markedAsDoneBy,
+            @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
+                    + AUTHOR_KEY + "=:author",
+            nativeQuery = true
+    )
+    void deleteNote(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId
+    );
+
 }

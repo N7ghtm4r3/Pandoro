@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.lang.System.currentTimeMillis;
+
 @Service
 public class NotesHelper {
+
+    public static final String NOTE_IDENTIFIER_KEY = "note_id";
 
     public static final String AUTHOR_KEY = "author";
 
@@ -25,12 +29,29 @@ public class NotesHelper {
     @Autowired
     private NotesRepository notesRepository;
 
+    // TODO: 02/11/2023 FETCH AND LOOK IF IS REQUIRED A JOIN TO ISTANTIATE THE author and the markedAsDoneBy User object
     public List<Note> getNotes(String id) {
         return notesRepository.getNotes(id);
     }
 
-    public void createNote(String userId, String id, String contentNote) {
-        notesRepository.createNote(userId, id, contentNote, System.currentTimeMillis());
+    public void createNote(String authorId, String noteId, String contentNote) {
+        notesRepository.createNote(authorId, noteId, contentNote, currentTimeMillis());
+    }
+
+    public boolean noteExists(String authorId, String noteId) {
+        return notesRepository.getNote(authorId, noteId) != null;
+    }
+
+    public void markAsDone(String authorId, String noteId, String markedAsDoneBy) {
+        notesRepository.manageNoteStatus(authorId, noteId, true, markedAsDoneBy, currentTimeMillis());
+    }
+
+    public void markAsToDo(String authorId, String noteId) {
+        notesRepository.manageNoteStatus(authorId, noteId, false, "NULL", -1);
+    }
+
+    public void deleteNote(String authorId, String noteId) {
+        notesRepository.deleteNote(authorId, noteId);
     }
 
 }
