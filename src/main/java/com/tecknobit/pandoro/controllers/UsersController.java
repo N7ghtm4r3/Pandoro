@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
@@ -42,21 +44,12 @@ public class UsersController extends PandoroController {
         this.usersHelper = usersHelper;
     }
 
-    @PostMapping(
-            path = SIGN_UP_ENDPOINT,
-            params = {
-                    NAME_KEY,
-                    SURNAME_KEY,
-                    EMAIL_KEY,
-                    PASSWORD_KEY
-            }
-    )
-    public String signUp(
-            @RequestParam(NAME_KEY) String name,
-            @RequestParam(SURNAME_KEY) String surname,
-            @RequestParam(EMAIL_KEY) String email,
-            @RequestParam(PASSWORD_KEY) String password
-    ) {
+    @PostMapping(path = SIGN_UP_ENDPOINT)
+    public String signUp(@RequestBody Map<String, String> payload) {
+        String name = payload.get(NAME_KEY);
+        String surname = payload.get(SURNAME_KEY);
+        String email = payload.get(EMAIL_KEY);
+        String password = payload.get(PASSWORD_KEY);
         if (isNameValid(name)) {
             if (isSurnameValid(surname)) {
                 if (isEmailValid(email)) {
@@ -79,17 +72,10 @@ public class UsersController extends PandoroController {
             return failedResponse("Wrong name");
     }
 
-    @PostMapping(
-            path = SIGN_IN_ENDPOINT,
-            params = {
-                    EMAIL_KEY,
-                    PASSWORD_KEY
-            }
-    )
-    public String signIn(
-            @RequestParam(EMAIL_KEY) String email,
-            @RequestParam(PASSWORD_KEY) String password
-    ) {
+    @PostMapping(path = SIGN_IN_ENDPOINT)
+    public String signIn(@RequestBody Map<String, String> payload) {
+        String email = payload.get(EMAIL_KEY);
+        String password = payload.get(PASSWORD_KEY);
         if (isEmailValid(email)) {
             if (isPasswordValid(password)) {
                 User user = usersHelper.signIn(email, password);
@@ -139,15 +125,12 @@ public class UsersController extends PandoroController {
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PROFILE_PIC_ENDPOINT,
             headers = {
                     TOKEN_KEY
-            },
-            params = {
-                    PROFILE_PIC_KEY
             }
     )
     public String changeProfilePic(
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(PROFILE_PIC_KEY) String profilePic
+            @RequestBody String profilePic
     ) {
         if (!profilePic.isEmpty()) {
             if (isAuthenticatedUser(id, token)) {
@@ -163,15 +146,12 @@ public class UsersController extends PandoroController {
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_EMAIL_ENDPOINT,
             headers = {
                     TOKEN_KEY
-            },
-            params = {
-                    EMAIL_KEY
             }
     )
     public String changeEmail(
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(EMAIL_KEY) String newEmail
+            @RequestBody String newEmail
     ) {
         if (isEmailValid(newEmail)) {
             if (isAuthenticatedUser(id, token)) {
@@ -187,15 +167,12 @@ public class UsersController extends PandoroController {
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PASSWORD_ENDPOINT,
             headers = {
                     TOKEN_KEY
-            },
-            params = {
-                    PASSWORD_KEY
             }
     )
     public String changePassword(
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(PASSWORD_KEY) String newPassword
+            @RequestBody String newPassword
     ) {
         if (isPasswordValid(newPassword)) {
             if (isAuthenticatedUser(id, token)) {

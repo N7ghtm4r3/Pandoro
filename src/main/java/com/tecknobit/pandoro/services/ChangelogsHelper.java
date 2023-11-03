@@ -19,4 +19,6 @@ public class ChangelogsHelper {
 
     public static final String CHANGELOG_RED_KEY = "red";
 
+    public static final String CHANGELOG_OWNER_KEY = "owner";
+
 }

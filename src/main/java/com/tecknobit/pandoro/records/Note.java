@@ -2,7 +2,6 @@ package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import jakarta.persistence.*;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -34,12 +33,8 @@ public class Note implements Serializable {
     /**
      * {@code author} the author of the note
      */
-    @Transient
-    @Column(
-            name = AUTHOR_KEY,
-            nullable = false,
-            columnDefinition = "varchar(32)"
-    )
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = AUTHOR_KEY)
     private final User author;
 
     /**
@@ -67,10 +62,7 @@ public class Note implements Serializable {
      * {@code markedAsDoneBy} who marked the note as done
      */
     @Transient
-    @Column(
-            name = MARKED_AS_DONE_BY_KEY,
-            columnDefinition = "varchar(32) DEFAULT NULL"
-    )
+    @Column(name = MARKED_AS_DONE_BY_KEY)
     private final User markedAsDoneBy;
 
     /**
@@ -243,9 +235,9 @@ public class Note implements Serializable {
      *
      * @return a string representation of the object as {@link String}
      */
-    @Override
+    /*@Override
     public String toString() {
         return new JSONObject(this).toString();
-    }
+    }*/
 
 }

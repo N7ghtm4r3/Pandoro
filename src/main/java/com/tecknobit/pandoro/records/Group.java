@@ -84,6 +84,10 @@ public class Group extends PandoroItem {
      */
     private final int totalProjects;
 
+    public Group() {
+        this(null, null, null, null, null, null);
+    }
+
     /**
      * Constructor to init a {@link Group} object
      *

@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -95,6 +94,10 @@ public class Update implements Serializable {
      * {@code notes} the notes for the update to be done
      */
     private final ArrayList<Note> notes;
+
+    public Update() {
+        this(null, null, -1, null, null, -1, null, -1, null);
+    }
 
     /**
      * Constructor to init a {@link Update} object
@@ -354,9 +357,9 @@ public class Update implements Serializable {
      *
      * @return a string representation of the object as {@link String}
      */
-    @Override
+    /*@Override
     public String toString() {
         return new JSONObject(this).toString();
-    }
+    }*/
 
 }

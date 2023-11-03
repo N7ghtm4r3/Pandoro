@@ -1,10 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
@@ -129,12 +126,14 @@ public class Changelog implements Serializable {
     /**
      * {@code project} the project of the changelogEvent
      */
+    //@ManyToOne(cascade = CascadeType.ALL)
     @Column(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
     private final Project project;
 
     /**
      * {@code group} the group of the changelogEvent
      */
+    //@ManyToOne(cascade = CascadeType.ALL)
     @Column(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
     private final Group group;
 
@@ -149,6 +148,26 @@ public class Changelog implements Serializable {
      */
     @Column(name = CHANGELOG_RED_KEY)
     private final boolean red;
+
+    /**
+     * {@code owner} the changelog owner
+     *
+     * @apiNote usage in SQL scopes
+     */
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = CHANGELOG_OWNER_KEY)
+    private User owner;
+
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
+    public Changelog() {
+        this(null, null, -1, (Project) null, false);
+    }
 
     /**
      * Constructor to init a {@link Changelog} object
