@@ -17,25 +17,10 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * @see PandoroItem
  * @see Serializable
  */
-
 @Entity
 @Table(name = USERS_TABLE)
-public class User extends PandoroItem {
-
-    /**
-     * {@code USER_NAME_MAX_LENGTH} the max length of the name for a user
-     */
-    public static final int USER_NAME_MAX_LENGTH = 20;
-
-    /**
-     * {@code USER_SURNAME_MAX_LENGTH} the max length of the surname for a user
-     */
-    public static final int USER_SURNAME_MAX_LENGTH = 30;
-
-    /**
-     * {@code EMAIL_MAX_LENGTH} the max length of the email for a user
-     */
-    public static final int EMAIL_MAX_LENGTH = 50;
+@DiscriminatorValue(TOKEN_KEY)
+public class User extends PublicUser {
 
     /**
      * {@code PASSWORD_MIN_LENGTH} the min length of the password for a user
@@ -57,32 +42,10 @@ public class User extends PandoroItem {
     private final String token;
 
     /**
-     * {@code surname} the surname of the user
-     */
-    @Column(name = SURNAME_KEY)
-    private final String surname;
-
-    /**
-     * {@code profilePic} the profile picture of the user
-     */
-    @Column(
-            name = PROFILE_PIC_KEY,
-            columnDefinition = "text default '" + DEFAULT_PROFILE_PIC + "'",
-            insertable = false
-    )
-    private final String profilePic;
-
-    /**
-     * {@code email} the email of the user
-     */
-    @Column(name = EMAIL_KEY, unique = true)
-    private final String email;
-
-    /**
      * {@code password} the password of the user
      */
     @Column(name = PASSWORD_KEY)
-    private final String password;
+    protected final String password;
 
     /**
      * {@code changelogs} list of action messages for the user
@@ -185,12 +148,9 @@ public class User extends PandoroItem {
     public User(String id, String name, String token, String profilePic, String surname, String email, String password,
                 ArrayList<Changelog> changelogs, ArrayList<Group> groups, ArrayList<Project> projects,
                 ArrayList<Note> notes) {
-        super(id, name);
-        this.token = token;
-        this.profilePic = profilePic;
-        this.surname = surname;
-        this.email = email;
+        super(id, name, surname, profilePic, email);
         this.password = password;
+        this.token = token;
         this.groups = groups;
         this.changelogs = changelogs;
         this.projects = projects;
@@ -205,57 +165,6 @@ public class User extends PandoroItem {
      */
     public String getToken() {
         return token;
-    }
-
-    /**
-     * Method to get {@link #profilePic} instance <br>
-     * No-any params required
-     *
-     * @return {@link #profilePic} instance as {@link String}
-     */
-    public String getProfilePic() {
-        return profilePic;
-    }
-
-    /**
-     * Method to get {@link #surname} instance <br>
-     * No-any params required
-     *
-     * @return {@link #surname} instance as {@link String}
-     */
-    public String getSurname() {
-        return surname;
-    }
-
-    /**
-     * Method to get the complete name of the user <br>
-     * No-any params required
-     *
-     * @return complete name of the user as {@link String}
-     * @apiNote {@link #name} (and) {@link #surname}
-     */
-    public String getCompleteName() {
-        return name + " " + surname;
-    }
-
-    /**
-     * Method to get {@link #email} instance <br>
-     * No-any params required
-     *
-     * @return {@link #email} instance as {@link String}
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Method to get {@link #password} instance <br>
-     * No-any params required
-     *
-     * @return {@link #password} instance as {@link String}
-     */
-    public String getPassword() {
-        return password;
     }
 
     /**

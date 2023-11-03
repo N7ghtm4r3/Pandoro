@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersHelper {
 
+    public static final String PUBLIC_USERS_TABLE = "public_users";
+
     public static final String USERS_TABLE = "users";
 
     public static final String SERVER_ADDRESS_KEY = "server_address";

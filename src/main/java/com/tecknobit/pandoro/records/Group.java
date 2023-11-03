@@ -217,10 +217,10 @@ public class Group extends PandoroItem {
      *
      * @author N7ghtm4r3 - Tecknobit
      * @see PandoroItem
-     * @see User
+     * @see PublicUser
      * @see Serializable
      */
-    public static class Member extends User {
+    public static class Member extends PublicUser {
 
         /**
          * {@code role} the role of the member
@@ -230,41 +230,15 @@ public class Group extends PandoroItem {
         /**
          * Constructor to init a {@link Member} object
          *
-         * @param id:      identifier of the member
-         * @param name:    name of the member
-         * @param surname: surname of the member
-         * @param role:    the role of the member
-         */
-        public Member(String id, String name, String surname, Role role) {
-            super(id, name, surname, null);
-            this.role = role;
-        }
-
-        /**
-         * Constructor to init a {@link Member} object
-         *
-         * @param name:    name of the member
-         * @param surname: surname of the member
-         * @param role:    the role of the member
-         */
-        public Member(String name, String surname, Role role) {
-            super(name, surname);
-            this.role = role;
-        }
-
-        /**
-         * Constructor to init a {@link Member} object
-         *
          * @param id:         identifier of the member
          * @param name:       name of the member
          * @param profilePic: the profile picture of the member
          * @param surname:    the surname of the member
          * @param email:      the email of the member
-         * @param password:   the password of the member
          * @param role:       the role of the member
          */
-        public Member(String id, String name, String profilePic, String surname, String email, String password, Role role) {
-            super(id, name, null, profilePic, surname, email, null, null, null, null, null);
+        public Member(String id, String name, String profilePic, String surname, String email, Role role) {
+            super(id, name, surname, profilePic, email);
             this.role = role;
         }
 

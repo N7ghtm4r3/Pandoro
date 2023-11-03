@@ -23,8 +23,6 @@ public class UsersController extends PandoroController {
 
     public static final String SIGN_IN_ENDPOINT = "/signIn";
 
-    public static final String PROFILE_DETAILS_ENDPOINT = "/profileDetails";
-
     public static final String CHANGE_PROFILE_PIC_ENDPOINT = "/changeProfilePic";
 
     public static final String CHANGE_EMAIL_ENDPOINT = "/changeEmail";
@@ -93,30 +91,6 @@ public class UsersController extends PandoroController {
                 return failedResponse(WRONG_PASSWORD_MESSAGE);
         } else
             return failedResponse(WRONG_EMAIL_MESSAGE);
-    }
-
-    @GetMapping(
-            path = "{" + IDENTIFIER_KEY + "}" + PROFILE_DETAILS_ENDPOINT,
-            headers = {
-                    TOKEN_KEY
-            }
-    )
-    public String getProfileDetails(
-            @PathVariable String id,
-            @RequestHeader(TOKEN_KEY) String token
-    ) {
-        User user = usersHelper.getProfileDetails(id, token);
-        if (user != null) {
-            return successResponse(new JSONObject()
-                    .put(PROFILE_PIC_KEY, user.getProfilePic())
-                    .put(NAME_KEY, user.getName())
-                    .put(SURNAME_KEY, user.getSurname())
-                    .put(EMAIL_KEY, user.getEmail())
-                    .put(PASSWORD_KEY, user.getPassword())
-                    .put(CHANGELOGS_KEY, user.getChangelogs())
-            );
-        } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     // TODO: 01/11/2023 PASS CORRECT PROFILE PIC 

@@ -75,7 +75,7 @@ public class Note implements Serializable {
     )
     @JoinColumn(name = MARKED_AS_DONE_BY_KEY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private final User markedAsDoneBy;
+    private final PublicUser markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
@@ -139,7 +139,7 @@ public class Note implements Serializable {
      * @param markedAsDoneDate: when the note has been marked as done
      */
     public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
-                User markedAsDoneBy, long markedAsDoneDate) {
+                PublicUser markedAsDoneBy, long markedAsDoneDate) {
         this.id = id;
         this.author = author;
         this.content = content;
@@ -215,7 +215,7 @@ public class Note implements Serializable {
      *
      * @return {@link #markedAsDoneBy} instance as {@link Member}
      */
-    public User getMarkedAsDoneBy() {
+    public PublicUser getMarkedAsDoneBy() {
         return markedAsDoneBy;
     }
 

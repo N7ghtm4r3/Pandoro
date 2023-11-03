@@ -84,7 +84,9 @@ public class NotesController extends PandoroController {
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
             @RequestBody(required = false) String markedAsDoneBy
     ) {
-        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+        System.out.println(noteId);
+        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)
+                && usersRepository.findById(markedAsDoneBy).isPresent()) {
             notesHelper.markAsDone(id, noteId, markedAsDoneBy);
             return successResponse();
         } else

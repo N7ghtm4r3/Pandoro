@@ -26,7 +26,7 @@ public abstract class PandoroController {
     public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
 
     @Autowired
-    private UsersRepository usersRepository;
+    protected UsersRepository usersRepository;
 
     /**
      * - SUCCESSFUL
