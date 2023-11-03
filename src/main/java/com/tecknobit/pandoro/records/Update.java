@@ -95,6 +95,11 @@ public class Update implements Serializable {
      */
     private final ArrayList<Note> notes;
 
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
     public Update() {
         this(null, null, -1, null, null, -1, null, -1, null);
     }

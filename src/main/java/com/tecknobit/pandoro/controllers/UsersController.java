@@ -114,7 +114,6 @@ public class UsersController extends PandoroController {
                     .put(EMAIL_KEY, user.getEmail())
                     .put(PASSWORD_KEY, user.getPassword())
                     .put(CHANGELOGS_KEY, user.getChangelogs())
-                    .put(GROUPS_KEY, user.getGroups())
             );
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);

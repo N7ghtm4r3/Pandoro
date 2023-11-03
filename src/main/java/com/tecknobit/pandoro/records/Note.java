@@ -1,7 +1,11 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.Group.Member;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -33,8 +37,12 @@ public class Note implements Serializable {
     /**
      * {@code author} the author of the note
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = AUTHOR_KEY)
+    @JsonIgnore
     private final User author;
 
     /**
@@ -61,8 +69,12 @@ public class Note implements Serializable {
     /**
      * {@code markedAsDoneBy} who marked the note as done
      */
-    @Transient
-    @Column(name = MARKED_AS_DONE_BY_KEY)
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = MARKED_AS_DONE_BY_KEY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private final User markedAsDoneBy;
 
     /**
@@ -201,7 +213,7 @@ public class Note implements Serializable {
      * Method to get {@link #markedAsDoneBy} instance <br>
      * No-any params required
      *
-     * @return {@link #markedAsDoneBy} instance as {@link User}
+     * @return {@link #markedAsDoneBy} instance as {@link Member}
      */
     public User getMarkedAsDoneBy() {
         return markedAsDoneBy;
@@ -235,9 +247,9 @@ public class Note implements Serializable {
      *
      * @return a string representation of the object as {@link String}
      */
-    /*@Override
+    @Override
     public String toString() {
         return new JSONObject(this).toString();
-    }*/
+    }
 
 }

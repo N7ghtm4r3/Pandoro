@@ -1,13 +1,12 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.pandoro.services.NotesHelper;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.services.NotesHelper.*;
+import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 import static helpers.InputsValidatorKt.isContentNoteValid;
 
@@ -40,15 +39,14 @@ public class NotesController extends PandoroController {
                     TOKEN_KEY
             }
     )
-    public String getNotesList(
+    public <T> T getNotesList(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token)) {
-            return successResponse(new JSONObject()
-                    .put(NOTES_KEY, notesHelper.getNotes(id)));
-        } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        if (isAuthenticatedUser(id, token))
+            return (T) notesHelper.getNotes(id);
+        else
+            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     @PostMapping(
@@ -56,15 +54,12 @@ public class NotesController extends PandoroController {
             headers = {
                     IDENTIFIER_KEY,
                     TOKEN_KEY
-            },
-            params = {
-                    CONTENT_NOTE_KEY
             }
     )
     public String createNote(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestParam(CONTENT_NOTE_KEY) String contentNote
+            @RequestBody String contentNote
     ) {
         if (isAuthenticatedUser(id, token)) {
             if (isContentNoteValid(contentNote)) {
@@ -87,10 +82,7 @@ public class NotesController extends PandoroController {
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
-            @RequestParam(
-                    value = MARKED_AS_DONE_BY_KEY,
-                    required = false
-            ) String markedAsDoneBy
+            @RequestBody(required = false) String markedAsDoneBy
     ) {
         if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
             notesHelper.markAsDone(id, noteId, markedAsDoneBy);

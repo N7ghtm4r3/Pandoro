@@ -110,12 +110,16 @@ public class User extends PandoroItem {
      * {@code notes} list of the notes of the user
      */
     @OneToMany(
-            fetch = FetchType.LAZY,
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
     private final List<Note> notes;
 
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
     public User() {
         this(null, null, null, null, null, null, null, null,
                 null, null, null);
@@ -321,22 +325,6 @@ public class User extends PandoroItem {
                 subGroups.add(group);
         return subGroups;
     }
-
-    /**
-     * Returns a string representation of the object <br>
-     * No-any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    /*@Override
-    public String toString() {
-        JSONObject jUser = new JSONObject(this);
-        jUser.remove(GROUPS_KEY);
-        jUser.remove(CHANGELOGS_KEY);
-        jUser.remove(PROJECTS_KEY);
-        jUser.remove(NOTES_KEY);
-        return jUser.toString();
-    }*/
 
 }
 

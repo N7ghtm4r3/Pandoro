@@ -127,6 +127,11 @@ public class Project extends PandoroItem implements Serializable {
      */
     private final RepositoryPlatform repositoryPlatform;
 
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
     public Project() {
         this(null, null, null, null, null, null, null, null,
                 null);

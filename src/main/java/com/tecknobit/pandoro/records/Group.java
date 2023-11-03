@@ -2,9 +2,6 @@ package com.tecknobit.pandoro.records;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.List.of;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -84,174 +81,13 @@ public class Group extends PandoroItem {
      */
     private final int totalProjects;
 
+    /**
+     * Default constructor
+     *
+     * @apiNote empty constructor required
+     */
     public Group() {
         this(null, null, null, null, null, null);
-    }
-
-    /**
-     * Constructor to init a {@link Group} object
-     *
-     * @param id:          identifier of the group
-     * @param name:        name of the group
-     * @param description: the description of the group
-     */
-    // TODO: 19/08/2023 TO REMOVE
-    public Group(String id, String name, String description) {
-        this(id, name, new User("Manuel", "Maurizio"), description,
-                new ArrayList<>(List.of(
-                        new Member("manu0", "Manuel", "Maurizio", Role.ADMIN),
-                        new Member("Gabriele", "Marengo", Role.MAINTAINER))
-                ),
-                new ArrayList<>(of(
-                        new Project(
-                                "id0",
-                                "One",
-                                new User("Manuel", "Maurizio"),
-                                "First project",
-                                "Lorem ipsum dolor sit amet. Ab veniam enim et aperiam perferendis aut veritatis corporis sit modi aperiam vel aperiam voluptate! Et voluptatem quia aut minus culpa aut nihil optio quo nihil illum ea velit voluptatibus. Et reiciendis voluptatibus ea fuga distinctio eum tenetur recusandae et rerum natus et quia aliquam. Id sint quod eum eligendi rerum sed porro asperiores. </p><p>Ut consequatur illum qui quia omnis et quam adipisci aut autem natus aut soluta sunt ut error veritatis. Et magni labore qui optio dolorem vel totam consequatur est quas iste. Est incidunt omnis sed odit unde nam fugit quia At quam unde sit veritatis asperiores et optio reiciendis. Qui earum eaque sit veritatis voluptate eos galisum harum est alias quia ut sint asperiores vel accusantium libero ea optio ipsam. </p><p>Nam dolor temporibus a molestias maiores est libero rerum et ullam repudiandae? Et repellendus earum a fuga magni est doloribus quia ad libero dicta a aperiam impedit. Ut quos odio a quisquam natus est dolores natus aut debitis cupiditate aut sunt corrupti. Sit quia exercitationem nam quos harum sit veniam accusamus eum corrupti rerum qui voluptas dolor sit officiis modi sit eius quia",
-                                "1.0.0",
-                                new ArrayList<>(List.of(
-                                        new Group("id1",
-                                                "Tecknobit",
-                                                new User("Manuel", "Maurizio"),
-                                                "Lorem ipsum dolor sit amet. Ab veniam enim et aperiam perferendis aut veritatis corporis sit modi aperiam vel aperiam voluptate! Et voluptatem quia aut minus culpa aut nihil optio quo nihil illum ea velit voluptatibus. Et reiciendis voluptatibus ea fuga distinctio eum tenetur recusandae et rerum natus et quia aliquam. Id sint quod eum eligendi rerum sed porro asperiores. </p><p>Ut consequatur illum qui quia omnis et quam adipisci aut autem natus aut soluta sunt ut error veritatis. Et magni labore qui optio dolorem vel totam consequatur est quas iste. Est incidunt omnis sed odit unde nam fugit quia At quam unde sit veritatis asperiores et optio reiciendis. Qui earum eaque sit veritatis voluptate eos galisum harum est alias quia ut sint asperiores vel accusantium libero ea optio ipsam. </p><p>Nam dolor temporibus a molestias maiores est libero rerum et ullam repudiandae? Et repellendus earum a fuga magni est doloribus quia ad libero dicta a aperiam impedit. Ut quos odio a quisquam natus est dolores natus aut debitis cupiditate aut sunt corrupti. Sit quia exercitationem nam qu" +
-                                                        "os harum sit veniam accusamus eum corrupti rerum qui voluptas dolor sit officiis modi sit " +
-                                                        "eius quia",
-                                                new ArrayList<>(List.of(
-                                                        new Member("manu0", "Manuel", "Maurizio", Role.ADMIN),
-                                                        new Member("Gabriele", "Marengo", Role.MAINTAINER))
-                                                ),
-                                                new ArrayList<>()
-                                        )
-                                )),
-                                new ArrayList<>(List.of(
-                                        new Update(
-                                                "gaga",
-                                                new User("Manuel", "Maurizio"),
-                                                System.currentTimeMillis(),
-                                                "1.0.2",
-                                                new ArrayList<>(List.of(new Note(
-                                                                "gagaga111",
-                                                                new User("Gabriele", "Marengo"),
-                                                                "Fixed",
-                                                                System.currentTimeMillis()),
-                                                        new Note(
-                                                                "gagaga1112",
-                                                                "Remove console property windows [DK]",
-                                                                System.currentTimeMillis()),
-                                                        new Note(
-                                                                "gagaga2222",
-                                                                "Fixed24",
-                                                                System.currentTimeMillis())))
-                                        ),
-                                        new Update(
-                                                "gagagaga",
-                                                new User("Manuel", "Maurizio"),
-                                                System.currentTimeMillis(),
-                                                "1.0.1",
-                                                new User("Gabriele", "Marengo"),
-                                                System.currentTimeMillis(),
-                                                new ArrayList<>(List.of(new Note(
-                                                                "gagaga",
-                                                                "Fixed",
-                                                                System.currentTimeMillis()),
-                                                        new Note(
-                                                                "gagaga1",
-                                                                "Remove console property windows [DK]",
-                                                                System.currentTimeMillis()),
-                                                        new Note(
-                                                                "gagaga2",
-                                                                "Fixed2",
-                                                                System.currentTimeMillis())))
-                                        ),
-                                        new Update(
-                                                "gagagaga1",
-                                                new User("Gabriele", "Marengo"),
-                                                System.currentTimeMillis(),
-                                                "1.0.0",
-                                                new User("Gabriele", "Marengo"),
-                                                1689854400000L,
-                                                new User("Manuel", "Maurizio"),
-                                                1690286400000L,
-                                                new ArrayList<>(List.of(new Note(
-                                                        "e484081840f511eebe560242ac120002",
-                                                        new User("Manuel", "Maurizio"),
-                                                        "Fixed",
-                                                        1691852915000L,
-                                                        true,
-                                                        new User("Gabriele", "Marengo"),
-                                                        System.currentTimeMillis()
-                                                ), new Note(
-                                                        "gagaga2",
-                                                        "Fixed2",
-                                                        1691852915000L), new Note(
-                                                        "gagaga3",
-                                                        "Fixed3",
-                                                        1691852915000L)))
-                                        ),
-                                        new Update(
-                                                "gagagaga1",
-                                                new User("Gabriele", "Marengo"),
-                                                System.currentTimeMillis(),
-                                                "1.0.0",
-                                                new User("Gabriele", "Marengo"),
-                                                1690286400000L,
-                                                new User("Manuel", "Maurizio"),
-                                                1690459200000L,
-                                                new ArrayList<>(List.of(new Note(
-                                                        "e484081840f511eebe560242ac120002",
-                                                        new User("Manuel", "Maurizio"),
-                                                        "Fixed",
-                                                        1691852915000L,
-                                                        true,
-                                                        new User("Gabriele", "Marengo"),
-                                                        System.currentTimeMillis()
-                                                ), new Note(
-                                                        "gagaga2",
-                                                        "Fixed2",
-                                                        1691852915000L), new Note(
-                                                        "gagaga3",
-                                                        "Fixed3",
-                                                        1691852915000L)))
-                                        ),
-                                        new Update(
-                                                "gagagaga1",
-                                                new User("Gabriele", "Marengo"),
-                                                System.currentTimeMillis(),
-                                                "1.0.0",
-                                                new User("Gabriele", "Marengo"),
-                                                1690891200000L,
-                                                new User("Manuel", "Maurizio"),
-                                                1691150400000L,
-                                                new ArrayList<>(List.of(new Note(
-                                                        "e484081840f511eebe560242ac120002",
-                                                        new User("Manuel", "Maurizio"),
-                                                        "Fixed",
-                                                        1691852915000L,
-                                                        true,
-                                                        new User("Gabriele", "Marengo"),
-                                                        System.currentTimeMillis()
-                                                ), new Note(
-                                                        "gagaga2",
-                                                        "Fixed2",
-                                                        1691852915000L), new Note(
-                                                        "gagaga3",
-                                                        "Fixed3",
-                                                        1691852915000L)))
-                                        ),
-                                        new Update(
-                                                "gagagaga2",
-                                                System.currentTimeMillis(),
-                                                "0.0.0",
-                                                1691323200000L,
-                                                1691841600000L,
-                                                new ArrayList<>(List.of(new Note(
-                                                        "gagaga2",
-                                                        "Fixed",
-                                                        1691852915000L)))
-                                        ))),
-                                "https://github.com/N7ghtm4r3/Pandoro-Desktop"
-                        ))));
     }
 
     /**

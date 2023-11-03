@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.annotations.Structure;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -69,9 +70,9 @@ public abstract class PandoroItem implements Serializable {
      *
      * @return a string representation of the object as {@link String}
      */
-    /*@Override
+    @Override
     public String toString() {
         return new JSONObject(this).toString();
-    }*/
+    }
 
 }

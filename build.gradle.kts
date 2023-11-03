@@ -23,7 +23,7 @@ dependencies {
     implementation("org.json:json:20230227")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
-    implementation("mysql:mysql-connector-java:8.0.28")
+    implementation("mysql:mysql-connector-java:8.0.33")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")
     implementation("commons-validator:commons-validator:1.7")
 }
