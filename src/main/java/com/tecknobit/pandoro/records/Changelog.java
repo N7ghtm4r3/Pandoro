@@ -126,6 +126,7 @@ public class Changelog implements Serializable {
     /**
      * {@code project} the project of the changelogEvent
      */
+    // TODO: 04/11/2023 SOLVE RELATIONSHIP
     //@ManyToOne(cascade = CascadeType.ALL)
     @Column(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
     private final Project project;
@@ -133,6 +134,7 @@ public class Changelog implements Serializable {
     /**
      * {@code group} the group of the changelogEvent
      */
+    // TODO: 04/11/2023 SOLVE RELATIONSHIP
     //@ManyToOne(cascade = CascadeType.ALL)
     @Column(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
     private final Group group;
@@ -154,9 +156,7 @@ public class Changelog implements Serializable {
      *
      * @apiNote usage in SQL scopes
      */
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = CHANGELOG_OWNER_KEY)
     private User owner;
 
@@ -255,6 +255,7 @@ public class Changelog implements Serializable {
      *
      * @return {@link #changelogEvent} instance as {@link ChangelogEvent}
      */
+    @Enumerated(EnumType.STRING)
     public ChangelogEvent getChangelogEvent() {
         return changelogEvent;
     }

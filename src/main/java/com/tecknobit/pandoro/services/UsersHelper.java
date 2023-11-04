@@ -26,8 +26,6 @@ public class UsersHelper {
 
     public static final String PASSWORD_KEY = "password";
 
-    public static final String CHANGELOGS_KEY = "changelogs";
-
     public static final String GROUPS_KEY = "groups";
 
     public static final String PROJECTS_KEY = "projects";
