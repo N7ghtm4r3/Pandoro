@@ -42,9 +42,13 @@ public class ChangelogsHelper {
         changelogsRepository.markAsRed(userId, changelogId);
     }
 
+    public void deleteChangelog(String changelogId, String userId) {
+        changelogsRepository.deleteChangelog(userId, changelogId);
+    }
+
     // TODO: 04/11/2023 IMPLEMENT CHANGELOG CREATOR
     //  INSERT INTO changelogs (changelog_id,changelog_event,extra_content,group_id,project_id,red,timestamp,owner)
-    //  VALUES (1231,"LEFT_GROUP","gagga",NULL,NULL,true,1699102591,"f1fdab65e1494050ad5b29af5966f972")
+    //  VALUES (1231,"LEFT_GROUP","gagga",NULL,NULL,false,1699102591,"f1fdab65e1494050ad5b29af5966f972")
     public void createChangelog(String userId, ChangelogEvent event) {
 
     }

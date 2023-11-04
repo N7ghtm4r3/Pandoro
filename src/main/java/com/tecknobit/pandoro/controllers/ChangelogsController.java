@@ -61,4 +61,23 @@ public class ChangelogsController extends PandoroController {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
+    @DeleteMapping(
+            path = "{" + CHANGELOG_IDENTIFIER_KEY + "}" + DELETE_CHANGELOG_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteChangelog(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
+    ) {
+        if (isAuthenticatedUser(id, token) && changelogsHelper.changelogExists(changelogId)) {
+            changelogsHelper.deleteChangelog(changelogId, id);
+            return successResponse();
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
 }

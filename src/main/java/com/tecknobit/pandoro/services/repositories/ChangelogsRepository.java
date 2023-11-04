@@ -33,4 +33,17 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
             @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId
     );
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + CHANGELOGS_KEY + " WHERE "
+                    + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY + " AND "
+                    + CHANGELOG_IDENTIFIER_KEY + "=:" + CHANGELOG_IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void deleteChangelog(
+            @Param(CHANGELOG_OWNER_KEY) String owner,
+            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId
+    );
+
 }

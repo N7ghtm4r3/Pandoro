@@ -14,8 +14,6 @@ public class NotesHelper {
 
     public static final String NOTE_IDENTIFIER_KEY = "note_id";
 
-    public static final String AUTHOR_KEY = "author";
-
     public static final String CONTENT_NOTE_KEY = "content_note";
 
     public static final String CREATION_DATE_KEY = "creation_date";

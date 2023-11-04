@@ -1,7 +1,15 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.*;
+import static com.tecknobit.pandoro.services.UsersHelper.GROUPS_KEY;
+import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -10,6 +18,8 @@ import java.util.ArrayList;
  * @see PandoroItem
  * @see Serializable
  */
+@Entity
+@Table(name = GROUPS_KEY)
 public class Group extends PandoroItem {
 
     /**
@@ -54,21 +64,33 @@ public class Group extends PandoroItem {
     /**
      * {@code author} the author of the group
      */
-    private final User author;
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = AUTHOR_KEY)
+    private final PublicUser author;
 
     /**
      * {@code description} the description of the group
      */
+    @Column(name = GROUP_DESCRIPTION_KEY)
     private final String description;
 
     /**
      * {@code members} the list of the members of the group
      */
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = GROUP_KEY,
+            cascade = CascadeType.ALL
+    )
     private final ArrayList<Member> members;
 
     /**
      * {@code totalMembers} how many members the group has
      */
+    @Transient
     private final int totalMembers;
 
     /**
@@ -79,6 +101,7 @@ public class Group extends PandoroItem {
     /**
      * {@code totalProjects} the number of the projects managed by the group
      */
+    @Transient
     private final int totalProjects;
 
     /**
@@ -95,35 +118,26 @@ public class Group extends PandoroItem {
      *
      * @param id:          identifier of the group
      * @param name:        name of the group
-     * @param description: the description of the group
-     * @param members:     the list of the members of the group
-     * @param projects:    the list of the projects managed by the group
-     */
-    // TODO: 19/08/2023 TO REMOVE
-    public Group(String id, String name, String description, ArrayList<Member> members, ArrayList<Project> projects) {
-        this(id, name, new User("manu0", "Manuel", "Maurizio", null), description, members, projects);
-    }
-
-    /**
-     * Constructor to init a {@link Group} object
-     *
-     * @param id:          identifier of the group
-     * @param name:        name of the group
      * @param author:      the author of the group
      * @param description: the description of the group
      * @param members:     the list of the members of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, User author, String description, ArrayList<Member> members,
+    public Group(String id, String name, PublicUser author, String description, ArrayList<Member> members,
                  ArrayList<Project> projects) {
         super(id, name);
-        this.author = new User(author.getId(), author.getName(), null, author.getProfilePic(), author.getSurname(),
-                author.getEmail(), null, null, null, null, null);
+        this.author = author;
         this.description = description;
         this.members = members;
-        totalMembers = members.size();
+        if (members != null)
+            totalMembers = members.size();
+        else
+            totalMembers = 0;
         this.projects = projects;
-        totalProjects = projects.size();
+        if (projects != null)
+            totalProjects = projects.size();
+        else
+            totalProjects = 0;
     }
 
     /**
@@ -132,7 +146,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public PublicUser getAuthor() {
         return author;
     }
 
@@ -220,12 +234,33 @@ public class Group extends PandoroItem {
      * @see PublicUser
      * @see Serializable
      */
+    @Entity
+    @Table(name = GROUP_MEMBERS_TABLE)
+    @DiscriminatorValue(MEMBER_ROLE_KEY)
     public static class Member extends PublicUser {
 
         /**
          * {@code role} the role of the member
          */
+        @Column(name = MEMBER_ROLE_KEY)
         private final Role role;
+
+        @ManyToOne(
+                fetch = FetchType.LAZY,
+                cascade = CascadeType.ALL
+        )
+        @JoinColumn(name = GROUP_KEY)
+        @JsonIgnore
+        private Group group;
+
+        /**
+         * Default constructor
+         *
+         * @apiNote empty constructor required
+         */
+        public Member() {
+            this(null, null, null, null, null, null);
+        }
 
         /**
          * Constructor to init a {@link Member} object

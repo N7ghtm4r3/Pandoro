@@ -23,6 +23,8 @@ public abstract class PandoroController {
 
     public static final String IDENTIFIER_KEY = "id";
 
+    public static final String AUTHOR_KEY = "author";
+
     public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
 
     @Autowired

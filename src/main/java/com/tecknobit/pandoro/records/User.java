@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.CHANGELOG_OWNER_KEY;
-import static com.tecknobit.pandoro.services.NotesHelper.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
@@ -73,6 +73,7 @@ public class User extends PublicUser {
      * {@code notes} list of the notes of the user
      */
     @OneToMany(
+            fetch = FetchType.LAZY,
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )

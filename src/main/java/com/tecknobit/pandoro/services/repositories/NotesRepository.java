@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 
 @Service

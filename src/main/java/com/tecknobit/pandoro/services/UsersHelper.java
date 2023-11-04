@@ -12,6 +12,8 @@ public class UsersHelper {
 
     public static final String USERS_TABLE = "users";
 
+    public static final String GROUP_MEMBERS_TABLE = "group_members";
+
     public static final String SERVER_ADDRESS_KEY = "server_address";
 
     public static final String NAME_KEY = "name";
