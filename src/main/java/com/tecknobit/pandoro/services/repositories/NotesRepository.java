@@ -41,7 +41,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + CONTENT_NOTE_KEY + ","
                     + CREATION_DATE_KEY + ","
                     + MARKED_AS_DONE_KEY + ","
-                    //+ MARKED_AS_DONE_BY_KEY + ","
+                    + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ")"
                     + "VALUES ("
                     + ":note_id,"
@@ -49,7 +49,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + ":content_note,"
                     + ":creation_date,"
                     + "false,"
-                    //+ "NULL,"
+                    + "NULL,"
                     + "-1"
                     + ")",
             nativeQuery = true

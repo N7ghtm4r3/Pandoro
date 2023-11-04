@@ -69,7 +69,7 @@ public class Note implements Serializable {
     /**
      * {@code markedAsDoneBy} who marked the note as done
      */
-    @OneToOne(
+    @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
