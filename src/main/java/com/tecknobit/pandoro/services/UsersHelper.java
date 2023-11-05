@@ -32,6 +32,10 @@ public class UsersHelper {
 
     public static final String PROJECTS_KEY = "projects";
 
+    public static final String UNREAD_CHANGELOGS_KEY = "unreadChangelogsNumber";
+
+    public static final String ADMIN_GROUPS_KEY = "adminGroups";
+
     // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
     public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
 

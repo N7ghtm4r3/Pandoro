@@ -19,6 +19,20 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 @Service
 public interface GroupsRepository extends JpaRepository<Group, String> {
 
+    /*
+    @Query(
+            value = "SELECT group.* FROM " + GROUPS_KEY + " as group LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON group.id = " + GROUP_MEMBERS_TABLE + ".id"
+                    + " WHERE group." + AUTHOR_KEY + "=:" + AUTHOR_KEY
+                    + " OR " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    List<Group> getGroups(
+            @Param(AUTHOR_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId
+    );
+     */
+
     @Query(
             value = "SELECT * FROM " + GROUPS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
             //+ " OR " + ,

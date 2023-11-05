@@ -52,9 +52,9 @@ public class GroupsController extends PandoroController {
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isAuthenticatedUser(id, token))
             return (T) groupsHelper.getGroups(id);
-        } else
+        else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 

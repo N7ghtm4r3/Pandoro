@@ -18,7 +18,11 @@ public class GroupsHelper {
 
     public static final String GROUP_MEMBERS_KEY = "members";
 
+    public static final String TOTAL_GROUP_MEMBERS_KEY = "total_members";
+
     public static final String GROUP_PROJECTS_KEY = "group_projects";
+
+    public static final String TOTAL_GROUP_PROJECTS_KEY = "total_projects";
 
     public static final String MEMBER_ROLE_KEY = "role";
 

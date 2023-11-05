@@ -53,7 +53,6 @@ public class User extends PublicUser {
      * {@code changelogs} list of action messages for the user
      */
     @OneToMany(
-            fetch = FetchType.LAZY,
             mappedBy = CHANGELOG_OWNER_KEY,
             cascade = CascadeType.ALL
     )
@@ -63,7 +62,6 @@ public class User extends PublicUser {
      * {@code groups} list of the groups of the user
      */
     @OneToMany(
-            fetch = FetchType.LAZY,
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
@@ -79,7 +77,6 @@ public class User extends PublicUser {
      * {@code notes} list of the notes of the user
      */
     @OneToMany(
-            fetch = FetchType.LAZY,
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )

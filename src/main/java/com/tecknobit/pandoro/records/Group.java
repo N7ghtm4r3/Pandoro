@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.records;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -11,10 +11,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.GROUPS_KEY;
+import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -45,7 +47,16 @@ public class Group extends PandoroItem {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = AUTHOR_KEY)
-    @JsonIgnore
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY
+    })
     private final User author;
 
     /**
@@ -58,7 +69,6 @@ public class Group extends PandoroItem {
      * {@code groupMembers} the list of the groupMembers of the group
      */
     @OneToMany(
-            fetch = FetchType.LAZY,
             mappedBy = GROUP_KEY,
             cascade = CascadeType.ALL
     )
@@ -89,7 +99,7 @@ public class Group extends PandoroItem {
      * @apiNote empty constructor required
      */
     public Group() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, new ArrayList<>(), new ArrayList<>());
     }
 
     /**
@@ -125,7 +135,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #author} instance as {@link PublicUser}
      */
-    public User getAuthor() {
+    public PublicUser getAuthor() {
         return author;
     }
 

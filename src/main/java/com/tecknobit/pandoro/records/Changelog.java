@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
@@ -160,6 +161,7 @@ public class Changelog implements Serializable {
      */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = CHANGELOG_OWNER_KEY)
+    @JsonIgnore
     private User owner;
 
     /**
