@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.CHANGELOG_OWNER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
@@ -61,8 +62,12 @@ public class User extends PublicUser {
     /**
      * {@code groups} list of the groups of the user
      */
-    @Column(name = GROUPS_KEY)
-    private final ArrayList<Group> groups;
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = AUTHOR_KEY,
+            cascade = CascadeType.ALL
+    )
+    private final List<Group> groups;
 
     /**
      * {@code projects} list of the projects of the user
@@ -176,7 +181,7 @@ public class User extends PublicUser {
      * @return {@link #groups} instance as {@link ArrayList} of {@link Group}
      */
     public ArrayList<Group> getGroups() {
-        return groups;
+        return new ArrayList<>(groups);
     }
 
     /**
@@ -224,7 +229,7 @@ public class User extends PublicUser {
     }
 
     /**
-     * Method to get the groups where the user is the {@link Group.Role#ADMIN} <br>
+     * Method to get the groups where the user is the {@link Role#ADMIN} <br>
      * No-any params required
      *
      * @return groups as {@link ArrayList} of {@link Group}

@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -44,7 +45,8 @@ public class Group extends PandoroItem {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = AUTHOR_KEY)
-    private final PublicUser author;
+    @JsonIgnore
+    private final User author;
 
     /**
      * {@code description} the description of the group
@@ -71,6 +73,8 @@ public class Group extends PandoroItem {
     /**
      * {@code projects} the list of the projects managed by the group
      */
+    @Transient
+    // TODO: 05/11/2023 SOLVE RELATIONSHIP AND REMOVE TRANSIENT
     private final List<Project> projects;
 
     /**
@@ -98,7 +102,7 @@ public class Group extends PandoroItem {
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, PublicUser author, String description, ArrayList<GroupMember> groupMembers,
+    public Group(String id, String name, User author, String description, ArrayList<GroupMember> groupMembers,
                  ArrayList<Project> projects) {
         super(id, name);
         this.author = author;
@@ -119,9 +123,9 @@ public class Group extends PandoroItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link User}
+     * @return {@link #author} instance as {@link PublicUser}
      */
-    public PublicUser getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

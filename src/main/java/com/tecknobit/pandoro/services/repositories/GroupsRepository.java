@@ -25,6 +25,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             ,
             nativeQuery = true
     )
+        // TODO: 05/11/2023 FETCH ALSO GROUPS WHERE ARE MEMBER
     List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
 
     @Query(
