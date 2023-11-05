@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.users.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;

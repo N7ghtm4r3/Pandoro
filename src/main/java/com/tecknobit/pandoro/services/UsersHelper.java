@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services;
 
-import com.tecknobit.pandoro.records.User;
+import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

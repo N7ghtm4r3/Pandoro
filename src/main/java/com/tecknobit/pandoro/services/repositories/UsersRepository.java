@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services.repositories;
 
-import com.tecknobit.pandoro.records.User;
+import com.tecknobit.pandoro.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

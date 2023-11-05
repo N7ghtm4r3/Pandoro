@@ -1,5 +1,6 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandoro.records.users;
 
+import com.tecknobit.pandoro.records.PandoroItem;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

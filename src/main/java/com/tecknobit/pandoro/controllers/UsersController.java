@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.controllers;
 
-import com.tecknobit.pandoro.records.User;
+import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.UsersHelper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,7 +6,7 @@ import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
 import com.tecknobit.pandoro.records.Project.*
 import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
 import com.tecknobit.pandoro.records.Update.TARGET_VERSION_MAX_LENGTH
-import com.tecknobit.pandoro.records.User.*
+import com.tecknobit.pandoro.records.users.User.*
 import helpers.InputStatus.*
 import org.apache.commons.validator.routines.EmailValidator
 import org.apache.commons.validator.routines.UrlValidator

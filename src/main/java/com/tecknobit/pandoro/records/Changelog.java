@@ -1,11 +1,13 @@
 package com.tecknobit.pandoro.records;
 
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
 
 /**
@@ -309,7 +311,7 @@ public class Changelog implements Serializable {
             case JOINED_GROUP -> "You joined in the " + entityName + " group";
             case ROLE_CHANGED -> {
                 String article = "a";
-                if (extraContent.equals(Group.Role.ADMIN.toString()))
+                if (extraContent.equals(ADMIN.toString()))
                     article = "an";
                 yield "You became " + article + " " + extraContent + " in the " + entityName + " group";
             }

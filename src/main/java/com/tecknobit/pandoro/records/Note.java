@@ -3,7 +3,8 @@ package com.tecknobit.pandoro.records;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.Group.Member;
+import com.tecknobit.pandoro.records.users.PublicUser;
+import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -214,7 +215,7 @@ public class Note implements Serializable {
      * Method to get {@link #markedAsDoneBy} instance <br>
      * No-any params required
      *
-     * @return {@link #markedAsDoneBy} instance as {@link Member}
+     * @return {@link #markedAsDoneBy} instance as {@link PublicUser}
      */
     public PublicUser getMarkedAsDoneBy() {
         return markedAsDoneBy;
