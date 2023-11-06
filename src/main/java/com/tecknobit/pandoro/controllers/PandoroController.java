@@ -27,6 +27,8 @@ public abstract class PandoroController {
 
     public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
 
+    public static final String NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE = "Not authorized or wrong details";
+
     @Autowired
     protected UsersRepository usersRepository;
 

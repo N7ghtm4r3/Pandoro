@@ -20,6 +20,8 @@ public class UsersHelper {
 
     public static final String TOKEN_KEY = "token";
 
+    public static final String COMPLETE_NAME_KEY = "completeName";
+
     public static final String SURNAME_KEY = "surname";
 
     public static final String PROFILE_PIC_KEY = "profile_pic";
@@ -27,8 +29,6 @@ public class UsersHelper {
     public static final String EMAIL_KEY = "email";
 
     public static final String PASSWORD_KEY = "password";
-
-    public static final String GROUPS_KEY = "groups";
 
     public static final String PROJECTS_KEY = "projects";
 
@@ -55,10 +55,6 @@ public class UsersHelper {
 
     public User signIn(String email, String password) {
         return usersRepository.getUserByEmailAndPassword(email, password);
-    }
-
-    public User getProfileDetails(String userId, String token) {
-        return usersRepository.getAuthorizedUser(userId, token);
     }
 
     // TODO: 01/11/2023 PASS CORRECT PROFILE PIC

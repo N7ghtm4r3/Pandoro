@@ -137,9 +137,8 @@ public class Changelog implements Serializable {
     /**
      * {@code group} the group of the changelogEvent
      */
-    // TODO: 04/11/2023 SOLVE RELATIONSHIP
-    //@ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
     private final Group group;
 
     /**

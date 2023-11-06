@@ -10,36 +10,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.GROUPS_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
 @Service
 public interface GroupsRepository extends JpaRepository<Group, String> {
 
-    /*
     @Query(
-            value = "SELECT group.* FROM " + GROUPS_KEY + " as group LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON group.id = " + GROUP_MEMBERS_TABLE + ".id"
-                    + " WHERE group." + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " OR " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON groups.id = group_members.id WHERE " + GROUPS_KEY + ".author=:" + AUTHOR_KEY
+                    + " OR " + GROUP_MEMBERS_TABLE + ".id=:" + AUTHOR_KEY,
             nativeQuery = true
     )
-    List<Group> getGroups(
-            @Param(AUTHOR_KEY) String userId,
-            @Param(IDENTIFIER_KEY) String memberId
-    );
-     */
-
-    @Query(
-            value = "SELECT * FROM " + GROUPS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-            //+ " OR " + ,
-            ,
-            nativeQuery = true
-    )
-        // TODO: 05/11/2023 FETCH ALSO GROUPS WHERE ARE MEMBER
     List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
 
     @Query(
@@ -73,6 +60,18 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(IDENTIFIER_KEY) String groupId,
             @Param(NAME_KEY) String groupName,
             @Param(GROUP_DESCRIPTION_KEY) String groupDescription
+    );
+
+    @Query(
+            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON groups.id = group_members.id WHERE " + GROUPS_KEY + ".id=:" + GROUP_IDENTIFIER_KEY
+                    + " AND " + GROUPS_KEY + ".author=:" + AUTHOR_KEY
+                    + " OR " + GROUP_MEMBERS_TABLE + ".id=:" + AUTHOR_KEY,
+            nativeQuery = true
+    )
+    Group getGroup(
+            @Param(AUTHOR_KEY) String userId,
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
 }

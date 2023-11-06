@@ -1,25 +1,25 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_ENDPOINT;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_MEMBERS_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 import static helpers.InputsValidatorKt.*;
 
 @RestController
-@RequestMapping(path = BASE_ENDPOINT + GROUPS_ENDPOINT)
+@RequestMapping(path = BASE_ENDPOINT + GROUPS_KEY)
 public class GroupsController extends PandoroController {
 
-    public static final String GROUPS_ENDPOINT = "groups";
+    public static final String GROUPS_KEY = "groups";
 
     public static final String CREATE_GROUP_ENDPOINT = "/createGroup";
 
@@ -95,5 +95,28 @@ public class GroupsController extends PandoroController {
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
+
+    @GetMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}",
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public <T> T getGroup(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null)
+                return (T) group;
+            else
+                return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
 
 }

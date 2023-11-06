@@ -93,8 +93,8 @@ private val urlValidator: UrlValidator = UrlValidator.getInstance()
  * @param serverAddress: server address to check
  * @return whether the server address is valid as [Boolean]
  */
-fun isServerAddressValid(serverAddress: String): Boolean {
-    return urlValidator.isValid(serverAddress)
+fun isServerAddressValid(serverAddress: String?): Boolean {
+    return serverAddress != null && urlValidator.isValid(serverAddress)
 }
 
 /**
@@ -103,8 +103,8 @@ fun isServerAddressValid(serverAddress: String): Boolean {
  * @param name: name to check
  * @return whether the name is valid as [Boolean]
  */
-fun isNameValid(name: String): Boolean {
-    return name.length in 1..USER_NAME_MAX_LENGTH
+fun isNameValid(name: String?): Boolean {
+    return name != null && name.length in 1..USER_NAME_MAX_LENGTH
 }
 
 /**
@@ -113,8 +113,8 @@ fun isNameValid(name: String): Boolean {
  * @param surname: surname to check
  * @return whether the surname is valid as [Boolean]
  */
-fun isSurnameValid(surname: String): Boolean {
-    return surname.length in 1..USER_SURNAME_MAX_LENGTH
+fun isSurnameValid(surname: String?): Boolean {
+    return surname != null && surname.length in 1..USER_SURNAME_MAX_LENGTH
 }
 
 /**
@@ -124,7 +124,7 @@ fun isSurnameValid(surname: String): Boolean {
  * @param password: password to check
  * @return whether the credentials are valid as [InputStatus]
  */
-fun areCredentialsValid(email: String, password: String): InputStatus {
+fun areCredentialsValid(email: String?, password: String?): InputStatus {
     if (isEmailValid(email)) {
         return if (isPasswordValid(password))
             OK
@@ -141,7 +141,7 @@ fun areCredentialsValid(email: String, password: String): InputStatus {
  * @param input: input to check
  * @return whether the input is valid as [Boolean]
  */
-fun isInputValid(item: String, input: String): Boolean {
+fun isInputValid(item: String, input: String?): Boolean {
     return if (item == "email")
         isEmailValid(input)
     else
@@ -154,8 +154,8 @@ fun isInputValid(item: String, input: String): Boolean {
  * @param email: email to check
  * @return whether the email is valid as [Boolean]
  */
-fun isEmailValid(email: String): Boolean {
-    return validator.isValid(email) && email.length in 1..EMAIL_MAX_LENGTH
+fun isEmailValid(email: String?): Boolean {
+    return email != null && validator.isValid(email) && email.length in 1..EMAIL_MAX_LENGTH
 }
 
 /**
@@ -164,8 +164,8 @@ fun isEmailValid(email: String): Boolean {
  * @param password: password to check
  * @return whether the password is valid as [Boolean]
  */
-fun isPasswordValid(password: String): Boolean {
-    return password.length in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH
+fun isPasswordValid(password: String?): Boolean {
+    return password != null && password.length in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH
 }
 
 /**
@@ -174,7 +174,7 @@ fun isPasswordValid(password: String): Boolean {
  * @param notes: list of notes
  * @return whether all the notes of the list are correct as boolean
  */
-fun areNotesValid(notes: List<String>): Boolean {
+fun areNotesValid(notes: List<String?>): Boolean {
     var notesCorrect = true
     for (note in notes) {
         notesCorrect = isContentNoteValid(note)
@@ -190,8 +190,8 @@ fun areNotesValid(notes: List<String>): Boolean {
  * @param content: content to check
  * @return whether the content is valid as [Boolean]
  */
-fun isContentNoteValid(content: String): Boolean {
-    return content.length in 1..NOTE_CONTENT_MAX_LENGTH
+fun isContentNoteValid(content: String?): Boolean {
+    return content != null && content.length in 1..NOTE_CONTENT_MAX_LENGTH
 }
 
 /**
@@ -200,7 +200,7 @@ fun isContentNoteValid(content: String): Boolean {
  * @param members: members list to check
  * @return whether the members list is valid as [Boolean]
  */
-fun checkMembersValidity(members: List<String>): Boolean {
+fun checkMembersValidity(members: List<String?>): Boolean {
     var membersCorrect = true
     for (member in members) {
         membersCorrect = isEmailValid(member)
@@ -216,8 +216,8 @@ fun checkMembersValidity(members: List<String>): Boolean {
  * @param groupName: group name to check
  * @return whether the group name is valid as [Boolean]
  */
-fun isGroupNameValid(groupName: String): Boolean {
-    return groupName.length in 1..GROUP_NAME_MAX_LENGTH
+fun isGroupNameValid(groupName: String?): Boolean {
+    return groupName != null && groupName.length in 1..GROUP_NAME_MAX_LENGTH
 }
 
 /**
@@ -226,8 +226,8 @@ fun isGroupNameValid(groupName: String): Boolean {
  * @param groupDescription: group description to check
  * @return whether the group description is valid as [Boolean]
  */
-fun isGroupDescriptionValid(groupDescription: String): Boolean {
-    return groupDescription.length in 1..GROUP_DESCRIPTION_MAX_LENGTH
+fun isGroupDescriptionValid(groupDescription: String?): Boolean {
+    return groupDescription != null && groupDescription.length in 1..GROUP_DESCRIPTION_MAX_LENGTH
 }
 
 /**
@@ -236,8 +236,8 @@ fun isGroupDescriptionValid(groupDescription: String): Boolean {
  * @param projectName: project name to check
  * @return whether the project name is valid as [Boolean]
  */
-fun isValidProjectName(projectName: String): Boolean {
-    return projectName.length in 1..PROJECT_NAME_MAX_LENGTH
+fun isValidProjectName(projectName: String?): Boolean {
+    return projectName != null && projectName.length in 1..PROJECT_NAME_MAX_LENGTH
 }
 
 /**
@@ -246,18 +246,18 @@ fun isValidProjectName(projectName: String): Boolean {
  * @param description: project description to check
  * @return whether the project description is valid as [Boolean]
  */
-fun isValidProjectDescription(description: String): Boolean {
-    return description.length in 1..PROJECT_DESCRIPTION_MAX_LENGTH
+fun isValidProjectDescription(description: String?): Boolean {
+    return description != null && description.length in 1..PROJECT_DESCRIPTION_MAX_LENGTH
 }
 
 /**
  * Function to check the validity of a project short description
  *
- * @param shorDescription: project short description to check
+ * @param shortDescription: project short description to check
  * @return whether the project short description is valid as [Boolean]
  */
-fun isValidProjectShortDescription(shorDescription: String): Boolean {
-    return shorDescription.length in 1..PROJECT_SHORT_DESCRIPTION_MAX_LENGTH
+fun isValidProjectShortDescription(shortDescription: String?): Boolean {
+    return shortDescription != null && shortDescription.length in 1..PROJECT_SHORT_DESCRIPTION_MAX_LENGTH
 }
 
 /**
@@ -266,8 +266,8 @@ fun isValidProjectShortDescription(shorDescription: String): Boolean {
  * @param version: target version to check
  * @return whether the version is valid as [Boolean]
  */
-fun isValidVersion(version: String): Boolean {
-    return version.length in 1..TARGET_VERSION_MAX_LENGTH
+fun isValidVersion(version: String?): Boolean {
+    return version != null && version.length in 1..TARGET_VERSION_MAX_LENGTH
 }
 
 /**
@@ -276,6 +276,6 @@ fun isValidVersion(version: String): Boolean {
  * @param repository: repository to check
  * @return whether the repository is valid as [Boolean]
  */
-fun isValidRepository(repository: String): Boolean {
-    return repository.isEmpty() || (urlValidator.isValid(repository) && isValidPlatform(repository))
+fun isValidRepository(repository: String?): Boolean {
+    return repository != null && repository.isEmpty() || (urlValidator.isValid(repository) && isValidPlatform(repository))
 }

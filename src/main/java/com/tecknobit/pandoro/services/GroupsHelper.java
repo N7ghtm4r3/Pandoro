@@ -41,4 +41,8 @@ public class GroupsHelper {
         groupsRepository.createGroup(userId, groupId, groupName, groupDescription);
     }
 
+    public Group getGroup(String userId, String groupId) {
+        return groupsRepository.getGroup(userId, groupId);
+    }
+
 }

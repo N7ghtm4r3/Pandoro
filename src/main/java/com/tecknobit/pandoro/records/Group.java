@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
@@ -50,6 +51,7 @@ public class Group extends PandoroItem {
     @JsonIgnoreProperties({
             TOKEN_KEY,
             PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
             CHANGELOGS_KEY,
             GROUPS_KEY,
             PROJECTS_KEY,
