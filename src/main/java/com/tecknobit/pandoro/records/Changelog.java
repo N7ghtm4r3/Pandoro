@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
@@ -142,6 +144,7 @@ public class Changelog implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final Group group;
 
     /**

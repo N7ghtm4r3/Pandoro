@@ -135,7 +135,8 @@ public class GroupsController extends PandoroController {
         User me = usersRepository.getAuthorizedUser(id, token);
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null /*&& group.isUserAdmin(me)*/) {
+            System.out.println(group.getMembers());
+            if (group != null && group.isUserAdmin(me)) {
                 groupsHelper.deleteGroup(id, groupId);
                 return successResponse();
             } else

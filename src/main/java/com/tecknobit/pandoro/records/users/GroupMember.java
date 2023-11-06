@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.PandoroItem;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
@@ -61,12 +63,13 @@ public class GroupMember extends PublicUser {
     @Column(name = MEMBER_ROLE_KEY)
     private final Role role;
 
+    @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = GROUP_KEY)
-    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group_member;
 
     /**
