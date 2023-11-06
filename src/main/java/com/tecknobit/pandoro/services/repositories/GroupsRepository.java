@@ -74,4 +74,16 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + GROUPS_KEY + " WHERE " + GROUPS_KEY + ".id=:" + GROUP_IDENTIFIER_KEY
+                    + " AND " + GROUPS_KEY + ".author=:" + AUTHOR_KEY,
+            nativeQuery = true
+    )
+    void deleteGroup(
+            @Param(AUTHOR_KEY) String userId,
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
+    );
+
 }

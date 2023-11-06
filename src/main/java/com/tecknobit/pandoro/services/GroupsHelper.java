@@ -1,6 +1,9 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.users.GroupMember.Role;
+import com.tecknobit.pandoro.records.users.PublicUser;
+import com.tecknobit.pandoro.services.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.GroupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,7 @@ public class GroupsHelper {
 
     public static final String GROUP_IDENTIFIER_KEY = "group_id";
 
-    public static final String GROUP_KEY = "groupMember";
+    public static final String GROUP_KEY = "group_member";
 
     public static final String GROUP_DESCRIPTION_KEY = "group_description";
 
@@ -29,6 +32,9 @@ public class GroupsHelper {
     @Autowired
     private GroupsRepository groupsRepository;
 
+    @Autowired
+    private GroupMembersRepository membersRepository;
+
     public List<Group> getGroups(String userId) {
         return groupsRepository.getGroups(userId);
     }
@@ -37,12 +43,26 @@ public class GroupsHelper {
         return groupsRepository.getGroupByName(userId, groupName) != null;
     }
 
-    public void createGroup(String userId, String groupId, String groupName, String groupDescription) {
+    public void createGroup(PublicUser user, String groupId, String groupName, String groupDescription) {
+        String userId = user.getId();
         groupsRepository.createGroup(userId, groupId, groupName, groupDescription);
+        membersRepository.insertMember(
+                userId,
+                user.getName(),
+                user.getEmail(),
+                user.getProfilePic(),
+                user.getSurname(),
+                Role.ADMIN,
+                groupId
+        );
     }
 
     public Group getGroup(String userId, String groupId) {
         return groupsRepository.getGroup(userId, groupId);
+    }
+
+    public void deleteGroup(String userId, String groupId) {
+        groupsRepository.deleteGroup(userId, groupId);
     }
 
 }

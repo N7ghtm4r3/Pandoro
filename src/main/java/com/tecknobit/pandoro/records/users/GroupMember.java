@@ -57,6 +57,7 @@ public class GroupMember extends PublicUser {
     /**
      * {@code role} the role of the member
      */
+    @Enumerated(EnumType.STRING)
     @Column(name = MEMBER_ROLE_KEY)
     private final Role role;
 
@@ -66,7 +67,7 @@ public class GroupMember extends PublicUser {
     )
     @JoinColumn(name = GROUP_KEY)
     @JsonIgnore
-    private Group groupMember;
+    private Group group_member;
 
     /**
      * Default constructor

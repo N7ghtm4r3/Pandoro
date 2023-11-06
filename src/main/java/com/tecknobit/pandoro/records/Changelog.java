@@ -137,7 +137,10 @@ public class Changelog implements Serializable {
     /**
      * {@code group} the group of the changelogEvent
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
     @JoinColumn(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
     private final Group group;
 

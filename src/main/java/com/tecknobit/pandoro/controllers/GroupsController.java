@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +71,8 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody String payload
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        User me = usersRepository.getAuthorizedUser(id, token);
+        if (me != null) {
             JsonHelper hPayload = new JsonHelper(payload);
             String groupName = hPayload.getString(NAME_KEY);
             if (isGroupNameValid(groupName)) {
@@ -82,7 +84,7 @@ public class GroupsController extends PandoroController {
                             // TODO: 05/11/2023 WITH THE LIST FETCHED SEND INVITES AND CREATE THE CHANGELOGS
                             for (Object member : members)
                                 System.out.println(member);
-                            groupsHelper.createGroup(id, generateIdentifier(), groupName, groupDescription);
+                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription);
                             return successResponse();
                         } else
                             return failedResponse("Wrong members list");
@@ -118,5 +120,28 @@ public class GroupsController extends PandoroController {
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
+    @DeleteMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + DELETE_GROUP_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteGroup(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+    ) {
+        User me = usersRepository.getAuthorizedUser(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null /*&& group.isUserAdmin(me)*/) {
+                groupsHelper.deleteGroup(id, groupId);
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
 
 }
