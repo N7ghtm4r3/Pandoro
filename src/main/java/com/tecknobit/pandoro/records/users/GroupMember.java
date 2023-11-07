@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.records.users;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.PandoroItem;
 import jakarta.persistence.*;
@@ -10,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.MEMBER_ROLE_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
@@ -25,6 +28,9 @@ import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 @Entity
 @Table(name = GROUP_MEMBERS_TABLE)
 @DiscriminatorValue(MEMBER_ROLE_KEY)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = IDENTIFIER_KEY)
 public class GroupMember extends PublicUser {
 
     /**
