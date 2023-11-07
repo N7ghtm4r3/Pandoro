@@ -49,4 +49,14 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_KEY) String groupId
     );
 
+    /*/@Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+            nativeQuery = true
+    )
+    GroupMember getGroupMember(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(GROUP_KEY) String groupId
+    );*/
+
 }
