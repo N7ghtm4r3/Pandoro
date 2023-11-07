@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tecknobit.pandoro.records.users.GroupMember;
@@ -173,6 +174,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #totalMembers} instance as int
      */
+    @JsonIgnore
     public int getTotalMembers() {
         return totalMembers;
     }
@@ -193,6 +195,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #totalProjects} instance as int
      */
+    @JsonIgnore
     public int getTotalProjects() {
         return totalProjects;
     }
