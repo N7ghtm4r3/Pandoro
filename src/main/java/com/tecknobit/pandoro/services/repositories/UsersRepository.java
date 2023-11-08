@@ -15,7 +15,8 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 public interface UsersRepository extends JpaRepository<User, String> {
 
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:email AND " + PASSWORD_KEY + "=:password",
+            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
+                    + " AND " + PASSWORD_KEY + "=:" + PASSWORD_KEY,
             nativeQuery = true
     )
     User getUserByEmailAndPassword(
@@ -24,7 +25,8 @@ public interface UsersRepository extends JpaRepository<User, String> {
     );
 
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:id AND " + TOKEN_KEY + "=:token",
+            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     User getAuthorizedUser(
@@ -32,12 +34,18 @@ public interface UsersRepository extends JpaRepository<User, String> {
             @Param(TOKEN_KEY) String token
     );
 
+    @Query(
+            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
+            nativeQuery = true
+    )
+    User getUserByEmail(@Param(EMAIL_KEY) String email);
+
     // TODO: 01/11/2023 PASS CORRECT PROFILE PIC
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:profile_pic WHERE " + IDENTIFIER_KEY
-                    + "=:id AND " + TOKEN_KEY + "=:token",
+            value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:" + PROFILE_PIC_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + "AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     void changeProfilePic(
@@ -49,8 +57,8 @@ public interface UsersRepository extends JpaRepository<User, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + EMAIL_KEY + "=:email WHERE " + IDENTIFIER_KEY + "=:id AND "
-                    + TOKEN_KEY + "=:token",
+            value = "UPDATE " + USERS_TABLE + " SET " + EMAIL_KEY + "=:" + EMAIL_KEY
+                    + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     void changeEmail(
@@ -62,8 +70,8 @@ public interface UsersRepository extends JpaRepository<User, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + PASSWORD_KEY + "=:password WHERE " + IDENTIFIER_KEY + "=:id AND "
-                    + TOKEN_KEY + "=:token",
+            value = "UPDATE " + USERS_TABLE + " SET " + PASSWORD_KEY + "=:" + PASSWORD_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     void changePassword(
@@ -75,7 +83,8 @@ public interface UsersRepository extends JpaRepository<User, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:id AND " + TOKEN_KEY + "=:token",
+            value = "DELETE FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     void deleteAccount(

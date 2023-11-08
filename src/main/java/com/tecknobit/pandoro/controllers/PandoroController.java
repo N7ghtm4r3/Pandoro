@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.controllers;
 
+import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,11 @@ public abstract class PandoroController {
     }
 
     protected boolean isAuthenticatedUser(String userId, String token) {
-        return usersRepository.getAuthorizedUser(userId, token) != null;
+        return getMe(userId, token) != null;
+    }
+
+    protected User getMe(String userId, String token) {
+        return usersRepository.getAuthorizedUser(userId, token);
     }
 
     protected String successResponse() {

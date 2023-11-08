@@ -200,7 +200,9 @@ fun isContentNoteValid(content: String?): Boolean {
  * @param members: members list to check
  * @return whether the members list is valid as [Boolean]
  */
-fun checkMembersValidity(members: List<String?>): Boolean {
+fun checkMembersValidity(members: List<String?>?): Boolean {
+    if (members == null)
+        return false
     var membersCorrect = true
     for (member in members) {
         membersCorrect = isEmailValid(member)

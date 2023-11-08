@@ -1,14 +1,21 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
-import com.tecknobit.pandoro.services.repositories.GroupMembersRepository;
-import com.tecknobit.pandoro.services.repositories.GroupsRepository;
+import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandoro.services.repositories.UsersRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.PENDING;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
 
 @Service
 public class GroupsHelper {
@@ -29,6 +36,11 @@ public class GroupsHelper {
 
     public static final String MEMBER_ROLE_KEY = "role";
 
+    public static final String INVITATION_STATUS_KEY = "invitation_status";
+
+    @Autowired
+    private UsersRepository usersRepository;
+
     @Autowired
     private GroupsRepository groupsRepository;
 
@@ -43,7 +55,8 @@ public class GroupsHelper {
         return groupsRepository.getGroupByName(userId, groupName) != null;
     }
 
-    public void createGroup(PublicUser user, String groupId, String groupName, String groupDescription) {
+    public void createGroup(PublicUser user, String groupId, String groupName, String groupDescription,
+                            ArrayList<String> members) {
         String userId = user.getId();
         groupsRepository.createGroup(userId, groupId, groupName, groupDescription);
         membersRepository.insertMember(
@@ -52,13 +65,42 @@ public class GroupsHelper {
                 user.getEmail(),
                 user.getProfilePic(),
                 user.getSurname(),
-                Role.ADMIN,
+                ADMIN,
+                JOINED,
                 groupId
         );
+        addMembers(members, groupId);
     }
 
     public Group getGroup(String userId, String groupId) {
         return groupsRepository.getGroup(userId, groupId);
+    }
+
+    public void addMembers(List<String> members, String groupId) {
+        for (String memberEmail : members) {
+            // TODO: 08/11/2023 CREATE CHANGELOG FOR EACH INVITE
+            PublicUser member = usersRepository.getUserByEmail(memberEmail);
+            if (member != null) {
+                String userId = member.getId();
+                String email = member.getEmail();
+                if (membersRepository.getGroupMemberByEmail(userId, groupId, email) == null) {
+                    membersRepository.insertMember(
+                            userId,
+                            member.getName(),
+                            email,
+                            member.getProfilePic(),
+                            member.getSurname(),
+                            DEVELOPER,
+                            PENDING,
+                            groupId
+                    );
+                }
+            }
+        }
+    }
+
+    public void acceptGroupInvitation(String groupId, User user) {
+        membersRepository.acceptGroupInvitation(user.getId(), groupId);
     }
 
     public void deleteGroup(String userId, String groupId) {

@@ -18,14 +18,14 @@ import static com.tecknobit.pandoro.services.NotesHelper.*;
 public interface NotesRepository extends JpaRepository<Note, String> {
 
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:author",
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);
 
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
-                    + AUTHOR_KEY + "=:author",
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+                    + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     Note getNote(
@@ -45,10 +45,10 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ")"
                     + "VALUES ("
-                    + ":note_id,"
-                    + ":author,"
-                    + ":content_note,"
-                    + ":creation_date,"
+                    + ":" + NOTE_IDENTIFIER_KEY + ","
+                    + ":" + AUTHOR_KEY + ","
+                    + ":" + CONTENT_NOTE_KEY + ","
+                    + ":" + CREATION_DATE_KEY + ","
                     + "false,"
                     + "NULL,"
                     + "-1"
@@ -66,11 +66,11 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "UPDATE " + NOTES_KEY + " SET "
-                    + MARKED_AS_DONE_KEY + "=:marked_as_done,"
-                    + MARKED_AS_DONE_BY_KEY + "=:marked_as_done_by,"
-                    + MARKED_AS_DONE_DATE_KEY + "=:marked_as_done_date"
-                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
-                    + AUTHOR_KEY + "=:author",
+                    + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY + ","
+                    + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
+                    + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
+                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY + " AND "
+                    + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void manageNoteStatus(
@@ -84,8 +84,8 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:note_id AND "
-                    + AUTHOR_KEY + "=:author",
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+                    + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void deleteNote(

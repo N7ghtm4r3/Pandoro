@@ -26,6 +26,8 @@ public class GroupsController extends PandoroController {
 
     public static final String ADD_MEMBERS_ENDPOINT = "/addMembers";
 
+    public static final String ACCEPT_GROUP_INVITATION_ENDPOINT = "/acceptGroupInvitation";
+
     public static final String CHANGE_MEMBER_ROLE_ENDPOINT = "/changeMemberRole";
 
     public static final String REMOVE_MEMBER_ENDPOINT = "/removeMember";
@@ -71,7 +73,7 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody String payload
     ) {
-        User me = usersRepository.getAuthorizedUser(id, token);
+        User me = getMe(id, token);
         if (me != null) {
             JsonHelper hPayload = new JsonHelper(payload);
             String groupName = hPayload.getString(NAME_KEY);
@@ -81,10 +83,7 @@ public class GroupsController extends PandoroController {
                     if (isGroupDescriptionValid(groupDescription)) {
                         ArrayList<String> members = hPayload.fetchList(GROUP_MEMBERS_KEY);
                         if (checkMembersValidity(members)) {
-                            // TODO: 05/11/2023 WITH THE LIST FETCHED SEND INVITES AND CREATE THE CHANGELOGS
-                            for (Object member : members)
-                                System.out.println(member);
-                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription);
+                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();
                         } else
                             return failedResponse("Wrong members list");
@@ -118,6 +117,55 @@ public class GroupsController extends PandoroController {
                 return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PutMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + ADD_MEMBERS_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String addMembers(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String payload
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null && group.isUserMaintainer(me)) {
+                groupsHelper.addMembers(new JsonHelper(payload).toList(), groupId);
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + ACCEPT_GROUP_INVITATION_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String acceptInvitation(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null) {
+                groupsHelper.acceptGroupInvitation(groupId, me);
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     @DeleteMapping(

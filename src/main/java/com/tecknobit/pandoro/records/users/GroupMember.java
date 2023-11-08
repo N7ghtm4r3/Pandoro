@@ -13,8 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.io.Serializable;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.MEMBER_ROLE_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
@@ -62,6 +61,14 @@ public class GroupMember {
 
     }
 
+    public enum InvitationStatus {
+
+        PENDING,
+
+        JOINED
+
+    }
+
     /**
      * {@code id} identifier of the item
      */
@@ -104,6 +111,10 @@ public class GroupMember {
     @Column(name = MEMBER_ROLE_KEY)
     private final Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = INVITATION_STATUS_KEY)
+    private final InvitationStatus invitationStatus;
+
     @Id
     @JsonIgnore
     @ManyToOne(
@@ -120,11 +131,11 @@ public class GroupMember {
      * @apiNote empty constructor required
      */
     public GroupMember() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null);
     }
 
     /**
-     * Constructor to init a {@link PublicUser} object
+     * Constructor to init a {@link GroupMember} object
      *
      * @param id         :         identifier of the user
      * @param name       :       name of the user
@@ -132,13 +143,15 @@ public class GroupMember {
      * @param surname    :    the surname of the user
      * @param email      :      the email of the user
      */
-    public GroupMember(String id, String name, String surname, String profilePic, String email, Role role) {
+    public GroupMember(String id, String name, String surname, String profilePic, String email, Role role,
+                       InvitationStatus invitationStatus) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.profilePic = profilePic;
         this.email = email;
         this.role = role;
+        this.invitationStatus = invitationStatus;
     }
 
     /**
@@ -211,6 +224,16 @@ public class GroupMember {
      */
     public Role getRole() {
         return role;
+    }
+
+    /**
+     * Method to get {@link #invitationStatus} instance <br>
+     * No-any params required
+     *
+     * @return {@link #invitationStatus} instance as {@link InvitationStatus}
+     */
+    public InvitationStatus getInvitationStatus() {
+        return invitationStatus;
     }
 
     /**

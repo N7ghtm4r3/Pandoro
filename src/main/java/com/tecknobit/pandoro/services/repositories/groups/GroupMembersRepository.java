@@ -1,6 +1,7 @@
-package com.tecknobit.pandoro.services.repositories;
+package com.tecknobit.pandoro.services.repositories.groups;
 
 import com.tecknobit.pandoro.records.users.GroupMember;
+import com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.MEMBER_ROLE_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 @Service
@@ -28,6 +28,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
                     + PROFILE_PIC_KEY + ","
                     + SURNAME_KEY + ","
                     + MEMBER_ROLE_KEY + ","
+                    + INVITATION_STATUS_KEY + ","
                     + GROUP_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
@@ -36,6 +37,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
                     + ":" + PROFILE_PIC_KEY + ","
                     + ":" + SURNAME_KEY + ","
                     + ":#{#" + MEMBER_ROLE_KEY + ".name()},"
+                    + ":#{#" + INVITATION_STATUS_KEY + ".name()},"
                     + ":" + GROUP_KEY + ")",
             nativeQuery = true
     )
@@ -46,6 +48,31 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(PROFILE_PIC_KEY) String profilePic,
             @Param(SURNAME_KEY) String surname,
             @Param(MEMBER_ROLE_KEY) Role role,
+            @Param(INVITATION_STATUS_KEY) InvitationStatus invitationStatus,
+            @Param(GROUP_KEY) String groupId
+    );
+
+    @Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
+                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    GroupMember getGroupMemberByEmail(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(GROUP_KEY) String groupId,
+            @Param(EMAIL_KEY) String email
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + INVITATION_STATUS_KEY + "=" + "'JOINED'"
+                    + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void acceptGroupInvitation(
+            @Param(IDENTIFIER_KEY) String userId,
             @Param(GROUP_KEY) String groupId
     );
 
