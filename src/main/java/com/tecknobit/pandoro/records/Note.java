@@ -6,6 +6,8 @@ import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -45,6 +47,7 @@ public class Note implements Serializable {
     )
     @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
     /**
@@ -77,6 +80,7 @@ public class Note implements Serializable {
     )
     @JoinColumn(name = MARKED_AS_DONE_BY_KEY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser markedAsDoneBy;
 
     /**

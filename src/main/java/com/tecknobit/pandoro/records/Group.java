@@ -64,7 +64,9 @@ public class Group extends PandoroItem {
             PROJECTS_KEY,
             NOTES_KEY,
             UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
     })
     private final User author;
 

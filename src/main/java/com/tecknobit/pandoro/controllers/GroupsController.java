@@ -159,6 +159,7 @@ public class GroupsController extends PandoroController {
         User me = getMe(id, token);
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
+            System.out.println(groupId);
             if (group != null) {
                 groupsHelper.acceptGroupInvitation(groupId, me);
                 return successResponse();
