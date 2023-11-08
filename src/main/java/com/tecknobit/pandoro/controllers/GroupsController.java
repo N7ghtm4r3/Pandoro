@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class GroupsController extends PandoroController {
     public static final String ADD_MEMBERS_ENDPOINT = "/addMembers";
 
     public static final String ACCEPT_GROUP_INVITATION_ENDPOINT = "/acceptGroupInvitation";
+
+    public static final String DECLINE_GROUP_INVITATION_ENDPOINT = "/declineGroupInvitation";
 
     public static final String CHANGE_MEMBER_ROLE_ENDPOINT = "/changeMemberRole";
 
@@ -159,10 +162,88 @@ public class GroupsController extends PandoroController {
         User me = getMe(id, token);
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
-            System.out.println(groupId);
             if (group != null) {
                 groupsHelper.acceptGroupInvitation(groupId, me);
                 return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + DECLINE_GROUP_INVITATION_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String declineInvitation(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null) {
+                try {
+                    groupsHelper.declineGroupInvitation(groupId, me);
+                    return successResponse();
+                } catch (IllegalAccessException e) {
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                }
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + CHANGE_MEMBER_ROLE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String changeMemberRole(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String payload
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group meGroup = groupsHelper.getGroup(id, groupId);
+            JsonHelper hPayload = new JsonHelper(payload);
+            String heId = hPayload.getString(IDENTIFIER_KEY, "");
+            Group uGroup = groupsHelper.getGroup(heId, groupId);
+            if (meGroup != null && uGroup != null) {
+                GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
+                GroupMember heMember = groupsHelper.getGroupMember(groupId, heId);
+                if (iMember != null && heMember != null) {
+                    boolean isMeAdmin = iMember.isAdmin();
+                    boolean isMeMaintainer = iMember.isMaintainer();
+                    boolean isHeAdmin = heMember.isAdmin();
+                    boolean isHeMaintainer = heMember.isMaintainer();
+                    try {
+                        GroupMember.Role role = GroupMember.Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
+                        if (isMeAdmin) {
+                            groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                            return successResponse();
+                        } else if (isMeMaintainer) {
+                            if (!isHeMaintainer || !isHeAdmin) {
+                                groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                return successResponse();
+                            } else
+                                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                        } else
+                            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                    } catch (IllegalArgumentException e) {
+                        return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    }
+                } else
+                    return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else

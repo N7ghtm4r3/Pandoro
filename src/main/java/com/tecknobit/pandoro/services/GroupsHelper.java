@@ -1,6 +1,8 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.users.GroupMember;
+import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
@@ -101,6 +103,26 @@ public class GroupsHelper {
 
     public void acceptGroupInvitation(String groupId, User user) {
         membersRepository.acceptGroupInvitation(user.getId(), groupId);
+    }
+
+    public void declineGroupInvitation(String groupId, User user) throws IllegalAccessException {
+        String userId = user.getId();
+        if (membersRepository.getGroupMemberByEmail(userId, groupId, user.getEmail()).getInvitationStatus() == PENDING)
+            membersRepository.leaveGroup(userId, groupId);
+        else
+            throw new IllegalAccessException();
+    }
+
+    public GroupMember getGroupMember(String groupId, User user) {
+        return membersRepository.getGroupMemberByEmail(user.getId(), groupId, user.getEmail());
+    }
+
+    public GroupMember getGroupMember(String groupId, String userId) {
+        return membersRepository.getGroupMember(userId, groupId);
+    }
+
+    public void changeMemberRole(String memberId, String groupId, Role role) {
+        membersRepository.changeMemberRole(memberId, groupId, role);
     }
 
     public void deleteGroup(String userId, String groupId) {

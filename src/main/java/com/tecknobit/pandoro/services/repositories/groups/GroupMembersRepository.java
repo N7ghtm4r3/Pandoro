@@ -63,6 +63,16 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(EMAIL_KEY) String email
     );
 
+    @Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+            nativeQuery = true
+    )
+    GroupMember getGroupMember(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(GROUP_KEY) String groupId
+    );
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -76,14 +86,31 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_KEY) String groupId
     );
 
-    /*/@Query(
-            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + MEMBER_ROLE_KEY + "="
+                    + ":#{#" + MEMBER_ROLE_KEY + ".name()}"
+                    + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    GroupMember getGroupMember(
+    void changeMemberRole(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(GROUP_KEY) String groupId,
+            @Param(MEMBER_ROLE_KEY) Role role
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void leaveGroup(
             @Param(IDENTIFIER_KEY) String userId,
             @Param(GROUP_KEY) String groupId
-    );*/
+    );
 
 }
