@@ -2,7 +2,7 @@ package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.updates.Update;
+import com.tecknobit.pandoro.records.updates.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.records.updates.Update.Status.PUBLISHED;
+import static com.tecknobit.pandoro.records.updates.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 
 /**
@@ -129,10 +129,7 @@ public class Project extends PandoroItem implements Serializable {
     /**
      * {@code groups} groups where the project has been assigned
      */
-    @ManyToMany(
-            mappedBy = PROJECTS_KEY,
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany
     private final List<Group> groups;
 
     /**
@@ -142,7 +139,7 @@ public class Project extends PandoroItem implements Serializable {
             mappedBy = PROJECT_KEY,
             cascade = CascadeType.ALL
     )
-    private final List<Update> updates;
+    private final List<ProjectUpdate> updates;
 
     /**
      * {@code projectRepo} the repository of the project
@@ -205,7 +202,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     // TODO: 21/08/2023 CHECK TO REMOVE
     public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<Update> updates, String projectRepo) {
+                   ArrayList<ProjectUpdate> updates, String projectRepo) {
         this(id, name, shortDescription, description, version, new ArrayList<>(), updates, projectRepo);
     }
 
@@ -235,7 +232,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     // TODO: 21/08/2023 CHECK TO REMOVE
     public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<Update> updates) {
+                   ArrayList<ProjectUpdate> updates) {
         this(id, name, shortDescription, description, version, updates, "");
     }
 
@@ -252,7 +249,7 @@ public class Project extends PandoroItem implements Serializable {
      * @param projectRepo:      the repository of the project
      */
     public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<Group> groups, ArrayList<Update> updates, String projectRepo) {
+                   ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         this(id, name, null, shortDescription, description, version, groups, updates, projectRepo);
     }
 
@@ -287,7 +284,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     // TODO: 21/08/2023 CHECK TO REMOVE
     public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   ArrayList<Update> updates, String projectRepo) {
+                   ArrayList<ProjectUpdate> updates, String projectRepo) {
         this(id, name, author, shortDescription, description, version, new ArrayList<>(), updates, projectRepo);
     }
 
@@ -319,7 +316,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     // TODO: 21/08/2023 CHECK TO REMOVE
     public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   ArrayList<Update> updates) {
+                   ArrayList<ProjectUpdate> updates) {
         this(id, name, author, shortDescription, description, version, updates, "");
     }
 
@@ -337,7 +334,7 @@ public class Project extends PandoroItem implements Serializable {
      * @param projectRepo:      the repository of the project
      */
     public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   ArrayList<Group> groups, ArrayList<Update> updates, String projectRepo) {
+                   ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         super(id, name);
         this.author = author;
         updatesNumber = updates.size();
@@ -446,9 +443,9 @@ public class Project extends PandoroItem implements Serializable {
      * Method to get {@link #updates} instance <br>
      * No-any params required
      *
-     * @return {@link #updates} instance as {@link ArrayList} of {@link Update}
+     * @return {@link #updates} instance as {@link ArrayList} of {@link ProjectUpdate}
      */
-    public ArrayList<Update> getUpdates() {
+    public ArrayList<ProjectUpdate> getUpdates() {
         return new ArrayList<>(updates);
     }
 
@@ -456,11 +453,11 @@ public class Project extends PandoroItem implements Serializable {
      * Method to get the published updates <br>
      * No-any params required
      *
-     * @return published updates as {@link ArrayList} of {@link Update}
+     * @return published updates as {@link ArrayList} of {@link ProjectUpdate}
      */
-    public ArrayList<Update> getPublishedUpdates() {
-        ArrayList<Update> publishedUpdates = new ArrayList<>();
-        for (Update update : updates)
+    public ArrayList<ProjectUpdate> getPublishedUpdates() {
+        ArrayList<ProjectUpdate> publishedUpdates = new ArrayList<>();
+        for (ProjectUpdate update : updates)
             if (update.getStatus() == PUBLISHED)
                 publishedUpdates.add(update);
         return publishedUpdates;
@@ -474,7 +471,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     public int getTotalDevelopmentDays() {
         int totalDevelopmentDays = 0;
-        for (Update update : getPublishedUpdates())
+        for (ProjectUpdate update : getPublishedUpdates())
             totalDevelopmentDays += update.getDevelopmentDuration();
         return totalDevelopmentDays;
     }

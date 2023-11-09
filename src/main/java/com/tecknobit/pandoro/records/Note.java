@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.records;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.updates.Update;
+import com.tecknobit.pandoro.records.updates.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
 
@@ -96,9 +97,9 @@ public class Note implements Serializable {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_KEY)
+    @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Update update;
+    private ProjectUpdate project_update;
 
     /**
      * Default constructor

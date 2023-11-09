@@ -54,12 +54,16 @@ public class UsersController extends PandoroController {
                     if (isPasswordValid(password)) {
                         String userId = generateIdentifier();
                         String token = generateIdentifier();
-                        usersHelper.signUp(userId, token, name, surname, email, password);
-                        return successResponse(new JSONObject()
-                                .put(IDENTIFIER_KEY, userId)
-                                .put(TOKEN_KEY, token)
-                                .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
-                        );
+                        try {
+                            usersHelper.signUp(userId, token, name, surname, email, password);
+                            return successResponse(new JSONObject()
+                                    .put(IDENTIFIER_KEY, userId)
+                                    .put(TOKEN_KEY, token)
+                                    .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
+                            );
+                        } catch (Exception e) {
+                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                        }
                     } else
                         return failedResponse(WRONG_PASSWORD_MESSAGE);
                 } else

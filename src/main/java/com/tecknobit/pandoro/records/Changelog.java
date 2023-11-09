@@ -66,22 +66,22 @@ public class Changelog implements Serializable {
         /**
          * {@code UPDATE_SCHEDULED} type of the changelogEvent when a new update of project of a group has been scheduled
          */
-        UPDATE_SCHEDULED("Update scheduled"),
+        UPDATE_SCHEDULED("ProjectUpdate scheduled"),
 
         /**
          * {@code UPDATE_STARTED} type of the changelogEvent when an update of project of a group has been started
          */
-        UPDATE_STARTED("Update started"),
+        UPDATE_STARTED("ProjectUpdate started"),
 
         /**
          * {@code UPDATE_PUBLISHED} type of the changelogEvent when an update of project of a group has been published
          */
-        UPDATE_PUBLISHED("Update published"),
+        UPDATE_PUBLISHED("ProjectUpdate published"),
 
         /**
          * {@code UPDATE_DELETED} type of the changelogEvent when an update of project of a group has been deleted
          */
-        UPDATE_DELETED("Update deleted");
+        UPDATE_DELETED("ProjectUpdate deleted");
 
         /**
          * {@code changelogEvent} type

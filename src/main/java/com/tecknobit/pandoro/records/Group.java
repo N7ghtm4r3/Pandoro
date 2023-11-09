@@ -95,11 +95,8 @@ public class Group extends PandoroItem {
     /**
      * {@code projects} the list of the projects managed by the group
      */
-    @ManyToMany(
-            mappedBy = GROUPS_KEY,
-            cascade = CascadeType.ALL
-    )
-    @JsonIgnoreProperties(GROUPS_KEY)
+    @ManyToMany
+    @JsonIgnoreProperties
     private final List<Project> projects;
 
     /**
