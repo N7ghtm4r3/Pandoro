@@ -39,12 +39,12 @@ public class NotesHelper {
         return notesRepository.getNote(authorId, noteId) != null;
     }
 
-    public void markAsDone(String authorId, String noteId, String markedAsDoneBy) {
-        notesRepository.manageNoteStatus(authorId, noteId, true, markedAsDoneBy, currentTimeMillis());
+    public void markAsDone(String authorId, String noteId) {
+        notesRepository.manageNoteStatus(authorId, noteId, true, currentTimeMillis());
     }
 
     public void markAsToDo(String authorId, String noteId) {
-        notesRepository.manageNoteStatus(authorId, noteId, false, null, -1);
+        notesRepository.manageNoteStatus(authorId, noteId, false, -1);
     }
 
     public void deleteNote(String authorId, String noteId) {

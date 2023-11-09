@@ -67,7 +67,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Query(
             value = "UPDATE " + NOTES_KEY + " SET "
                     + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY + ","
-                    + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
+                    + MARKED_AS_DONE_BY_KEY + "= NULL,"
                     + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
                     + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY + " AND "
                     + AUTHOR_KEY + "=:" + AUTHOR_KEY,
@@ -77,7 +77,6 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(AUTHOR_KEY) String authorId,
             @Param(NOTE_IDENTIFIER_KEY) String noteId,
             @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
-            @Param(MARKED_AS_DONE_BY_KEY) String markedAsDoneBy,
             @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
     );
 

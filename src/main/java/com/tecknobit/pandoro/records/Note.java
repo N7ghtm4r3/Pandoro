@@ -87,7 +87,7 @@ public class Note implements Serializable {
      * {@code markedAsDoneDate} when the note has been marked as done
      */
     @Column(name = MARKED_AS_DONE_DATE_KEY)
-    private final long markedAsDoneDate;
+    private final long markAsDoneDate;
 
     /**
      * Default constructor
@@ -116,10 +116,10 @@ public class Note implements Serializable {
      * @param content:          the content of the note
      * @param creationDate:     when the note has been created
      * @param markedAsDone:     whether the note is marked as done
-     * @param markedAsDoneDate: when the note has been marked as done
+     * @param markAsDoneDate: when the note has been marked as done
      */
-    public Note(String id, String content, long creationDate, boolean markedAsDone, long markedAsDoneDate) {
-        this(id, null, content, creationDate, markedAsDone, null, markedAsDoneDate);
+    public Note(String id, String content, long creationDate, boolean markedAsDone, long markAsDoneDate) {
+        this(id, null, content, creationDate, markedAsDone, null, markAsDoneDate);
     }
 
     /**
@@ -142,17 +142,17 @@ public class Note implements Serializable {
      * @param creationDate:when the note has been created
      * @param markedAsDone:     whether the note is marked as done
      * @param markedAsDoneBy:   who marked the note as done
-     * @param markedAsDoneDate: when the note has been marked as done
+     * @param markAsDoneDate: when the note has been marked as done
      */
     public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
-                PublicUser markedAsDoneBy, long markedAsDoneDate) {
+                PublicUser markedAsDoneBy, long markAsDoneDate) {
         this.id = id;
         this.author = author;
         this.content = content;
         this.creationDate = creationDate;
         this.markedAsDone = markedAsDone;
         this.markedAsDoneBy = markedAsDoneBy;
-        this.markedAsDoneDate = markedAsDoneDate;
+        this.markAsDoneDate = markAsDoneDate;
     }
 
     /**
@@ -201,6 +201,7 @@ public class Note implements Serializable {
      *
      * @return {@link #creationDate} instance as {@link String}
      */
+    @JsonIgnore
     public String getCreationDate() {
         return TimeFormatter.getStringDate(creationDate);
     }
@@ -226,25 +227,26 @@ public class Note implements Serializable {
     }
 
     /**
-     * Method to get {@link #markedAsDoneDate} instance <br>
+     * Method to get {@link #markAsDoneDate} instance <br>
      * No-any params required
      *
-     * @return {@link #markedAsDoneDate} instance as long
+     * @return {@link #markAsDoneDate} instance as long
      */
-    public long getMarkedAsDone() {
-        return markedAsDoneDate;
+    public long getMarkAsDoneDate() {
+        return markAsDoneDate;
     }
 
     /**
-     * Method to get {@link #markedAsDoneDate} instance <br>
+     * Method to get {@link #markAsDoneDate} instance <br>
      * No-any params required
      *
-     * @return {@link #markedAsDoneDate} instance as {@link String}
+     * @return {@link #markAsDoneDate} instance as {@link String}
      */
+    @JsonIgnore
     public String getMarkedAsDoneDate() {
-        if (markedAsDoneDate == -1)
+        if (markAsDoneDate == -1)
             return "not marked as done yet";
-        return TimeFormatter.getStringDate(markedAsDoneDate);
+        return TimeFormatter.getStringDate(markAsDoneDate);
     }
 
     /**

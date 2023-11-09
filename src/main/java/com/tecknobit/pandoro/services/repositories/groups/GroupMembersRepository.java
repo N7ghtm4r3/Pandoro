@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
@@ -100,6 +102,22 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_KEY) String groupId,
             @Param(MEMBER_ROLE_KEY) Role role
     );
+
+    @Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + MEMBER_ROLE_KEY + "= 'ADMIN'"
+                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+            nativeQuery = true
+    )
+    List<GroupMember> getGroupAdmins(
+            @Param(IDENTIFIER_KEY) String memberId,
+            @Param(GROUP_KEY) String groupId
+    );
+
+    @Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY,
+            nativeQuery = true
+    )
+    List<GroupMember> getGroupMembers(@Param(GROUP_KEY) String groupId);
 
     @Modifying(clearAutomatically = true)
     @Transactional

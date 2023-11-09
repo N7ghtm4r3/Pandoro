@@ -81,12 +81,10 @@ public class NotesController extends PandoroController {
     public String markAsDone(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
-            @RequestBody(required = false) String markedAsDoneBy
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId) &&
-                (markedAsDoneBy == null || usersRepository.findById(markedAsDoneBy).isPresent())) {
-            notesHelper.markAsDone(id, noteId, markedAsDoneBy);
+        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+            notesHelper.markAsDone(id, noteId);
             return successResponse();
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);

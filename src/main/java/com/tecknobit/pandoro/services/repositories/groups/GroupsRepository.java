@@ -65,8 +65,8 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
                     + " ON groups." + IDENTIFIER_KEY + " = group_members." + IDENTIFIER_KEY + " WHERE " + GROUPS_KEY + "."
-                    + IDENTIFIER_KEY + " =:" + GROUP_IDENTIFIER_KEY + " OR " + GROUPS_KEY + "." + AUTHOR_KEY + " =:"
-                    + AUTHOR_KEY + " OR " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
+                    + IDENTIFIER_KEY + " =:" + GROUP_IDENTIFIER_KEY + " OR " + GROUP_MEMBERS_TABLE + "."
+                    + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     Group getGroup(

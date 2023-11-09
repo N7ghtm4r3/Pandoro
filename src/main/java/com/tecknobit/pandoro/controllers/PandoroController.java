@@ -30,6 +30,8 @@ public abstract class PandoroController {
 
     public static final String NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE = "Not authorized or wrong details";
 
+    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "You cannot execute this action on your account";
+
     @Autowired
     protected UsersRepository usersRepository;
 

@@ -125,6 +125,28 @@ public class GroupsHelper {
         membersRepository.changeMemberRole(memberId, groupId, role);
     }
 
+    public void removeMember(String memberId, String groupId) {
+        membersRepository.leaveGroup(memberId, groupId);
+    }
+
+    public boolean hasGroupAdmins(String memberId, String groupId) {
+        return !membersRepository.getGroupAdmins(memberId, groupId).isEmpty();
+    }
+
+    public boolean hasOtherMembers(String groupId) {
+        return !membersRepository.getGroupMembers(groupId).isEmpty();
+    }
+
+    public void leaveGroup(String memberId, String groupId) {
+        leaveGroup(memberId, groupId, true);
+    }
+
+    public void leaveGroup(String memberId, String groupId, boolean hasOtherMembers) {
+        membersRepository.leaveGroup(memberId, groupId);
+        if (!hasOtherMembers)
+            groupsRepository.deleteById(groupId);
+    }
+
     public void deleteGroup(String userId, String groupId) {
         groupsRepository.deleteGroup(userId, groupId);
     }

@@ -5,6 +5,7 @@ import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
@@ -20,6 +23,8 @@ import static helpers.InputsValidatorKt.*;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + GROUPS_KEY)
 public class GroupsController extends PandoroController {
+
+    public static final String WRONG_ADMIN_MESSAGE = "You need to insert a valid new admin";
 
     public static final String GROUPS_KEY = "groups";
 
@@ -216,31 +221,133 @@ public class GroupsController extends PandoroController {
         if (me != null) {
             Group meGroup = groupsHelper.getGroup(id, groupId);
             JsonHelper hPayload = new JsonHelper(payload);
-            String heId = hPayload.getString(IDENTIFIER_KEY, "");
-            Group uGroup = groupsHelper.getGroup(heId, groupId);
-            if (meGroup != null && uGroup != null) {
-                GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
-                GroupMember heMember = groupsHelper.getGroupMember(groupId, heId);
-                if (iMember != null && heMember != null) {
-                    boolean isMeAdmin = iMember.isAdmin();
-                    boolean isMeMaintainer = iMember.isMaintainer();
-                    boolean isHeAdmin = heMember.isAdmin();
-                    boolean isHeMaintainer = heMember.isMaintainer();
-                    try {
-                        GroupMember.Role role = GroupMember.Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
+            String hisId = hPayload.getString(IDENTIFIER_KEY, "");
+            Group uGroup = groupsHelper.getGroup(hisId, groupId);
+            if (!id.equals(hisId)) {
+                if (meGroup != null && uGroup != null) {
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
+                    GroupMember heMember = groupsHelper.getGroupMember(groupId, hisId);
+                    if (iMember != null && heMember != null && heMember.getInvitationStatus() == JOINED) {
+                        boolean isMeAdmin = iMember.isAdmin();
+                        boolean isMeMaintainer = iMember.isMaintainer();
+                        boolean isHeAdmin = heMember.isAdmin();
+                        boolean isHeMaintainer = heMember.isMaintainer();
+                        try {
+                            GroupMember.Role role = GroupMember.Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
+                            if (isMeAdmin) {
+                                groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                return successResponse();
+                            } else if (isMeMaintainer) {
+                                if (!isHeMaintainer || !isHeAdmin) {
+                                    groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                    return successResponse();
+                                } else
+                                    return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                            } else
+                                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                        } catch (IllegalArgumentException e) {
+                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                        }
+                    } else
+                        return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                } else
+                    return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+            } else
+                return failedResponse(CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + REMOVE_MEMBER_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String removeMember(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String memberId
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group meGroup = groupsHelper.getGroup(id, groupId);
+            Group uGroup = groupsHelper.getGroup(memberId, groupId);
+            if (!id.equals(memberId)) {
+                if (meGroup != null && uGroup != null) {
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
+                    GroupMember heMember = groupsHelper.getGroupMember(groupId, memberId);
+                    if (iMember != null && heMember != null) {
+                        boolean isMeAdmin = iMember.isAdmin();
+                        boolean isMeMaintainer = iMember.isMaintainer();
+                        boolean isHeAdmin = heMember.isAdmin();
+                        boolean isHeMaintainer = heMember.isMaintainer();
                         if (isMeAdmin) {
-                            groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                            groupsHelper.removeMember(heMember.getId(), groupId);
                             return successResponse();
                         } else if (isMeMaintainer) {
                             if (!isHeMaintainer || !isHeAdmin) {
-                                groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                groupsHelper.removeMember(heMember.getId(), groupId);
                                 return successResponse();
                             } else
                                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
                         } else
                             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-                    } catch (IllegalArgumentException e) {
-                        return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    } else
+                        return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                } else
+                    return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+            } else
+                return failedResponse(CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + LEAVE_GROUP_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String leaveGroup(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody(required = false) String nextAdminId
+    ) {
+        User me = getMe(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null) {
+                GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
+                if (meMember != null) {
+                    if (meMember.isAdmin()) {
+                        if (!groupsHelper.hasGroupAdmins(id, groupId)) {
+                            boolean hasOtherMembers = groupsHelper.hasOtherMembers(groupId);
+                            if (!hasOtherMembers) {
+                                groupsHelper.leaveGroup(id, groupId, true);
+                                return successResponse();
+                            } else if (nextAdminId != null && groupsHelper.getGroup(nextAdminId, groupId) != null) {
+                                String result = changeMemberRole(id, token, groupId, new JSONObject()
+                                        .put(IDENTIFIER_KEY, nextAdminId)
+                                        .put(MEMBER_ROLE_KEY, ADMIN).toString());
+                                if (JsonHelper.getBoolean(new JSONObject(result), SUCCESS_KEY, true)) {
+                                    groupsHelper.leaveGroup(id, groupId);
+                                    return successResponse();
+                                } else
+                                    return failedResponse(WRONG_ADMIN_MESSAGE);
+                            } else
+                                return failedResponse(WRONG_ADMIN_MESSAGE);
+                        } else {
+                            groupsHelper.leaveGroup(id, groupId);
+                            return successResponse();
+                        }
+                    } else {
+                        groupsHelper.leaveGroup(id, groupId);
+                        return successResponse();
                     }
                 } else
                     return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
