@@ -114,7 +114,8 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     );
 
     @Query(
-            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY,
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " AND " + INVITATION_STATUS_KEY + " = 'JOINED'",
             nativeQuery = true
     )
     List<GroupMember> getGroupMembers(@Param(GROUP_KEY) String groupId);

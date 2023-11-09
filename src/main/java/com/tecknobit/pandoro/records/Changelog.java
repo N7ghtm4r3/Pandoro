@@ -131,9 +131,12 @@ public class Changelog implements Serializable {
     /**
      * {@code project} the project of the changelogEvent
      */
-    // TODO: 04/11/2023 SOLVE RELATIONSHIP
-    //@ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final Project project;
 
     /**

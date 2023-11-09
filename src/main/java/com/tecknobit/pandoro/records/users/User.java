@@ -70,7 +70,10 @@ public class User extends PublicUser {
     /**
      * {@code projects} list of the projects of the user
      */
-    @Column(name = PROJECTS_KEY)
+    @OneToMany(
+            mappedBy = AUTHOR_KEY,
+            cascade = CascadeType.ALL
+    )
     private final List<Project> projects;
 
     /**
@@ -105,32 +108,6 @@ public class User extends PublicUser {
      */
     public User(String id, String name, String token, String surname, String email, String password) {
         this(id, name, token, null, surname, email, password, new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
-
-    /**
-     * Constructor to init a {@link User} object
-     *
-     * @param id         :         identifier of the user
-     * @param name       :       name of the user
-     * @param surname : the surname of the user
-     * @param token:token of the user
-     */
-    // TODO: 19/08/2023 TO REMOVE
-    public User(String id, String name, String surname, String token) {
-        this(id, name, token, "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
-
-    /**
-     * Constructor to init a {@link User} object
-     *
-     * @param name:    name of the user
-     * @param surname:{@code surname} the surname of the user
-     */
-    // TODO: 19/08/2023 TO REMOVE
-    public User(String name, String surname) {
-        this("", name, "token", "", surname, "maurizio.manuel2003@gmail.com", "pass", new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 

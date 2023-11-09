@@ -30,8 +30,6 @@ public class UsersHelper {
 
     public static final String PASSWORD_KEY = "password";
 
-    public static final String PROJECTS_KEY = "projects";
-
     public static final String UNREAD_CHANGELOGS_KEY = "unreadChangelogsNumber";
 
     public static final String ADMIN_GROUPS_KEY = "adminGroups";

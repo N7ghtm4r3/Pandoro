@@ -21,6 +21,7 @@ import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
@@ -94,8 +95,11 @@ public class Group extends PandoroItem {
     /**
      * {@code projects} the list of the projects managed by the group
      */
-    @Transient
-    // TODO: 05/11/2023 SOLVE RELATIONSHIP AND REMOVE TRANSIENT
+    @ManyToMany(
+            mappedBy = GROUPS_KEY,
+            cascade = CascadeType.ALL
+    )
+    @JsonIgnoreProperties(GROUPS_KEY)
     private final List<Project> projects;
 
     /**

@@ -1,12 +1,18 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.updates.Update;
 import com.tecknobit.pandoro.records.users.User;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.tecknobit.pandoro.records.Update.Status.PUBLISHED;
+import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.records.updates.Update.Status.PUBLISHED;
+import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
@@ -15,6 +21,8 @@ import static com.tecknobit.pandoro.records.Update.Status.PUBLISHED;
  * @see PandoroItem
  * @see Serializable
  */
+@Entity
+@Table(name = PROJECTS_KEY)
 public class Project extends PandoroItem implements Serializable {
 
     /**
@@ -81,51 +89,71 @@ public class Project extends PandoroItem implements Serializable {
     /**
      * {@code author} author of the project
      */
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = AUTHOR_KEY)
     private final User author;
 
     /**
      * {@code shortDescription} short description of the project
      */
+    @Column(name = PROJECT_SHORT_DESCRIPTION_KEY)
     private final String shortDescription;
 
     /**
      * {@code description} description of the project
      */
+    @Column(name = PROJECT_DESCRIPTION_KEY)
     private final String description;
 
     /**
      * {@code version} last update version
      */
+    @Column(name = PROJECT_VERSION_KEY)
     private final String version;
 
     /**
      * {@code lastUpdate} timestamp of the last update publish
      */
+    @Transient
     private final long lastUpdate;
 
     /**
      * {@code updatesNumber} number of the updates of this project
      */
+    @Transient
     private final int updatesNumber;
 
     /**
      * {@code groups} groups where the project has been assigned
      */
-    private final ArrayList<Group> groups;
+    @ManyToMany(
+            mappedBy = PROJECTS_KEY,
+            cascade = CascadeType.ALL
+    )
+    private final List<Group> groups;
 
     /**
      * {@code updates} updates of the project
      */
-    private final ArrayList<Update> updates;
+    @OneToMany(
+            mappedBy = PROJECT_KEY,
+            cascade = CascadeType.ALL
+    )
+    private final List<Update> updates;
 
     /**
      * {@code projectRepo} the repository of the project
      */
+    @Column(name = PROJECT_REPOSITORY_KEY)
     private final String projectRepo;
 
     /**
      * {@code repositoryPlatform} the platform of the repository of the project
      */
+    @Transient
     private final RepositoryPlatform repositoryPlatform;
 
     /**
@@ -375,6 +403,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #lastUpdate} instance as long
      */
+    @JsonIgnore
     public long getLastUpdate() {
         return lastUpdate;
     }
@@ -385,6 +414,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #lastUpdate} instance as {@link String}
      */
+    @JsonIgnore
     public String getLastUpdateDate() {
         if (lastUpdate == -1)
             return "no updates yet";
@@ -397,6 +427,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #updatesNumber} instance as int
      */
+    @JsonIgnore
     public int getUpdatesNumber() {
         return updatesNumber;
     }
@@ -408,7 +439,7 @@ public class Project extends PandoroItem implements Serializable {
      * @return {@link #groups} instance as {@link ArrayList} of {@link Group}
      */
     public ArrayList<Group> getGroups() {
-        return groups;
+        return new ArrayList<>(groups);
     }
 
     /**
@@ -418,7 +449,7 @@ public class Project extends PandoroItem implements Serializable {
      * @return {@link #updates} instance as {@link ArrayList} of {@link Update}
      */
     public ArrayList<Update> getUpdates() {
-        return updates;
+        return new ArrayList<>(updates);
     }
 
     /**
@@ -478,6 +509,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #repositoryPlatform} instance as {@link RepositoryPlatform}
      */
+    @JsonIgnore
     public RepositoryPlatform getRepositoryPlatform() {
         return repositoryPlatform;
     }

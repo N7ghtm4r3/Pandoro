@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services;
 
+import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
@@ -134,16 +135,17 @@ public class GroupsHelper {
     }
 
     public boolean hasOtherMembers(String groupId) {
-        return !membersRepository.getGroupMembers(groupId).isEmpty();
+        return membersRepository.getGroupMembers(groupId).size() > 1;
     }
 
+    @Wrapper
     public void leaveGroup(String memberId, String groupId) {
-        leaveGroup(memberId, groupId, true);
+        leaveGroup(memberId, groupId, false);
     }
 
-    public void leaveGroup(String memberId, String groupId, boolean hasOtherMembers) {
+    public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
         membersRepository.leaveGroup(memberId, groupId);
-        if (!hasOtherMembers)
+        if (deleteGroup)
             groupsRepository.deleteById(groupId);
     }
 

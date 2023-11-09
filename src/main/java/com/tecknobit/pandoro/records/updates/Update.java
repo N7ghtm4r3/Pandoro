@@ -1,10 +1,24 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandoro.records.updates;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.Note;
+import com.tecknobit.pandoro.records.Project;
+import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 
 /**
  * The {@code Update} class is useful to create a <b>Pandoro's update</b>
@@ -12,6 +26,9 @@ import java.util.ArrayList;
  * @author N7ghtm4r3 - Tecknobit
  * @see Serializable
  */
+@Entity
+@Table(name = UPDATE_KEY)
+@IdClass(UpdateCompositeKey.class)
 public class Update implements Serializable {
 
     /**
@@ -44,57 +61,102 @@ public class Update implements Serializable {
     /**
      * {@code id} identifier of the update
      */
+    @Id
+    @Column(name = IDENTIFIER_KEY)
     private final String id;
 
     /**
      * {@code author} the author of the update
      */
-    private final User author;
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = AUTHOR_KEY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private final PublicUser author;
 
     /**
      * {@code createDate} when the update has been created
      */
+    @Column(name = UPDATE_CREATE_DATE_KEY)
     private final long createDate;
 
     /**
      * {@code targetVersion} the target version of the update
      */
+    @Id
+    @Column(name = UPDATE_TARGET_VERSION_KEY)
     private final String targetVersion;
 
     /**
      * {@code status} the status of the update
      */
+    @Enumerated(EnumType.STRING)
+    @Column(name = UPDATE_STATUS_KEY)
     private final Status status;
 
     /**
      * {@code startedBy} who created the update
      */
-    private final User startedBy;
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = UPDATE_STARTED_BY_KEY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private final PublicUser startedBy;
 
     /**
      * {@code startDate} when the update has been started
      */
+    @Column(name = UPDATE_START_DATE_KEY)
     private final long startDate;
 
     /**
      * {@code publishedBy} who published the update
      */
-    private final User publishedBy;
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = UPDATE_PUBLISHED_BY_KEY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private final PublicUser publishedBy;
 
     /**
      * {@code publishDate} when the update has been published
      */
+    @Column(name = UPDATE_PUBLISH_DATE_KEY)
     private final long publishDate;
 
     /**
      * {@code developmentDuration} how many days have been required to publish the update
      */
+    @Transient
     private final int developmentDuration;
 
     /**
      * {@code notes} the notes for the update to be done
      */
-    private final ArrayList<Note> notes;
+    @OneToMany(
+            mappedBy = UPDATE_KEY,
+            cascade = CascadeType.ALL
+    )
+    private final List<Note> notes;
+
+    @Id
+    @JsonIgnore
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = PROJECT_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Project project;
 
     /**
      * Default constructor
@@ -192,8 +254,8 @@ public class Update implements Serializable {
      * @param publishDate:   when the update has been published
      * @param notes:         the notes for the update to be done
      */
-    public Update(String id, User author, long createDate, String targetVersion, User startedBy, long startDate,
-                  User publishedBy, long publishDate, ArrayList<Note> notes) {
+    public Update(String id, PublicUser author, long createDate, String targetVersion, PublicUser startedBy, long startDate,
+                  PublicUser publishedBy, long publishDate, ArrayList<Note> notes) {
         this.id = id;
         this.author = author;
         this.createDate = createDate;
@@ -231,7 +293,7 @@ public class Update implements Serializable {
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public PublicUser getAuthor() {
         return author;
     }
 
@@ -251,6 +313,7 @@ public class Update implements Serializable {
      *
      * @return {@link #createDate} instance as {@link String}
      */
+    @JsonIgnore
     public String getCreateDate() {
         return TimeFormatter.getStringDate(createDate);
     }
@@ -271,7 +334,7 @@ public class Update implements Serializable {
      *
      * @return {@link #startedBy} instance as {@link User}
      */
-    public User getStartedBy() {
+    public PublicUser getStartedBy() {
         return startedBy;
     }
 
@@ -291,6 +354,7 @@ public class Update implements Serializable {
      *
      * @return {@link #startDate} instance as {@link String}
      */
+    @JsonIgnore
     public String getStartDate() {
         if (startDate == -1)
             return "not started yet";
@@ -303,7 +367,7 @@ public class Update implements Serializable {
      *
      * @return {@link #publishedBy} instance as {@link User}
      */
-    public User getPublishedBy() {
+    public PublicUser getPublishedBy() {
         return publishedBy;
     }
 
@@ -323,6 +387,7 @@ public class Update implements Serializable {
      *
      * @return {@link #publishDate} instance as {@link String}
      */
+    @JsonIgnore
     public String getPublishDate() {
         return TimeFormatter.getStringDate(publishDate);
     }
@@ -333,6 +398,7 @@ public class Update implements Serializable {
      *
      * @return {@link #developmentDuration} instance as int
      */
+    @JsonIgnore
     public int getDevelopmentDuration() {
         return developmentDuration;
     }
@@ -344,7 +410,7 @@ public class Update implements Serializable {
      * @return {@link #notes} instance as {@link ArrayList} of {@link Note}
      */
     public ArrayList<Note> getNotes() {
-        return notes;
+        return new ArrayList<>(notes);
     }
 
     /**
@@ -363,9 +429,9 @@ public class Update implements Serializable {
      *
      * @return a string representation of the object as {@link String}
      */
-    /*@Override
+    @Override
     public String toString() {
         return new JSONObject(this).toString();
-    }*/
+    }
 
 }

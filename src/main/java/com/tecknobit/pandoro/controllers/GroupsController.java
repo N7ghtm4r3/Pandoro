@@ -325,24 +325,25 @@ public class GroupsController extends PandoroController {
                 GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
                 if (meMember != null) {
                     if (meMember.isAdmin()) {
-                        if (!groupsHelper.hasGroupAdmins(id, groupId)) {
-                            boolean hasOtherMembers = groupsHelper.hasOtherMembers(groupId);
-                            if (!hasOtherMembers) {
-                                groupsHelper.leaveGroup(id, groupId, true);
-                                return successResponse();
-                            } else if (nextAdminId != null && groupsHelper.getGroup(nextAdminId, groupId) != null) {
-                                String result = changeMemberRole(id, token, groupId, new JSONObject()
-                                        .put(IDENTIFIER_KEY, nextAdminId)
-                                        .put(MEMBER_ROLE_KEY, ADMIN).toString());
-                                if (JsonHelper.getBoolean(new JSONObject(result), SUCCESS_KEY, true)) {
-                                    groupsHelper.leaveGroup(id, groupId);
-                                    return successResponse();
+                        if (groupsHelper.hasOtherMembers(groupId)) {
+                            if (!groupsHelper.hasGroupAdmins(id, groupId)) {
+                                if (nextAdminId != null && groupsHelper.getGroup(nextAdminId, groupId) != null) {
+                                    String result = changeMemberRole(id, token, groupId, new JSONObject()
+                                            .put(IDENTIFIER_KEY, nextAdminId)
+                                            .put(MEMBER_ROLE_KEY, ADMIN).toString());
+                                    if (JsonHelper.getBoolean(new JSONObject(result), SUCCESS_KEY, true)) {
+                                        groupsHelper.leaveGroup(id, groupId);
+                                        return successResponse();
+                                    } else
+                                        return failedResponse(WRONG_ADMIN_MESSAGE);
                                 } else
                                     return failedResponse(WRONG_ADMIN_MESSAGE);
-                            } else
-                                return failedResponse(WRONG_ADMIN_MESSAGE);
+                            } else {
+                                groupsHelper.leaveGroup(id, groupId, false);
+                                return successResponse();
+                            }
                         } else {
-                            groupsHelper.leaveGroup(id, groupId);
+                            groupsHelper.leaveGroup(id, groupId, true);
                             return successResponse();
                         }
                     } else {
