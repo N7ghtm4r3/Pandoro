@@ -96,7 +96,7 @@ public class Group extends PandoroItem {
      * {@code projects} the list of the projects managed by the group
      */
     @ManyToMany
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties(GROUPS_KEY)
     private final List<Project> projects;
 
     /**

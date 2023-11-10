@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.ProjectsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,8 +102,14 @@ public class ProjectsController extends PandoroController {
         if (me != null) {
             JsonHelper hPayload = new JsonHelper(payload);
             String name = hPayload.getString(NAME_KEY);
+            boolean isAdding = projectId == null;
             if (isValidProjectName(name)) {
-                if (!projectsHelper.projectExists(id, name)) {
+                if (!isAdding) {
+                    Project currentEditingProject = projectsHelper.getProjectById(id, projectId);
+                    if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
+                        return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+                }
+                if (!projectsHelper.projectExists(id, name) || !isAdding) {
                     String description = hPayload.getString(PROJECT_DESCRIPTION_KEY);
                     if (isValidProjectDescription(description)) {
                         String shortDescription = hPayload.getString(PROJECT_SHORT_DESCRIPTION_KEY);
@@ -110,17 +117,21 @@ public class ProjectsController extends PandoroController {
                             String version = hPayload.getString(PROJECT_VERSION_KEY);
                             if (isValidVersion(version)) {
                                 ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY);
+                                ArrayList<Group> adminGroups = me.getAdminGroups();
+                                boolean haveAdminGroups = !adminGroups.isEmpty();
                                 boolean correctList = true;
-                                for (Group group : me.getGroups()) {
-                                    if (!groups.contains(group.getName())) {
-                                        correctList = false;
-                                        break;
+                                if (!groups.isEmpty() && haveAdminGroups) {
+                                    for (Group group : adminGroups) {
+                                        if (!groups.contains(group.getId())) {
+                                            correctList = false;
+                                            break;
+                                        }
                                     }
-                                }
+                                } else if (haveAdminGroups)
+                                    correctList = false;
                                 if (correctList) {
                                     String repository = hPayload.getString(PROJECT_REPOSITORY_KEY);
                                     if (isValidRepository(repository)) {
-                                        boolean isAdding = projectId == null;
                                         if (isAdding)
                                             projectId = generateIdentifier();
                                         projectsHelper.workWithProject(
@@ -149,6 +160,51 @@ public class ProjectsController extends PandoroController {
                     return failedResponse("A project with this name already exists");
             } else
                 return failedResponse("Wrong project name");
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @GetMapping(
+            path = "/{" + IDENTIFIER_KEY + "}",
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public <T> T getProject(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(IDENTIFIER_KEY) String projectId
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            Project project = projectsHelper.getProject(id, projectId);
+            if (project != null)
+                return (T) project;
+            else
+                return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "/{" + IDENTIFIER_KEY + "}" + DELETE_PROJECT_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteProject(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(IDENTIFIER_KEY) String projectId
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            Project project = projectsHelper.getProjectById(id, projectId);
+            if (project != null) {
+                projectsHelper.deleteProject(projectId);
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

@@ -56,10 +56,18 @@ public class ProjectsHelper {
         return projectsRepository.getProjectByName(userId, projectName) != null;
     }
 
+    public Project getProjectById(String userId, String projectId) {
+        return projectsRepository.getProjectById(userId, projectId);
+    }
+
+    public Project getProject(String userId, String projectId) {
+        return projectsRepository.getProject(userId, projectId);
+    }
+
     public void workWithProject(String userId, String projectId, String name, String description, String shortDescription,
                                 String version, String repository, ArrayList<String> groups, boolean isAdding) {
         if (isAdding) {
-            // TODO: 10/11/2023 INSERT THE GROUPS ALSO
+            // TODO: 10/11/2023 INSERT THE GROUPS ALSO WITH THE CHANGELOGS
             projectsRepository.insertProject(
                     userId,
                     projectId,
@@ -70,8 +78,21 @@ public class ProjectsHelper {
                     repository
             );
         } else {
-
+            // TODO: 10/11/2023 INSERT THE GROUPS ALSO WITH THE CHANGELOGS AND REMOVE IF NOT EXISTS IN THE LIST
+            projectsRepository.editProject(
+                    userId,
+                    projectId,
+                    name,
+                    description,
+                    shortDescription,
+                    version,
+                    repository
+            );
         }
+    }
+
+    public void deleteProject(String projectId) {
+        projectsRepository.deleteById(projectId);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.updates.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.User;
@@ -10,9 +11,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.records.updates.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
+import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
@@ -94,6 +99,19 @@ public class Project extends PandoroItem implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = AUTHOR_KEY)
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     private final User author;
 
     /**
@@ -130,6 +148,7 @@ public class Project extends PandoroItem implements Serializable {
      * {@code groups} groups where the project has been assigned
      */
     @ManyToMany
+    @JsonIgnoreProperties(PROJECTS_KEY)
     private final List<Group> groups;
 
     /**
@@ -455,6 +474,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return published updates as {@link ArrayList} of {@link ProjectUpdate}
      */
+    @JsonIgnore
     public ArrayList<ProjectUpdate> getPublishedUpdates() {
         ArrayList<ProjectUpdate> publishedUpdates = new ArrayList<>();
         for (ProjectUpdate update : updates)
@@ -469,6 +489,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return the total development days for the project as int
      */
+    @JsonIgnore
     public int getTotalDevelopmentDays() {
         int totalDevelopmentDays = 0;
         for (ProjectUpdate update : getPublishedUpdates())
@@ -482,6 +503,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return average time for an update of the project as int
      */
+    @JsonIgnore
     public int getAverageDevelopmentTime() {
         int totalUpdateDays = getTotalDevelopmentDays();
         if (totalUpdateDays > 0)
@@ -517,6 +539,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return whether the project is in any {@link Group} as boolean
      */
+    @JsonIgnore
     public boolean hasGroups() {
         return !groups.isEmpty();
     }
