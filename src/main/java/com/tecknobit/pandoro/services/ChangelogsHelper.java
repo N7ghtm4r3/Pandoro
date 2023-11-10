@@ -17,8 +17,6 @@ public class ChangelogsHelper {
 
     public static final String CHANGELOG_TIMESTAMP_KEY = "timestamp";
 
-    public static final String CHANGELOG_PROJECT_IDENTIFIER_KEY = "project_id";
-
     public static final String CHANGELOG_GROUP_IDENTIFIER_KEY = "group_id";
 
     public static final String CHANGELOG_EXTRA_CONTENT_KEY = "extra_content";

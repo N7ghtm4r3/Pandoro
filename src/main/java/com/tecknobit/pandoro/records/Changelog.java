@@ -12,6 +12,7 @@ import java.io.Serializable;
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -135,7 +136,7 @@ public class Changelog implements Serializable {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = CHANGELOG_PROJECT_IDENTIFIER_KEY)
+    @JoinColumn(name = PROJECT_IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final Project project;
 

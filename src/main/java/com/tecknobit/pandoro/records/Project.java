@@ -159,8 +159,8 @@ public class Project extends PandoroItem implements Serializable {
      * @apiNote empty constructor required
      */
     public Project() {
-        this(null, null, null, null, null, null, null, null,
-                null);
+        this(null, null, null, null, null, null, null,
+                new ArrayList<>(), "");
     }
 
     /**
