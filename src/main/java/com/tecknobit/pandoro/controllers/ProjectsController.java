@@ -201,7 +201,7 @@ public class ProjectsController extends PandoroController {
         if (isAuthenticatedUser(id, token)) {
             Project project = projectsHelper.getProjectById(id, projectId);
             if (project != null) {
-                projectsHelper.deleteProject(projectId);
+                projectsHelper.deleteProject(id, projectId);
                 return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);

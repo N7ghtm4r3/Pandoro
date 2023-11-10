@@ -91,8 +91,8 @@ public class ProjectsHelper {
         }
     }
 
-    public void deleteProject(String projectId) {
-        projectsRepository.deleteById(projectId);
+    public void deleteProject(String userId, String projectId) {
+        projectsRepository.deleteProject(userId, projectId);
     }
 
 }
