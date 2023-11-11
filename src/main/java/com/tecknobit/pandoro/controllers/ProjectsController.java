@@ -118,7 +118,8 @@ public class ProjectsController extends PandoroController {
                     if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
                         return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
                 }
-                if (!projectsHelper.projectExists(id, name) || !isAdding) {
+                Project checkProject = projectsHelper.getProjectByName(id, name);
+                if (checkProject == null || (!isAdding && checkProject.getId().equals(projectId))) {
                     String description = hPayload.getString(PROJECT_DESCRIPTION_KEY);
                     if (isValidProjectDescription(description)) {
                         String shortDescription = hPayload.getString(PROJECT_SHORT_DESCRIPTION_KEY);
@@ -126,34 +127,16 @@ public class ProjectsController extends PandoroController {
                             String version = hPayload.getString(PROJECT_VERSION_KEY);
                             if (isValidVersion(version)) {
                                 ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY);
-                                ArrayList<Group> adminGroups = me.getAdminGroups();
-                                boolean haveAdminGroups = !adminGroups.isEmpty();
-                                boolean correctList = true;
-                                if (!groups.isEmpty() && haveAdminGroups) {
-                                    for (Group group : adminGroups) {
-                                        if (!groups.contains(group.getId())) {
-                                            correctList = false;
-                                            break;
-                                        }
-                                    }
-                                } else if (haveAdminGroups)
-                                    correctList = false;
-                                if (correctList) {
+                                ArrayList<String> adminGroups = new ArrayList<>();
+                                for (Group group : me.getAdminGroups())
+                                    adminGroups.add(group.getId());
+                                if (groups.isEmpty() || adminGroups.containsAll(groups)) {
                                     String repository = hPayload.getString(PROJECT_REPOSITORY_KEY);
                                     if (isValidRepository(repository)) {
                                         if (isAdding)
                                             projectId = generateIdentifier();
-                                        projectsHelper.workWithProject(
-                                                id,
-                                                projectId,
-                                                name,
-                                                description,
-                                                shortDescription,
-                                                version,
-                                                repository,
-                                                groups,
-                                                isAdding
-                                        );
+                                        projectsHelper.workWithProject(id, projectId, name, description, shortDescription,
+                                                version, repository, groups, isAdding);
                                         return successResponse();
                                     } else
                                         return failedResponse("Wrong project repository");

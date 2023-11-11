@@ -25,6 +25,8 @@ public class GroupsHelper {
 
     public static final String GROUP_IDENTIFIER_KEY = "group_id";
 
+    public static final String GROUPS_IDENTIFIER_KEY = "groups_id";
+
     public static final String GROUP_KEY = "group_member";
 
     public static final String GROUP_DESCRIPTION_KEY = "group_description";
@@ -128,6 +130,20 @@ public class GroupsHelper {
 
     public void removeMember(String memberId, String groupId) {
         membersRepository.leaveGroup(memberId, groupId);
+    }
+
+    public void editProjects(String groupId, List<String> projects) {
+        List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
+        currentProjects.removeAll(projects);
+        for (String project : currentProjects) {
+            // TODO: 10/11/2023 CREATE THE CHANGELOG
+            groupsRepository.deleteGroupProject(groupId, project);
+        }
+        currentProjects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
+        for (String group : projects) {
+            // TODO: 10/11/2023 CREATE THE CHANGELOG
+            groupsRepository.addGroupProject(groupId, group);
+        }
     }
 
     public boolean hasGroupAdmins(String memberId, String groupId) {

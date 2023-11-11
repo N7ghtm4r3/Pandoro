@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -148,6 +150,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     @ManyToMany
     @JsonIgnoreProperties(PROJECTS_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Group> groups;
 
     /**

@@ -68,8 +68,8 @@ public class ProjectsHelper {
         return projectsRepository.getProjectsList(userId);
     }
 
-    public boolean projectExists(String userId, String projectName) {
-        return projectsRepository.getProjectByName(userId, projectName) != null;
+    public Project getProjectByName(String userId, String projectName) {
+        return projectsRepository.getProjectByName(userId, projectName);
     }
 
     public Project getProjectById(String userId, String projectId) {
@@ -83,7 +83,6 @@ public class ProjectsHelper {
     public void workWithProject(String userId, String projectId, String name, String description, String shortDescription,
                                 String version, String repository, ArrayList<String> groups, boolean isAdding) {
         if (isAdding) {
-            // TODO: 10/11/2023 INSERT THE GROUPS ALSO WITH THE CHANGELOGS
             projectsRepository.insertProject(
                     userId,
                     projectId,
@@ -93,8 +92,11 @@ public class ProjectsHelper {
                     version,
                     repository
             );
+            for (String group : groups) {
+                // TODO: 10/11/2023 CREATE THE CHANGELOG
+                projectsRepository.addProjectGroup(projectId, group);
+            }
         } else {
-            // TODO: 10/11/2023 INSERT THE GROUPS ALSO WITH THE CHANGELOGS AND REMOVE IF NOT EXISTS IN THE LIST
             projectsRepository.editProject(
                     userId,
                     projectId,
@@ -104,6 +106,17 @@ public class ProjectsHelper {
                     version,
                     repository
             );
+            List<String> currentGroups = projectsRepository.getProjectGroupsIds(projectId);
+            currentGroups.removeAll(groups);
+            for (String group : currentGroups) {
+                // TODO: 10/11/2023 CREATE THE CHANGELOG
+                projectsRepository.deleteProjectGroup(projectId, group);
+            }
+            groups.removeAll(projectsRepository.getProjectGroupsIds(projectId));
+            for (String group : groups) {
+                // TODO: 10/11/2023 CREATE THE CHANGELOG
+                projectsRepository.addProjectGroup(projectId, group);
+            }
         }
     }
 

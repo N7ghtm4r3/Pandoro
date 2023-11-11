@@ -15,6 +15,8 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_GROUPS_TABLE;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
@@ -74,6 +76,43 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     Group getGroup(
             @Param(AUTHOR_KEY) String userId,
             @Param(GROUP_IDENTIFIER_KEY) String groupId
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "SELECT " + PROJECT_IDENTIFIER_KEY + " FROM " + PROJECTS_GROUPS_TABLE + " WHERE "
+                    + GROUPS_IDENTIFIER_KEY + "=:" + GROUPS_IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    List<String> getGroupProjectsIds(@Param(GROUPS_IDENTIFIER_KEY) String groupId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
+                    + PROJECT_IDENTIFIER_KEY + ","
+                    + GROUPS_IDENTIFIER_KEY
+                    + ") VALUES ("
+                    + ":" + PROJECT_IDENTIFIER_KEY + ","
+                    + ":" + GROUPS_IDENTIFIER_KEY + ")",
+            nativeQuery = true
+    )
+    void addGroupProject(
+            @Param(PROJECT_IDENTIFIER_KEY) String projectId,
+            @Param(GROUPS_IDENTIFIER_KEY) String groupId
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + PROJECTS_GROUPS_TABLE + " WHERE " + PROJECT_IDENTIFIER_KEY + "=:"
+                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUPS_IDENTIFIER_KEY + "=:" + GROUPS_IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void deleteGroupProject(
+            @Param(PROJECT_IDENTIFIER_KEY) String projectId,
+            @Param(GROUPS_IDENTIFIER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)

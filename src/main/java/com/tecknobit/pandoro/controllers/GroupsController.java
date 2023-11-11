@@ -2,14 +2,17 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
@@ -301,6 +304,38 @@ public class GroupsController extends PandoroController {
                     return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
             } else
                 return failedResponse(CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + EDIT_PROJECTS_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String editProjects(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String projects
+    ) {
+        User me = usersRepository.getAuthorizedUser(id, token);
+        if (me != null) {
+            Group group = groupsHelper.getGroup(id, groupId);
+            if (group != null && group.isUserAdmin(me)) {
+                List<String> projectsList = JsonHelper.toList(new JSONArray(projects));
+                ArrayList<String> projectsIds = new ArrayList<>();
+                for (Project project : me.getProjects())
+                    projectsIds.add(project.getId());
+                if (!projectsList.isEmpty() && projectsIds.containsAll(projectsList)) {
+                    groupsHelper.editProjects(groupId, projectsList);
+                    return successResponse();
+                } else
+                    return failedResponse("Wrong projects list");
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
