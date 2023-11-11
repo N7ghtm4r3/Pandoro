@@ -137,12 +137,12 @@ public class GroupsHelper {
         currentProjects.removeAll(projects);
         for (String project : currentProjects) {
             // TODO: 10/11/2023 CREATE THE CHANGELOG
-            groupsRepository.deleteGroupProject(groupId, project);
+            groupsRepository.deleteGroupProject(project, groupId);
         }
         currentProjects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
-        for (String group : projects) {
+        for (String project : projects) {
             // TODO: 10/11/2023 CREATE THE CHANGELOG
-            groupsRepository.addGroupProject(groupId, group);
+            groupsRepository.addGroupProject(project, groupId);
         }
     }
 
