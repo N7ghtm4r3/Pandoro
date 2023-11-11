@@ -138,6 +138,26 @@ public class ProjectsHelper {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
     }
 
+    public void addChangeNote(String userId, String noteId, String contentNote, String updateId) {
+        notesRepository.addChangeNote(userId, noteId, contentNote, System.currentTimeMillis(), updateId);
+    }
+
+    public boolean changeNoteExists(String updateId, String noteId) {
+        return notesRepository.getNoteByUpdate(updateId, noteId) != null;
+    }
+
+    public void markChangeNoteAsDone(String updateId, String noteId, String userId) {
+        notesRepository.manageNoteStatus(updateId, noteId, true, userId, System.currentTimeMillis());
+    }
+
+    public void markChangeNoteAsToDo(String updateId, String noteId) {
+        notesRepository.manageNoteStatus(updateId, noteId, false, null, -1);
+    }
+
+    public void deleteChangeNote(String updateId, String noteId) {
+        notesRepository.deleteChangeNote(updateId, noteId);
+    }
+
     public void deleteUpdate(String updateId) {
         // TODO: 11/11/2023 CREATE THE CHANGELOG IF IS A GROUP PROJECT
         updatesRepository.deleteUpdate(updateId);

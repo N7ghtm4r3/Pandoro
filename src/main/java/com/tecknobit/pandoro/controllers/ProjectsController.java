@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.IN_DEVELOPMENT;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
+import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
@@ -39,13 +42,13 @@ public class ProjectsController extends PandoroController {
 
     public static final String PUBLISH_UPDATE_ENDPOINT = "/publish";
 
-    public static final String ADD_CHANGELOG_NOTE_ENDPOINT = "/addChangelogNote";
+    public static final String ADD_CHANGE_NOTE_ENDPOINT = "/addChangeNote";
 
-    public static final String MARK_CHANGELOG_NOTE_AS_DONE_ENDPOINT = "/markChangelogNoteAsDone";
+    public static final String MARK_CHANGE_NOTE_AS_DONE_ENDPOINT = "/markChangeNoteAsDone";
 
-    public static final String MARK_CHANGELOG_NOTE_AS_TODO_ENDPOINT = "/markChangelogNoteAsToDo";
+    public static final String MARK_CHANGE_NOTE_AS_TODO_ENDPOINT = "/markChangeNoteAsToDo";
 
-    public static final String DELETE_CHANGELOG_NOTE_ENDPOINT = "/deleteChangelogNote";
+    public static final String DELETE_CHANGE_NOTE_ENDPOINT = "/deleteChangeNote";
 
     public static final String DELETE_UPDATE_ENDPOINT = "/delete";
 
@@ -205,8 +208,7 @@ public class ProjectsController extends PandoroController {
             @PathVariable(IDENTIFIER_KEY) String projectId
     ) {
         if (isAuthenticatedUser(id, token)) {
-            Project project = projectsHelper.getProjectById(id, projectId);
-            if (project != null) {
+            if (projectsHelper.getProjectById(id, projectId) != null) {
                 projectsHelper.deleteProject(id, projectId);
                 return successResponse();
             } else
@@ -229,8 +231,7 @@ public class ProjectsController extends PandoroController {
             @RequestBody String payload
     ) {
         if (isAuthenticatedUser(id, token)) {
-            Project project = projectsHelper.getProject(id, projectId);
-            if (project != null) {
+            if (projectsHelper.getProject(id, projectId) != null) {
                 JsonHelper hPayload = new JsonHelper(payload);
                 String targetVersion = hPayload.getString(UPDATE_TARGET_VERSION_KEY);
                 if (isValidVersion(targetVersion)) {
@@ -285,9 +286,8 @@ public class ProjectsController extends PandoroController {
 
     private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
         if (isAuthenticatedUser(id, token)) {
-            Project project = projectsHelper.getProject(id, projectId);
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-            if (project != null && update != null) {
+            if (projectsHelper.getProject(id, projectId) != null && update != null) {
                 Status status = update.getStatus();
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
@@ -297,6 +297,105 @@ public class ProjectsController extends PandoroController {
                     if (status != SCHEDULED)
                         return failedResponse("An update to be published must be SCHEDULED first");
                     projectsHelper.startUpdate(updateId, id);
+                }
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PutMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + ADD_CHANGE_NOTE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String addChangeNote(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId,
+            @RequestBody String contentNote
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            if (projectsHelper.getProject(id, projectId) != null &&
+                    projectsHelper.updateExists(projectId, updateId) != null) {
+                if (isContentNoteValid(contentNote)) {
+                    projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
+                    return successResponse();
+                } else
+                    return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_DONE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String markChangeNoteAsDone(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        return manageChangeNote(id, token, projectId, updateId, noteId, "markAsDone");
+    }
+
+    @PatchMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_TODO_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String markChangeNoteAsToDo(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        return manageChangeNote(id, token, projectId, updateId, noteId, "markAsToDo");
+    }
+
+    @DeleteMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_CHANGE_NOTE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteChangeNote(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        return manageChangeNote(id, token, projectId, updateId, noteId, "deleteChangeNote");
+    }
+
+    private String manageChangeNote(String id, String token, String projectId, String updateId, String noteId, String ope) {
+        if (isAuthenticatedUser(id, token)) {
+            if (projectsHelper.getProject(id, projectId) != null &&
+                    projectsHelper.updateExists(projectId, updateId) != null &&
+                    projectsHelper.changeNoteExists(updateId, noteId)) {
+                switch (ope) {
+                    case "markAsDone" -> projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
+                    case "markAsToDo" -> projectsHelper.markChangeNoteAsToDo(updateId, noteId);
+                    default -> projectsHelper.deleteChangeNote(updateId, noteId);
                 }
                 return successResponse();
             } else
@@ -319,8 +418,8 @@ public class ProjectsController extends PandoroController {
             @PathVariable(UPDATE_ID) String updateId
     ) {
         if (isAuthenticatedUser(id, token)) {
-            Project project = projectsHelper.getProject(id, projectId);
-            if (project != null && projectsHelper.updateExists(projectId, updateId) != null) {
+            if (projectsHelper.getProject(id, projectId) != null &&
+                    projectsHelper.updateExists(projectId, updateId) != null) {
                 projectsHelper.deleteUpdate(updateId);
                 return successResponse();
             } else

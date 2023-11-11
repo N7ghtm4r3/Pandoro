@@ -38,6 +38,16 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 
+    @Query(
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
+            nativeQuery = true
+    )
+    Note getNoteByUpdate(
+            @Param(UPDATE_KEY) String updateId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId
+    );
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -120,12 +130,43 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
+            value = "UPDATE " + NOTES_KEY + " SET "
+                    + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY + ","
+                    + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
+                    + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
+                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY + " AND "
+                    + UPDATE_KEY + "=:" + UPDATE_KEY,
+            nativeQuery = true
+    )
+    void manageNoteStatus(
+            @Param(UPDATE_KEY) String updateId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
+            @Param(MARKED_AS_DONE_BY_KEY) String marker,
+            @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
             value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
                     + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void deleteNote(
             @Param(AUTHOR_KEY) String authorId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
+            nativeQuery = true
+    )
+    void deleteChangeNote(
+            @Param(UPDATE_KEY) String updateId,
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 

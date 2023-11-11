@@ -12,11 +12,15 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
+import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
@@ -48,7 +52,19 @@ public class Note implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = AUTHOR_KEY)
-    @JsonIgnore
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
@@ -81,7 +97,19 @@ public class Note implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = MARKED_AS_DONE_BY_KEY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser markedAsDoneBy;
 
