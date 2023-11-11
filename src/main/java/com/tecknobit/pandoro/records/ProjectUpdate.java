@@ -1,10 +1,8 @@
-package com.tecknobit.pandoro.records.updates;
+package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.Note;
-import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
@@ -16,9 +14,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
+import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -28,7 +30,6 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.*;
  */
 @Entity
 @Table(name = UPDATES_KEY)
-@IdClass(UpdateCompositeKey.class)
 public class ProjectUpdate implements Serializable {
 
     /**
@@ -73,7 +74,19 @@ public class ProjectUpdate implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = AUTHOR_KEY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
@@ -86,7 +99,6 @@ public class ProjectUpdate implements Serializable {
     /**
      * {@code targetVersion} the target version of the update
      */
-    @Id
     @Column(name = UPDATE_TARGET_VERSION_KEY)
     private final String targetVersion;
 
@@ -105,7 +117,19 @@ public class ProjectUpdate implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = UPDATE_STARTED_BY_KEY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser startedBy;
 
@@ -123,7 +147,19 @@ public class ProjectUpdate implements Serializable {
             cascade = CascadeType.ALL
     )
     @JoinColumn(name = UPDATE_PUBLISHED_BY_KEY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            COMPLETE_NAME_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
+            UNREAD_CHANGELOGS_KEY,
+            ADMIN_GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser publishedBy;
 
@@ -148,7 +184,6 @@ public class ProjectUpdate implements Serializable {
     )
     private final List<Note> notes;
 
-    @Id
     @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,

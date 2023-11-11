@@ -5,7 +5,7 @@ import com.tecknobit.pandoro.records.Group.GROUP_NAME_MAX_LENGTH
 import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
 import com.tecknobit.pandoro.records.Project.*
 import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
-import com.tecknobit.pandoro.records.updates.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
+import com.tecknobit.pandoro.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
 import com.tecknobit.pandoro.records.users.User.*
 import helpers.InputStatus.*
 import org.apache.commons.validator.routines.EmailValidator
@@ -174,8 +174,10 @@ fun isPasswordValid(password: String?): Boolean {
  * @param notes: list of notes
  * @return whether all the notes of the list are correct as boolean
  */
-fun areNotesValid(notes: List<String?>): Boolean {
-    var notesCorrect = true
+fun areNotesValid(notes: List<String?>?): Boolean {
+    if (notes == null)
+        return false
+    var notesCorrect = notes.isNotEmpty()
     for (note in notes) {
         notesCorrect = isContentNoteValid(note)
         if (!notesCorrect)

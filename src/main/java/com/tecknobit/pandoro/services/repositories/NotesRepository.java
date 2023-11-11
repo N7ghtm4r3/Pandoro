@@ -14,14 +14,16 @@ import java.util.List;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
+import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
 
 @Service
 @Repository
 public interface NotesRepository extends JpaRepository<Note, String> {
 
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " ORDER BY "
-                    + CREATION_DATE_KEY + " DESC ",
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
+                    + " AND " + UPDATE_KEY + " = NULL"
+                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);
@@ -63,6 +65,38 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId,
             @Param(CONTENT_NOTE_KEY) String contentNote,
             @Param(CREATION_DATE_KEY) long creationDate
+    );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "INSERT INTO " + NOTES_KEY
+                    + " (" + NOTE_IDENTIFIER_KEY + ","
+                    + AUTHOR_KEY + ","
+                    + CONTENT_NOTE_KEY + ","
+                    + CREATION_DATE_KEY + ","
+                    + MARKED_AS_DONE_KEY + ","
+                    + MARKED_AS_DONE_BY_KEY + ","
+                    + MARKED_AS_DONE_DATE_KEY + ","
+                    + UPDATE_KEY + ") "
+                    + "VALUES ("
+                    + ":" + NOTE_IDENTIFIER_KEY + ","
+                    + ":" + AUTHOR_KEY + ","
+                    + ":" + CONTENT_NOTE_KEY + ","
+                    + ":" + CREATION_DATE_KEY + ","
+                    + "false,"
+                    + "NULL,"
+                    + "-1,"
+                    + ":" + UPDATE_KEY
+                    + ")",
+            nativeQuery = true
+    )
+    void addChangeNote(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(CONTENT_NOTE_KEY) String contentNote,
+            @Param(CREATION_DATE_KEY) long creationDate,
+            @Param(UPDATE_KEY) String updateId
     );
 
     @Modifying(clearAutomatically = true)

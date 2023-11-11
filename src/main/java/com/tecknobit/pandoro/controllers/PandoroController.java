@@ -56,7 +56,7 @@ public abstract class PandoroController {
      *
      */
 
-    protected String generateIdentifier() {
+    public static String generateIdentifier() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 

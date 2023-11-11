@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.services.repositories;
+package com.tecknobit.pandoro.services.repositories.projects;
 
 import com.tecknobit.pandoro.records.Project;
 import jakarta.transaction.Transactional;
@@ -138,5 +138,4 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(AUTHOR_KEY) String userId,
             @Param(IDENTIFIER_KEY) String projectId
     );
-    
 }

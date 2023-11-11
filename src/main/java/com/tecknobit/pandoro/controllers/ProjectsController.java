@@ -3,6 +3,8 @@ package com.tecknobit.pandoro.controllers;
 import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.Project;
+import com.tecknobit.pandoro.records.ProjectUpdate;
+import com.tecknobit.pandoro.records.ProjectUpdate.Status;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.ProjectsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.records.ProjectUpdate.Status.IN_DEVELOPMENT;
+import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
@@ -29,7 +33,7 @@ public class ProjectsController extends PandoroController {
 
     public static final String UPDATES_PATH = "/updates/";
 
-    public static final String SCHEDULE_UPDATE_ENDPOINT = "/schedule";
+    public static final String SCHEDULE_UPDATE_ENDPOINT = "schedule";
 
     public static final String START_UPDATE_ENDPOINT = "/start";
 
@@ -37,11 +41,13 @@ public class ProjectsController extends PandoroController {
 
     public static final String ADD_CHANGELOG_NOTE_ENDPOINT = "/addChangelogNote";
 
-    public static final String DELETE_CHANGELOG_NOTE_ENDPOINT = "/deleteChangelogNote";
-
     public static final String MARK_CHANGELOG_NOTE_AS_DONE_ENDPOINT = "/markChangelogNoteAsDone";
 
     public static final String MARK_CHANGELOG_NOTE_AS_TODO_ENDPOINT = "/markChangelogNoteAsToDo";
+
+    public static final String DELETE_CHANGELOG_NOTE_ENDPOINT = "/deleteChangelogNote";
+
+    public static final String DELETE_UPDATE_ENDPOINT = "/delete";
 
     private final ProjectsHelper projectsHelper;
 
@@ -165,7 +171,7 @@ public class ProjectsController extends PandoroController {
     }
 
     @GetMapping(
-            path = "/{" + IDENTIFIER_KEY + "}",
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}",
             headers = {
                     IDENTIFIER_KEY,
                     TOKEN_KEY
@@ -174,7 +180,7 @@ public class ProjectsController extends PandoroController {
     public <T> T getProject(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(IDENTIFIER_KEY) String projectId
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId
     ) {
         if (isAuthenticatedUser(id, token)) {
             Project project = projectsHelper.getProject(id, projectId);
@@ -202,6 +208,120 @@ public class ProjectsController extends PandoroController {
             Project project = projectsHelper.getProjectById(id, projectId);
             if (project != null) {
                 projectsHelper.deleteProject(id, projectId);
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PostMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + SCHEDULE_UPDATE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String scheduleUpdate(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @RequestBody String payload
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            Project project = projectsHelper.getProject(id, projectId);
+            if (project != null) {
+                JsonHelper hPayload = new JsonHelper(payload);
+                String targetVersion = hPayload.getString(UPDATE_TARGET_VERSION_KEY);
+                if (isValidVersion(targetVersion)) {
+                    if (!projectsHelper.targetVersionExists(projectId, targetVersion)) {
+                        ArrayList<String> changeNotes = hPayload.fetchList(UPDATE_CHANGE_NOTES_KEY);
+                        if (areNotesValid(changeNotes)) {
+                            projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
+                            return successResponse();
+                        } else
+                            return failedResponse("Wrong change notes list");
+                    } else
+                        return failedResponse("An update with this target version already exists");
+                } else
+                    return failedResponse("Wrong target version");
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @PatchMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + START_UPDATE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String startUpdate(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId
+    ) {
+        return manageUpdateStatus(id, token, projectId, updateId, false);
+    }
+
+    @PatchMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + PUBLISH_UPDATE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String publishUpdate(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId
+    ) {
+        return manageUpdateStatus(id, token, projectId, updateId, true);
+    }
+
+    private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
+        if (isAuthenticatedUser(id, token)) {
+            Project project = projectsHelper.getProject(id, projectId);
+            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+            if (project != null && update != null) {
+                Status status = update.getStatus();
+                if (isPublishing) {
+                    if (status != IN_DEVELOPMENT)
+                        return failedResponse("An update to be published must be IN_DEVELOPMENT first");
+                    projectsHelper.publishUpdate(updateId, id);
+                } else {
+                    if (status != SCHEDULED)
+                        return failedResponse("An update to be published must be SCHEDULED first");
+                    projectsHelper.startUpdate(updateId, id);
+                }
+                return successResponse();
+            } else
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    @DeleteMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + DELETE_UPDATE_ENDPOINT,
+            headers = {
+                    IDENTIFIER_KEY,
+                    TOKEN_KEY
+            }
+    )
+    public String deleteUpdate(
+            @RequestHeader(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_ID) String updateId
+    ) {
+        if (isAuthenticatedUser(id, token)) {
+            Project project = projectsHelper.getProject(id, projectId);
+            if (project != null && projectsHelper.updateExists(projectId, updateId) != null) {
+                projectsHelper.deleteUpdate(updateId);
                 return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);

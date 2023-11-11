@@ -3,7 +3,6 @@ package com.tecknobit.pandoro.records;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.updates.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 
@@ -15,7 +14,7 @@ import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.records.updates.ProjectUpdate.Status.PUBLISHED;
+import static com.tecknobit.pandoro.records.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
