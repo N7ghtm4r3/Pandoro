@@ -25,8 +25,6 @@ public class GroupsHelper {
 
     public static final String GROUP_IDENTIFIER_KEY = "group_id";
 
-    public static final String GROUPS_IDENTIFIER_KEY = "groups_id";
-
     public static final String GROUP_KEY = "group_member";
 
     public static final String GROUP_DESCRIPTION_KEY = "group_description";
@@ -139,7 +137,7 @@ public class GroupsHelper {
             // TODO: 10/11/2023 CREATE THE CHANGELOG
             groupsRepository.deleteGroupProject(project, groupId);
         }
-        currentProjects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
+        projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
             // TODO: 10/11/2023 CREATE THE CHANGELOG
             groupsRepository.addGroupProject(project, groupId);

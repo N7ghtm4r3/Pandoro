@@ -329,7 +329,7 @@ public class GroupsController extends PandoroController {
                 ArrayList<String> projectsIds = new ArrayList<>();
                 for (Project project : me.getProjects())
                     projectsIds.add(project.getId());
-                if (!projectsList.isEmpty() && projectsIds.containsAll(projectsList)) {
+                if (projectsIds.containsAll(projectsList)) {
                     groupsHelper.editProjects(groupId, projectsList);
                     return successResponse();
                 } else

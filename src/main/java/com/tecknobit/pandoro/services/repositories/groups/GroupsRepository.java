@@ -82,37 +82,37 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     @Transactional
     @Query(
             value = "SELECT " + PROJECT_IDENTIFIER_KEY + " FROM " + PROJECTS_GROUPS_TABLE + " WHERE "
-                    + GROUPS_IDENTIFIER_KEY + "=:" + GROUPS_IDENTIFIER_KEY,
+                    + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
-    List<String> getGroupProjectsIds(@Param(GROUPS_IDENTIFIER_KEY) String groupId);
+    List<String> getGroupProjectsIds(@Param(GROUP_IDENTIFIER_KEY) String groupId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
                     + PROJECT_IDENTIFIER_KEY + ","
-                    + GROUPS_IDENTIFIER_KEY
+                    + GROUP_IDENTIFIER_KEY
                     + ") VALUES ("
                     + ":" + PROJECT_IDENTIFIER_KEY + ","
-                    + ":" + GROUPS_IDENTIFIER_KEY + ")",
+                    + ":" + GROUP_IDENTIFIER_KEY + ")",
             nativeQuery = true
     )
     void addGroupProject(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
-            @Param(GROUPS_IDENTIFIER_KEY) String groupId
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "DELETE FROM " + PROJECTS_GROUPS_TABLE + " WHERE " + PROJECT_IDENTIFIER_KEY + "=:"
-                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUPS_IDENTIFIER_KEY + "=:" + GROUPS_IDENTIFIER_KEY,
+                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
     void deleteGroupProject(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
-            @Param(GROUPS_IDENTIFIER_KEY) String groupId
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)

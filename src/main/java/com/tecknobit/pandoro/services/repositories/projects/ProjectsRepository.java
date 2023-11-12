@@ -14,7 +14,7 @@ import java.util.List;
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUPS_IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
@@ -29,7 +29,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN "
                     + PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = "
                     + PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN "
-                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUPS_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
+                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
@@ -92,7 +92,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "SELECT " + GROUPS_IDENTIFIER_KEY + " FROM " + PROJECTS_GROUPS_TABLE + " WHERE "
+            value = "SELECT " + GROUP_IDENTIFIER_KEY + " FROM " + PROJECTS_GROUPS_TABLE + " WHERE "
                     + PROJECT_IDENTIFIER_KEY + "=:" + PROJECT_IDENTIFIER_KEY,
             nativeQuery = true
     )
@@ -103,27 +103,27 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     @Query(
             value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
                     + PROJECT_IDENTIFIER_KEY + ","
-                    + GROUPS_IDENTIFIER_KEY
+                    + GROUP_IDENTIFIER_KEY
                     + ") VALUES ("
                     + ":" + PROJECT_IDENTIFIER_KEY + ","
-                    + ":" + GROUPS_IDENTIFIER_KEY + ")",
+                    + ":" + GROUP_IDENTIFIER_KEY + ")",
             nativeQuery = true
     )
     void addProjectGroup(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
-            @Param(GROUPS_IDENTIFIER_KEY) String groupId
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "DELETE FROM " + PROJECTS_GROUPS_TABLE + " WHERE " + PROJECT_IDENTIFIER_KEY + "=:"
-                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUPS_IDENTIFIER_KEY + "=:" + GROUPS_IDENTIFIER_KEY,
+                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
     void deleteProjectGroup(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
-            @Param(GROUPS_IDENTIFIER_KEY) String groupId
+            @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)
@@ -154,7 +154,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY
                     + " AS " + PROJECTS_KEY + " LEFT JOIN " + PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "."
                     + IDENTIFIER_KEY + " =:" + IDENTIFIER_KEY + " LEFT JOIN "
-                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUPS_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
+                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,

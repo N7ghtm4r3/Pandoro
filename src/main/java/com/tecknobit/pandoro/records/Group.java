@@ -97,7 +97,10 @@ public class Group extends PandoroItem {
     /**
      * {@code projects} the list of the projects managed by the group
      */
-    @ManyToMany
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            mappedBy = GROUPS_KEY
+    )
     @JsonIgnoreProperties(GROUPS_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Project> projects;

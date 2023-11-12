@@ -17,6 +17,7 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.PUBLISHED;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
@@ -149,6 +150,11 @@ public class Project extends PandoroItem implements Serializable {
      * {@code groups} groups where the project has been assigned
      */
     @ManyToMany
+    @JoinTable(
+            name = PROJECTS_GROUPS_TABLE,
+            joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
+            inverseJoinColumns = {@JoinColumn(name = GROUP_IDENTIFIER_KEY)}
+    )
     @JsonIgnoreProperties(PROJECTS_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Group> groups;
