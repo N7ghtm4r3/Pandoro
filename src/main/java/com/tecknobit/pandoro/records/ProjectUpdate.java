@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see Serializable
  */
 @Entity
@@ -187,6 +189,11 @@ public class ProjectUpdate extends PandoroItemStructure {
     )
     private final List<Note> notes;
 
+    /**
+     * {@code project} the project owner
+     *
+     * @apiNote usage in SQL scopes
+     */
     @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -205,6 +212,11 @@ public class ProjectUpdate extends PandoroItemStructure {
         this(null, null, -1, null, null, -1, null, -1, null);
     }
 
+    /**
+     * Constructor to init a {@link ProjectUpdate} object
+     *
+     * @param jProjectUpdate: project update details as {@link JSONObject}
+     */
     public ProjectUpdate(JSONObject jProjectUpdate) {
         super(jProjectUpdate);
         id = hItem.getString(IDENTIFIER_KEY);
@@ -234,7 +246,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      * @param id:            identifier of the update
      * @param author:        the author of the update
      * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
+     * @param targetVersion:{@code targetVersion} the target version of the update
      * @param startedBy:     who created the update
      * @param startDate:     when the update has been started
      * @param publishedBy:   who published the update

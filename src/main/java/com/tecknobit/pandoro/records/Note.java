@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see Serializable
  */
 @Entity
@@ -122,6 +124,11 @@ public class Note extends PandoroItemStructure {
     @Column(name = MARKED_AS_DONE_DATE_KEY)
     private final long markAsDoneDate;
 
+    /**
+     * {@code project_update} the project update owner
+     *
+     * @apiNote usage in SQL scopes
+     */
     @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -140,6 +147,11 @@ public class Note extends PandoroItemStructure {
         this(null, null, null, -1, false, null, -1);
     }
 
+    /**
+     * Constructor to init a {@link Note} object
+     *
+     * @param jNote: note details as {@link JSONObject}
+     */
     public Note(JSONObject jNote) {
         super(jNote);
         id = hItem.getString(IDENTIFIER_KEY);
@@ -159,7 +171,7 @@ public class Note extends PandoroItemStructure {
      * @param creationDate:when the note has been created
      * @param markedAsDone:     whether the note is marked as done
      * @param markedAsDoneBy:   who marked the note as done
-     * @param markAsDoneDate: when the note has been marked as done
+     * @param markAsDoneDate:{@code markedAsDoneDate} when the note has been marked as done
      */
     public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
                 PublicUser markedAsDoneBy, long markAsDoneDate) {

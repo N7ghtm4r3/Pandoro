@@ -4,8 +4,8 @@ package com.tecknobit.pandoro.records.users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.PandoroItem;
-import com.tecknobit.pandoro.records.PandoroItemStructure;
+import com.tecknobit.pandoro.records.structures.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -25,8 +25,8 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code GroupMember} class is useful to create a <b>Pandoro's group member</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see PandoroItem
- * @see PublicUser
  * @see Serializable
  */
 @Entity
@@ -63,10 +63,23 @@ public class GroupMember extends PandoroItemStructure {
 
     }
 
+    /**
+     * {@code InvitationStatus} list of available invitation statuses for a group's member
+     */
     public enum InvitationStatus {
 
+        /**
+         * {@code PENDING} invitation status
+         *
+         * @apiNote this invitation status means that the member has been invited, and it is not joined yet
+         */
         PENDING,
 
+        /**
+         * {@code JOINED} invitation status
+         *
+         * @apiNote this invitation status means that the member has joined in the group
+         */
         JOINED
 
     }
@@ -113,10 +126,18 @@ public class GroupMember extends PandoroItemStructure {
     @Column(name = MEMBER_ROLE_KEY)
     private final Role role;
 
+    /**
+     * {@code invitationStatus} status of the invitation
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = INVITATION_STATUS_KEY)
     private final InvitationStatus invitationStatus;
 
+    /**
+     * {@code group_member} the group of the member
+     *
+     * @apiNote usage in SQL scopes
+     */
     @Id
     @JsonIgnore
     @ManyToOne(
@@ -136,6 +157,11 @@ public class GroupMember extends PandoroItemStructure {
         this(null, null, null, null, null, null, null);
     }
 
+    /**
+     * Constructor to init a {@link GroupMember} object
+     *
+     * @param jGroupMember: group member details as {@link JSONObject}
+     */
     public GroupMember(JSONObject jGroupMember) {
         super(jGroupMember);
         id = hItem.getString(IDENTIFIER_KEY);
@@ -155,6 +181,8 @@ public class GroupMember extends PandoroItemStructure {
      * @param profilePic : the profile picture of the user
      * @param surname    :    the surname of the user
      * @param email      :      the email of the user
+     * @param role:{@code role} the role of the member
+     * @param invitationStatus:{@code invitationStatus} status of the invitation
      */
     public GroupMember(String id, String name, String surname, String profilePic, String email, Role role,
                        InvitationStatus invitationStatus) {

@@ -1,7 +1,12 @@
 package com.tecknobit.pandoro.records.users;
 
 import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.pandoro.records.*;
+import com.tecknobit.pandoro.records.Changelog;
+import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.Note;
+import com.tecknobit.pandoro.records.Project;
+import com.tecknobit.pandoro.records.structures.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -22,7 +27,9 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code User} class is useful to create a <b>Pandoro's user</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see PandoroItem
+ * @see PublicUser
  * @see Serializable
  */
 @Entity
@@ -101,6 +108,11 @@ public class User extends PublicUser {
                 null, null, null);
     }
 
+    /**
+     * Constructor to init a {@link User} object
+     *
+     * @param jUser: user details as {@link JSONObject}
+     */
     public User(JSONObject jUser) {
         super(jUser);
         password = hItem.getString(PASSWORD_KEY);

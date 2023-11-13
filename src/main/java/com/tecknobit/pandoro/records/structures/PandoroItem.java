@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandoro.records.structures;
 
 import com.tecknobit.apimanager.annotations.Structure;
 import jakarta.persistence.*;
@@ -13,6 +13,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see Serializable
  */
 @Entity
@@ -33,6 +34,11 @@ public abstract class PandoroItem extends PandoroItemStructure {
     @Column(name = NAME_KEY)
     protected final String name;
 
+    /**
+     * Constructor to init a {@link PandoroItem} object
+     *
+     * @param jItem: Pandoro's item details as {@link JSONObject}
+     */
     public PandoroItem(JSONObject jItem) {
         super(jItem);
         id = hItem.getString(IDENTIFIER_KEY);

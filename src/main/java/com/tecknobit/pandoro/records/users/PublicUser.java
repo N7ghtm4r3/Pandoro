@@ -1,7 +1,8 @@
 package com.tecknobit.pandoro.records.users;
 
 import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.pandoro.records.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code PublicUser} class is useful to create a <b>Pandoro's public user</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see PandoroItem
  * @see Serializable
  */
@@ -67,6 +69,11 @@ public class PublicUser extends PandoroItem {
         this(null, null, null, null, null);
     }
 
+    /**
+     * Constructor to init a {@link PublicUser} object
+     *
+     * @param jPublicUser: public user details as {@link JSONObject}
+     */
     public PublicUser(JSONObject jPublicUser) {
         super(jPublicUser);
         surname = hItem.getString(SURNAME_KEY);

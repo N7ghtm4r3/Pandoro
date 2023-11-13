@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.structures.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -28,6 +30,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see PandoroItem
  * @see Serializable
  */
@@ -193,6 +196,11 @@ public class Project extends PandoroItem implements Serializable {
                 new ArrayList<>(), "");
     }
 
+    /**
+     * Constructor to init a {@link Project} object
+     *
+     * @param jProject: project details as {@link JSONObject}
+     */
     public Project(JSONObject jProject) {
         super(jProject);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
@@ -219,7 +227,7 @@ public class Project extends PandoroItem implements Serializable {
      * @param id:               identifier of the project
      * @param name:             name of the project
      * @param author:           author of the project
-     * @param shortDescription: short description of the project
+     * @param shortDescription:{@code shortDescription} short description of the project
      * @param description:      description of the project
      * @param version:          last update version
      * @param groups:           groups where the project has been assigned

@@ -3,6 +3,8 @@ package com.tecknobit.pandoro.records;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.pandoro.records.structures.PandoroItem;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -30,6 +32,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see PandoroItem
  * @see Serializable
  */
@@ -117,6 +120,11 @@ public class Group extends PandoroItem {
         this(null, null, null, null, new ArrayList<>(), new ArrayList<>());
     }
 
+    /**
+     * Constructor to init a {@link Group} object
+     *
+     * @param jGroup: group details as {@link JSONObject}
+     */
     public Group(JSONObject jGroup) {
         super(jGroup);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
@@ -133,7 +141,7 @@ public class Group extends PandoroItem {
      * @param id:          identifier of the group
      * @param name:        name of the group
      * @param author:      the author of the group
-     * @param description: the description of the group
+     * @param description:{@code description} the description of the group
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */

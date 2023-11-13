@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.records;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -25,6 +26,7 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_KEY;
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see PandoroItemStructure
  * @see Serializable
  */
 @Entity
@@ -37,57 +39,57 @@ public class Changelog extends PandoroItemStructure {
     public enum ChangelogEvent {
 
         /**
-         * {@code INVITED_GROUP} type of the changelogEvent when the user have been invited to join in a group
+         * {@code INVITED_GROUP} type of the changelog event when the user have been invited to join in a group
          */
         INVITED_GROUP("Invited into a group"),
 
         /**
-         * {@code JOINED_GROUP} type of the changelogEvent when the user joins in a group
+         * {@code JOINED_GROUP} type of the changelog event when the user joins in a group
          */
         JOINED_GROUP("Joined in a group"),
 
         /**
-         * {@code ROLE_CHANGED} type of the changelogEvent when the role of the user in a group has been changed
+         * {@code ROLE_CHANGED} type of the changelog event when the role of the user in a group has been changed
          */
         ROLE_CHANGED("Role changed"),
 
         /**
-         * {@code LEFT_GROUP} type of the changelogEvent when a user left a group
+         * {@code LEFT_GROUP} type of the changelog event when a user left a group
          */
         LEFT_GROUP("Left a group"),
 
         /**
-         * {@code GROUP_DELETED} type of the changelogEvent when a group has been deleted
+         * {@code GROUP_DELETED} type of the changelog event when a group has been deleted
          */
         GROUP_DELETED("Group deleted"),
 
         /**
-         * {@code PROJECT_CREATED} type of the changelogEvent when a new project of a group has been created
+         * {@code PROJECT_CREATED} type of the changelog event when a new project of a group has been created
          */
         PROJECT_CREATED("Project created"),
 
         /**
-         * {@code PROJECT_DELETED} type of the changelogEvent when a project of a group has been deleted
+         * {@code PROJECT_DELETED} type of the changelog event when a project of a group has been deleted
          */
         PROJECT_DELETED("Project deleted"),
 
         /**
-         * {@code UPDATE_SCHEDULED} type of the changelogEvent when a new update of project of a group has been scheduled
+         * {@code UPDATE_SCHEDULED} type of the changelog event when a new update of project of a group has been scheduled
          */
         UPDATE_SCHEDULED("ProjectUpdate scheduled"),
 
         /**
-         * {@code UPDATE_STARTED} type of the changelogEvent when an update of project of a group has been started
+         * {@code UPDATE_STARTED} type of the changelog event when an update of project of a group has been started
          */
         UPDATE_STARTED("ProjectUpdate started"),
 
         /**
-         * {@code UPDATE_PUBLISHED} type of the changelogEvent when an update of project of a group has been published
+         * {@code UPDATE_PUBLISHED} type of the changelog event when an update of project of a group has been published
          */
         UPDATE_PUBLISHED("ProjectUpdate published"),
 
         /**
-         * {@code UPDATE_DELETED} type of the changelogEvent when an update of project of a group has been deleted
+         * {@code UPDATE_DELETED} type of the changelog event when an update of project of a group has been deleted
          */
         UPDATE_DELETED("ProjectUpdate deleted");
 
@@ -118,26 +120,26 @@ public class Changelog extends PandoroItemStructure {
     }
 
     /**
-     * {@code id} the identifier of the changelogEvent message
+     * {@code id} the identifier of the changelog event message
      */
     @Id
     @Column(name = CHANGELOG_IDENTIFIER_KEY)
     private final String id;
 
     /**
-     * {@code changelogEvent} the value of the changelogEvent
+     * {@code changelogEvent} the value of the changelog event
      */
     @Column(name = CHANGELOG_EVENT_KEY)
     private final ChangelogEvent changelogEvent;
 
     /**
-     * {@code timestamp} when the changelogEvent has been created
+     * {@code timestamp} when the changelog event has been created
      */
     @Column(name = CHANGELOG_TIMESTAMP_KEY)
     private final long timestamp;
 
     /**
-     * {@code project} the project of the changelogEvent
+     * {@code project} the project of the changelog event
      */
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -148,7 +150,7 @@ public class Changelog extends PandoroItemStructure {
     private final Project project;
 
     /**
-     * {@code group} the group of the changelogEvent
+     * {@code group} the group of the changelog event
      */
     @ManyToOne(
             fetch = FetchType.LAZY,
@@ -159,7 +161,7 @@ public class Changelog extends PandoroItemStructure {
     private final Group group;
 
     /**
-     * {@code extraContent} extra content data of the changelogEvent
+     * {@code extraContent} extra content data of the changelog event
      */
     @Column(name = CHANGELOG_EXTRA_CONTENT_KEY)
     private final String extraContent;
@@ -186,9 +188,14 @@ public class Changelog extends PandoroItemStructure {
      * @apiNote empty constructor required
      */
     public Changelog() {
-        this(null, null, -1, (Project) null, null, false);
+        this(null, null, -1, null, null, false);
     }
 
+    /**
+     * Constructor to init a {@link Changelog} object
+     *
+     * @param jChangelog: changelog details as {@link JSONObject}
+     */
     public Changelog(JSONObject jChangelog) {
         super(jChangelog);
         id = hItem.getString(IDENTIFIER_KEY);
@@ -223,28 +230,6 @@ public class Changelog extends PandoroItemStructure {
     }
 
     /**
-     * Constructor to init a {@link Changelog} object
-     *
-     * @param id             :           the identifier of the changelogEvent message
-     * @param changelogEvent :       the value of the changelogEvent
-     * @param timestamp      :    when the changelogEvent has been created
-     * @param group          :        the group of the changelogEvent
-     * @param extraContent   : extra content data of the changelogEvent
-     * @param red:           whether the changelog has been red
-     */
-    public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Group group,
-                     String extraContent, boolean red) {
-        super(null);
-        this.id = id;
-        this.changelogEvent = changelogEvent;
-        this.timestamp = timestamp;
-        this.group = group;
-        this.extraContent = extraContent;
-        this.red = red;
-        project = null;
-    }
-
-    /**
      * Method to get {@link #id} instance <br>
      * No-any params required
      *
@@ -266,10 +251,10 @@ public class Changelog extends PandoroItemStructure {
     }
 
     /**
-     * Method to get the title for the changelogEvent message <br>
+     * Method to get the title for the changelog event message <br>
      * No-any params required
      *
-     * @return the title for the changelogEvent message as {@link String}
+     * @return the title for the changelog event message as {@link String}
      */
     public String getTitle() {
         return changelogEvent.getEvent() + " at " + getDate();
