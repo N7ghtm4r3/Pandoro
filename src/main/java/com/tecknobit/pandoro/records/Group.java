@@ -1,9 +1,7 @@
 package com.tecknobit.pandoro.records;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -20,7 +18,6 @@ import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
@@ -35,9 +32,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  */
 @Entity
 @Table(name = GROUPS_KEY)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = IDENTIFIER_KEY)
 public class Group extends PandoroItem {
 
     /**

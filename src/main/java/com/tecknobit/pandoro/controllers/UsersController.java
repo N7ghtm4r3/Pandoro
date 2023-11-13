@@ -5,7 +5,9 @@ import com.tecknobit.pandoro.services.UsersHelper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
@@ -22,6 +24,8 @@ public class UsersController extends PandoroController {
     public static final String SIGN_UP_ENDPOINT = "/signUp";
 
     public static final String SIGN_IN_ENDPOINT = "/signIn";
+
+    public static final String GET_PROFILE_PIC_ENDPOINT = "/getProfilePic";
 
     public static final String CHANGE_PROFILE_PIC_ENDPOINT = "/changeProfilePic";
 
@@ -97,7 +101,22 @@ public class UsersController extends PandoroController {
             return failedResponse(WRONG_EMAIL_MESSAGE);
     }
 
-    // TODO: 01/11/2023 PASS CORRECT PROFILE PIC 
+    @GetMapping(
+            path = "{" + IDENTIFIER_KEY + "}" + GET_PROFILE_PIC_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    public String getProfilePic(
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token
+    ) {
+        if (isAuthenticatedUser(id, token))
+            return usersHelper.getProfilePic(id);
+        else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
     @PatchMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PROFILE_PIC_ENDPOINT,
             headers = {
@@ -107,12 +126,17 @@ public class UsersController extends PandoroController {
     public String changeProfilePic(
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String profilePic
+            @RequestParam(PROFILE_PIC_KEY) MultipartFile profilePic
     ) {
         if (!profilePic.isEmpty()) {
             if (isAuthenticatedUser(id, token)) {
-                usersHelper.changeProfilePic(id, token, profilePic);
-                return successResponse();
+                try {
+                    return successResponse(new JSONObject()
+                            .put(PROFILE_PIC_KEY, usersHelper.changeProfilePic(id, token, profilePic))
+                    );
+                } catch (IOException e) {
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                }
             } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
         } else

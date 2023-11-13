@@ -22,8 +22,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
 
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + UPDATE_KEY + " = NULL"
-                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+                    + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);

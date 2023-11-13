@@ -309,6 +309,7 @@ public class Changelog implements Serializable {
      *
      * @return the content message in base of the {@link #changelogEvent} type as {@link String}
      */
+    @JsonIgnore
     public String getContent() {
         String entityName;
         if (group != null)

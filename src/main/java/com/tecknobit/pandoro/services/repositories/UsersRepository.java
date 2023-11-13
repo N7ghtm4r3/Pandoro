@@ -42,12 +42,11 @@ public interface UsersRepository extends JpaRepository<User, String> {
     )
     User getUserByEmail(@Param(EMAIL_KEY) String email);
 
-    // TODO: 01/11/2023 PASS CORRECT PROFILE PIC
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:" + PROFILE_PIC_KEY + " WHERE "
-                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + "AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
     void changeProfilePic(

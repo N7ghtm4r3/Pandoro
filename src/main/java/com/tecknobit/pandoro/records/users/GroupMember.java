@@ -1,9 +1,7 @@
 package com.tecknobit.pandoro.records.users;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.PandoroItem;
 import jakarta.persistence.*;
@@ -26,9 +24,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  */
 @Entity
 @Table(name = GROUP_MEMBERS_TABLE)
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = IDENTIFIER_KEY)
 @IdClass(GroupMemberCompositeKey.class)
 public class GroupMember {
 
