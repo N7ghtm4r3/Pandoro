@@ -1,8 +1,10 @@
 package com.tecknobit.pandoro.services;
 
+import com.tecknobit.apimanager.apis.sockets.SocketManager;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,13 +46,28 @@ public class UsersHelper {
 
     public static final String ADMIN_GROUPS_KEY = "adminGroups";
 
-    public static final String PROFILE_PICS_FOLDER = "profilePics/";
+    public static final String PROFILE_PICS_FOLDER = "src/main/resources/profilePics/";
 
-    // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
-    public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
+    private static final String HOST_ADDRESS;
+
+    static {
+        try {
+            HOST_ADDRESS = new SocketManager(false).getHost(true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private Environment environment;
+
+    private final String SERVER_PORT = "8080";//environment.getProperty("local.server.port");
+
+    // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
+    public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
 
     public void signUp(String userId, String token, String name, String surname, String email, String password) {
         usersRepository.save(new User(
@@ -85,19 +102,10 @@ public class UsersHelper {
         try (OutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(profilePic.getBytes());
         }
-        String profilePicPath = file.getPath();
+        // TODO: 13/11/2023 FIX
+        String profilePicPath = HOST_ADDRESS + ":" + SERVER_PORT + "/" + file.getPath();
         usersRepository.changeProfilePic(userId, token, profilePicPath);
         return profilePicPath;
-    }
-
-    public String getProfilePic(String userId) {
-        File picsFolder = new File(PROFILE_PICS_FOLDER);
-        for (File pic : Objects.requireNonNull(picsFolder.listFiles())) {
-            String picName = pic.getName();
-            if (picName.contains(userId))
-                return PROFILE_PICS_FOLDER + picName;
-        }
-        return DEFAULT_PROFILE_PIC;
     }
 
     public void changeEmail(String userId, String token, String newEmail) {

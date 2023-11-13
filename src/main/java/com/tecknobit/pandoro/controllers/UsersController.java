@@ -25,8 +25,6 @@ public class UsersController extends PandoroController {
 
     public static final String SIGN_IN_ENDPOINT = "/signIn";
 
-    public static final String GET_PROFILE_PIC_ENDPOINT = "/getProfilePic";
-
     public static final String CHANGE_PROFILE_PIC_ENDPOINT = "/changeProfilePic";
 
     public static final String CHANGE_EMAIL_ENDPOINT = "/changeEmail";
@@ -99,22 +97,6 @@ public class UsersController extends PandoroController {
                 return failedResponse(WRONG_PASSWORD_MESSAGE);
         } else
             return failedResponse(WRONG_EMAIL_MESSAGE);
-    }
-
-    @GetMapping(
-            path = "{" + IDENTIFIER_KEY + "}" + GET_PROFILE_PIC_ENDPOINT,
-            headers = {
-                    TOKEN_KEY
-            }
-    )
-    public String getProfilePic(
-            @PathVariable String id,
-            @RequestHeader(TOKEN_KEY) String token
-    ) {
-        if (isAuthenticatedUser(id, token))
-            return usersHelper.getProfilePic(id);
-        else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     @PatchMapping(
