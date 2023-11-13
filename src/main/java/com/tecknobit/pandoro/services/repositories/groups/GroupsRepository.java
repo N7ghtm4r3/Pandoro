@@ -26,7 +26,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
 
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_KEY + " WHERE " + GROUP_MEMBERS_TABLE
+                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE
                     + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "."
                     + INVITATION_STATUS_KEY + " = " + "'JOINED'",
             nativeQuery = true

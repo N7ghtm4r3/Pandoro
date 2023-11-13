@@ -2,15 +2,22 @@ package com.tecknobit.pandoro.records.users;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.PandoroItem;
+import com.tecknobit.pandoro.records.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.PENDING;
+import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
@@ -25,7 +32,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 @Entity
 @Table(name = GROUP_MEMBERS_TABLE)
 @IdClass(GroupMemberCompositeKey.class)
-public class GroupMember {
+public class GroupMember extends PandoroItemStructure {
 
     /**
      * {@code Role} list of available roles for a group's member
@@ -116,7 +123,7 @@ public class GroupMember {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = GROUP_KEY)
+    @JoinColumn(name = GROUP_MEMBER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group_member;
 
@@ -127,6 +134,17 @@ public class GroupMember {
      */
     public GroupMember() {
         this(null, null, null, null, null, null, null);
+    }
+
+    public GroupMember(JSONObject jGroupMember) {
+        super(jGroupMember);
+        id = hItem.getString(IDENTIFIER_KEY);
+        name = hItem.getString(NAME_KEY);
+        surname = hItem.getString(SURNAME_KEY);
+        profilePic = hItem.getString(PROFILE_PIC_KEY);
+        email = hItem.getString(EMAIL_KEY);
+        role = Role.valueOf(hItem.getString(MEMBER_ROLE_KEY, DEVELOPER.name()));
+        invitationStatus = InvitationStatus.valueOf(hItem.getString(INVITATION_STATUS_KEY, PENDING.name()));
     }
 
     /**
@@ -140,6 +158,7 @@ public class GroupMember {
      */
     public GroupMember(String id, String name, String surname, String profilePic, String email, Role role,
                        InvitationStatus invitationStatus) {
+        super(null);
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -261,6 +280,36 @@ public class GroupMember {
      */
     public boolean isLoggedUser(User userLogged) {
         return userLogged.getId().equals(id);
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link GroupMember}
+     */
+    @Returner
+    public static ArrayList<GroupMember> getInstances(JSONArray jItems) {
+        ArrayList<GroupMember> groupMembers = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                groupMembers.add(new GroupMember(jItems.getJSONObject(j)));
+        }
+        return groupMembers;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link GroupMember}
+     */
+    @Returner
+    public static GroupMember getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new GroupMember(jItem);
     }
 
 }

@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -9,6 +10,8 @@ import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_MEMBER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
@@ -77,7 +80,7 @@ public class Group extends PandoroItem {
      * {@code groupMembers} the list of the groupMembers of the group
      */
     @OneToMany(
-            mappedBy = GROUP_KEY,
+            mappedBy = GROUP_MEMBER_KEY,
             cascade = CascadeType.ALL
     )
     private final List<GroupMember> groupMembers;
@@ -112,6 +115,16 @@ public class Group extends PandoroItem {
      */
     public Group() {
         this(null, null, null, null, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public Group(JSONObject jGroup) {
+        super(jGroup);
+        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        description = hItem.getString(GROUP_DESCRIPTION_KEY);
+        groupMembers = GroupMember.getInstances(hItem.getJSONArray(GROUP_MEMBERS_TABLE));
+        totalMembers = groupMembers.size();
+        projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
+        totalProjects = projects.size();
     }
 
     /**
@@ -227,6 +240,36 @@ public class Group extends PandoroItem {
             if (user.getId().equals(groupMember.getId()))
                 return groupMember.isAdmin();
         return false;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link Group}
+     */
+    @Returner
+    public static ArrayList<Group> getInstances(JSONArray jItems) {
+        ArrayList<Group> groups = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                groups.add(new Group(jItems.getJSONObject(j)));
+        }
+        return groups;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link Group}
+     */
+    @Returner
+    public static Group getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new Group(jItem);
     }
 
 }

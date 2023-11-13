@@ -1,15 +1,21 @@
 package com.tecknobit.pandoro.records.users;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.*;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
+import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.CHANGELOG_OWNER_KEY;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
@@ -93,6 +99,16 @@ public class User extends PublicUser {
     public User() {
         this(null, null, null, null, null, null, null, null,
                 null, null, null);
+    }
+
+    public User(JSONObject jUser) {
+        super(jUser);
+        password = hItem.getString(PASSWORD_KEY);
+        token = hItem.getString(PASSWORD_KEY);
+        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
+        changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
+        projects = hItem.fetchList(PROJECTS_KEY);
+        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
     /**
@@ -214,6 +230,20 @@ public class User extends PublicUser {
             if (group.isUserAdmin(this))
                 subGroups.add(group);
         return subGroups;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link User}
+     */
+    @Returner
+    public static User getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new User(jItem);
     }
 
 }

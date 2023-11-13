@@ -2,12 +2,14 @@ package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -19,6 +21,7 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.records.ProjectUpdate.Status.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
@@ -30,7 +33,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  */
 @Entity
 @Table(name = UPDATES_KEY)
-public class ProjectUpdate implements Serializable {
+public class ProjectUpdate extends PandoroItemStructure {
 
     /**
      * {@code TARGET_VERSION_MAX_LENGTH} the max length of the target version for an update
@@ -202,78 +205,27 @@ public class ProjectUpdate implements Serializable {
         this(null, null, -1, null, null, -1, null, -1, null);
     }
 
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param id:            identifier of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
-     * @param notes:         the notes for the update to be done
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public ProjectUpdate(String id, long createDate, String targetVersion, ArrayList<Note> notes) {
-        this(id, null, createDate, targetVersion, null, -1, null, -1, notes);
-    }
-
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param id:            identifier of the update
-     * @param author:        the author of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
-     * @param notes:         the notes for the update to be done
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public ProjectUpdate(String id, User author, long createDate, String targetVersion, ArrayList<Note> notes) {
-        this(id, author, createDate, targetVersion, null, -1, null, -1, notes);
-    }
-
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param id:            identifier of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
-     * @param startDate:     when the update has been started
-     * @param notes:         the notes for the update to be done
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public ProjectUpdate(String id, long createDate, String targetVersion, long startDate, ArrayList<Note> notes) {
-        this(id, null, createDate, targetVersion, null, startDate, null, -1, notes);
-    }
-
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param id:            identifier of the update
-     * @param author:        the author of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
-     * @param startedBy:     who created the update
-     * @param startDate:     when the update has been started
-     * @param notes:         the notes for the update to be doneea tee
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public ProjectUpdate(String id, User author, long createDate, String targetVersion, User startedBy, long startDate,
-                         ArrayList<Note> notes) {
-        this(id, author, createDate, targetVersion, startedBy, startDate, null, -1, notes);
-    }
-
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param id:            identifier of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion: the target version of the update
-     * @param startDate:     when the update has been started
-     * @param publishDate:   when the update has been published
-     * @param notes:         the notes for the update to be doneea tree
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public ProjectUpdate(String id, long createDate, String targetVersion, long startDate, long publishDate,
-                         ArrayList<Note> notes) {
-        this(id, null, createDate, targetVersion, null, startDate, null, publishDate, notes);
+    public ProjectUpdate(JSONObject jProjectUpdate) {
+        super(jProjectUpdate);
+        id = hItem.getString(IDENTIFIER_KEY);
+        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        createDate = hItem.getLong(UPDATE_CREATE_DATE_KEY, -1);
+        targetVersion = hItem.getString(UPDATE_TARGET_VERSION_KEY);
+        startedBy = PublicUser.getInstance(hItem.getJSONObject(UPDATE_STARTED_BY_KEY));
+        startDate = hItem.getLong(UPDATE_START_DATE_KEY, -1);
+        publishedBy = PublicUser.getInstance(hItem.getJSONObject(UPDATE_PUBLISHED_BY_KEY));
+        publishDate = hItem.getLong(UPDATE_PUBLISH_DATE_KEY, -1);
+        if (publishDate != -1) {
+            developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
+            status = PUBLISHED;
+        } else if (startDate == -1) {
+            status = SCHEDULED;
+            developmentDuration = -1;
+        } else {
+            developmentDuration = -1;
+            status = IN_DEVELOPMENT;
+        }
+        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
     /**
@@ -291,6 +243,7 @@ public class ProjectUpdate implements Serializable {
      */
     public ProjectUpdate(String id, User author, long createDate, String targetVersion, PublicUser startedBy, long startDate,
                          PublicUser publishedBy, long publishDate, ArrayList<Note> notes) {
+        super(null);
         this.id = id;
         this.author = author;
         this.createDate = createDate;
@@ -301,13 +254,13 @@ public class ProjectUpdate implements Serializable {
         this.publishDate = publishDate;
         if (publishDate != -1) {
             developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
-            status = Status.PUBLISHED;
+            status = PUBLISHED;
         } else if (startDate == -1) {
-            status = Status.SCHEDULED;
+            status = SCHEDULED;
             developmentDuration = -1;
         } else {
             developmentDuration = -1;
-            status = Status.IN_DEVELOPMENT;
+            status = IN_DEVELOPMENT;
         }
         this.notes = notes;
     }
@@ -459,14 +412,33 @@ public class ProjectUpdate implements Serializable {
     }
 
     /**
-     * Returns a string representation of the object <br>
-     * No-any params required
+     * Method to get an instance of this Telegram's type
      *
-     * @return a string representation of the object as {@link String}
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link ProjectUpdate}
      */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+    @Returner
+    public static ArrayList<ProjectUpdate> getInstances(JSONArray jItems) {
+        ArrayList<ProjectUpdate> updates = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                updates.add(new ProjectUpdate(jItems.getJSONObject(j)));
+        }
+        return updates;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link ProjectUpdate}
+     */
+    @Returner
+    public static ProjectUpdate getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new ProjectUpdate(jItem);
     }
 
 }

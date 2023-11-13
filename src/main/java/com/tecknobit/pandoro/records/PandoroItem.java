@@ -18,7 +18,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 @Entity
 @Structure
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class PandoroItem implements Serializable {
+public abstract class PandoroItem extends PandoroItemStructure {
 
     /**
      * {@code id} identifier of the item
@@ -33,6 +33,12 @@ public abstract class PandoroItem implements Serializable {
     @Column(name = NAME_KEY)
     protected final String name;
 
+    public PandoroItem(JSONObject jItem) {
+        super(jItem);
+        id = hItem.getString(IDENTIFIER_KEY);
+        name = hItem.getString(NAME_KEY);
+    }
+
     /**
      * Constructor to init a {@link PandoroItem} object
      *
@@ -40,6 +46,7 @@ public abstract class PandoroItem implements Serializable {
      * @param name: of the item
      */
     public PandoroItem(String id, String name) {
+        super(null);
         this.id = id;
         this.name = name;
     }
@@ -62,17 +69,6 @@ public abstract class PandoroItem implements Serializable {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Returns a string representation of the object <br>
-     * No-any params required
-     *
-     * @return a string representation of the object as {@link String}
-     */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
     }
 
 }

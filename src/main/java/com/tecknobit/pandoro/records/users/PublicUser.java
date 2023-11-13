@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.records.users;
 
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.PandoroItem;
 import jakarta.persistence.*;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -65,6 +67,13 @@ public class PublicUser extends PandoroItem {
         this(null, null, null, null, null);
     }
 
+    public PublicUser(JSONObject jPublicUser) {
+        super(jPublicUser);
+        surname = hItem.getString(SURNAME_KEY);
+        profilePic = hItem.getString(PROFILE_PIC_KEY);
+        email = hItem.getString(EMAIL_KEY);
+    }
+
     /**
      * Constructor to init a {@link PublicUser} object
      *
@@ -120,6 +129,20 @@ public class PublicUser extends PandoroItem {
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link PublicUser}
+     */
+    @Returner
+    public static PublicUser getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new PublicUser(jItem);
     }
 
 }

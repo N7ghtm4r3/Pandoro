@@ -33,7 +33,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
                     + SURNAME_KEY + ","
                     + MEMBER_ROLE_KEY + ","
                     + INVITATION_STATUS_KEY + ","
-                    + GROUP_KEY + ") VALUES "
+                    + GROUP_MEMBER_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + NAME_KEY + ","
@@ -42,7 +42,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
                     + ":" + SURNAME_KEY + ","
                     + ":#{#" + MEMBER_ROLE_KEY + ".name()},"
                     + ":#{#" + INVITATION_STATUS_KEY + ".name()},"
-                    + ":" + GROUP_KEY + ")",
+                    + ":" + GROUP_MEMBER_KEY + ")",
             nativeQuery = true
     )
     void insertMember(
@@ -53,41 +53,41 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(SURNAME_KEY) String surname,
             @Param(MEMBER_ROLE_KEY) Role role,
             @Param(INVITATION_STATUS_KEY) InvitationStatus invitationStatus,
-            @Param(GROUP_KEY) String groupId
+            @Param(GROUP_MEMBER_KEY) String groupId
     );
 
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
-                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+                    + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     GroupMember getGroupMemberByEmail(
             @Param(IDENTIFIER_KEY) String userId,
-            @Param(GROUP_KEY) String groupId,
+            @Param(GROUP_MEMBER_KEY) String groupId,
             @Param(EMAIL_KEY) String email
     );
 
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+                    + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
             nativeQuery = true
     )
     GroupMember getGroupMember(
             @Param(IDENTIFIER_KEY) String userId,
-            @Param(GROUP_KEY) String groupId
+            @Param(GROUP_MEMBER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
             value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + INVITATION_STATUS_KEY + "=" + "'JOINED'"
-                    + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void acceptGroupInvitation(
             @Param(IDENTIFIER_KEY) String userId,
-            @Param(GROUP_KEY) String groupId
+            @Param(GROUP_MEMBER_KEY) String groupId
     );
 
     @Modifying(clearAutomatically = true)
@@ -95,43 +95,43 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     @Query(
             value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + MEMBER_ROLE_KEY + "="
                     + ":#{#" + MEMBER_ROLE_KEY + ".name()}"
-                    + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+                    + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void changeMemberRole(
             @Param(IDENTIFIER_KEY) String userId,
-            @Param(GROUP_KEY) String groupId,
+            @Param(GROUP_MEMBER_KEY) String groupId,
             @Param(MEMBER_ROLE_KEY) Role role
     );
 
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + MEMBER_ROLE_KEY + "= 'ADMIN'"
-                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_KEY + "=:" + GROUP_KEY,
+                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
             nativeQuery = true
     )
     List<GroupMember> getGroupAdmins(
             @Param(IDENTIFIER_KEY) String memberId,
-            @Param(GROUP_KEY) String groupId
+            @Param(GROUP_MEMBER_KEY) String groupId
     );
 
     @Query(
-            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY
                     + " AND " + INVITATION_STATUS_KEY + " = 'JOINED'",
             nativeQuery = true
     )
-    List<GroupMember> getGroupMembers(@Param(GROUP_KEY) String groupId);
+    List<GroupMember> getGroupMembers(@Param(GROUP_MEMBER_KEY) String groupId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_KEY + "=:" + GROUP_KEY
+            value = "DELETE FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void leaveGroup(
             @Param(IDENTIFIER_KEY) String userId,
-            @Param(GROUP_KEY) String groupId
+            @Param(GROUP_MEMBER_KEY) String groupId
     );
 
 }

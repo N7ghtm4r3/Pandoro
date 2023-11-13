@@ -25,7 +25,9 @@ public class GroupsHelper {
 
     public static final String GROUP_IDENTIFIER_KEY = "group_id";
 
-    public static final String GROUP_KEY = "group_member";
+    public static final String GROUP_KEY = "group";
+
+    public static final String GROUP_MEMBER_KEY = "group_member";
 
     public static final String GROUP_DESCRIPTION_KEY = "group_description";
 

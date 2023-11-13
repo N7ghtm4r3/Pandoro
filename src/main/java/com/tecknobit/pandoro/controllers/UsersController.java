@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
@@ -64,6 +65,7 @@ public class UsersController extends PandoroController {
                                     .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
                             );
                         } catch (Exception e) {
+                            e.printStackTrace();
                             return failedResponse(WRONG_PROCEDURE_MESSAGE);
                         }
                     } else
@@ -82,17 +84,21 @@ public class UsersController extends PandoroController {
         String password = payload.get(PASSWORD_KEY);
         if (isEmailValid(email)) {
             if (isPasswordValid(password)) {
-                User user = usersHelper.signIn(email, password);
-                if (user != null) {
-                    return successResponse(new JSONObject()
-                            .put(IDENTIFIER_KEY, user.getId())
-                            .put(TOKEN_KEY, user.getToken())
-                            .put(NAME_KEY, user.getName())
-                            .put(SURNAME_KEY, user.getSurname())
-                            .put(PROFILE_PIC_KEY, user.getProfilePic())
-                    );
-                } else
+                try {
+                    User user = usersHelper.signIn(email, password);
+                    if (user != null) {
+                        return successResponse(new JSONObject()
+                                .put(IDENTIFIER_KEY, user.getId())
+                                .put(TOKEN_KEY, user.getToken())
+                                .put(NAME_KEY, user.getName())
+                                .put(SURNAME_KEY, user.getSurname())
+                                .put(PROFILE_PIC_KEY, user.getProfilePic())
+                        );
+                    } else
+                        return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                } catch (NoSuchAlgorithmException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                }
             } else
                 return failedResponse(WRONG_PASSWORD_MESSAGE);
         } else
@@ -112,13 +118,13 @@ public class UsersController extends PandoroController {
     ) {
         if (!profilePic.isEmpty()) {
             if (isAuthenticatedUser(id, token)) {
+                String profilePicPath;
                 try {
-                    return successResponse(new JSONObject()
-                            .put(PROFILE_PIC_KEY, usersHelper.changeProfilePic(id, token, profilePic))
-                    );
+                    profilePicPath = usersHelper.changeProfilePic(id, token, profilePic);
                 } catch (IOException e) {
-                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    profilePicPath = DEFAULT_PROFILE_PIC;
                 }
+                return successResponse(new JSONObject().put(PROFILE_PIC_KEY, profilePicPath));
             } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
         } else
@@ -159,8 +165,12 @@ public class UsersController extends PandoroController {
     ) {
         if (isPasswordValid(newPassword)) {
             if (isAuthenticatedUser(id, token)) {
-                usersHelper.changePassword(id, token, newPassword);
-                return successResponse();
+                try {
+                    usersHelper.changePassword(id, token, newPassword);
+                    return successResponse();
+                } catch (NoSuchAlgorithmException e) {
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                }
             } else
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
         } else

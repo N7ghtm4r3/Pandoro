@@ -2,11 +2,14 @@ package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -190,161 +193,24 @@ public class Project extends PandoroItem implements Serializable {
                 new ArrayList<>(), "");
     }
 
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param name: {@code name}
-     */
-    // TODO: 21/08/2023 TO REMOVE
-    public Project(String name) {
-        this("provaIdProj", name, "shortDescription", "description", "version",
-                new ArrayList<>(), new ArrayList<>(), "");
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param projectRepo:      the repository of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, String shortDescription, String description, String version, String projectRepo) {
-        this(id, name, shortDescription, description, version, new ArrayList<>(), new ArrayList<>(), projectRepo);
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param updates:          updates of the project
-     * @param projectRepo:      the repository of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<ProjectUpdate> updates, String projectRepo) {
-        this(id, name, shortDescription, description, version, new ArrayList<>(), updates, projectRepo);
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, String shortDescription, String description, String version) {
-        this(id, name, shortDescription, description, version, new ArrayList<>(), new ArrayList<>(), "");
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param updates:          updates of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<ProjectUpdate> updates) {
-        this(id, name, shortDescription, description, version, updates, "");
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param groups:           groups where the project has been assigned
-     * @param updates:          updates of the project
-     * @param projectRepo:      the repository of the project
-     */
-    public Project(String id, String name, String shortDescription, String description, String version,
-                   ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
-        this(id, name, null, shortDescription, description, version, groups, updates, projectRepo);
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param author:           author of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param projectRepo:      the repository of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   String projectRepo) {
-        this(id, name, author, shortDescription, description, version, new ArrayList<>(), new ArrayList<>(), projectRepo);
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param author:           author of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param updates:          updates of the project
-     * @param projectRepo:      the repository of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   ArrayList<ProjectUpdate> updates, String projectRepo) {
-        this(id, name, author, shortDescription, description, version, new ArrayList<>(), updates, projectRepo);
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param author:           author of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, User author, String shortDescription, String description, String version) {
-        this(id, name, author, shortDescription, description, version, new ArrayList<>(), new ArrayList<>(), "");
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param author:           author of the project
-     * @param shortDescription: short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param updates:          updates of the project
-     */
-    // TODO: 21/08/2023 CHECK TO REMOVE
-    public Project(String id, String name, User author, String shortDescription, String description, String version,
-                   ArrayList<ProjectUpdate> updates) {
-        this(id, name, author, shortDescription, description, version, updates, "");
+    public Project(JSONObject jProject) {
+        super(jProject);
+        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
+        description = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
+        version = hItem.getString(PROJECT_VERSION_KEY);
+        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
+        updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
+        updatesNumber = updates.size();
+        if (updatesNumber > 0)
+            lastUpdate = updates.get(updatesNumber - 1).getPublishTimestamp();
+        else
+            lastUpdate = -1;
+        projectRepo = hItem.getString(PROJECT_REPOSITORY_KEY);
+        if (!projectRepo.isEmpty())
+            repositoryPlatform = RepositoryPlatform.reachPlatform(projectRepo);
+        else
+            repositoryPlatform = null;
     }
 
     /**
@@ -364,10 +230,10 @@ public class Project extends PandoroItem implements Serializable {
                    ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         super(id, name);
         this.author = author;
-        updatesNumber = updates.size();
         this.shortDescription = shortDescription;
         this.description = description;
         this.version = version;
+        updatesNumber = updates.size();
         if (updatesNumber > 0)
             lastUpdate = updates.get(updatesNumber - 1).getPublishTimestamp();
         else
@@ -550,6 +416,36 @@ public class Project extends PandoroItem implements Serializable {
     @JsonIgnore
     public boolean hasGroups() {
         return !groups.isEmpty();
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link Project}
+     */
+    @Returner
+    public static ArrayList<Project> getInstances(JSONArray jItems) {
+        ArrayList<Project> projects = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                projects.add(new Project(jItems.getJSONObject(j)));
+        }
+        return projects;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link Project}
+     */
+    @Returner
+    public static Project getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new Project(jItem);
     }
 
 }

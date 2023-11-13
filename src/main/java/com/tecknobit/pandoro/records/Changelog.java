@@ -1,18 +1,25 @@
 package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_KEY;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -22,7 +29,7 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_K
  */
 @Entity
 @Table(name = CHANGELOGS_KEY)
-public class Changelog implements Serializable {
+public class Changelog extends PandoroItemStructure {
 
     /**
      * {@code ChangelogEvent} list of available event types
@@ -179,21 +186,18 @@ public class Changelog implements Serializable {
      * @apiNote empty constructor required
      */
     public Changelog() {
-        this(null, null, -1, (Project) null, false);
+        this(null, null, -1, (Project) null, null, false);
     }
 
-    /**
-     * Constructor to init a {@link Changelog} object
-     *
-     * @param id             :        the identifier of the changelogEvent message
-     * @param changelogEvent :    the value of the changelogEvent
-     * @param timestamp      : when the changelogEvent has been created
-     * @param project        :   the project of the changelogEvent
-     * @param red:           whether the changelog has been red
-     */
-    public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Project project,
-                     boolean red) {
-        this(id, changelogEvent, timestamp, project, null, red);
+    public Changelog(JSONObject jChangelog) {
+        super(jChangelog);
+        id = hItem.getString(IDENTIFIER_KEY);
+        changelogEvent = ChangelogEvent.valueOf(hItem.getString(CHANGELOG_EVENT_KEY));
+        timestamp = hItem.getLong(CHANGELOG_TIMESTAMP_KEY, -1);
+        project = Project.getInstance(hItem.getJSONObject(PROJECT_KEY));
+        extraContent = hItem.getString(CHANGELOG_EXTRA_CONTENT_KEY);
+        red = hItem.getBoolean(CHANGELOG_RED_KEY);
+        group = Group.getInstance(hItem.getJSONObject(GROUP_KEY));
     }
 
     /**
@@ -208,6 +212,7 @@ public class Changelog implements Serializable {
      */
     public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Project project,
                      String extraContent, boolean red) {
+        super(null);
         this.id = id;
         this.changelogEvent = changelogEvent;
         this.timestamp = timestamp;
@@ -215,20 +220,6 @@ public class Changelog implements Serializable {
         this.extraContent = extraContent;
         this.red = red;
         group = null;
-    }
-
-    /**
-     * Constructor to init a {@link Changelog} object
-     *
-     * @param id             :        the identifier of the changelogEvent message
-     * @param changelogEvent :    the value of the changelogEvent
-     * @param timestamp      : when the changelogEvent has been created
-     * @param group          :     the group of the changelogEvent
-     * @param red:           whether the changelog has been red
-     */
-    public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Group group,
-                     boolean red) {
-        this(id, changelogEvent, timestamp, group, null, red);
     }
 
     /**
@@ -243,6 +234,7 @@ public class Changelog implements Serializable {
      */
     public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Group group,
                      String extraContent, boolean red) {
+        super(null);
         this.id = id;
         this.changelogEvent = changelogEvent;
         this.timestamp = timestamp;
@@ -380,6 +372,36 @@ public class Changelog implements Serializable {
      */
     public boolean isRed() {
         return red;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link Changelog}
+     */
+    @Returner
+    public static ArrayList<Changelog> getInstances(JSONArray jItems) {
+        ArrayList<Changelog> notes = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                notes.add(new Changelog(jItems.getJSONObject(j)));
+        }
+        return notes;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link Changelog}
+     */
+    @Returner
+    public static Changelog getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new Changelog(jItem);
     }
 
 }

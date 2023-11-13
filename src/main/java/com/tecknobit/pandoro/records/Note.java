@@ -2,15 +2,18 @@ package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
@@ -30,7 +33,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  */
 @Entity
 @Table(name = NOTES_KEY)
-public class Note implements Serializable {
+public class Note extends PandoroItemStructure {
 
     /**
      * {@code NOTE_CONTENT_MAX_LENGTH} the max length of the content for a note
@@ -134,43 +137,18 @@ public class Note implements Serializable {
      * @apiNote empty constructor required
      */
     public Note() {
-        this(null, null, -1);
+        this(null, null, null, -1, false, null, -1);
     }
 
-    /**
-     * Constructor to init a {@link Note} object
-     *
-     * @param id:           the identifier of the note
-     * @param content:      the content of the note
-     * @param creationDate: when the note has been created
-     */
-    public Note(String id, String content, long creationDate) {
-        this(id, null, content, creationDate, false, null, -1);
-    }
-
-    /**
-     * Constructor to init a {@link Note} object
-     *
-     * @param id:               the identifier of the note
-     * @param content:          the content of the note
-     * @param creationDate:     when the note has been created
-     * @param markedAsDone:     whether the note is marked as done
-     * @param markAsDoneDate: when the note has been marked as done
-     */
-    public Note(String id, String content, long creationDate, boolean markedAsDone, long markAsDoneDate) {
-        this(id, null, content, creationDate, markedAsDone, null, markAsDoneDate);
-    }
-
-    /**
-     * Constructor to init a {@link Note} object
-     *
-     * @param id:           the identifier of the note
-     * @param author:       the author of the note
-     * @param content:      the content of the note
-     * @param creationDate: when the note has hja not the
-     */
-    public Note(String id, User author, String content, long creationDate) {
-        this(id, author, content, creationDate, false, null, -1);
+    public Note(JSONObject jNote) {
+        super(jNote);
+        id = hItem.getString(IDENTIFIER_KEY);
+        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        content = hItem.getString(CONTENT_NOTE_KEY);
+        creationDate = hItem.getLong(CREATION_DATE_KEY, -1);
+        markedAsDone = hItem.getBoolean(MARKED_AS_DONE_KEY);
+        markedAsDoneBy = PublicUser.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
+        markAsDoneDate = hItem.getLong(MARKED_AS_DONE_DATE_KEY, -1);
     }
 
     /**
@@ -185,6 +163,7 @@ public class Note implements Serializable {
      */
     public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
                 PublicUser markedAsDoneBy, long markAsDoneDate) {
+        super(null);
         this.id = id;
         this.author = author;
         this.content = content;
@@ -289,14 +268,33 @@ public class Note implements Serializable {
     }
 
     /**
-     * Returns a string representation of the object <br>
-     * No-any params required
+     * Method to get an instance of this Telegram's type
      *
-     * @return a string representation of the object as {@link String}
+     * @param jItems: items details as {@link JSONArray}
+     * @return instance as {@link ArrayList} of {@link Note}
      */
-    @Override
-    public String toString() {
-        return new JSONObject(this).toString();
+    @Returner
+    public static ArrayList<Note> getInstances(JSONArray jItems) {
+        ArrayList<Note> notes = new ArrayList<>();
+        if (jItems != null) {
+            for (int j = 0; j < jItems.length(); j++)
+                notes.add(new Note(jItems.getJSONObject(j)));
+        }
+        return notes;
+    }
+
+    /**
+     * Method to get an instance of this Telegram's type
+     *
+     * @param jItem: item details as {@link JSONObject}
+     * @return instance as {@link Note}
+     */
+    @Returner
+    public static Note getInstance(JSONObject jItem) {
+        if (jItem == null)
+            return null;
+        else
+            return new Note(jItem);
     }
 
 }

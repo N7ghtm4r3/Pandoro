@@ -15,7 +15,7 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_MEMBER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
@@ -31,7 +31,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN "
                     + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
+                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
             nativeQuery = true
     )
@@ -156,7 +156,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + IDENTIFIER_KEY + " =:" + IDENTIFIER_KEY + " LEFT JOIN "
                     + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
+                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
             nativeQuery = true
     )
