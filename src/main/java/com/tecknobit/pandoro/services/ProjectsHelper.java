@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services;
 
-import com.tecknobit.pandoro.helpers.ChangelogCreator.ChangelogOperator;
+import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.GroupMember;
@@ -217,7 +217,7 @@ public class ProjectsHelper extends ChangelogOperator {
                 projectsRepository.removeProjectGroup(projectId, group);
                 List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
                 for (GroupMember member : members)
-                    changelogCreator.removedGroupProject(projectId, member.getId());
+                    changelogsCreator.removedGroupProject(projectId, member.getId());
             }
             groups.removeAll(projectsRepository.getProjectGroupsIds(projectId));
             addGroupsToAProject(groups, projectId);
@@ -235,7 +235,7 @@ public class ProjectsHelper extends ChangelogOperator {
             projectsRepository.addProjectGroup(projectId, group);
             List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
             for (GroupMember member : members)
-                changelogCreator.addedGroupProject(projectId, member.getId());
+                changelogsCreator.addedGroupProject(projectId, member.getId());
         }
     }
 
@@ -286,7 +286,7 @@ public class ProjectsHelper extends ChangelogOperator {
                 projectId, userId);
         for (String note : changeNotes)
             notesRepository.addChangeNote(userId, generateIdentifier(), note, System.currentTimeMillis(), updateId);
-        changelogCreator.scheduledNewUpdate(targetVersion, projectId, userId);
+        changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
     }
 
     /**
@@ -299,7 +299,7 @@ public class ProjectsHelper extends ChangelogOperator {
     public void startUpdate(String projectId, String updateId, String userId) {
         updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
         if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
-            changelogCreator.updateStarted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+            changelogsCreator.updateStarted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
     }
@@ -314,7 +314,7 @@ public class ProjectsHelper extends ChangelogOperator {
     public void publishUpdate(String projectId, String updateId, String userId) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
         if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
-            changelogCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+            changelogsCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
     }
@@ -383,7 +383,7 @@ public class ProjectsHelper extends ChangelogOperator {
     public void deleteUpdate(String projectId, String updateId, String userId) {
         updatesRepository.deleteUpdate(updateId);
         if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
-            changelogCreator.updateDeleted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+            changelogsCreator.updateDeleted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
     }

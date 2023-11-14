@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
-import com.tecknobit.pandoro.helpers.ChangelogCreator.ChangelogOperator;
+import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
@@ -180,7 +180,7 @@ public class GroupsHelper extends ChangelogOperator {
         membersRepository.acceptGroupInvitation(user.getId(), groupId);
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         for (GroupMember member : members)
-            changelogCreator.newMemberJoined(groupId, member.getId());
+            changelogsCreator.newMemberJoined(groupId, member.getId());
     }
 
     /**
@@ -228,7 +228,7 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void changeMemberRole(String memberId, String groupId, Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
-        changelogCreator.yourGroupRoleChanged(groupId, memberId, role);
+        changelogsCreator.yourGroupRoleChanged(groupId, memberId, role);
     }
 
     /**
@@ -254,13 +254,13 @@ public class GroupsHelper extends ChangelogOperator {
         for (String project : currentProjects) {
             groupsRepository.removeGroupProject(project, groupId);
             for (GroupMember member : groupMembers)
-                changelogCreator.removedGroupProject(project, member.getId());
+                changelogsCreator.removedGroupProject(project, member.getId());
         }
         projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
             groupsRepository.addGroupProject(project, groupId);
             for (GroupMember member : groupMembers)
-                changelogCreator.addedGroupProject(project, member.getId());
+                changelogsCreator.addedGroupProject(project, member.getId());
         }
     }
 
@@ -308,7 +308,7 @@ public class GroupsHelper extends ChangelogOperator {
         if (deleteGroup)
             deleteGroup(memberId, groupId);
         else
-            changelogCreator.memberLeftGroup(groupId, memberId);
+            changelogsCreator.memberLeftGroup(groupId, memberId);
     }
 
     /**
@@ -321,7 +321,7 @@ public class GroupsHelper extends ChangelogOperator {
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         groupsRepository.deleteGroup(memberId, groupId);
         for (GroupMember member : members)
-            changelogCreator.groupDeleted(groupId, member.getId());
+            changelogsCreator.groupDeleted(groupId, member.getId());
     }
 
 }

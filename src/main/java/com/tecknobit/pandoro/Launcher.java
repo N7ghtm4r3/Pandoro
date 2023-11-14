@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -13,12 +15,19 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+import static com.tecknobit.pandoro.Launcher.CUSTOM_CONFIGURATION_FILE_PATH;
+import static com.tecknobit.pandoro.Launcher.DEFAULT_CONFIGURATION_FILE_PATH;
+
 /**
  * The {@code Launcher} class is useful to launch <b>Pandoro's backend service</b>
  *
  * @author N7ghtm4r3 - Tecknobit
  */
 @SpringBootApplication
+@PropertySources({
+        @PropertySource(value = "classpath:" + DEFAULT_CONFIGURATION_FILE_PATH),
+        @PropertySource(value = "file:" + CUSTOM_CONFIGURATION_FILE_PATH, ignoreResourceNotFound = true)
+})
 @EnableJpaRepositories("com.tecknobit.pandoro.services.repositories")
 public class Launcher {
 
@@ -28,11 +37,24 @@ public class Launcher {
     public static final String IMAGES_PATH = "images/";
 
     /**
+     * {@code DEFAULT_CONFIGURATION_FILE_PATH} the default path where find the default server configuration
+     */
+    public static final String DEFAULT_CONFIGURATION_FILE_PATH = "app.properties";
+
+    /**
+     * {@code CUSTOM_CONFIGURATION_FILE_PATH} the path of the custom server configuration file
+     *
+     * @apiNote to use your custom configuration <b>you must save the file in the same folder where you placed the
+     * server file (.jar) and call it "pandoro.properties"</b>
+     */
+    public static final String CUSTOM_CONFIGURATION_FILE_PATH = "pandoro.properties";
+
+    /**
      * Main method to start the backend
      *
-     * @param args: CREATE THE MENU
+     * @param args: custom arguments to share with {@link SpringApplication}
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO: 09/11/2023 TO REMOVE, TESTING PURPOSE
         System.setProperty("spring.main.allow-bean-definition-overriding", "true");
         SpringApplication.run(Launcher.class, args);
