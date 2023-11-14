@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.Changelog;
-import com.tecknobit.pandoro.records.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,11 +29,6 @@ public class ChangelogsHelper {
      * {@code CHANGELOG_TIMESTAMP_KEY} changelog timestamp key
      */
     public static final String CHANGELOG_TIMESTAMP_KEY = "timestamp";
-
-    /**
-     * {@code CHANGELOG_GROUP_IDENTIFIER_KEY} the group identifier attached to a changelog key
-     */
-    public static final String CHANGELOG_GROUP_IDENTIFIER_KEY = "group_id";
 
     /**
      * {@code CHANGELOG_EXTRA_CONTENT_KEY} extra content of the changelog key
@@ -95,20 +89,6 @@ public class ChangelogsHelper {
      */
     public void deleteChangelog(String changelogId, String ownerId) {
         changelogsRepository.deleteChangelog(ownerId, changelogId);
-    }
-
-    // TODO: 04/11/2023 IMPLEMENT CHANGELOG CREATOR
-    //  INSERT INTO changelogs (changelog_id,changelog_event,extra_content,group_id,project_id,red,timestamp,owner)
-    //  VALUES (1231,"LEFT_GROUP","gagga",NULL,NULL,false,1699102591,"f1fdab65e1494050ad5b29af5966f972")
-
-    /**
-     * Method to create a changelog
-     *
-     * @param ownerId: the owner identifier
-     * @param event:   the changelog event
-     */
-    public void createChangelog(String ownerId, ChangelogEvent event) {
-
     }
 
 }

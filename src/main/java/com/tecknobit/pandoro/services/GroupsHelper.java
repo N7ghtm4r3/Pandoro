@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.pandoro.helpers.ChangelogCreator.ChangelogOperator;
 import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
@@ -24,9 +25,10 @@ import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
  * The {@code GroupsHelper} class is useful to manage all the groups database operations
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see ChangelogOperator
  */
 @Service
-public class GroupsHelper {
+public class GroupsHelper extends ChangelogOperator {
 
     /**
      * {@code GROUP_IDENTIFIER_KEY} the group identifier key
@@ -176,6 +178,9 @@ public class GroupsHelper {
      */
     public void acceptGroupInvitation(String groupId, User user) {
         membersRepository.acceptGroupInvitation(user.getId(), groupId);
+        List<GroupMember> members = membersRepository.getGroupMembers(groupId);
+        for (GroupMember member : members)
+            changelogCreator.newMemberJoined(groupId, member.getId());
     }
 
     /**
@@ -223,6 +228,7 @@ public class GroupsHelper {
      */
     public void changeMemberRole(String memberId, String groupId, Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
+        changelogCreator.yourGroupRoleChanged(groupId, memberId, role);
     }
 
     /**
@@ -243,15 +249,18 @@ public class GroupsHelper {
      */
     public void editProjects(String groupId, List<String> projects) {
         List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
+        List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
         currentProjects.removeAll(projects);
         for (String project : currentProjects) {
-            // TODO: 10/11/2023 CREATE THE CHANGELOG
             groupsRepository.removeGroupProject(project, groupId);
+            for (GroupMember member : groupMembers)
+                changelogCreator.removedGroupProject(project, member.getId());
         }
         projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
-            // TODO: 10/11/2023 CREATE THE CHANGELOG
             groupsRepository.addGroupProject(project, groupId);
+            for (GroupMember member : groupMembers)
+                changelogCreator.addedGroupProject(project, member.getId());
         }
     }
 
@@ -297,7 +306,9 @@ public class GroupsHelper {
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
         membersRepository.leaveGroup(memberId, groupId);
         if (deleteGroup)
-            groupsRepository.deleteById(groupId);
+            deleteGroup(memberId, groupId);
+        else
+            changelogCreator.memberLeftGroup(groupId, memberId);
     }
 
     /**
@@ -307,7 +318,10 @@ public class GroupsHelper {
      * @param groupId:  the group identifier
      */
     public void deleteGroup(String memberId, String groupId) {
+        List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         groupsRepository.deleteGroup(memberId, groupId);
+        for (GroupMember member : members)
+            changelogCreator.groupDeleted(groupId, member.getId());
     }
 
 }

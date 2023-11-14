@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.records;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
@@ -18,6 +19,7 @@ import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
+import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_KEY;
@@ -54,7 +56,7 @@ public class Changelog extends PandoroItemStructure {
         ROLE_CHANGED("Role changed"),
 
         /**
-         * {@code LEFT_GROUP} type of the changelog event when a user left a group
+         * {@code LEFT_GROUP} type of the changelog event when the user left a group
          */
         LEFT_GROUP("Left a group"),
 
@@ -64,14 +66,14 @@ public class Changelog extends PandoroItemStructure {
         GROUP_DELETED("Group deleted"),
 
         /**
-         * {@code PROJECT_CREATED} type of the changelog event when a new project of a group has been created
+         * {@code PROJECT_ADDED} type of the changelog event when a new project of a group has been added
          */
-        PROJECT_CREATED("Project created"),
+        PROJECT_ADDED("Project added"),
 
         /**
-         * {@code PROJECT_DELETED} type of the changelog event when a project of a group has been deleted
+         * {@code PROJECT_REMOVED} type of the changelog event when a project of a group has been removed
          */
-        PROJECT_DELETED("Project deleted"),
+        PROJECT_REMOVED("Project removed"),
 
         /**
          * {@code UPDATE_SCHEDULED} type of the changelog event when a new update of project of a group has been scheduled
@@ -129,6 +131,7 @@ public class Changelog extends PandoroItemStructure {
     /**
      * {@code changelogEvent} the value of the changelog event
      */
+    @Enumerated(EnumType.STRING)
     @Column(name = CHANGELOG_EVENT_KEY)
     private final ChangelogEvent changelogEvent;
 
@@ -147,6 +150,10 @@ public class Changelog extends PandoroItemStructure {
     )
     @JoinColumn(name = PROJECT_IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({
+            "hibernateLazyInitializer",
+            "handler"
+    })
     private final Project project;
 
     /**
@@ -156,8 +163,12 @@ public class Changelog extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = CHANGELOG_GROUP_IDENTIFIER_KEY)
+    @JoinColumn(name = GROUP_IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({
+            "hibernateLazyInitializer",
+            "handler"
+    })
     private final Group group;
 
     /**
@@ -305,9 +316,9 @@ public class Changelog extends PandoroItemStructure {
                 yield "You became " + article + " " + extraContent + " in the " + entityName + " group";
             }
             case LEFT_GROUP -> "You left from the " + entityName + " group";
-            case GROUP_DELETED -> "The " + entityName + " group has been deleted";
-            case PROJECT_CREATED -> "The project " + entityName + " has been created";
-            case PROJECT_DELETED -> "The project " + entityName + " has been deleted";
+            case GROUP_DELETED -> "The " + extraContent + " group has been deleted";
+            case PROJECT_ADDED -> "The project " + entityName + " has been added";
+            case PROJECT_REMOVED -> "The project " + entityName + " has been removed";
             case UPDATE_SCHEDULED ->
                     "A new update for " + entityName + "'s project has been scheduled [v. " + extraContent + "]";
             case UPDATE_STARTED ->

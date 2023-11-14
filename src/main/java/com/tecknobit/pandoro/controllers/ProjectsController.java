@@ -484,11 +484,11 @@ public class ProjectsController extends PandoroController {
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
                         return failedResponse("An update to be published must be IN_DEVELOPMENT first");
-                    projectsHelper.publishUpdate(updateId, id);
+                    projectsHelper.publishUpdate(projectId, updateId, id);
                 } else {
                     if (status != SCHEDULED)
                         return failedResponse("An update to be published must be SCHEDULED first");
-                    projectsHelper.startUpdate(updateId, id);
+                    projectsHelper.startUpdate(projectId, updateId, id);
                 }
                 return successResponse();
             } else
@@ -693,7 +693,7 @@ public class ProjectsController extends PandoroController {
         if (isAuthenticatedUser(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null &&
                     projectsHelper.updateExists(projectId, updateId) != null) {
-                projectsHelper.deleteUpdate(updateId);
+                projectsHelper.deleteUpdate(projectId, updateId, projectId);
                 return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);

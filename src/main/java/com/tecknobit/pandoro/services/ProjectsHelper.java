@@ -1,8 +1,11 @@
 package com.tecknobit.pandoro.services;
 
+import com.tecknobit.pandoro.helpers.ChangelogCreator.ChangelogOperator;
 import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.ProjectUpdate;
+import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,10 @@ import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
  * The {@code ProjectsHelper} class is useful to manage all the projects database operations
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see ChangelogOperator
  */
 @Service
-public class ProjectsHelper {
+public class ProjectsHelper extends ChangelogOperator {
 
     /**
      * {@code PROJECTS_KEY} projects key
@@ -63,7 +67,7 @@ public class ProjectsHelper {
     public static final String PROJECT_REPOSITORY_KEY = "project_repository";
 
     /**
-     * {@code UPDATES_KEY} uptates key
+     * {@code UPDATES_KEY} updates key
      */
     public static final String UPDATES_KEY = "updates";
 
@@ -136,6 +140,12 @@ public class ProjectsHelper {
     private NotesRepository notesRepository;
 
     /**
+     * {@code groupMembersRepository} instance for the group members repository
+     */
+    @Autowired
+    private GroupMembersRepository groupMembersRepository;
+
+    /**
      * Method to get the user's projects list
      *
      * @param userId: the user identifier
@@ -197,40 +207,35 @@ public class ProjectsHelper {
     public void workWithProject(String userId, String projectId, String name, String description, String shortDescription,
                                 String version, String repository, ArrayList<String> groups, boolean isAdding) {
         if (isAdding) {
-            projectsRepository.insertProject(
-                    userId,
-                    projectId,
-                    name,
-                    description,
-                    shortDescription,
-                    version,
-                    repository
-            );
-            for (String group : groups) {
-                // TODO: 10/11/2023 CREATE THE CHANGELOG
-                projectsRepository.addProjectGroup(projectId, group);
-            }
+            projectsRepository.insertProject(userId, projectId, name, description, shortDescription, version, repository);
+            addGroupsToAProject(groups, projectId);
         } else {
-            projectsRepository.editProject(
-                    userId,
-                    projectId,
-                    name,
-                    description,
-                    shortDescription,
-                    version,
-                    repository
-            );
+            projectsRepository.editProject(userId, projectId, name, description, shortDescription, version, repository);
             List<String> currentGroups = projectsRepository.getProjectGroupsIds(projectId);
             currentGroups.removeAll(groups);
             for (String group : currentGroups) {
-                // TODO: 10/11/2023 CREATE THE CHANGELOG
                 projectsRepository.removeProjectGroup(projectId, group);
+                List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
+                for (GroupMember member : members)
+                    changelogCreator.removedGroupProject(projectId, member.getId());
             }
             groups.removeAll(projectsRepository.getProjectGroupsIds(projectId));
-            for (String group : groups) {
-                // TODO: 10/11/2023 CREATE THE CHANGELOG
-                projectsRepository.addProjectGroup(projectId, group);
-            }
+            addGroupsToAProject(groups, projectId);
+        }
+    }
+
+    /**
+     * Method to add groups list to a project
+     *
+     * @param groups:    the groups list to add
+     * @param projectId: the project identifier
+     */
+    private void addGroupsToAProject(ArrayList<String> groups, String projectId) {
+        for (String group : groups) {
+            projectsRepository.addProjectGroup(projectId, group);
+            List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
+            for (GroupMember member : members)
+                changelogCreator.addedGroupProject(projectId, member.getId());
         }
     }
 
@@ -277,33 +282,41 @@ public class ProjectsHelper {
      */
     public void scheduleUpdate(String updateId, String targetVersion, ArrayList<String> changeNotes,
                                String projectId, String userId) {
-        // TODO: 11/11/2023 CREATE THE CHANGELOG IF IS A GROUP PROJECT
         updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED,
                 projectId, userId);
         for (String note : changeNotes)
             notesRepository.addChangeNote(userId, generateIdentifier(), note, System.currentTimeMillis(), updateId);
+        changelogCreator.scheduledNewUpdate(targetVersion, projectId, userId);
     }
 
     /**
      * Method to start an existing update
      *
+     * @param projectId: the project identifier
      * @param updateId: the update identifier
      * @param userId: the user identifier who start the update
      */
-    public void startUpdate(String updateId, String userId) {
-        // TODO: 11/11/2023 CREATE THE CHANGELOG IF IS A GROUP PROJECT
+    public void startUpdate(String projectId, String updateId, String userId) {
         updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
+        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+            changelogCreator.updateStarted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+                    projectId, userId);
+        }
     }
 
     /**
      * Method to publish an existing update
      *
+     * @param projectId: the project identifier
      * @param updateId: the update identifier
      * @param userId: the user identifier who publish the update
      */
-    public void publishUpdate(String updateId, String userId) {
-        // TODO: 11/11/2023 CREATE THE CHANGELOG IF IS A GROUP PROJECT
+    public void publishUpdate(String projectId, String updateId, String userId) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
+        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+            changelogCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+                    projectId, userId);
+        }
     }
 
     /**
@@ -363,11 +376,16 @@ public class ProjectsHelper {
     /**
      * Method to delete an update
      *
+     * @param projectId: the project identifier
      * @param updateId: the update identifier
+     * @param userId: the user identifier
      */
-    public void deleteUpdate(String updateId) {
-        // TODO: 11/11/2023 CREATE THE CHANGELOG IF IS A GROUP PROJECT
+    public void deleteUpdate(String projectId, String updateId, String userId) {
         updatesRepository.deleteUpdate(updateId);
+        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+            changelogCreator.updateDeleted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
+                    projectId, userId);
+        }
     }
 
 }
