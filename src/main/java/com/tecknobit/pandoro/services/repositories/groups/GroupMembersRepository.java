@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.repositories.groups;
 
+import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
@@ -17,10 +18,29 @@ import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
+/**
+ * The {@code GroupMembersRepository} interface is useful to manage the queries for the members of the groups
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see GroupMember
+ */
 @Service
 @Repository
 public interface GroupMembersRepository extends JpaRepository<GroupMember, String> {
 
+    /**
+     * Method to execute the query to add a member in a {@link Group}
+     *
+     * @param memberId:         the identifier of the member to add
+     * @param name:             the name of the member
+     * @param email:            the email of the member
+     * @param profilePic:       the profile pic of the member
+     * @param surname:          the surname of the member
+     * @param role:             the role of the member
+     * @param invitationStatus: the invitation status of the member
+     * @param groupId:          the identifier of the group where add the member
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -46,7 +66,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             nativeQuery = true
     )
     void insertMember(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(NAME_KEY) String name,
             @Param(EMAIL_KEY) String email,
             @Param(PROFILE_PIC_KEY) String profilePic,
@@ -56,27 +76,48 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to select a {@link GroupMember} by its email
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     * @param email: the email of the member
+     * @return the group member as {@link GroupMember}
+     */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
                     + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     GroupMember getGroupMemberByEmail(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(GROUP_MEMBER_KEY) String groupId,
             @Param(EMAIL_KEY) String email
     );
 
+    /**
+     * Method to execute the query to select a {@link GroupMember} by its id
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     * @return the group member as {@link GroupMember}
+     */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
             nativeQuery = true
     )
     GroupMember getGroupMember(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to accept a group invitation
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -86,10 +127,17 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             nativeQuery = true
     )
     void acceptGroupInvitation(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to change the role of a group member
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     * @param role: the role of the member
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -100,11 +148,19 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             nativeQuery = true
     )
     void changeMemberRole(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(GROUP_MEMBER_KEY) String groupId,
             @Param(MEMBER_ROLE_KEY) Role role
     );
 
+    /**
+     * Method to execute the query to select the admins of a group
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     *
+     * @return the list of the admin of a group as {@link List} of {@link GroupMember}
+     */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + MEMBER_ROLE_KEY + "= 'ADMIN'"
                     + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
@@ -115,6 +171,13 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to select the members of a group
+     *
+     * @param groupId: the group identifier
+     *
+     * @return the list the of members of a group as {@link List} of {@link GroupMember}
+     */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY
                     + " AND " + INVITATION_STATUS_KEY + " = 'JOINED'",
@@ -122,6 +185,12 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     )
     List<GroupMember> getGroupMembers(@Param(GROUP_MEMBER_KEY) String groupId);
 
+    /**
+     * Method to execute the query to leave from a group
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -130,7 +199,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             nativeQuery = true
     )
     void leaveGroup(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(IDENTIFIER_KEY) String memberId,
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 

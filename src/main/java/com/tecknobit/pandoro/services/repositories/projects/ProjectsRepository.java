@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.repositories.projects;
 
+import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,10 +21,24 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
+/**
+ * The {@code ProjectsRepository} interface is useful to manage the queries for the projects
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see Project
+ */
 @Service
 @Repository
 public interface ProjectsRepository extends JpaRepository<Project, String> {
 
+    /**
+     * Method to execute the query to select the list of a {@link Project}
+     *
+     * @param userId: the user identifier
+     * @return the list of projects as {@link List} of {@link Project}
+     * @apiNote also the projects of a group in which he is a member are returned
+     */
     @Query(
             value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
                     + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN "
@@ -37,6 +52,13 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     )
     List<Project> getProjectsList(@Param(AUTHOR_KEY) String userId);
 
+    /**
+     * Method to execute the query to select a {@link Project} by its name
+     *
+     * @param userId: the user identifier
+     * @param name:   the name of the project to fetch
+     * @return the project as {@link Project}
+     */
     @Query(
             value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
                     + " AND " + NAME_KEY + "=:" + NAME_KEY,
@@ -47,6 +69,13 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(NAME_KEY) String name
     );
 
+    /**
+     * Method to execute the query to select a {@link Project} by its id
+     *
+     * @param userId: the user identifier
+     * @param projectId: the identifier of the project to fetch
+     * @return the project as {@link Project}
+     */
     @Query(
             value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
@@ -57,6 +86,17 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(IDENTIFIER_KEY) String projectId
     );
 
+    /**
+     * Method to execute the query to add a new {@link Project}
+     *
+     * @param author: the author of the project
+     * @param projectId: the project identifier
+     * @param name: the name of the project
+     * @param description: the description of the project
+     * @param shortDescription: the short description of the project
+     * @param version: the version of the project
+     * @param repository: the GitHub or Gitlab repository url of the project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -89,6 +129,12 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(PROJECT_REPOSITORY_KEY) String repository
     );
 
+    /**
+     * Method to execute the query to select the list of a {@link Group}'s id of a project
+     *
+     * @param projectId: the project from fetch the list
+     * @return the list of group ids of a project as {@link List} of {@link String}
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -98,6 +144,12 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     )
     List<String> getProjectGroupsIds(@Param(PROJECT_IDENTIFIER_KEY) String projectId);
 
+    /**
+     * Method to execute the query to add a group to a project
+     *
+     * @param projectId: the project where add the group
+     * @param groupId: the group to add to a project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -114,6 +166,12 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to remove a group from a project
+     *
+     * @param projectId: the project where remove the group
+     * @param groupId: the group to remove from a project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -121,11 +179,22 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + PROJECT_IDENTIFIER_KEY + " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void deleteProjectGroup(
+    void removeProjectGroup(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to edit an existing {@link Project}
+     *
+     * @param author: the author of the project
+     * @param projectId: the project identifier
+     * @param name: the name of the project
+     * @param description: the description of the project
+     * @param shortDescription: the short description of the project
+     * @param version: the version of the project
+     * @param repository: the GitHub or Gitlab repository url of the project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -149,6 +218,14 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(PROJECT_REPOSITORY_KEY) String repository
     );
 
+    /**
+     * Method to execute the query to select an existing {@link Project}
+     *
+     * @param userId: the user identifier
+     * @param projectId: the project identifier
+     * @return the project as {@link Project}
+     * @apiNote also the project of a group in which he is a member is returned
+     */
     @Query(
             value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " AND "
                     + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY
@@ -165,6 +242,12 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(IDENTIFIER_KEY) String projectId
     );
 
+    /**
+     * Method to execute the query to delete an existing {@link Project}
+     *
+     * @param userId: the user identifier
+     * @param projectId: the project identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

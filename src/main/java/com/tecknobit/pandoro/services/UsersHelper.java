@@ -43,11 +43,6 @@ public class UsersHelper {
     public static final String GROUP_MEMBERS_TABLE = "group_members";
 
     /**
-     * {@code SERVER_ADDRESS_KEY} server address key
-     */
-    public static final String SERVER_ADDRESS_KEY = "server_address";
-
-    /**
      * {@code NAME_KEY} name key
      */
     public static final String NAME_KEY = "name";
@@ -98,7 +93,7 @@ public class UsersHelper {
     public static final String PROFILE_PICS_FOLDER = IMAGES_PATH + "profiles/";
 
     /**
-     * {@code usersRepository} instance for the user repository
+     * {@code usersRepository} instance for the users repository
      */
     @Autowired
     private UsersRepository usersRepository;

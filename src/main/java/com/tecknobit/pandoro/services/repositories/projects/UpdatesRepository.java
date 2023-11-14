@@ -14,10 +14,24 @@ import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 
+/**
+ * The {@code UpdatesRepository} interface is useful to manage the queries for the updates of a project
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see ProjectUpdate
+ */
 @Service
 @Repository
 public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> {
 
+    /**
+     * Method to execute the query to select a {@link ProjectUpdate} by its target version
+     *
+     * @param projectId:     the project identifier
+     * @param targetVersion: the target version of the update to fetch
+     * @return the project update as {@link ProjectUpdate}
+     */
     @Query(
             value = "SELECT * FROM " + UPDATES_KEY + " WHERE " + PROJECT_KEY + "=:" + PROJECT_KEY
                     + " AND " + UPDATE_TARGET_VERSION_KEY + "=:" + UPDATE_TARGET_VERSION_KEY,
@@ -28,6 +42,13 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(UPDATE_TARGET_VERSION_KEY) String targetVersion
     );
 
+    /**
+     * Method to execute the query to select a {@link ProjectUpdate} by its id
+     *
+     * @param projectId: the project identifier
+     * @param updateId: the update identifier to fetch
+     * @return the project update as {@link ProjectUpdate}
+     */
     @Query(
             value = "SELECT * FROM " + UPDATES_KEY + " WHERE " + PROJECT_KEY + "=:" + PROJECT_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
@@ -38,6 +59,16 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(IDENTIFIER_KEY) String updateId
     );
 
+    /**
+     * Method to execute the query to schedule a new {@link ProjectUpdate}
+     *
+     * @param updateId: the update identifier
+     * @param targetVersion: the target version of the new update
+     * @param createDate: the creation date of the update
+     * @param updateStatus: the {@link Status#SCHEDULED} status
+     * @param projectId: the project identifier
+     * @param author: the author of the update
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -75,6 +106,13 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(AUTHOR_KEY) String author
     );
 
+    /**
+     * Method to execute the query to start an existing {@link ProjectUpdate}
+     *
+     * @param updateId: the update identifier
+     * @param startDate: the start date of the update
+     * @param startedBy: who start the update
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -91,6 +129,13 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(UPDATE_STARTED_BY_KEY) String startedBy
     );
 
+    /**
+     * Method to execute the query to publish an existing {@link ProjectUpdate}
+     *
+     * @param updateId: the update identifier
+     * @param publishDate: the publishing date of the update
+     * @param publishedBy: who publish the update
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -107,6 +152,11 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(UPDATE_PUBLISHED_BY_KEY) String publishedBy
     );
 
+    /**
+     * Method to execute the query to delete an existing {@link ProjectUpdate}
+     *
+     * @param updateId: the update identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.repositories.groups;
 
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,10 +21,23 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_K
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
+/**
+ * The {@code GroupsRepository} interface is useful to manage the queries for the groups
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see Group
+ */
 @Service
 @Repository
 public interface GroupsRepository extends JpaRepository<Group, String> {
 
+    /**
+     * Method to execute the query to select the list of a {@link Group}
+     *
+     * @param userId: the user identifier
+     * @return the list of groups as {@link List} of {@link Group}
+     */
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
                     + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE
@@ -33,6 +47,13 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     )
     List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
 
+    /**
+     * Method to execute the query to select a {@link Group} by its name
+     *
+     * @param userId: the user identifier
+     * @param name:   the name of the group to fetch
+     * @return the group as {@link Group}
+     */
     @Query(
             value = "SELECT * FROM " + GROUPS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
                     + " AND " + NAME_KEY + "=:" + NAME_KEY,
@@ -43,6 +64,14 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(NAME_KEY) String name
     );
 
+    /**
+     * Method to execute the query to create a new {@link Group}
+     *
+     * @param author: the author of the group
+     * @param groupId: the identifier of the new group
+     * @param groupName: the name of the group
+     * @param groupDescription: the description of the group
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -60,12 +89,19 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             nativeQuery = true
     )
     void createGroup(
-            @Param(AUTHOR_KEY) String userId,
+            @Param(AUTHOR_KEY) String author,
             @Param(IDENTIFIER_KEY) String groupId,
             @Param(NAME_KEY) String groupName,
             @Param(GROUP_DESCRIPTION_KEY) String groupDescription
     );
 
+    /**
+     * Method to execute the query to select a {@link Group} by its id
+     *
+     * @param userId: the user identifier
+     * @param groupId: the group identifier
+     * @return the group as {@link Group}
+     */
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
                     + " ON groups." + IDENTIFIER_KEY + " = group_members." + IDENTIFIER_KEY + " WHERE " + GROUPS_KEY + "."
@@ -78,6 +114,12 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to select the list of a {@link Project}'s id of a group
+     *
+     * @param groupId: the group from fetch the list
+     * @return the list of projects ids of a group as {@link List} of {@link String}
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -87,6 +129,12 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     )
     List<String> getGroupProjectsIds(@Param(GROUP_IDENTIFIER_KEY) String groupId);
 
+    /**
+     * Method to execute the query to add a project to a group
+     *
+     * @param projectId: the project to add to a group
+     * @param groupId: the group where add the project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -103,6 +151,12 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to remove a project from a group
+     *
+     * @param projectId: the project to remove from a group
+     * @param groupId: the group where remove the project
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -110,11 +164,17 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
                     + PROJECT_IDENTIFIER_KEY + " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void deleteGroupProject(
+    void removeGroupProject(
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
             @Param(GROUP_IDENTIFIER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to delete an existing {@link Group}
+     *
+     * @param userId: the user identifier
+     * @param groupId: the group identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.repositories;
 
 import com.tecknobit.pandoro.records.Note;
+import com.tecknobit.pandoro.records.ProjectUpdate;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,10 +17,23 @@ import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
 
+/**
+ * The {@code NotesRepository} interface is useful to manage the queries for the notes
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see Note
+ */
 @Service
 @Repository
 public interface NotesRepository extends JpaRepository<Note, String> {
 
+    /**
+     * Method to execute the query to select the list of a {@link Note}
+     *
+     * @param authorId: the author identifier
+     * @return the list of notes as {@link List} of {@link Note}
+     */
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
                     + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC ",
@@ -27,6 +41,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);
 
+    /**
+     * Method to execute the query to select a {@link Note} by its id
+     *
+     * @param authorId: the author identifier
+     * @param noteId:   the note identifier
+     * @return the note as {@link Note}
+     */
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
                     + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
@@ -37,6 +58,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 
+    /**
+     * Method to execute the query to select a {@link Note} of an {@link ProjectUpdate}
+     *
+     * @param updateId: the update identifier
+     * @param noteId: the note identifier
+     * @return the note as {@link Note}
+     */
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
                     + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
@@ -47,6 +75,14 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 
+    /**
+     * Method to execute the query to create a new {@link Note}
+     *
+     * @param authorId: the author of the note identifier
+     * @param noteId: the note identifier
+     * @param contentNote: the content of the note
+     * @param creationDate: the creation date of the note
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -76,6 +112,15 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(CREATION_DATE_KEY) long creationDate
     );
 
+    /**
+     * Method to execute the query to add a new change note
+     *
+     * @param authorId: the author of the note identifier
+     * @param noteId: the note identifier
+     * @param contentNote: the content of the note
+     * @param creationDate: the creation date of the note
+     * @param updateId: the update identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -108,6 +153,14 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(UPDATE_KEY) String updateId
     );
 
+    /**
+     * Method to execute the query to manage the status of a {@link Note}
+     *
+     * @param authorId: the author of the note identifier
+     * @param noteId: the note identifier
+     * @param markedAsDone: whether the note has been marked as done
+     * @param markedAsDoneDate: the date when the note has been marked as done or -1 if not
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -126,6 +179,15 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
     );
 
+    /**
+     * Method to execute the query to manage the status of a change note
+     *
+     * @param updateId: the update identifier
+     * @param noteId: the note identifier
+     * @param markedAsDone: whether the change note has been marked as done
+     * @param marker: who marks as done the change note
+     * @param markedAsDoneDate: the date when the change note has been marked as done or -1 if not
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -137,7 +199,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + UPDATE_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
-    void manageNoteStatus(
+    void manageChangeNoteStatus(
             @Param(UPDATE_KEY) String updateId,
             @Param(NOTE_IDENTIFIER_KEY) String noteId,
             @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
@@ -145,6 +207,12 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
     );
 
+    /**
+     * Method to execute the query to delete a {@link Note}
+     *
+     * @param authorId: the author of the note identifier
+     * @param noteId: the note identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -157,6 +225,12 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 
+    /**
+     * Method to execute the query to delete a change note
+     *
+     * @param updateId: the update identifier
+     * @param noteId: the note identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

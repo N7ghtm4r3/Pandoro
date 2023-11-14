@@ -14,16 +14,35 @@ import java.util.List;
 import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
 import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
 
+/**
+ * The {@code ChangelogsRepository} interface is useful to manage the queries for the changelogs
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see Changelog
+ */
 @Service
 @Repository
 public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
 
+    /**
+     * Method to execute the query to select the list of a {@link Changelog}
+     *
+     * @param owner: the owner of the changelogs
+     * @return the list of changelogs as {@link List} of {@link Changelog}
+     */
     @Query(
             value = "SELECT * FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
             nativeQuery = true
     )
     List<Changelog> getChangelogs(@Param(CHANGELOG_OWNER_KEY) String owner);
 
+    /**
+     * Method to execute the query to mark as red a {@link Changelog}
+     *
+     * @param owner:       the owner of the changelog
+     * @param changelogId: the changelog identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -37,6 +56,12 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
             @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId
     );
 
+    /**
+     * Method to execute the query to delete a {@link Changelog}
+     *
+     * @param owner: the owner of the changelog
+     * @param changelogId: the changelog identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

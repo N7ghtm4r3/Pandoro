@@ -20,56 +20,107 @@ import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.P
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
 
+/**
+ * The {@code GroupsHelper} class is useful to manage all the groups database operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Service
 public class GroupsHelper {
 
+    /**
+     * {@code GROUP_IDENTIFIER_KEY} the group identifier key
+     */
     public static final String GROUP_IDENTIFIER_KEY = "group_id";
 
+    /**
+     * {@code GROUP_KEY} the group key
+     */
     public static final String GROUP_KEY = "group";
 
+    /**
+     * {@code GROUP_MEMBER_KEY} the group member key
+     */
     public static final String GROUP_MEMBER_KEY = "group_member";
 
+    /**
+     * {@code GROUP_DESCRIPTION_KEY} the group member key
+     */
     public static final String GROUP_DESCRIPTION_KEY = "group_description";
 
+    /**
+     * {@code GROUP_MEMBERS_KEY} the group members key
+     */
     public static final String GROUP_MEMBERS_KEY = "members";
 
-    public static final String TOTAL_GROUP_MEMBERS_KEY = "total_members";
-
-    public static final String GROUP_PROJECTS_KEY = "group_projects";
-
-    public static final String TOTAL_GROUP_PROJECTS_KEY = "total_projects";
-
+    /**
+     * {@code MEMBER_ROLE_KEY} the role of a member key
+     */
     public static final String MEMBER_ROLE_KEY = "role";
 
+    /**
+     * {@code INVITATION_STATUS_KEY} the invitation status key
+     */
     public static final String INVITATION_STATUS_KEY = "invitation_status";
 
+    /**
+     * {@code usersRepository} instance for the users repository
+     */
     @Autowired
     private UsersRepository usersRepository;
 
+    /**
+     * {@code groupsRepository} instance for the groups repository
+     */
     @Autowired
     private GroupsRepository groupsRepository;
 
+    /**
+     * {@code membersRepository} instance for the members of a group repository
+     */
     @Autowired
     private GroupMembersRepository membersRepository;
 
+    /**
+     * Method to get the user's groups list
+     *
+     * @param userId: the user identifier
+     * @return the groups list as {@link List} of {@link Group}
+     */
     public List<Group> getGroups(String userId) {
         return groupsRepository.getGroups(userId);
     }
 
+    /**
+     * Method to check whether the user's group exists
+     *
+     * @param userId:    the user identifier
+     * @param groupName: the name of the group
+     * @return whether the user's group exists as boolean
+     */
     public boolean groupExists(String userId, String groupName) {
         return groupsRepository.getGroupByName(userId, groupName) != null;
     }
 
-    public void createGroup(PublicUser user, String groupId, String groupName, String groupDescription,
+    /**
+     * Method to create a group
+     *
+     * @param author:           the author of the group
+     * @param groupId:          the identifier of the new group
+     * @param groupName:        the name of the group
+     * @param groupDescription: the description of the group
+     * @param members:          the list of the group members
+     */
+    public void createGroup(PublicUser author, String groupId, String groupName, String groupDescription,
                             ArrayList<String> members) {
-        String userId = user.getId();
-        groupsRepository.createGroup(userId, groupId, groupName, groupDescription);
+        String authorId = author.getId();
+        groupsRepository.createGroup(authorId, groupId, groupName, groupDescription);
         membersRepository.insertMember(
-                userId,
-                user.getName(),
-                user.getEmail(),
-                user.getProfilePic(),
-                user.getSurname(),
+                authorId,
+                author.getName(),
+                author.getEmail(),
+                author.getProfilePic(),
+                author.getSurname(),
                 ADMIN,
                 JOINED,
                 groupId
@@ -77,10 +128,23 @@ public class GroupsHelper {
         addMembers(members, groupId);
     }
 
+    /**
+     * Method to get the user's group by its id
+     *
+     * @param userId: the user identifier
+     * @param groupId: the group identifier
+     * @return the group as {@link Group}
+     */
     public Group getGroup(String userId, String groupId) {
         return groupsRepository.getGroup(userId, groupId);
     }
 
+    /**
+     * Method to add a list of members to a group
+     *
+     * @param members: the list of members to add
+     * @param groupId: the group identifier where add the members
+     */
     public void addMembers(List<String> members, String groupId) {
         for (String memberEmail : members) {
             // TODO: 08/11/2023 CREATE CHANGELOG FOR EACH INVITE
@@ -104,10 +168,22 @@ public class GroupsHelper {
         }
     }
 
+    /**
+     * Method to accept a group invitation
+     *
+     * @param groupId: the group identifier
+     * @param user: the user who accepts the invitation
+     */
     public void acceptGroupInvitation(String groupId, User user) {
         membersRepository.acceptGroupInvitation(user.getId(), groupId);
     }
 
+    /**
+     * Method to decline a group invitation
+     *
+     * @param groupId: the group identifier
+     * @param user: the user who declines the invitation
+     */
     public void declineGroupInvitation(String groupId, User user) throws IllegalAccessException {
         String userId = user.getId();
         if (membersRepository.getGroupMemberByEmail(userId, groupId, user.getEmail()).getInvitationStatus() == PENDING)
@@ -116,28 +192,61 @@ public class GroupsHelper {
             throw new IllegalAccessException();
     }
 
+    /**
+     * Method to get a group member
+     *
+     * @param groupId: the group identifier
+     * @param user: the user to fetch
+     * @return the member of a group as {@link GroupMember}
+     */
     public GroupMember getGroupMember(String groupId, User user) {
         return membersRepository.getGroupMemberByEmail(user.getId(), groupId, user.getEmail());
     }
 
+    /**
+     * Method to get a group member
+     *
+     * @param groupId: the group identifier
+     * @param userId: the user identifier
+     * @return the member of a group as {@link GroupMember}
+     */
     public GroupMember getGroupMember(String groupId, String userId) {
         return membersRepository.getGroupMember(userId, groupId);
     }
 
+    /**
+     * Method to change the role of a member
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     * @param role: the new role for a member
+     */
     public void changeMemberRole(String memberId, String groupId, Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
     }
 
+    /**
+     * Method to remove a member from a group
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     */
     public void removeMember(String memberId, String groupId) {
         membersRepository.leaveGroup(memberId, groupId);
     }
 
+    /**
+     * Method to edit the projects list of a group
+     *
+     * @param groupId: the group identifier
+     * @param projects: the projects list of a group to edit
+     */
     public void editProjects(String groupId, List<String> projects) {
         List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
         currentProjects.removeAll(projects);
         for (String project : currentProjects) {
             // TODO: 10/11/2023 CREATE THE CHANGELOG
-            groupsRepository.deleteGroupProject(project, groupId);
+            groupsRepository.removeGroupProject(project, groupId);
         }
         projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
@@ -146,27 +255,59 @@ public class GroupsHelper {
         }
     }
 
+    /**
+     * Method to check if the group has other admins
+     *
+     * @param memberId: the member identifier
+     * @param groupId: the group identifier
+     * @return whether the group has other admin
+     */
     public boolean hasGroupAdmins(String memberId, String groupId) {
         return !membersRepository.getGroupAdmins(memberId, groupId).isEmpty();
     }
 
+    /**
+     * Method to check if the group has other members
+     *
+     * @param groupId: the group identifier
+     * @return whether the group has other members
+     */
     public boolean hasOtherMembers(String groupId) {
         return membersRepository.getGroupMembers(groupId).size() > 1;
     }
 
+    /**
+     * Method to leave from a group
+     *
+     * @param memberId: the identifier of the member
+     * @param groupId: the group identifier
+     */
     @Wrapper
     public void leaveGroup(String memberId, String groupId) {
         leaveGroup(memberId, groupId, false);
     }
 
+    /**
+     * Method to leave from a group
+     *
+     * @param memberId: the identifier of the member
+     * @param groupId: the group identifier
+     * @param deleteGroup: whether delete the group after the member left
+     */
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
         membersRepository.leaveGroup(memberId, groupId);
         if (deleteGroup)
             groupsRepository.deleteById(groupId);
     }
 
-    public void deleteGroup(String userId, String groupId) {
-        groupsRepository.deleteGroup(userId, groupId);
+    /**
+     * Method to delete a group
+     *
+     * @param memberId: the identifier of the member
+     * @param groupId:  the group identifier
+     */
+    public void deleteGroup(String memberId, String groupId) {
+        groupsRepository.deleteGroup(memberId, groupId);
     }
 
 }
