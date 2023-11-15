@@ -8,7 +8,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
-version = "0.0.0.5"
+version = "0.0.0.6"
 
 repositories {
     mavenCentral()
@@ -35,14 +35,8 @@ tasks {
         from(java.sourceSets["main"].allSource)
     }
 
-    val javadocJar by creating(Jar::class) {
-        dependsOn(JavaPlugin.JAVADOC_TASK_NAME)
-        from(java.docsDir)
-    }
-
     artifacts {
         add("archives", sourcesJar)
-        add("archives", javadocJar)
     }
 
 }
@@ -53,7 +47,7 @@ afterEvaluate {
             create<MavenPublication>("Maven") {
                 groupId = "com.tecknobit.pandoro"
                 artifactId = "Pandoro"
-                version = "0.0.0.5"
+                version = "0.0.0.6"
                 from(components["java"])
             }
         }
