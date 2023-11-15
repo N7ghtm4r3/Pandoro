@@ -127,7 +127,7 @@ public class GroupsHelper extends ChangelogOperator {
                 JOINED,
                 groupId
         );
-        addMembers(members, groupId);
+        addMembers(groupName, members, groupId);
     }
 
     /**
@@ -144,19 +144,19 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to add a list of members to a group
      *
+     * @param groupName: the name of the group
      * @param members: the list of members to add
      * @param groupId: the group identifier where add the members
      */
-    public void addMembers(List<String> members, String groupId) {
+    public void addMembers(String groupName, List<String> members, String groupId) {
         for (String memberEmail : members) {
-            // TODO: 08/11/2023 CREATE CHANGELOG FOR EACH INVITE
             PublicUser member = usersRepository.getUserByEmail(memberEmail);
             if (member != null) {
-                String userId = member.getId();
+                String memberId = member.getId();
                 String email = member.getEmail();
-                if (membersRepository.getGroupMemberByEmail(userId, groupId, email) == null) {
+                if (membersRepository.getGroupMemberByEmail(memberId, groupId, email) == null) {
                     membersRepository.insertMember(
-                            userId,
+                            memberId,
                             member.getName(),
                             email,
                             member.getProfilePic(),
@@ -165,6 +165,7 @@ public class GroupsHelper extends ChangelogOperator {
                             PENDING,
                             groupId
                     );
+                    changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
                 }
             }
         }

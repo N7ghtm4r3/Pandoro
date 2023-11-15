@@ -27,8 +27,16 @@ public class ChangelogsCreator {
     @Autowired
     private ChangelogsRepository changelogRepository;
 
-    public void sendGroupInvite(String userId) {
-        // TODO: 14/11/2023 SEND INVITATION
+    /**
+     * Method to create a changelog when the user has been invited in a {@link Group}
+     *
+     * @param groupId:   the group identifier
+     * @param groupName: the name of the group of the invite
+     * @param memberId:  the member id, the changelog owner
+     */
+    @Wrapper
+    public void sendGroupInvite(String groupId, String groupName, String memberId) {
+        createGroupChangelog(INVITED_GROUP, groupName, groupId, memberId);
     }
 
     /**

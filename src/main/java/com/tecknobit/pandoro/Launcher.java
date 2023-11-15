@@ -46,6 +46,8 @@ public class Launcher {
      *
      * @apiNote to use your custom configuration <b>you must save the file in the same folder where you placed the
      * server file (.jar) and call it "pandoro.properties"</b>
+     * @implSpec take a look <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html">here</a>
+     * to get more information about the custom configuration for properties that you can use
      */
     public static final String CUSTOM_CONFIGURATION_FILE_PATH = "pandoro.properties";
 
@@ -96,7 +98,7 @@ public class Launcher {
      * @see WebMvcConfigurer
      */
     @Configuration
-    public class ResourcesConfigs implements WebMvcConfigurer {
+    public static class ResourcesConfigs implements WebMvcConfigurer {
 
         /**
          * Add handlers to serve static resources such as images, js, and, css

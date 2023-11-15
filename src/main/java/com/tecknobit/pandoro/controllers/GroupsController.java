@@ -245,7 +245,7 @@ public class GroupsController extends PandoroController {
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null && group.isUserMaintainer(me)) {
-                groupsHelper.addMembers(new JsonHelper(membersList).toList(), groupId);
+                groupsHelper.addMembers(group.getName(), new JsonHelper(membersList).toList(), groupId);
                 return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
