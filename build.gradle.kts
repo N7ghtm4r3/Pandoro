@@ -8,7 +8,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
-version = "0.0.0.3"
+version = "0.0.0.4"
 
 repositories {
     mavenCentral()
@@ -28,21 +28,23 @@ dependencies {
     implementation("commons-validator:commons-validator:1.7")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "com.tecknobit.pandoro"
-            artifactId = "Pandoro"
-            version = "0.0.0.3"
-            from(components["java"])
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "com.tecknobit.pandoro"
+                artifactId = "Pandoro"
+                version = "0.0.0.4"
+                from(components["java"])
+            }
         }
     }
 }
 
-
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(19)
 }
