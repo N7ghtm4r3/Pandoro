@@ -57,8 +57,6 @@ public class Launcher {
      * @param args: custom arguments to share with {@link SpringApplication}
      */
     public static void main(String[] args) throws Exception {
-        // TODO: 09/11/2023 TO REMOVE, TESTING PURPOSE
-        System.setProperty("spring.main.allow-bean-definition-overriding", "true");
         SpringApplication.run(Launcher.class, args);
     }
 

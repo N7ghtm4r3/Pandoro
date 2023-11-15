@@ -1,5 +1,6 @@
-package helpers
+package com.tecknobit.pandoro.helpers
 
+import com.tecknobit.pandoro.helpers.InputStatus.*
 import com.tecknobit.pandoro.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
 import com.tecknobit.pandoro.records.Group.GROUP_NAME_MAX_LENGTH
 import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
@@ -7,16 +8,27 @@ import com.tecknobit.pandoro.records.Project.*
 import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
 import com.tecknobit.pandoro.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
 import com.tecknobit.pandoro.records.users.User.*
-import helpers.InputStatus.*
 import org.apache.commons.validator.routines.EmailValidator
 import org.apache.commons.validator.routines.UrlValidator
 
+/**
+ * **InputStatus** -> list of available input statuses
+ */
 enum class InputStatus {
 
+    /**
+     * **OK** -> input status
+     */
     OK,
 
+    /**
+     * **WRONG_PASSWORD** -> input status
+     */
     WRONG_PASSWORD,
 
+    /**
+     * **WRONG_EMAIL** -> input status
+     */
     WRONG_EMAIL
 
 }

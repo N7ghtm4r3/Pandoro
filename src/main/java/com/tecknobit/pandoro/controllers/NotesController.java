@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.helpers.InputsValidatorKt.isContentNoteValid;
 import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
-import static helpers.InputsValidatorKt.isContentNoteValid;
 
 /**
  * The {@code NotesController} class is useful to manage all the notes operations

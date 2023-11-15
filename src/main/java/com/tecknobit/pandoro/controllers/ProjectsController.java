@@ -20,13 +20,13 @@ import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.IN_DEVELOPMENT;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
 import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
-import static helpers.InputsValidatorKt.*;
 
 /**
  * The {@code ProjectsController} class is useful to manage all the projects operations

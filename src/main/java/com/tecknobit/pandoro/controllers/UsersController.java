@@ -15,8 +15,8 @@ import java.util.Map;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
+import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
-import static helpers.InputsValidatorKt.*;
 
 /**
  * The {@code UsersController} class is useful to manage all the users operations

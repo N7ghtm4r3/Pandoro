@@ -18,12 +18,12 @@ import java.util.List;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
+import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
 import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.JOINED;
 import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
-import static helpers.InputsValidatorKt.*;
 
 /**
  * The {@code GroupsController} class is useful to manage all the groups operations
