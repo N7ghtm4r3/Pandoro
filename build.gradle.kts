@@ -29,16 +29,12 @@ dependencies {
 }
 
 tasks {
-
-    val sourcesJar by creating(Jar::class) {
-        dependsOn(JavaPlugin.CLASSES_TASK_NAME)
-        from(java.sourceSets["main"].allSource)
+    compileKotlin {
+        kotlinOptions.jvmTarget = "19"
     }
-
-    artifacts {
-        add("archives", sourcesJar)
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "19"
     }
-
 }
 
 afterEvaluate {
