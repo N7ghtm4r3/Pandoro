@@ -116,7 +116,7 @@ public class User extends PublicUser {
     public User(JSONObject jUser) {
         super(jUser);
         password = hItem.getString(PASSWORD_KEY);
-        token = hItem.getString(PASSWORD_KEY);
+        token = hItem.getString(TOKEN_KEY);
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
         projects = hItem.fetchList(PROJECTS_KEY);
