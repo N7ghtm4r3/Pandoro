@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.helpers
 import com.tecknobit.pandoro.helpers.InputStatus.*
 import com.tecknobit.pandoro.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
 import com.tecknobit.pandoro.records.Group.GROUP_NAME_MAX_LENGTH
+import com.tecknobit.pandoro.records.Note
 import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
 import com.tecknobit.pandoro.records.Project.*
 import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
@@ -196,6 +197,22 @@ fun areNotesValid(notes: List<String?>?): Boolean {
             break
     }
     return notesCorrect
+}
+
+/**
+ * Function to check whether the change notes are all done before the publishing of the update
+ *
+ * @param changeNotes: the change notes to check
+ * @return whether the change notes are all done before the publishing of the update as [Boolean]
+ */
+fun areAllChangeNotesDone(changeNotes: List<Note>?): Boolean {
+    if (changeNotes == null)
+        return false
+    changeNotes.forEach { note ->
+        if (!note.isMarkedAsDone)
+            return false
+    }
+    return true
 }
 
 /**

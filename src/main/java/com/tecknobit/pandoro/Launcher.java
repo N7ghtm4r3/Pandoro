@@ -56,7 +56,7 @@ public class Launcher {
      *
      * @param args: custom arguments to share with {@link SpringApplication}
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(Launcher.class, args);
     }
 
