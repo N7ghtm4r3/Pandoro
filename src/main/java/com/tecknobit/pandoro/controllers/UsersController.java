@@ -303,8 +303,12 @@ public class UsersController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isAuthenticatedUser(id, token)) {
-            usersHelper.deleteAccount(id, token);
-            return successResponse();
+            try {
+                usersHelper.deleteAccount(id, token);
+                return successResponse();
+            } catch (IOException e) {
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

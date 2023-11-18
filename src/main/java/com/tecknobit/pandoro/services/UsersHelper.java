@@ -148,12 +148,7 @@ public class UsersHelper {
      * @throws IOException when the change operation fails
      */
     public String changeProfilePic(String userId, String token, MultipartFile profilePic) throws IOException {
-        File picsFolder = new File(PROFILE_PICS_FOLDER);
-        for (File pic : Objects.requireNonNull(picsFolder.listFiles())) {
-            if (pic.getName().contains(userId))
-                if (!pic.delete())
-                    throw new IOException();
-        }
+        deleteProfilePic(userId);
         String contentType = profilePic.getContentType();
         String suffix;
         switch (Objects.requireNonNull(contentType)) {
@@ -168,6 +163,20 @@ public class UsersHelper {
         String profilePicPath = file.getPath().replaceAll("\\\\", "/").replace(IMAGES_PATH, "");
         usersRepository.changeProfilePic(userId, token, profilePicPath);
         return profilePicPath;
+    }
+
+    /**
+     * Method to delete the user profile pic
+     *
+     * @param userId: the user id for the profile pic deletion
+     */
+    private void deleteProfilePic(String userId) throws IOException {
+        File picsFolder = new File(PROFILE_PICS_FOLDER);
+        for (File pic : Objects.requireNonNull(picsFolder.listFiles())) {
+            if (pic.getName().contains(userId))
+                if (!pic.delete())
+                    throw new IOException();
+        }
     }
 
     /**
@@ -208,7 +217,8 @@ public class UsersHelper {
      * @param userId: the user identifier
      * @param token: the token of the user
      */
-    public void deleteAccount(String userId, String token) {
+    public void deleteAccount(String userId, String token) throws IOException {
+        deleteProfilePic(userId);
         usersRepository.deleteAccount(userId, token);
     }
 
