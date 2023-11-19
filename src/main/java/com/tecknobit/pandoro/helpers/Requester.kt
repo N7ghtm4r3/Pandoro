@@ -22,6 +22,13 @@ import com.tecknobit.pandoro.services.GroupsHelper.*
 import com.tecknobit.pandoro.services.ProjectsHelper.*
 import com.tecknobit.pandoro.services.UsersHelper.*
 import org.json.JSONObject
+import org.springframework.core.io.FileSystemResource
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.util.MultiValueMap
+import org.springframework.web.client.RestTemplate
 import java.io.File
 
 
@@ -92,33 +99,20 @@ class Requester(
         setAuthHeaders()
     }
 
-    // TODO: CREATE THE CORRECT REQUEST
     fun execChangeProfilePic(profilePic: File): JSONObject {
-        return JSONObject()
-        /*val headers = HttpHeaders()
+        val headers = HttpHeaders()
         headers.contentType = MediaType.MULTIPART_FORM_DATA
+        headers.add(TOKEN_KEY, userToken)
         val body: MultiValueMap<String, Any> = LinkedMultiValueMap()
-        val input = FileInputStream(profilePic)
-        val multipartFile: MultipartFile = Mock(
-            PROFILE_PIC_KEY,
-            profilePic.getName(), "text/plain", IOUtils.toByteArray(input)
-        )
-        body.add(PROFILE_PIC_KEY, M.getResource())
-        val request = HttpEntity(body, headers)
+        body.add(PROFILE_PIC_KEY, FileSystemResource(profilePic))
+        val requestEntity: HttpEntity<Any?> = HttpEntity<Any?>(body, headers)
         val restTemplate = RestTemplate()
         val response = restTemplate.postForEntity(
-            "<url-of-the-second-server>", request,
-            String::class.java
-        )
-
-
-        val payload = PandoroPayload()
-        val map: MultiValueMap<String, Any> = LinkedMultiValueMap()
-        map.add(PROFILE_PIC_KEY, FileSystemResource(profilePic.toPath()))
-        payload.addParam(map.toString(), "")
-        System.out.println(payload.createPayload())
-        return execPatch(createUsersEndpoint(CHANGE_PROFILE_PIC_ENDPOINT, userId), payload, false,
-            "multipart/form-data; boundary=<calculated when request is sent>")*/
+            host + BASE_ENDPOINT + USERS_ENDPOINT + "/$userId/" +
+                    CHANGE_PROFILE_PIC_ENDPOINT, requestEntity, String::class.java
+        ).body
+        lastResponse = JsonHelper(response)
+        return JSONObject(response)
     }
 
     fun execChangeEmail(newEmail: String): JSONObject {
@@ -601,8 +595,6 @@ class Requester(
         val response: String?
         return try {
             val requestUrl = host + BASE_ENDPOINT + endpoint
-            // TODO: TO REMOVE
-            println(requestUrl)
             if (payload != null) {
                 if (jsonPayload)
                     apiRequest.sendJSONPayloadedAPIRequest(requestUrl, requestMethod, headers, payload)
@@ -614,11 +606,6 @@ class Requester(
             lastResponse = JsonHelper(response)
             response
         } catch (e: Exception) {
-            // TODO: TO REMOVE
-            e.printStackTrace()
-            apiRequest.printErrorResponse()
-
-
             lastResponse = JsonHelper(errorResponse)
             errorResponse
         }

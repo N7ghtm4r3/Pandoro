@@ -190,13 +190,13 @@ public class UsersController extends PandoroController {
      *
      * @return the result of the request as {@link String}
      */
-    @PatchMapping(
+    @PostMapping(
             path = "{" + IDENTIFIER_KEY + "}" + CHANGE_PROFILE_PIC_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/changeProfilePic", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/changeProfilePic", method = POST)
     public String changeProfilePic(
             @PathVariable String id,
             @RequestHeader(TOKEN_KEY) String token,
