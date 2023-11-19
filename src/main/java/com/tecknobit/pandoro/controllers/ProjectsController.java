@@ -21,8 +21,7 @@ import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.IN_DEVELOPMENT;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
+import static com.tecknobit.pandoro.records.ProjectUpdate.Status.*;
 import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
@@ -524,8 +523,8 @@ public class ProjectsController extends PandoroController {
             @RequestBody String contentNote
     ) {
         if (isAuthenticatedUser(id, token)) {
-            if (projectsHelper.getProject(id, projectId) != null &&
-                    projectsHelper.updateExists(projectId, updateId) != null) {
+            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+            if (projectsHelper.getProject(id, projectId) != null && update != null && update.getStatus() != PUBLISHED) {
                 if (isContentNoteValid(contentNote)) {
                     projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
                     return successResponse();
@@ -651,13 +650,29 @@ public class ProjectsController extends PandoroController {
     private String manageChangeNote(String id, String token, String projectId, String updateId, String noteId,
                                     String ope) {
         if (isAuthenticatedUser(id, token)) {
-            if (projectsHelper.getProject(id, projectId) != null &&
-                    projectsHelper.updateExists(projectId, updateId) != null &&
+            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+            if (projectsHelper.getProject(id, projectId) != null && update != null &&
                     projectsHelper.changeNoteExists(updateId, noteId)) {
+                boolean isInDevelopment = update.getStatus() == IN_DEVELOPMENT;
                 switch (ope) {
-                    case "markAsDone" -> projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
-                    case "markAsToDo" -> projectsHelper.markChangeNoteAsToDo(updateId, noteId);
-                    default -> projectsHelper.deleteChangeNote(updateId, noteId);
+                    case "markAsDone" -> {
+                        if (isInDevelopment)
+                            projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
+                        else
+                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    }
+                    case "markAsToDo" -> {
+                        if (isInDevelopment)
+                            projectsHelper.markChangeNoteAsToDo(updateId, noteId);
+                        else
+                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    }
+                    default -> {
+                        if (update.getStatus() != PUBLISHED)
+                            projectsHelper.deleteChangeNote(updateId, noteId);
+                        else
+                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    }
                 }
                 return successResponse();
             } else
