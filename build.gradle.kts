@@ -22,6 +22,7 @@ dependencies {
     implementation("com.github.N7ghtm4r3:APIManager:2.1.7")
     implementation("org.json:json:20230227")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
+    implementation("org.springframework:spring-web:6.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
     implementation("mysql:mysql-connector-java:8.0.33")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10")

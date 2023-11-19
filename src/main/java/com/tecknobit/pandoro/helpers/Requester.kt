@@ -6,8 +6,9 @@ import com.tecknobit.apimanager.apis.APIRequest.*
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
 import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED
 import com.tecknobit.apimanager.formatters.JsonHelper
+import com.tecknobit.pandoro.controllers.ChangelogsController.*
 import com.tecknobit.pandoro.controllers.GroupsController.*
-import com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY
+import com.tecknobit.pandoro.controllers.NotesController.*
 import com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT
 import com.tecknobit.pandoro.controllers.PandoroController.ERROR_KEY
 import com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
@@ -22,7 +23,7 @@ import com.tecknobit.pandoro.services.ProjectsHelper.*
 import com.tecknobit.pandoro.services.UsersHelper.*
 import org.json.JSONObject
 import java.io.File
-import java.nio.file.Files
+
 
 class Requester(
     private val host: String,
@@ -93,9 +94,31 @@ class Requester(
 
     // TODO: CREATE THE CORRECT REQUEST
     fun execChangeProfilePic(profilePic: File): JSONObject {
+        return JSONObject()
+        /*val headers = HttpHeaders()
+        headers.contentType = MediaType.MULTIPART_FORM_DATA
+        val body: MultiValueMap<String, Any> = LinkedMultiValueMap()
+        val input = FileInputStream(profilePic)
+        val multipartFile: MultipartFile = Mock(
+            PROFILE_PIC_KEY,
+            profilePic.getName(), "text/plain", IOUtils.toByteArray(input)
+        )
+        body.add(PROFILE_PIC_KEY, M.getResource())
+        val request = HttpEntity(body, headers)
+        val restTemplate = RestTemplate()
+        val response = restTemplate.postForEntity(
+            "<url-of-the-second-server>", request,
+            String::class.java
+        )
+
+
         val payload = PandoroPayload()
-        payload.addParam(PROFILE_PIC_KEY, Files.readAllBytes(profilePic.toPath()))
-        return execPatch(createUsersEndpoint(CHANGE_PROFILE_PIC_ENDPOINT, userId), payload, false)
+        val map: MultiValueMap<String, Any> = LinkedMultiValueMap()
+        map.add(PROFILE_PIC_KEY, FileSystemResource(profilePic.toPath()))
+        payload.addParam(map.toString(), "")
+        System.out.println(payload.createPayload())
+        return execPatch(createUsersEndpoint(CHANGE_PROFILE_PIC_ENDPOINT, userId), payload, false,
+            "multipart/form-data; boundary=<calculated when request is sent>")*/
     }
 
     fun execChangeEmail(newEmail: String): JSONObject {
@@ -134,13 +157,11 @@ class Requester(
         groups: List<String>,
         projectRepository: String = ""
     ): JSONObject {
-        return JSONObject(
-            execPost(
-                createProjectsEndpoint(ADD_PROJECT_ENDPOINT),
-                createProjectPayload(
-                    name, projectDescription, projectShortDescription, projectVersion, groups,
-                    projectRepository
-                )
+        return execPost(
+            createProjectsEndpoint(ADD_PROJECT_ENDPOINT),
+            createProjectPayload(
+                name, projectDescription, projectShortDescription, projectVersion, groups,
+                projectRepository
             )
         )
     }
@@ -154,13 +175,11 @@ class Requester(
         groups: List<String>,
         projectRepository: String = ""
     ): JSONObject {
-        return JSONObject(
-            execPatch(
-                createProjectsEndpoint("/${projectId}" + EDIT_PROJECT_ENDPOINT),
-                createProjectPayload(
-                    name, projectDescription, projectShortDescription, projectVersion, groups,
-                    projectRepository
-                )
+        return execPatch(
+            createProjectsEndpoint("/${projectId}" + EDIT_PROJECT_ENDPOINT),
+            createProjectPayload(
+                name, projectDescription, projectShortDescription, projectVersion, groups,
+                projectRepository
             )
         )
     }
@@ -188,7 +207,7 @@ class Requester(
     }
 
     fun execDeleteProject(projectId: String): JSONObject {
-        return JSONObject(execDelete(createProjectsEndpoint(DELETE_PROJECT_ENDPOINT, projectId)))
+        return execDelete(createProjectsEndpoint(DELETE_PROJECT_ENDPOINT, projectId))
     }
 
     @Wrapper
@@ -207,21 +226,21 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(UPDATE_TARGET_VERSION_KEY, targetVersion)
         payload.addParam(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes)
-        return JSONObject(execPost(createUpdatesEndpoint(SCHEDULE_UPDATE_ENDPOINT, projectId), payload))
+        return execPost(createUpdatesEndpoint(SCHEDULE_UPDATE_ENDPOINT, projectId), payload)
     }
 
     fun execStartUpdate(
         projectId: String,
         updateId: String
     ): JSONObject {
-        return JSONObject(execPatch(createUpdatesEndpoint(START_UPDATE_ENDPOINT, projectId, updateId, false)))
+        return execPatch(createUpdatesEndpoint(START_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     fun execPublishUpdate(
         projectId: String,
         updateId: String
     ): JSONObject {
-        return JSONObject(execPatch(createUpdatesEndpoint(PUBLISH_UPDATE_ENDPOINT, projectId, updateId, false)))
+        return execPatch(createUpdatesEndpoint(PUBLISH_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     fun execAddChangeNote(
@@ -231,12 +250,10 @@ class Requester(
     ): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(changeNote, "")
-        return JSONObject(
-            execPut(
-                createUpdatesEndpoint(ADD_CHANGE_NOTE_ENDPOINT, projectId, updateId, false),
-                payload,
-                false,
-            )
+        return execPut(
+            createUpdatesEndpoint(ADD_CHANGE_NOTE_ENDPOINT, projectId, updateId, false),
+            payload,
+            false,
         )
     }
 
@@ -245,12 +262,11 @@ class Requester(
         updateId: String,
         changeNoteId: String
     ): JSONObject {
-        return JSONObject(
-            execPatch(
-                createUpdatesEndpoint(
-                    "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_DONE_ENDPOINT", projectId,
-                    updateId, false
-                ),
+        return execPatch(
+            createUpdatesEndpoint(
+                "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_DONE_ENDPOINT", projectId,
+                updateId,
+                false
             )
         )
     }
@@ -260,13 +276,11 @@ class Requester(
         updateId: String,
         changeNoteId: String
     ): JSONObject {
-        return JSONObject(
-            execPatch(
-                createUpdatesEndpoint(
-                    "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_TODO_ENDPOINT", projectId,
-                    updateId, false
-                ),
-            )
+        return execPatch(
+            createUpdatesEndpoint(
+                "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_TODO_ENDPOINT", projectId,
+                updateId, false
+            ),
         )
     }
 
@@ -275,13 +289,11 @@ class Requester(
         updateId: String,
         changeNoteId: String
     ): JSONObject {
-        return JSONObject(
-            execDelete(
-                createUpdatesEndpoint(
-                    "/$NOTES_KEY/$changeNoteId$DELETE_CHANGE_NOTE_ENDPOINT", projectId,
-                    updateId, false
-                ),
-            )
+        return execDelete(
+            createUpdatesEndpoint(
+                "/$NOTES_KEY/$changeNoteId$DELETE_CHANGE_NOTE_ENDPOINT", projectId,
+                updateId, false
+            ),
         )
     }
 
@@ -289,7 +301,7 @@ class Requester(
         projectId: String,
         updateId: String,
     ): JSONObject {
-        return JSONObject(execDelete(createUpdatesEndpoint(DELETE_UPDATE_ENDPOINT, projectId, updateId, false)))
+        return execDelete(createUpdatesEndpoint(DELETE_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     @Wrapper
@@ -316,11 +328,9 @@ class Requester(
         payload.addParam(NAME_KEY, name)
         payload.addParam(GROUP_DESCRIPTION_KEY, groupDescription)
         payload.addParam(GROUP_MEMBERS_KEY, members)
-        return JSONObject(
-            execPost(
-                createGroupsEndpoint(CREATE_GROUP_ENDPOINT),
-                payload
-            )
+        return execPost(
+            createGroupsEndpoint(CREATE_GROUP_ENDPOINT),
+            payload
         )
     }
 
@@ -334,21 +344,19 @@ class Requester(
     ): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(members.toString(), "")
-        return JSONObject(
-            execPut(
-                createGroupsEndpoint(ADD_MEMBERS_ENDPOINT, groupId),
-                payload,
-                false
-            )
+        return execPut(
+            createGroupsEndpoint(ADD_MEMBERS_ENDPOINT, groupId),
+            payload,
+            false
         )
     }
 
     fun execAcceptInvitation(groupId: String): JSONObject {
-        return JSONObject(execPatch(createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId)))
+        return execPatch(createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId))
     }
 
     fun execDeclineInvitation(groupId: String): JSONObject {
-        return JSONObject(execDelete(createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId)))
+        return execDelete(createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId))
     }
 
     fun execChangeMemberRole(
@@ -359,11 +367,9 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(IDENTIFIER_KEY, memberId)
         payload.addParam(MEMBER_ROLE_KEY, role)
-        return JSONObject(
-            execPatch(
-                createGroupsEndpoint(CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
-                payload
-            )
+        return execPatch(
+            createGroupsEndpoint(CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
+            payload
         )
     }
 
@@ -373,12 +379,10 @@ class Requester(
     ): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(memberId, "")
-        return JSONObject(
-            execDelete(
-                createGroupsEndpoint(REMOVE_MEMBER_ENDPOINT, groupId),
-                payload,
-                false
-            )
+        return execDelete(
+            createGroupsEndpoint(REMOVE_MEMBER_ENDPOINT, groupId),
+            payload,
+            false
         )
     }
 
@@ -388,12 +392,10 @@ class Requester(
     ): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(projects.toString(), "")
-        return JSONObject(
-            execPatch(
-                createGroupsEndpoint(EDIT_PROJECTS_ENDPOINT, groupId),
-                payload,
-                false
-            )
+        return execPatch(
+            createGroupsEndpoint(EDIT_PROJECTS_ENDPOINT, groupId),
+            payload,
+            false
         )
     }
 
@@ -404,17 +406,15 @@ class Requester(
         val payload = PandoroPayload()
         if (nextAdminId != null)
             payload.addParam(nextAdminId, "")
-        return JSONObject(
-            execDelete(
-                createGroupsEndpoint(LEAVE_GROUP_ENDPOINT, groupId),
-                payload,
-                false
-            )
+        return execDelete(
+            createGroupsEndpoint(LEAVE_GROUP_ENDPOINT, groupId),
+            payload,
+            false
         )
     }
 
     fun execDeleteGroup(groupId: String): JSONObject {
-        return JSONObject(execDelete(createGroupsEndpoint(DELETE_GROUP_ENDPOINT, groupId)))
+        return execDelete(createGroupsEndpoint(DELETE_GROUP_ENDPOINT, groupId))
     }
 
     @Wrapper
@@ -423,6 +423,59 @@ class Requester(
         id: String? = null
     ): String {
         return createEndpoint(GROUPS_KEY, endpoint, id)
+    }
+
+    fun execNotesList(): String {
+        return execGet(createNotesEndpoint(""))
+    }
+
+    fun execAddNote(contentNote: String): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(contentNote, "")
+        return execPost(
+            createNotesEndpoint(CREATE_NOTE_ENDPOINT),
+            payload
+        )
+    }
+
+    fun execMarkNoteAsDone(noteId: String): JSONObject {
+        return execPatch(createNotesEndpoint(MARK_AS_DONE_ENDPOINT, noteId))
+    }
+
+    fun execMarkNoteAsToDo(noteId: String): JSONObject {
+        return execPatch(createNotesEndpoint(MARK_AS_TO_DO_ENDPOINT, noteId))
+    }
+
+    fun execDeleteNote(noteId: String): JSONObject {
+        return execDelete(createNotesEndpoint(DELETE_NOTE_ENDPOINT, noteId))
+    }
+
+    @Wrapper
+    private fun createNotesEndpoint(
+        endpoint: String,
+        id: String? = null
+    ): String {
+        return createEndpoint(NOTES_KEY, endpoint, id)
+    }
+
+    fun execChangelogsList(): String {
+        return execGet(createChangelogsEndpoint(""))
+    }
+
+    fun execReadChangelog(changelogId: String): JSONObject {
+        return execPatch(createChangelogsEndpoint(READ_CHANGELOG_ENDPOINT, changelogId))
+    }
+
+    fun execDeleteChangelog(changelogId: String): JSONObject {
+        return execDelete(createChangelogsEndpoint(DELETE_CHANGELOG_ENDPOINT, changelogId))
+    }
+
+    @Wrapper
+    private fun createChangelogsEndpoint(
+        endpoint: String,
+        id: String? = null
+    ): String {
+        return createEndpoint(CHANGELOGS_KEY, endpoint, id)
     }
 
     private fun createEndpoint(
@@ -456,9 +509,11 @@ class Requester(
 
     @Wrapper
     private fun execGet(
-        endpoint: String
+        endpoint: String,
+        contentType: String = "application/json"
     ): String {
         return execRequest(
+            contentType = contentType,
             endpoint = endpoint,
             requestMethod = GET
         )
@@ -468,14 +523,15 @@ class Requester(
     private fun execPost(
         endpoint: String,
         payload: PandoroPayload? = null,
-        jsonPayload: Boolean = true
+        contentType: String = "application/json"
     ): JSONObject {
         return JSONObject(
             execRequest(
+                contentType = contentType,
                 endpoint = endpoint,
                 requestMethod = POST,
                 payload = payload,
-                jsonPayload = jsonPayload
+                jsonPayload = true
             )
         )
     }
@@ -484,10 +540,12 @@ class Requester(
     private fun execPatch(
         endpoint: String,
         payload: PandoroPayload? = null,
-        jsonPayload: Boolean = true
+        jsonPayload: Boolean = true,
+        contentType: String = "application/json"
     ): JSONObject {
         return JSONObject(
             execRequest(
+                contentType = contentType,
                 endpoint = endpoint,
                 requestMethod = PATCH,
                 payload = payload,
@@ -500,10 +558,12 @@ class Requester(
     private fun execPut(
         endpoint: String,
         payload: PandoroPayload? = null,
-        jsonPayload: Boolean = true
+        jsonPayload: Boolean = true,
+        contentType: String = "application/json"
     ): JSONObject {
         return JSONObject(
             execRequest(
+                contentType = contentType,
                 endpoint = endpoint,
                 requestMethod = PUT,
                 payload = payload,
@@ -516,10 +576,12 @@ class Requester(
     private fun execDelete(
         endpoint: String,
         payload: PandoroPayload? = null,
-        jsonPayload: Boolean = true
+        jsonPayload: Boolean = true,
+        contentType: String = "application/json"
     ): JSONObject {
         return JSONObject(
             execRequest(
+                contentType = contentType,
                 endpoint = endpoint,
                 requestMethod = DELETE,
                 payload = payload,
@@ -529,7 +591,7 @@ class Requester(
     }
 
     private fun execRequest(
-        contentType: String = "application/json",
+        contentType: String,
         endpoint: String,
         requestMethod: RequestMethod,
         payload: PandoroPayload? = null,
