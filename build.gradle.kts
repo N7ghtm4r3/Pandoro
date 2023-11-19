@@ -8,10 +8,11 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
-version = "0.0.0.6"
+version = "0.0.0.8"
 
 repositories {
     mavenCentral()
+    maven("https://repo.maven.apache.org/maven2")
     maven("https://jitpack.io")
 }
 
@@ -40,10 +41,10 @@ tasks {
 afterEvaluate {
     publishing {
         publications {
-            create<MavenPublication>("Maven") {
+            create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandoro"
                 artifactId = "Pandoro"
-                version = "0.0.0.6"
+                version = "0.0.0.8"
                 from(components["java"])
             }
         }
