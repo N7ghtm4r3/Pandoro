@@ -12,7 +12,6 @@ version = "0.0.0.8"
 
 repositories {
     mavenCentral()
-    maven("https://repo.maven.apache.org/maven2")
     maven("https://jitpack.io")
 }
 
