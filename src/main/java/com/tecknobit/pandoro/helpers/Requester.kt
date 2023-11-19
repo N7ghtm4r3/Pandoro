@@ -6,7 +6,7 @@ import com.tecknobit.apimanager.apis.APIRequest.*
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
 import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED
 import com.tecknobit.apimanager.formatters.JsonHelper
-import com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY
+import com.tecknobit.pandoro.controllers.GroupsController.*
 import com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY
 import com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT
 import com.tecknobit.pandoro.controllers.PandoroController.ERROR_KEY
@@ -16,6 +16,8 @@ import com.tecknobit.pandoro.controllers.PandoroController.SUCCESS_KEY
 import com.tecknobit.pandoro.controllers.PandoroController.WRONG_PROCEDURE_MESSAGE
 import com.tecknobit.pandoro.controllers.ProjectsController.*
 import com.tecknobit.pandoro.controllers.UsersController.*
+import com.tecknobit.pandoro.records.users.GroupMember.Role
+import com.tecknobit.pandoro.services.GroupsHelper.*
 import com.tecknobit.pandoro.services.ProjectsHelper.*
 import com.tecknobit.pandoro.services.UsersHelper.*
 import org.json.JSONObject
@@ -299,6 +301,128 @@ class Requester(
     ): String {
         return createProjectsEndpoint("", projectId) + UPDATES_PATH + createPathId(updateId, insertSlash) +
                 endpoint
+    }
+
+    fun execGroupsList(): String {
+        return execGet(createGroupsEndpoint(""))
+    }
+
+    fun execCreateGroup(
+        name: String,
+        groupDescription: String,
+        members: List<String>
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(NAME_KEY, name)
+        payload.addParam(GROUP_DESCRIPTION_KEY, groupDescription)
+        payload.addParam(GROUP_MEMBERS_KEY, members)
+        return JSONObject(
+            execPost(
+                createGroupsEndpoint(CREATE_GROUP_ENDPOINT),
+                payload
+            )
+        )
+    }
+
+    fun execGetSingleGroup(groupId: String): String {
+        return execGet(createGroupsEndpoint("", groupId))
+    }
+
+    fun execAddMembers(
+        groupId: String,
+        members: List<String>
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(members.toString(), "")
+        return JSONObject(
+            execPut(
+                createGroupsEndpoint(ADD_MEMBERS_ENDPOINT, groupId),
+                payload,
+                false
+            )
+        )
+    }
+
+    fun execAcceptInvitation(groupId: String): JSONObject {
+        return JSONObject(execPatch(createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId)))
+    }
+
+    fun execDeclineInvitation(groupId: String): JSONObject {
+        return JSONObject(execDelete(createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId)))
+    }
+
+    fun execChangeMemberRole(
+        groupId: String,
+        memberId: String,
+        role: Role
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(IDENTIFIER_KEY, memberId)
+        payload.addParam(MEMBER_ROLE_KEY, role)
+        return JSONObject(
+            execPatch(
+                createGroupsEndpoint(CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
+                payload
+            )
+        )
+    }
+
+    fun execRemoveMember(
+        groupId: String,
+        memberId: String,
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(memberId, "")
+        return JSONObject(
+            execDelete(
+                createGroupsEndpoint(REMOVE_MEMBER_ENDPOINT, groupId),
+                payload,
+                false
+            )
+        )
+    }
+
+    fun execEditProjects(
+        groupId: String,
+        projects: List<String>
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(projects.toString(), "")
+        return JSONObject(
+            execPatch(
+                createGroupsEndpoint(EDIT_PROJECTS_ENDPOINT, groupId),
+                payload,
+                false
+            )
+        )
+    }
+
+    fun execLeaveGroup(
+        groupId: String,
+        nextAdminId: String? = null,
+    ): JSONObject {
+        val payload = PandoroPayload()
+        if (nextAdminId != null)
+            payload.addParam(nextAdminId, "")
+        return JSONObject(
+            execDelete(
+                createGroupsEndpoint(LEAVE_GROUP_ENDPOINT, groupId),
+                payload,
+                false
+            )
+        )
+    }
+
+    fun execDeleteGroup(groupId: String): JSONObject {
+        return JSONObject(execDelete(createGroupsEndpoint(DELETE_GROUP_ENDPOINT, groupId)))
+    }
+
+    @Wrapper
+    private fun createGroupsEndpoint(
+        endpoint: String,
+        id: String? = null
+    ): String {
+        return createEndpoint(GROUPS_KEY, endpoint, id)
     }
 
     private fun createEndpoint(

@@ -232,7 +232,7 @@ fun isContentNoteValid(content: String?): Boolean {
  * @return whether the members list is valid as [Boolean]
  */
 fun checkMembersValidity(members: List<String?>?): Boolean {
-    if (members == null)
+    if (members.isNullOrEmpty())
         return false
     var membersCorrect = true
     for (member in members) {
