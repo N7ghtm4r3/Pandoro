@@ -57,3 +57,6 @@ tasks.test {
 kotlin {
     jvmToolchain(19)
 }
+
+// TODO: REMOVE THIS FOR TESTING PURPOSES ONLY
+tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }

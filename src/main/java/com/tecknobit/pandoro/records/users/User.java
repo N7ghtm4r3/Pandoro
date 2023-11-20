@@ -60,7 +60,7 @@ public class User extends PublicUser {
      * {@code password} the password of the user
      */
     @Column(name = PASSWORD_KEY)
-    protected final String password;
+    private final String password;
 
     /**
      * {@code changelogs} list of action messages for the user
@@ -104,8 +104,8 @@ public class User extends PublicUser {
      * @apiNote empty constructor required
      */
     public User() {
-        this(null, null, null, null, null, null, null, null,
-                null, null, null);
+        this(null, null, null, null, null, null, null, new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     /**
@@ -119,7 +119,7 @@ public class User extends PublicUser {
         token = hItem.getString(TOKEN_KEY);
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
-        projects = hItem.fetchList(PROJECTS_KEY);
+        projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
         notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
@@ -174,6 +174,16 @@ public class User extends PublicUser {
      */
     public String getToken() {
         return token;
+    }
+
+    /**
+     * Method to get {@link #password} instance <br>
+     * No-any params required
+     *
+     * @return {@link #password} instance as {@link String}
+     */
+    public String getPassword() {
+        return password;
     }
 
     /**
