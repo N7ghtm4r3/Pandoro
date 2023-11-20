@@ -10,14 +10,14 @@ import com.tecknobit.pandoro.records.Project
 class OverviewUIHelper(var userProjects: List<Project>) {
 
     /**
-     * **bestPersonalProject** -> the best personal project
+     * **bestPersonalVProject** -> the best personal project
      */
-    private var bestPersonalProject: Project? = null
+    var bestPersonalVProject: Project? = null
 
     /**
-     * **bestGroupProject** -> the best group project
+     * **bestGroupVProject** -> the best group project
      */
-    private var bestGroupProject: Project? = null
+    var bestGroupVProject: Project? = null
 
     /**
      * Function to get the personal best project in terms of performance
@@ -70,9 +70,9 @@ class OverviewUIHelper(var userProjects: List<Project>) {
         var updatesNumber = 0
         var developmentDays = 0
         var averageDevelopmentTime = 0
-        if (bestPersonalProject != null) {
+        if (bestPersonalVProject != null) {
             userProjects.forEach { project ->
-                if (!project.hasGroups() && !project.id.equals(bestPersonalProject!!.id)) {
+                if (!project.hasGroups() && !project.id.equals(bestPersonalVProject!!.id)) {
                     val pUpdatesNumber = project.updatesNumber
                     if (pUpdatesNumber > updatesNumber) {
                         updatesNumber = pUpdatesNumber
@@ -83,7 +83,7 @@ class OverviewUIHelper(var userProjects: List<Project>) {
             userProjects.forEach { project ->
                 val pUpdatesNumber = project.updatesNumber
                 if (!project.hasGroups() && pUpdatesNumber > 0 && !project.id.equals(
-                        bestPersonalProject!!.id
+                        bestPersonalVProject!!.id
                     )
                 ) {
                     val pDevelopmentDays = project.totalDevelopmentDays
@@ -153,9 +153,9 @@ class OverviewUIHelper(var userProjects: List<Project>) {
         var updatesNumber = 0
         var developmentDays = 0
         var averageDevelopmentTime = 0
-        if (bestGroupProject != null) {
+        if (bestGroupVProject != null) {
             userProjects.forEach { project ->
-                if (project.hasGroups() && !project.id.equals(bestGroupProject!!.id)) {
+                if (project.hasGroups() && !project.id.equals(bestGroupVProject!!.id)) {
                     val pUpdatesNumber = project.updatesNumber
                     if (pUpdatesNumber > updatesNumber) {
                         updatesNumber = pUpdatesNumber
@@ -165,7 +165,7 @@ class OverviewUIHelper(var userProjects: List<Project>) {
             }
             userProjects.forEach { project ->
                 val pUpdatesNumber = project.updatesNumber
-                if (project.hasGroups() && pUpdatesNumber > 0 && !project.id.equals(bestGroupProject!!.id)) {
+                if (project.hasGroups() && pUpdatesNumber > 0 && !project.id.equals(bestGroupVProject!!.id)) {
                     val pDevelopmentDays = project.totalDevelopmentDays
                     val pAverageDevelopmentTime = project.averageDevelopmentTime
                     if (pUpdatesNumber <= updatesNumber && pDevelopmentDays >= developmentDays) {

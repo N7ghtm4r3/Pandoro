@@ -115,7 +115,8 @@ public class UsersHelper {
      * @param password: the password of the user
      * @throws NoSuchAlgorithmException when the hash of the password fails
      */
-    public void signUp(String userId, String token, String name, String surname, String email, String password) throws NoSuchAlgorithmException {
+    public void signUp(String userId, String token, String name, String surname, String email,
+                       String password) throws NoSuchAlgorithmException {
         usersRepository.save(new User(
                 userId,
                 name,
