@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -71,6 +72,7 @@ public class Group extends PandoroItem {
             "hibernateLazyInitializer",
             "handler"
     })
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
     /**
@@ -178,6 +180,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #description} instance as {@link String}
      */
+    @JsonGetter(GROUP_DESCRIPTION_KEY)
     public String getDescription() {
         return description;
     }
@@ -188,6 +191,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #groupMembers} instance as {@link ArrayList} of {@link GroupMember}
      */
+    @JsonGetter(GROUP_MEMBERS_TABLE)
     public ArrayList<GroupMember> getMembers() {
         return new ArrayList<>(groupMembers);
     }

@@ -121,6 +121,7 @@ public class Project extends PandoroItem implements Serializable {
             "hibernateLazyInitializer",
             "handler"
     })
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
     /**

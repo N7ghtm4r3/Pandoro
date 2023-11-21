@@ -101,8 +101,7 @@ public class UsersHelper {
     /**
      * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
      */
-    // TODO: 31/10/2023 CHANGE WITH THE REAL DEFAULT ICON
-    public static final String DEFAULT_PROFILE_PIC = "https://sb.ecobnb.net/app/uploads/sites/2/2022/03/delfini-copertina.jpg";
+    public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.jpg";
 
     /**
      * Method to execute the signup action and store the new user details

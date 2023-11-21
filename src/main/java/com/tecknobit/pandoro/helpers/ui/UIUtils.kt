@@ -26,3 +26,15 @@ const val YELLOW_COLOR: String = "#bfae19"
  * the red color value
  */
 const val RED_COLOR: String = "#A81515"
+
+interface ListManager {
+
+    fun refreshValues()
+
+}
+
+interface SingleItemManager {
+
+    fun refreshItem() {}
+
+}

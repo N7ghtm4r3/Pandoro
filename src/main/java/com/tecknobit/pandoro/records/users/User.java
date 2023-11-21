@@ -8,6 +8,8 @@ import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.structures.PandoroItem;
 import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -78,7 +80,7 @@ public class User extends PublicUser {
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
-    private final List<Group> groups;
+    private List<Group> groups;
 
     /**
      * {@code projects} list of the projects of the user
@@ -87,7 +89,8 @@ public class User extends PublicUser {
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
-    private final List<Project> projects;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Project> projects;
 
     /**
      * {@code notes} list of the notes of the user
@@ -197,6 +200,15 @@ public class User extends PublicUser {
     }
 
     /**
+     * Method to set {@link #groups} instance <br>
+     *
+     * @param groups:{@code groups} list of the groups of the user
+     */
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    /**
      * Method to get {@link #changelogs} instance <br>
      * No-any params required
      *
@@ -228,6 +240,15 @@ public class User extends PublicUser {
      */
     public ArrayList<Project> getProjects() {
         return new ArrayList<>(projects);
+    }
+
+    /**
+     * Method to set {@link #projects} instance <br>
+     *
+     * @param projects:{@code projects} list of the projects of the user
+     */
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 
     /**

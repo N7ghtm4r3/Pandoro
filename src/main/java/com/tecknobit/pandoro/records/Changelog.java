@@ -190,6 +190,7 @@ public class Changelog extends PandoroItemStructure {
      */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = CHANGELOG_OWNER_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User owner;
 

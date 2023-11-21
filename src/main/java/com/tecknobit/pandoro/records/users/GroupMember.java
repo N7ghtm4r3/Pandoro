@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.records.users;
 
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.pandoro.records.Group;
@@ -89,6 +90,7 @@ public class GroupMember extends PandoroItemStructure {
      */
     @Id
     @Column(name = IDENTIFIER_KEY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private final String id;
 
     /**
@@ -222,6 +224,7 @@ public class GroupMember extends PandoroItemStructure {
      *
      * @return {@link #profilePic} instance as {@link String}
      */
+    @JsonGetter(PROFILE_PIC_KEY)
     public String getProfilePic() {
         return profilePic;
     }
@@ -274,6 +277,7 @@ public class GroupMember extends PandoroItemStructure {
      *
      * @return {@link #invitationStatus} instance as {@link InvitationStatus}
      */
+    @JsonGetter(INVITATION_STATUS_KEY)
     public InvitationStatus getInvitationStatus() {
         return invitationStatus;
     }
