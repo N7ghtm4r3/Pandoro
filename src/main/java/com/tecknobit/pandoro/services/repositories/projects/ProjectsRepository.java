@@ -72,19 +72,14 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to select a {@link Project} by its id
      *
-     * @param userId: the user identifier
      * @param projectId: the identifier of the project to fetch
      * @return the project as {@link Project}
      */
     @Query(
-            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    Project getProjectById(
-            @Param(AUTHOR_KEY) String userId,
-            @Param(IDENTIFIER_KEY) String projectId
-    );
+    Project getProjectById(@Param(IDENTIFIER_KEY) String projectId);
 
     /**
      * Method to execute the query to add a new {@link Project}

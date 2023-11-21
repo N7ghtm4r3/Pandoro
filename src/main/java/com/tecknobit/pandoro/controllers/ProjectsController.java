@@ -248,7 +248,7 @@ public class ProjectsController extends PandoroController {
             boolean isAdding = projectId == null;
             if (isValidProjectName(name)) {
                 if (!isAdding) {
-                    Project currentEditingProject = projectsHelper.getProjectById(id, projectId);
+                    Project currentEditingProject = projectsHelper.getProjectById(projectId);
                     if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
                         return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
                 }
@@ -345,7 +345,8 @@ public class ProjectsController extends PandoroController {
             @PathVariable(IDENTIFIER_KEY) String projectId
     ) {
         if (isAuthenticatedUser(id, token)) {
-            if (projectsHelper.getProjectById(id, projectId) != null) {
+            Project project = projectsHelper.getProjectById(projectId);
+            if (project != null && project.getAuthor().getId().equals(id)) {
                 projectsHelper.deleteProject(id, projectId);
                 return successResponse();
             } else

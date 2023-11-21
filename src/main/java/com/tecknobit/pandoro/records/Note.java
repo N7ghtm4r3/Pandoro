@@ -223,6 +223,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #creationDate} instance as long
      */
+    @JsonGetter(CREATION_DATE_KEY)
     public long getCreation() {
         return creationDate;
     }
@@ -244,6 +245,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #markedAsDone} instance as boolean
      */
+    @JsonGetter(MARKED_AS_DONE_KEY)
     public boolean isMarkedAsDone() {
         return markedAsDone;
     }
@@ -254,6 +256,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #markedAsDoneBy} instance as {@link PublicUser}
      */
+    @JsonGetter(MARKED_AS_DONE_BY_KEY)
     public PublicUser getMarkedAsDoneBy() {
         return markedAsDoneBy;
     }
@@ -264,6 +267,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #markAsDoneDate} instance as long
      */
+    @JsonGetter(MARKED_AS_DONE_DATE_KEY)
     public long getMarkAsDoneDate() {
         return markAsDoneDate;
     }

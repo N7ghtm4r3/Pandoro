@@ -171,12 +171,11 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to get the user's project by its id
      *
-     * @param userId: the user identifier
      * @param projectId: the project identifier
      * @return the project as {@link Project}
      */
-    public Project getProjectById(String userId, String projectId) {
-        return projectsRepository.getProjectById(userId, projectId);
+    public Project getProjectById(String projectId) {
+        return projectsRepository.getProjectById(projectId);
     }
 
     /**
@@ -298,7 +297,7 @@ public class ProjectsHelper extends ChangelogOperator {
      */
     public void startUpdate(String projectId, String updateId, String userId) {
         updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
-        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+        if (projectsRepository.getProjectById(projectId).hasGroups()) {
             changelogsCreator.updateStarted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
@@ -313,7 +312,7 @@ public class ProjectsHelper extends ChangelogOperator {
      */
     public void publishUpdate(String projectId, String updateId, String userId) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
-        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+        if (projectsRepository.getProjectById(projectId).hasGroups()) {
             changelogsCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
@@ -382,7 +381,7 @@ public class ProjectsHelper extends ChangelogOperator {
      */
     public void deleteUpdate(String projectId, String updateId, String userId) {
         updatesRepository.deleteUpdate(updateId);
-        if (projectsRepository.getProjectById(userId, projectId).hasGroups()) {
+        if (projectsRepository.getProjectById(projectId).hasGroups()) {
             changelogsCreator.updateDeleted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);
         }
