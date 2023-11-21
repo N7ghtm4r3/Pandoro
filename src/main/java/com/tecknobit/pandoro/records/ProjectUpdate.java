@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -303,6 +304,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #createDate} instance as long
      */
+    @JsonGetter(UPDATE_CREATE_DATE_KEY)
     public long getCreateTimestamp() {
         return createDate;
     }
@@ -324,6 +326,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #targetVersion} instance as {@link String}
      */
+    @JsonGetter(UPDATE_TARGET_VERSION_KEY)
     public String getTargetVersion() {
         return targetVersion;
     }
@@ -334,6 +337,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #startedBy} instance as {@link User}
      */
+    @JsonGetter(UPDATE_STARTED_BY_KEY)
     public PublicUser getStartedBy() {
         return startedBy;
     }
@@ -344,6 +348,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #startDate} instance as long
      */
+    @JsonGetter(UPDATE_START_DATE_KEY)
     public long getStartTimestamp() {
         return startDate;
     }
@@ -367,6 +372,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #publishedBy} instance as {@link User}
      */
+    @JsonGetter(UPDATE_PUBLISHED_BY_KEY)
     public PublicUser getPublishedBy() {
         return publishedBy;
     }
@@ -377,6 +383,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #publishDate} instance as long
      */
+    @JsonGetter(UPDATE_PUBLISH_DATE_KEY)
     public long getPublishTimestamp() {
         return publishDate;
     }

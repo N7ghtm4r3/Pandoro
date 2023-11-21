@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -211,6 +212,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #content} instance as {@link String}
      */
+    @JsonGetter(CONTENT_NOTE_KEY)
     public String getContent() {
         return content;
     }

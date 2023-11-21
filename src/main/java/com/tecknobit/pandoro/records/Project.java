@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -205,7 +206,7 @@ public class Project extends PandoroItem implements Serializable {
         super(jProject);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
-        description = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
+        description = hItem.getString(PROJECT_DESCRIPTION_KEY);
         version = hItem.getString(PROJECT_VERSION_KEY);
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
@@ -214,7 +215,7 @@ public class Project extends PandoroItem implements Serializable {
             lastUpdate = updates.get(updatesNumber - 1).getPublishTimestamp();
         else
             lastUpdate = -1;
-        projectRepo = hItem.getString(PROJECT_REPOSITORY_KEY);
+        projectRepo = hItem.getString(PROJECT_REPOSITORY_KEY, "");
         if (!projectRepo.isEmpty())
             repositoryPlatform = RepositoryPlatform.reachPlatform(projectRepo);
         else
@@ -271,6 +272,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #shortDescription} instance as {@link String}
      */
+    @JsonGetter(PROJECT_SHORT_DESCRIPTION_KEY)
     public String getShortDescription() {
         return shortDescription;
     }
@@ -281,6 +283,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #description} instance as {@link String}
      */
+    @JsonGetter(PROJECT_DESCRIPTION_KEY)
     public String getDescription() {
         return description;
     }
@@ -291,6 +294,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #version} instance as {@link String}
      */
+    @JsonGetter(PROJECT_VERSION_KEY)
     public String getVersion() {
         return version;
     }
@@ -400,6 +404,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @return {@link #projectRepo} instance as {@link String}
      */
+    @JsonGetter(PROJECT_REPOSITORY_KEY)
     public String getProjectRepo() {
         return projectRepo;
     }
