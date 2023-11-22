@@ -103,7 +103,11 @@ public class Group extends PandoroItem {
             fetch = FetchType.EAGER,
             mappedBy = GROUPS_KEY
     )
-    @JsonIgnoreProperties(GROUPS_KEY)
+    @JsonIgnoreProperties({
+            GROUPS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Project> projects;
 

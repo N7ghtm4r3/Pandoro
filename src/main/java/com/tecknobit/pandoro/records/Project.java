@@ -163,7 +163,11 @@ public class Project extends PandoroItem implements Serializable {
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
             inverseJoinColumns = {@JoinColumn(name = GROUP_IDENTIFIER_KEY)}
     )
-    @JsonIgnoreProperties(PROJECTS_KEY)
+    @JsonIgnoreProperties({
+            PROJECTS_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Group> groups;
 

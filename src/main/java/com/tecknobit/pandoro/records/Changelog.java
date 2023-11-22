@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.records;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
@@ -258,6 +259,7 @@ public class Changelog extends PandoroItemStructure {
      * @return {@link #changelogEvent} instance as {@link ChangelogEvent}
      */
     @Enumerated(EnumType.STRING)
+    @JsonGetter(CHANGELOG_EVENT_KEY)
     public ChangelogEvent getChangelogEvent() {
         return changelogEvent;
     }
@@ -357,6 +359,7 @@ public class Changelog extends PandoroItemStructure {
      *
      * @return {@link #extraContent} instance as {@link String}
      */
+    @JsonGetter(CHANGELOG_EXTRA_CONTENT_KEY)
     public String getExtraContent() {
         return extraContent;
     }

@@ -839,7 +839,8 @@ class Requester(
         payload.addParam(contentNote, "")
         return execPost(
             createNotesEndpoint(CREATE_NOTE_ENDPOINT),
-            payload
+            payload,
+            false
         )
     }
 
@@ -1033,12 +1034,14 @@ class Requester(
      *
      * @param endpoint: the endpoint which make the request
      * @param payload: the payload of the request, default null
+     * @param jsonPayload: whether the payload must be formatted as JSON, default true
      * @param contentType: the content type of the request, default "application/json"
      */
     @Wrapper
     private fun execPost(
         endpoint: String,
         payload: PandoroPayload? = null,
+        jsonPayload: Boolean = true,
         contentType: String = "application/json"
     ): JSONObject {
         return JSONObject(
@@ -1047,7 +1050,7 @@ class Requester(
                 endpoint = endpoint,
                 requestMethod = POST,
                 payload = payload,
-                jsonPayload = true
+                jsonPayload = jsonPayload
             )
         )
     }

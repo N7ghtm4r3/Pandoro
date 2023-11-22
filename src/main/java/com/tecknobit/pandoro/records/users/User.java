@@ -8,8 +8,6 @@ import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.structures.PandoroItem;
 import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -89,7 +87,6 @@ public class User extends PublicUser {
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Project> projects;
 
     /**

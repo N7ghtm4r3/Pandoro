@@ -1,5 +1,8 @@
 package com.tecknobit.pandoro.helpers.ui
 
+import com.tecknobit.pandoro.records.structures.PandoroItemStructure
+import org.json.JSONArray
+
 /**
  * the primary color value
  */
@@ -31,10 +34,19 @@ interface ListManager {
 
     fun refreshValues()
 
+    fun <T : PandoroItemStructure> needToRefresh(currentList: List<T>, newList: List<T>): Boolean {
+        return ((currentList.isEmpty() && newList.isNotEmpty()) ||
+                (JSONArray(currentList).toString() != JSONArray(newList).toString()))
+    }
+
 }
 
 interface SingleItemManager {
 
     fun refreshItem() {}
+
+    fun <T : PandoroItemStructure> needToRefresh(currentItem: T, newItem: T): Boolean {
+        return currentItem.toString() != newItem.toString()
+    }
 
 }
