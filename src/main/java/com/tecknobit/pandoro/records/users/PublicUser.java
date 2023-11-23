@@ -77,7 +77,7 @@ public class PublicUser extends PandoroItem {
     public PublicUser(JSONObject jPublicUser) {
         super(jPublicUser);
         surname = hItem.getString(SURNAME_KEY);
-        profilePic = hItem.getString(PROFILE_PIC_KEY);
+        profilePic = hItem.getString(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC);
         email = hItem.getString(EMAIL_KEY);
     }
 

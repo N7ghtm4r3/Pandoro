@@ -239,4 +239,17 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             @Param(GROUP_MEMBER_KEY) String groupId
     );
 
+    /**
+     * Method to execute the query to delete the user's account
+     *
+     * @param memberId: the user identifier
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + GROUP_MEMBERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void deleteMember(@Param(IDENTIFIER_KEY) String memberId);
+
 }

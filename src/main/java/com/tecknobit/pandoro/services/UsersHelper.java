@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services;
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
+import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -104,6 +105,12 @@ public class UsersHelper {
      */
     @Autowired
     private GroupMembersRepository membersRepository;
+
+    /**
+     * {@code projectsRepository} instance for the projects repository
+     */
+    @Autowired
+    private ProjectsRepository projectsRepository;
 
     /**
      * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
@@ -228,7 +235,9 @@ public class UsersHelper {
      * @param token: the token of the user
      */
     public void deleteAccount(String userId, String token) throws IOException {
+        projectsRepository.deleteProjects(userId);
         usersRepository.deleteAccount(userId, token);
+        membersRepository.deleteMember(userId);
         deleteProfilePic(userId);
     }
 

@@ -157,7 +157,7 @@ public class Project extends PandoroItem implements Serializable {
     /**
      * {@code groups} groups where the project has been assigned
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = PROJECTS_GROUPS_TABLE,
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
@@ -168,7 +168,6 @@ public class Project extends PandoroItem implements Serializable {
             "hibernateLazyInitializer",
             "handler"
     })
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private final List<Group> groups;
 
     /**

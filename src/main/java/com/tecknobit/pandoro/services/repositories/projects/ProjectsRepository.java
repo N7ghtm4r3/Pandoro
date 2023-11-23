@@ -15,8 +15,7 @@ import java.util.List;
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_MEMBER_KEY;
+import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
@@ -46,8 +45,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN "
                     + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
+                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "."
+                    + IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY
+                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     List<Project> getProjectsList(@Param(AUTHOR_KEY) String userId);
@@ -219,17 +219,18 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param userId: the user identifier
      * @param projectId: the project identifier
      * @return the project as {@link Project}
-     * @apiNote also the project of a group in which he is a member is returned
+     * @apiNote also the projects of a group in which he is a member is returned
      */
     @Query(
             value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " AND "
                     + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY
                     + " AS " + PROJECTS_KEY + " LEFT JOIN " + PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "."
-                    + IDENTIFIER_KEY + " =:" + IDENTIFIER_KEY + " LEFT JOIN "
-                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
-                    + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " =:" + AUTHOR_KEY + " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
+                    + IDENTIFIER_KEY + " =:" + IDENTIFIER_KEY + " LEFT JOIN " + GROUPS_KEY + " ON "
+                    + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." + IDENTIFIER_KEY
+                    + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY + " = "
+                    + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "."
+                    + IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY
+                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     Project getProject(
@@ -254,5 +255,20 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(AUTHOR_KEY) String userId,
             @Param(IDENTIFIER_KEY) String projectId
     );
+
+    /**
+     * Method to execute the query to delete the current list of projects of an user
+     *
+     * @param userId: the user identifier
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE pg FROM " + PROJECTS_GROUPS_TABLE + " pg LEFT JOIN " + PROJECTS_KEY
+                    + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + "pg." + PROJECT_IDENTIFIER_KEY + " WHERE "
+                    + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY,
+            nativeQuery = true
+    )
+    void deleteProjects(@Param(AUTHOR_KEY) String userId);
 
 }
