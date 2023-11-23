@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.repositories.projects;
 
 import com.tecknobit.pandoro.records.ProjectUpdate;
 import com.tecknobit.pandoro.records.ProjectUpdate.Status;
+import com.tecknobit.pandoro.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -165,6 +166,11 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     )
     void deleteUpdate(@Param(IDENTIFIER_KEY) String updateId);
 
+    /**
+     * Method to execute the query to remove the constraints between {@link User} deleted and {@link ProjectUpdate}
+     *
+     * @param userId: the user identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

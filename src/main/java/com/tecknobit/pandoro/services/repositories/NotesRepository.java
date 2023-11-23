@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.repositories;
 
 import com.tecknobit.pandoro.records.Note;
 import com.tecknobit.pandoro.records.ProjectUpdate;
+import com.tecknobit.pandoro.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -244,6 +245,11 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
 
+    /**
+     * Method to execute the query to remove the constraints between {@link User} deleted and {@link Note}
+     *
+     * @param userId: the user identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -253,6 +259,12 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     void removeUserConstraints(@Param(IDENTIFIER_KEY) String userId);
 
+    /**
+     * Method to execute the query to remove the constraints between {@link User} deleted and the author of the
+     * {@link Note}
+     *
+     * @param userId: the user identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
@@ -264,6 +276,12 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     void setGroupNotesAuthorAfterUserDeletion(@Param(IDENTIFIER_KEY) String userId);
 
+    /**
+     * Method to execute the query to remove the constraints between {@link User} deleted and the marker of the
+     * {@link Note}
+     *
+     * @param userId: the user identifier
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

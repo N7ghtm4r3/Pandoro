@@ -2,15 +2,11 @@ package com.tecknobit.pandoro.helpers.ui
 
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.formatters.JsonHelper
-import com.tecknobit.pandoro.controllers.PandoroController
-import com.tecknobit.pandoro.helpers.Requester
+import com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
 import com.tecknobit.pandoro.records.structures.PandoroItemStructure
-import com.tecknobit.pandoro.records.users.User
-import com.tecknobit.pandoro.services.UsersHelper
+import com.tecknobit.pandoro.services.UsersHelper.*
 import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
-import java.util.prefs.Preferences
 
 /**
  * the primary color value
@@ -99,21 +95,20 @@ interface SingleItemManager {
 }
 
 /**
- * This **LocalAuthHelper** class is useful to manage the auth credentials in local
+ * This **LocalUser** class is useful to manage the credentials of the user in local
  *
  * @author Tecknobit - N7ghtm4r3
  */
-open inner class LocalAuthHelper {
+abstract class LocalUser {
 
-    /**
-     * **SERVER_ADDRESS_KEY** -> server address key
-     */
-    private val SERVER_ADDRESS_KEY = "server_address"
+    companion object {
 
-    /**
-     * **preferences** -> the instance to manage the user preferences
-     */
-    private val preferences = Preferences.userRoot().node("/user/tecknobit/pandoro")
+        /**
+         * **SERVER_ADDRESS_KEY** -> server address key
+         */
+        const val SERVER_ADDRESS_KEY = "server_address"
+
+    }
 
     /**
      * **host** -> the host to used in the requests
@@ -125,29 +120,7 @@ open inner class LocalAuthHelper {
      *
      * No-any params required
      */
-    fun initUserCredentials() {
-        host = preferences.get(SERVER_ADDRESS_KEY, null)
-        val userId = preferences.get(PandoroController.IDENTIFIER_KEY, null)
-        val userToken = preferences.get(UsersHelper.TOKEN_KEY, null)
-        if (userId != null) {
-            user = User(
-                JSONObject()
-                    .put(PandoroController.IDENTIFIER_KEY, userId)
-                    .put(UsersHelper.TOKEN_KEY, userToken)
-                    .put(UsersHelper.PROFILE_PIC_KEY, preferences.get(UsersHelper.PROFILE_PIC_KEY, null))
-                    .put(UsersHelper.NAME_KEY, preferences.get(UsersHelper.NAME_KEY, null))
-                    .put(UsersHelper.SURNAME_KEY, preferences.get(UsersHelper.SURNAME_KEY, null))
-                    .put(UsersHelper.EMAIL_KEY, preferences.get(UsersHelper.EMAIL_KEY, null))
-                    .put(UsersHelper.PASSWORD_KEY, preferences.get(UsersHelper.PASSWORD_KEY, null))
-            )
-            userProfilePic.value = loadImageBitmap(user.profilePic)
-            requester = Requester(host!!, userId, userToken)
-            navigator.navigate(home.name)
-        } else {
-            requester = null
-            user = User()
-        }
-    }
+    abstract fun initUserCredentials()
 
     /**
      * Function to init the user credentials
@@ -167,10 +140,10 @@ open inner class LocalAuthHelper {
         email: String?,
         password: String?
     ) {
-        storeUserValue(PandoroController.IDENTIFIER_KEY, response.getString(PandoroController.IDENTIFIER_KEY))
-        storeUserValue(UsersHelper.TOKEN_KEY, response.getString(UsersHelper.TOKEN_KEY))
+        storeUserValue(IDENTIFIER_KEY, response.getString(IDENTIFIER_KEY))
+        storeUserValue(TOKEN_KEY, response.getString(TOKEN_KEY))
         storeHost(host)
-        storeProfilePic(response.getString(UsersHelper.PROFILE_PIC_KEY))
+        storeProfilePic(response.getString(PROFILE_PIC_KEY))
         storeName(name)
         storeSurname(surname)
         storeEmail(email)
@@ -194,15 +167,16 @@ open inner class LocalAuthHelper {
      *
      * @param profilePic: the profile pic of the user
      * @param refreshUser: whether refresh the user
+     * @return the user profile picture path
      */
     @Wrapper
-    fun storeProfilePic(
+    open fun storeProfilePic(
         profilePic: String?,
         refreshUser: Boolean = false
-    ) {
+    ): String {
         val profilePicValue = "$host/$profilePic"
-        userProfilePic.value = loadImageBitmap(profilePicValue)
-        storeUserValue(UsersHelper.PROFILE_PIC_KEY, profilePicValue, refreshUser)
+        storeUserValue(PROFILE_PIC_KEY, profilePicValue, refreshUser)
+        return profilePicValue
     }
 
     /**
@@ -212,7 +186,7 @@ open inner class LocalAuthHelper {
      */
     @Wrapper
     private fun storeName(name: String?) {
-        storeUserValue(UsersHelper.NAME_KEY, name, false)
+        storeUserValue(NAME_KEY, name, false)
     }
 
     /**
@@ -222,7 +196,7 @@ open inner class LocalAuthHelper {
      */
     @Wrapper
     private fun storeSurname(surname: String?) {
-        storeUserValue(UsersHelper.SURNAME_KEY, surname, false)
+        storeUserValue(SURNAME_KEY, surname, false)
     }
 
     /**
@@ -239,7 +213,7 @@ open inner class LocalAuthHelper {
         var vEmail = email
         if (vEmail != null)
             vEmail = vEmail.lowercase(Locale.getDefault())
-        storeUserValue(UsersHelper.EMAIL_KEY, vEmail, refreshUser)
+        storeUserValue(EMAIL_KEY, vEmail, refreshUser)
     }
 
     /**
@@ -253,7 +227,7 @@ open inner class LocalAuthHelper {
         password: String?,
         refreshUser: Boolean = false
     ) {
-        storeUserValue(UsersHelper.PASSWORD_KEY, password, refreshUser)
+        storeUserValue(PASSWORD_KEY, password, refreshUser)
     }
 
     /**
@@ -263,30 +237,20 @@ open inner class LocalAuthHelper {
      * @param value: the value to store
      * @param refreshUser: whether refresh the user
      */
-    private fun storeUserValue(
+    open fun storeUserValue(
         key: String,
         value: String?,
         refreshUser: Boolean = false
     ) {
-        preferences.put(key, value)
         if (refreshUser)
             initUserCredentials()
     }
 
     /**
-     * Function to disconnect the user and clear the [preferences]
+     * Function to disconnect the user and clear its properties stored
      *
      * No-any params required
      */
-    fun logout() {
-        preferences.clear()
-        initUserCredentials()
-        projectsList.clear()
-        groups.clear()
-        changelogs.clear()
-        notes.clear()
-        navigator.navigate(splashScreen.name)
-        activeScreen.value = Sections.Projects
-    }
+    abstract fun logout()
 
 }

@@ -122,7 +122,8 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
      */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
-                    + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+                    + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY + " AND " + IDENTIFIER_KEY + "=:"
+                    + IDENTIFIER_KEY,
             nativeQuery = true
     )
     GroupMember getGroupMemberByEmail(
@@ -199,7 +200,8 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
      */
     @Query(
             value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + MEMBER_ROLE_KEY + "= 'ADMIN'"
-                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
+                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_MEMBER_KEY + "=:"
+                    + GROUP_MEMBER_KEY,
             nativeQuery = true
     )
     List<GroupMember> getGroupAdmins(
