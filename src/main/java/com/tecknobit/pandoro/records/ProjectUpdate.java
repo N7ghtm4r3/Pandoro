@@ -93,7 +93,6 @@ public class ProjectUpdate extends PandoroItemStructure {
             "hibernateLazyInitializer",
             "handler"
     })
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
     /**
@@ -136,7 +135,6 @@ public class ProjectUpdate extends PandoroItemStructure {
             "hibernateLazyInitializer",
             "handler"
     })
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser startedBy;
 
     /**
@@ -166,7 +164,6 @@ public class ProjectUpdate extends PandoroItemStructure {
             "hibernateLazyInitializer",
             "handler"
     })
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private final PublicUser publishedBy;
 
     /**

@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.NotesHelper.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
 
@@ -242,5 +243,36 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(UPDATE_KEY) String updateId,
             @Param(NOTE_IDENTIFIER_KEY) String noteId
     );
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + UPDATE_KEY + " IS NULL",
+            nativeQuery = true
+    )
+    void removeUserConstraints(@Param(IDENTIFIER_KEY) String userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + NOTES_KEY + " SET "
+                    + AUTHOR_KEY + "= NULL"
+                    + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + UPDATE_KEY + " IS NOT NULL",
+            nativeQuery = true
+    )
+    void setGroupNotesAuthorAfterUserDeletion(@Param(IDENTIFIER_KEY) String userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + NOTES_KEY + " SET "
+                    + MARKED_AS_DONE_BY_KEY + "= NULL"
+                    + " WHERE " + MARKED_AS_DONE_BY_KEY + "=:" + IDENTIFIER_KEY
+                    + " AND " + UPDATE_KEY + " IS NOT NULL",
+            nativeQuery = true
+    )
+    void setGroupNotesMarkerAfterUserDeletion(@Param(IDENTIFIER_KEY) String userId);
 
 }

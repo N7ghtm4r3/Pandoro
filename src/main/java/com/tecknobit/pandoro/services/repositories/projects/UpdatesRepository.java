@@ -165,4 +165,18 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     )
     void deleteUpdate(@Param(IDENTIFIER_KEY) String updateId);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + UPDATES_KEY + " SET "
+                    + AUTHOR_KEY + "=NULL,"
+                    + UPDATE_STARTED_BY_KEY + "=NULL,"
+                    + UPDATE_PUBLISHED_BY_KEY + "=NULL"
+                    + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
+                    + " OR " + UPDATE_STARTED_BY_KEY + "=:" + IDENTIFIER_KEY
+                    + " OR " + UPDATE_PUBLISHED_BY_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void removeUserConstraints(@Param(IDENTIFIER_KEY) String userId);
+
 }

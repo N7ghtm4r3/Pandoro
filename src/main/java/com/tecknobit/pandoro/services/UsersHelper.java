@@ -1,9 +1,11 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandoro.services.repositories.NotesRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
+import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -111,6 +113,18 @@ public class UsersHelper {
      */
     @Autowired
     private ProjectsRepository projectsRepository;
+
+    /**
+     * {@code updatesRepository} instance for the updates repository
+     */
+    @Autowired
+    private UpdatesRepository updatesRepository;
+
+    /**
+     * {@code notesRepository} instance for the notes repository
+     */
+    @Autowired
+    private NotesRepository notesRepository;
 
     /**
      * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
@@ -235,6 +249,10 @@ public class UsersHelper {
      * @param token: the token of the user
      */
     public void deleteAccount(String userId, String token) throws IOException {
+        notesRepository.removeUserConstraints(userId);
+        notesRepository.setGroupNotesAuthorAfterUserDeletion(userId);
+        notesRepository.setGroupNotesMarkerAfterUserDeletion(userId);
+        updatesRepository.removeUserConstraints(userId);
         projectsRepository.deleteProjects(userId);
         usersRepository.deleteAccount(userId, token);
         membersRepository.deleteMember(userId);

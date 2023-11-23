@@ -71,7 +71,6 @@ public class Note extends PandoroItemStructure {
             "hibernateLazyInitializer",
             "handler"
     })
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private final User author;
 
     /**

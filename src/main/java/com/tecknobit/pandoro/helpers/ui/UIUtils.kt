@@ -1,7 +1,16 @@
 package com.tecknobit.pandoro.helpers.ui
 
+import com.tecknobit.apimanager.annotations.Wrapper
+import com.tecknobit.apimanager.formatters.JsonHelper
+import com.tecknobit.pandoro.controllers.PandoroController
+import com.tecknobit.pandoro.helpers.Requester
 import com.tecknobit.pandoro.records.structures.PandoroItemStructure
+import com.tecknobit.pandoro.records.users.User
+import com.tecknobit.pandoro.services.UsersHelper
 import org.json.JSONArray
+import org.json.JSONObject
+import java.util.*
+import java.util.prefs.Preferences
 
 /**
  * the primary color value
@@ -85,6 +94,199 @@ interface SingleItemManager {
      */
     fun <T : PandoroItemStructure> needToRefresh(currentItem: T, newItem: T): Boolean {
         return currentItem.toString() != newItem.toString()
+    }
+
+}
+
+/**
+ * This **LocalAuthHelper** class is useful to manage the auth credentials in local
+ *
+ * @author Tecknobit - N7ghtm4r3
+ */
+open inner class LocalAuthHelper {
+
+    /**
+     * **SERVER_ADDRESS_KEY** -> server address key
+     */
+    private val SERVER_ADDRESS_KEY = "server_address"
+
+    /**
+     * **preferences** -> the instance to manage the user preferences
+     */
+    private val preferences = Preferences.userRoot().node("/user/tecknobit/pandoro")
+
+    /**
+     * **host** -> the host to used in the requests
+     */
+    var host: String? = null
+
+    /**
+     * Function to init the user credentials
+     *
+     * No-any params required
+     */
+    fun initUserCredentials() {
+        host = preferences.get(SERVER_ADDRESS_KEY, null)
+        val userId = preferences.get(PandoroController.IDENTIFIER_KEY, null)
+        val userToken = preferences.get(UsersHelper.TOKEN_KEY, null)
+        if (userId != null) {
+            user = User(
+                JSONObject()
+                    .put(PandoroController.IDENTIFIER_KEY, userId)
+                    .put(UsersHelper.TOKEN_KEY, userToken)
+                    .put(UsersHelper.PROFILE_PIC_KEY, preferences.get(UsersHelper.PROFILE_PIC_KEY, null))
+                    .put(UsersHelper.NAME_KEY, preferences.get(UsersHelper.NAME_KEY, null))
+                    .put(UsersHelper.SURNAME_KEY, preferences.get(UsersHelper.SURNAME_KEY, null))
+                    .put(UsersHelper.EMAIL_KEY, preferences.get(UsersHelper.EMAIL_KEY, null))
+                    .put(UsersHelper.PASSWORD_KEY, preferences.get(UsersHelper.PASSWORD_KEY, null))
+            )
+            userProfilePic.value = loadImageBitmap(user.profilePic)
+            requester = Requester(host!!, userId, userToken)
+            navigator.navigate(home.name)
+        } else {
+            requester = null
+            user = User()
+        }
+    }
+
+    /**
+     * Function to init the user credentials
+     *
+     * @param response: the response of the auth request
+     * @param host: the host to used in the requests
+     * @param name: the name of the user
+     * @param surname: the surname of the user
+     * @param email: the email of the user
+     * @param password: the password of the user
+     */
+    fun initUserSession(
+        response: JsonHelper,
+        host: String?,
+        name: String,
+        surname: String,
+        email: String?,
+        password: String?
+    ) {
+        storeUserValue(PandoroController.IDENTIFIER_KEY, response.getString(PandoroController.IDENTIFIER_KEY))
+        storeUserValue(UsersHelper.TOKEN_KEY, response.getString(UsersHelper.TOKEN_KEY))
+        storeHost(host)
+        storeProfilePic(response.getString(UsersHelper.PROFILE_PIC_KEY))
+        storeName(name)
+        storeSurname(surname)
+        storeEmail(email)
+        storePassword(password)
+        initUserCredentials()
+    }
+
+    /**
+     * Function to store the host value
+     *
+     * @param host: the host to used in the requests
+     */
+    @Wrapper
+    fun storeHost(host: String?) {
+        storeUserValue(SERVER_ADDRESS_KEY, host, false)
+        this.host = host
+    }
+
+    /**
+     * Function to store the profile pic value
+     *
+     * @param profilePic: the profile pic of the user
+     * @param refreshUser: whether refresh the user
+     */
+    @Wrapper
+    fun storeProfilePic(
+        profilePic: String?,
+        refreshUser: Boolean = false
+    ) {
+        val profilePicValue = "$host/$profilePic"
+        userProfilePic.value = loadImageBitmap(profilePicValue)
+        storeUserValue(UsersHelper.PROFILE_PIC_KEY, profilePicValue, refreshUser)
+    }
+
+    /**
+     * Function to store the name value
+     *
+     * @param name: the name of the user
+     */
+    @Wrapper
+    private fun storeName(name: String?) {
+        storeUserValue(UsersHelper.NAME_KEY, name, false)
+    }
+
+    /**
+     * Function to store the surname value
+     *
+     * @param surname: the surname of the user
+     */
+    @Wrapper
+    private fun storeSurname(surname: String?) {
+        storeUserValue(UsersHelper.SURNAME_KEY, surname, false)
+    }
+
+    /**
+     * Function to store the email value
+     *
+     * @param email: the email of the user
+     * @param refreshUser: whether refresh the user
+     */
+    @Wrapper
+    fun storeEmail(
+        email: String?,
+        refreshUser: Boolean = false
+    ) {
+        var vEmail = email
+        if (vEmail != null)
+            vEmail = vEmail.lowercase(Locale.getDefault())
+        storeUserValue(UsersHelper.EMAIL_KEY, vEmail, refreshUser)
+    }
+
+    /**
+     * Function to store the password value
+     *
+     * @param password: the password of the user
+     * @param refreshUser: whether refresh the user
+     */
+    @Wrapper
+    fun storePassword(
+        password: String?,
+        refreshUser: Boolean = false
+    ) {
+        storeUserValue(UsersHelper.PASSWORD_KEY, password, refreshUser)
+    }
+
+    /**
+     * Function to store a user value
+     *
+     * @param key: the key of the value to store
+     * @param value: the value to store
+     * @param refreshUser: whether refresh the user
+     */
+    private fun storeUserValue(
+        key: String,
+        value: String?,
+        refreshUser: Boolean = false
+    ) {
+        preferences.put(key, value)
+        if (refreshUser)
+            initUserCredentials()
+    }
+
+    /**
+     * Function to disconnect the user and clear the [preferences]
+     *
+     * No-any params required
+     */
+    fun logout() {
+        preferences.clear()
+        initUserCredentials()
+        projectsList.clear()
+        groups.clear()
+        changelogs.clear()
+        notes.clear()
+        navigator.navigate(splashScreen.name)
+        activeScreen.value = Sections.Projects
     }
 
 }
