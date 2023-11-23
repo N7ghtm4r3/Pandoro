@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.Changelog;
+import com.tecknobit.pandoro.records.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,12 @@ public class ChangelogsHelper {
     private ChangelogsRepository changelogsRepository;
 
     /**
+     * {@code membersRepository} instance for the members of a group repository
+     */
+    @Autowired
+    private GroupMembersRepository membersRepository;
+
+    /**
      * Method to get the user's changelogs list
      *
      * @param ownerId: the owner identifier
@@ -86,9 +94,19 @@ public class ChangelogsHelper {
      *
      * @param changelogId: the changelog identifier
      * @param ownerId:     the owner identifier
+     * @param groupId: the group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
      */
-    public void deleteChangelog(String changelogId, String ownerId) {
-        changelogsRepository.deleteChangelog(ownerId, changelogId);
+    public void deleteChangelog(String changelogId, String ownerId, String groupId) throws IllegalAccessException {
+        Changelog changelog = changelogsRepository.getChangelog(changelogId, ownerId);
+        if (changelog != null) {
+            if (changelog.getChangelogEvent() == ChangelogEvent.INVITED_GROUP) {
+                if (groupId == null)
+                    throw new IllegalAccessException();
+                membersRepository.leaveGroup(ownerId, groupId);
+            }
+            changelogsRepository.deleteChangelog(ownerId, changelogId);
+        } else
+            throw new IllegalAccessException();
     }
 
 }

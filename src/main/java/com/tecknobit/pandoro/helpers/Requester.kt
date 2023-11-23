@@ -667,26 +667,46 @@ class Requester(
      * Function to execute the request to accept a group invitation
      *
      * @param groupId: the group identifier of the group to accept the invitation
+     * @param changelogId: the changelog identifier to delete
      *
      * @return the result of the request as [JSONObject]
      *
      */
     @RequestPath(path = "/api/v1/groups/{group_id}/acceptGroupInvitation", method = PATCH)
-    fun execAcceptInvitation(groupId: String): JSONObject {
-        return execPatch(createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId))
+    fun execAcceptInvitation(
+        groupId: String,
+        changelogId: String
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(changelogId, "")
+        return execPatch(
+            createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId),
+            payload,
+            false
+        )
     }
 
     /**
      * Function to execute the request to decline a group invitation
      *
      * @param groupId: the group identifier of the group to decline the invitation
+     * @param changelogId: the changelog identifier to delete
      *
      * @return the result of the request as [JSONObject]
      *
      */
     @RequestPath(path = "/api/v1/groups/{group_id}/declineGroupInvitation", method = DELETE)
-    fun execDeclineInvitation(groupId: String): JSONObject {
-        return execDelete(createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId))
+    fun execDeclineInvitation(
+        groupId: String,
+        changelogId: String
+    ): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(changelogId, "")
+        return execDelete(
+            createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId),
+            payload,
+            false
+        )
     }
 
     /**
@@ -926,12 +946,25 @@ class Requester(
      * Function to execute the request to delete a changelog
      *
      * @param changelogId: the changelog identifier to delete
+     * @param groupId: the group identifier where leave if is a [ChangelogEvent.INVITED_GROUP]
      *
      * @return the result of the request as [JSONObject]
      *
      */
     @RequestPath(path = "/api/v1/changelogs/{changelog_id}/deleteChangelog", method = DELETE)
-    fun execDeleteChangelog(changelogId: String): JSONObject {
+    fun execDeleteChangelog(
+        changelogId: String,
+        groupId: String? = null
+    ): JSONObject {
+        if (groupId != null) {
+            val payload = PandoroPayload()
+            payload.addParam(groupId, "")
+            return execDelete(
+                createChangelogsEndpoint(DELETE_CHANGELOG_ENDPOINT, changelogId),
+                payload,
+                false
+            )
+        }
         return execDelete(createChangelogsEndpoint(DELETE_CHANGELOG_ENDPOINT, changelogId))
     }
 

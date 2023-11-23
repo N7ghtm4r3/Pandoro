@@ -21,8 +21,6 @@ import static java.lang.System.currentTimeMillis;
 @Service
 public class ChangelogsCreator {
 
-    // TODO: 15/11/2023 SEND CHANGELOGS VIA WEBSOCKET
-
     /**
      * {@code changelogsRepository} instance for the changelog repository
      */

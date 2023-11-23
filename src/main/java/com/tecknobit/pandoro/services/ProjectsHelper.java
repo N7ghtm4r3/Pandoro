@@ -285,7 +285,8 @@ public class ProjectsHelper extends ChangelogOperator {
                 projectId, userId);
         for (String note : changeNotes)
             notesRepository.addChangeNote(userId, generateIdentifier(), note, System.currentTimeMillis(), updateId);
-        changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
+        if (projectsRepository.getProjectById(projectId).hasGroups())
+            changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
     }
 
     /**

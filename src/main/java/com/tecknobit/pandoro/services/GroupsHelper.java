@@ -7,6 +7,7 @@ import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
 import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
@@ -84,6 +85,12 @@ public class GroupsHelper extends ChangelogOperator {
     private GroupMembersRepository membersRepository;
 
     /**
+     * {@code changelogsRepository} instance for the changelogs repository
+     */
+    @Autowired
+    private ChangelogsRepository changelogsRepository;
+
+    /**
      * Method to get the user's groups list
      *
      * @param userId: the user identifier
@@ -150,7 +157,7 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         for (String memberEmail : members) {
-            PublicUser member = usersRepository.getUserByEmail(memberEmail);
+            PublicUser member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
             if (member != null) {
                 String memberId = member.getId();
                 String email = member.getEmail();
@@ -177,9 +184,13 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param user: the user who accepts the invitation
      */
-    public void acceptGroupInvitation(String groupId, User user) {
-        membersRepository.acceptGroupInvitation(user.getId(), groupId);
+    public void acceptGroupInvitation(String groupId, String changelogId, User user) throws IllegalAccessException {
+        String userId = user.getId();
+        if (changelogsRepository.getChangelog(changelogId, userId) == null)
+            throw new IllegalAccessException();
+        membersRepository.acceptGroupInvitation(userId, groupId);
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
+        changelogsRepository.deleteChangelog(userId, changelogId);
         for (GroupMember member : members)
             changelogsCreator.newMemberJoined(groupId, member.getId());
     }
@@ -190,11 +201,14 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param user: the user who declines the invitation
      */
-    public void declineGroupInvitation(String groupId, User user) throws IllegalAccessException {
+    public void declineGroupInvitation(String groupId, String changelogId, User user) throws IllegalAccessException {
         String userId = user.getId();
-        if (membersRepository.getGroupMemberByEmail(userId, groupId, user.getEmail()).getInvitationStatus() == PENDING)
+        if (changelogsRepository.getChangelog(changelogId, userId) == null)
+            throw new IllegalAccessException();
+        if (membersRepository.getGroupMemberByEmail(userId, groupId, user.getEmail()).getInvitationStatus() == PENDING) {
             membersRepository.leaveGroup(userId, groupId);
-        else
+            changelogsRepository.deleteChangelog(userId, changelogId);
+        } else
             throw new IllegalAccessException();
     }
 

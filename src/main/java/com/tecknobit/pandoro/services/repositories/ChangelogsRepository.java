@@ -41,6 +41,23 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     )
     List<Changelog> getChangelogs(@Param(CHANGELOG_OWNER_KEY) String owner);
 
+    /**
+     * Method to execute the query to select the a {@link Changelog}
+     *
+     * @param changelogId: the identifier of the changelog
+     * @param owner:       the owner of the changelogs
+     * @return the changelog as {@link Changelog}
+     */
+    @Query(
+            value = "SELECT * FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_IDENTIFIER_KEY + "=:"
+                    + CHANGELOG_IDENTIFIER_KEY + " AND " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
+            nativeQuery = true
+    )
+    Changelog getChangelog(
+            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId,
+            @Param(CHANGELOG_OWNER_KEY) String owner
+    );
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

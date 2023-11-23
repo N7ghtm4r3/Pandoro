@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -99,6 +100,12 @@ public class UsersHelper {
     private UsersRepository usersRepository;
 
     /**
+     * {@code membersRepository} instance for the members of a group repository
+     */
+    @Autowired
+    private GroupMembersRepository membersRepository;
+
+    /**
      * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
      */
     public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.jpg";
@@ -121,7 +128,7 @@ public class UsersHelper {
                 name,
                 token,
                 surname,
-                email,
+                email.toLowerCase(),
                 hash(password)
         ));
     }
@@ -135,7 +142,7 @@ public class UsersHelper {
      * @throws NoSuchAlgorithmException when the hash of the password fails
      */
     public User signIn(String email, String password) throws NoSuchAlgorithmException {
-        return usersRepository.getUserByEmailAndPassword(email, hash(password));
+        return usersRepository.getUserByEmailAndPassword(email.toLowerCase(), hash(password));
     }
 
     /**
@@ -162,6 +169,7 @@ public class UsersHelper {
         }
         String profilePicPath = file.getPath().replaceAll("\\\\", "/").replace(IMAGES_PATH, "");
         usersRepository.changeProfilePic(userId, token, profilePicPath);
+        membersRepository.changeProfilePic(userId, profilePicPath);
         return profilePicPath;
     }
 
@@ -187,7 +195,9 @@ public class UsersHelper {
      * @param newEmail: the new user email to set
      */
     public void changeEmail(String userId, String token, String newEmail) {
+        newEmail = newEmail.toLowerCase();
         usersRepository.changeEmail(userId, token, newEmail);
+        membersRepository.changeEmail(userId, newEmail);
     }
 
     /**
@@ -218,8 +228,8 @@ public class UsersHelper {
      * @param token: the token of the user
      */
     public void deleteAccount(String userId, String token) throws IOException {
-        deleteProfilePic(userId);
         usersRepository.deleteAccount(userId, token);
+        deleteProfilePic(userId);
     }
 
 }

@@ -77,6 +77,42 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     );
 
     /**
+     * Method to execute the query to change the user's profile pic
+     *
+     * @param userId:     the user identifier
+     * @param profilePic: the profile pic chosen by the user to set as the new profile pic
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:" + PROFILE_PIC_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void changeProfilePic(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(PROFILE_PIC_KEY) String profilePic
+    );
+
+    /**
+     * Method to execute the query to change the user's email
+     *
+     * @param userId: the user identifier
+     * @param email:  the new user email to set
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUP_MEMBERS_TABLE + " SET " + EMAIL_KEY + "=:" + EMAIL_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void changeEmail(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(EMAIL_KEY) String email
+    );
+
+    /**
      * Method to execute the query to select a {@link GroupMember} by its email
      *
      * @param memberId: the member identifier

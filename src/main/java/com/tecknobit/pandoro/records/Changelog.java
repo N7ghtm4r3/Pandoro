@@ -79,22 +79,22 @@ public class Changelog extends PandoroItemStructure {
         /**
          * {@code UPDATE_SCHEDULED} type of the changelog event when a new update of project of a group has been scheduled
          */
-        UPDATE_SCHEDULED("ProjectUpdate scheduled"),
+        UPDATE_SCHEDULED("Update scheduled"),
 
         /**
          * {@code UPDATE_STARTED} type of the changelog event when an update of project of a group has been started
          */
-        UPDATE_STARTED("ProjectUpdate started"),
+        UPDATE_STARTED("Update started"),
 
         /**
          * {@code UPDATE_PUBLISHED} type of the changelog event when an update of project of a group has been published
          */
-        UPDATE_PUBLISHED("ProjectUpdate published"),
+        UPDATE_PUBLISHED("Update published"),
 
         /**
          * {@code UPDATE_DELETED} type of the changelog event when an update of project of a group has been deleted
          */
-        UPDATE_DELETED("ProjectUpdate deleted");
+        UPDATE_DELETED("Update deleted");
 
         /**
          * {@code changelogEvent} type

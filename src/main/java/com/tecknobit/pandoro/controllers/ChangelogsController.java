@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.pandoro.records.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.ChangelogsHelper;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,7 @@ public class ChangelogsController extends PandoroController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param changelogId: the changelog identifier
+     * @param groupId: the group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
      *
      * @return the result of the request as {@link String}
      */
@@ -124,11 +126,16 @@ public class ChangelogsController extends PandoroController {
     public String deleteChangelog(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
+            @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
+            @RequestBody(required = false) String groupId
     ) {
         if (isAuthenticatedUser(id, token) && changelogsHelper.changelogExists(changelogId)) {
-            changelogsHelper.deleteChangelog(changelogId, id);
-            return successResponse();
+            try {
+                changelogsHelper.deleteChangelog(changelogId, id, groupId);
+                return successResponse();
+            } catch (IllegalAccessException e) {
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

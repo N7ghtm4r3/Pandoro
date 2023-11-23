@@ -263,6 +263,7 @@ public class GroupsController extends PandoroController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group to accept the invitation
+     * @param changelogId: the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
@@ -277,14 +278,19 @@ public class GroupsController extends PandoroController {
     public String acceptInvitation(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String changelogId
     ) {
         User me = getMe(id, token);
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
-                groupsHelper.acceptGroupInvitation(groupId, me);
-                return successResponse();
+                try {
+                    groupsHelper.acceptGroupInvitation(groupId, changelogId, me);
+                    return successResponse();
+                } catch (IllegalAccessException e) {
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                }
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
@@ -297,6 +303,7 @@ public class GroupsController extends PandoroController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group to decline the invitation
+     * @param changelogId: the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
@@ -311,14 +318,15 @@ public class GroupsController extends PandoroController {
     public String declineInvitation(
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestBody String changelogId
     ) {
         User me = getMe(id, token);
         if (me != null) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
                 try {
-                    groupsHelper.declineGroupInvitation(groupId, me);
+                    groupsHelper.declineGroupInvitation(groupId, changelogId, me);
                     return successResponse();
                 } catch (IllegalAccessException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
