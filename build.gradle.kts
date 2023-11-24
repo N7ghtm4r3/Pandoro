@@ -58,5 +58,9 @@ kotlin {
     jvmToolchain(19)
 }
 
+configurations.all {
+    exclude("commons-logging", "commons-logging")
+}
+
 // TODO: REMOVE THIS FOR TESTING PURPOSES ONLY
 tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
