@@ -132,7 +132,7 @@ abstract class LocalUser {
      * @param email: the email of the user
      * @param password: the password of the user
      */
-    fun initUserSession(
+    open fun initUserSession(
         response: JsonHelper,
         host: String?,
         name: String,
