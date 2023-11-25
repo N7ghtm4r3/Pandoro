@@ -177,14 +177,7 @@ public class UsersHelper {
      */
     public String changeProfilePic(String userId, String token, MultipartFile profilePic) throws IOException {
         deleteProfilePic(userId);
-        String contentType = profilePic.getContentType();
-        String suffix;
-        switch (Objects.requireNonNull(contentType)) {
-            case IMAGE_JPEG_VALUE -> suffix = "jpeg";
-            case IMAGE_PNG_VALUE -> suffix = "png";
-            default -> throw new IOException();
-        }
-        File file = new File(PROFILE_PICS_FOLDER + userId + "." + suffix);
+        File file = new File(PROFILE_PICS_FOLDER + userId + "." + getSuffix(profilePic));
         try (OutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(profilePic.getBytes());
         }
@@ -192,6 +185,30 @@ public class UsersHelper {
         usersRepository.changeProfilePic(userId, token, profilePicPath);
         membersRepository.changeProfilePic(userId, profilePicPath);
         return profilePicPath;
+    }
+
+    /**
+     * Method to get the suffix of the image uploaded
+     *
+     * @param profilePic: thw multipart file uploaded
+     * @return the suffix of the image as {@link String}
+     * @throws IOException when the change operation fails
+     */
+    private String getSuffix(MultipartFile profilePic) throws IOException {
+        String contentType = profilePic.getContentType();
+        String suffix;
+        switch (Objects.requireNonNull(contentType)) {
+            case IMAGE_JPEG_VALUE -> suffix = "jpeg";
+            case IMAGE_PNG_VALUE -> suffix = "png";
+            default -> {
+                String name = profilePic.getName();
+                if (contentType.startsWith("image") && name.contains("."))
+                    suffix = name.split("\\.")[1];
+                else
+                    throw new IOException();
+            }
+        }
+        return suffix;
     }
 
     /**

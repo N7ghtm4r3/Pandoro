@@ -129,7 +129,7 @@ abstract class BaseRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/changeProfilePic", method = POST)
-    fun execChangeProfilePic(profilePic: File): JSONObject {
+    open fun execChangeProfilePic(profilePic: File): JSONObject {
         val headers = HttpHeaders()
         headers.contentType = MediaType.MULTIPART_FORM_DATA
         headers.add(UsersHelper.TOKEN_KEY, userToken)
@@ -1164,6 +1164,9 @@ abstract class BaseRequester(
      */
     open class PandoroPayload {
 
+        /**
+         * **payload** -> the payload to asseble for the requests
+         */
         private val payload = mutableMapOf<String, Any>()
 
         /**
@@ -1176,6 +1179,12 @@ abstract class BaseRequester(
             payload[keyParam] = valueParam
         }
 
+        /**
+         * Function to get the assembled payload for the requests
+         *
+         * No-any params required
+         * @return the payload as [Map] of <[String], [Any]>
+         */
         fun getPayload(): Map<String, Any> {
             return payload
         }
