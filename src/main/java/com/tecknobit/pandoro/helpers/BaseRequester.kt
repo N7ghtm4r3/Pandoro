@@ -2,27 +2,17 @@ package com.tecknobit.pandoro.helpers
 
 import com.tecknobit.apimanager.annotations.RequestPath
 import com.tecknobit.apimanager.annotations.Returner
+import com.tecknobit.apimanager.annotations.Structure
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.apis.APIRequest
-import com.tecknobit.apimanager.apis.APIRequest.*
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
-import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED
+import com.tecknobit.apimanager.apis.sockets.SocketManager
 import com.tecknobit.apimanager.formatters.JsonHelper
-import com.tecknobit.pandoro.controllers.ChangelogsController.*
-import com.tecknobit.pandoro.controllers.GroupsController.*
-import com.tecknobit.pandoro.controllers.NotesController.*
-import com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT
-import com.tecknobit.pandoro.controllers.PandoroController.ERROR_KEY
-import com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
-import com.tecknobit.pandoro.controllers.PandoroController.STATUS_CODE_KEY
-import com.tecknobit.pandoro.controllers.PandoroController.SUCCESS_KEY
-import com.tecknobit.pandoro.controllers.PandoroController.WRONG_PROCEDURE_MESSAGE
-import com.tecknobit.pandoro.controllers.ProjectsController.*
-import com.tecknobit.pandoro.controllers.UsersController.*
+import com.tecknobit.pandoro.controllers.*
 import com.tecknobit.pandoro.records.users.GroupMember.Role
-import com.tecknobit.pandoro.services.GroupsHelper.*
-import com.tecknobit.pandoro.services.ProjectsHelper.*
-import com.tecknobit.pandoro.services.UsersHelper.*
+import com.tecknobit.pandoro.services.GroupsHelper
+import com.tecknobit.pandoro.services.ProjectsHelper
+import com.tecknobit.pandoro.services.UsersHelper
 import org.json.JSONObject
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpEntity
@@ -34,7 +24,7 @@ import org.springframework.web.client.RestTemplate
 import java.io.File
 
 /**
- * The **Requester** class is useful to communicate with the Pandoro's backend
+ * The **BaseRequester** class is useful to communicate with the Pandoro's backend
  *
  * @param host: the host where is running the Pandoro's backend
  * @param userId: the user identifier
@@ -42,54 +32,32 @@ import java.io.File
  *
  * @author N7ghtm4r3 - Tecknobit
  */
-class Requester(
+@Structure
+abstract class BaseRequester(
     private val host: String,
-    var userId: String? = null,
-    var userToken: String? = null,
+    open var userId: String? = null,
+    open var userToken: String? = null
 ) {
 
-    companion object {
-
-        /**
-         * **errorResponse** -> the default error response to send when the request throws an [Exception]
-         */
-        private val errorResponse = JSONObject()
-            .put(SUCCESS_KEY, false)
-            .put(STATUS_CODE_KEY, FAILED)
-            .put(ERROR_KEY, WRONG_PROCEDURE_MESSAGE).toString()
-
-    }
+    /**
+     * **errorResponse** -> the default error response to send when the request throws an [Exception]
+     */
+    protected val errorResponse = JSONObject()
+        .put(PandoroController.SUCCESS_KEY, false)
+        .put(PandoroController.STATUS_CODE_KEY, SocketManager.StandardResponseCode.FAILED)
+        .put(PandoroController.ERROR_KEY, PandoroController.WRONG_PROCEDURE_MESSAGE).toString()
 
     /**
      * **lastResponse** -> the last response received from the backend
      */
-    private var lastResponse: JsonHelper? = null
-
-    /**
-     * **apiRequest** -> the instance to communicate and make the requests to the backend
-     */
-    private val apiRequest: APIRequest = APIRequest()
-
-    /**
-     * **headers** -> the headers of the request
-     */
-    private val headers: Headers = Headers()
-
-    init {
-        setAuthHeaders()
-    }
+    protected var lastResponse: JsonHelper? = null
 
     /**
      * Function to set the headers for the authentication of the user
      *
      * No-any params required
      */
-    private fun setAuthHeaders() {
-        if (userId != null && userToken != null) {
-            headers.addHeader(IDENTIFIER_KEY, userId)
-            headers.addHeader(TOKEN_KEY, userToken)
-        }
-    }
+    protected abstract fun setAuthHeaders()
 
     /**
      * Function to execute the request to sign up in the Pandoro's system
@@ -110,11 +78,11 @@ class Requester(
         password: String
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(NAME_KEY, name)
-        payload.addParam(SURNAME_KEY, surname)
-        payload.addParam(EMAIL_KEY, email)
-        payload.addParam(PASSWORD_KEY, password)
-        val response = execPost(createUsersEndpoint(SIGN_UP_ENDPOINT), payload)
+        payload.addParam(UsersHelper.NAME_KEY, name)
+        payload.addParam(UsersHelper.SURNAME_KEY, surname)
+        payload.addParam(UsersHelper.EMAIL_KEY, email)
+        payload.addParam(UsersHelper.PASSWORD_KEY, password)
+        val response = execPost(createUsersEndpoint(UsersController.SIGN_UP_ENDPOINT), payload)
         setAuthCredentials(response)
         return response
     }
@@ -133,9 +101,9 @@ class Requester(
         password: String
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(EMAIL_KEY, email)
-        payload.addParam(PASSWORD_KEY, password)
-        val response = execPost(createUsersEndpoint(SIGN_IN_ENDPOINT), payload)
+        payload.addParam(UsersHelper.EMAIL_KEY, email)
+        payload.addParam(UsersHelper.PASSWORD_KEY, password)
+        val response = execPost(createUsersEndpoint(UsersController.SIGN_IN_ENDPOINT), payload)
         setAuthCredentials(response)
         return response
     }
@@ -147,8 +115,8 @@ class Requester(
      */
     private fun setAuthCredentials(response: JSONObject) {
         val hResponse = JsonHelper(response)
-        userId = hResponse.getString(IDENTIFIER_KEY)
-        userToken = hResponse.getString(TOKEN_KEY)
+        userId = hResponse.getString(PandoroController.IDENTIFIER_KEY)
+        userToken = hResponse.getString(UsersHelper.TOKEN_KEY)
         setAuthHeaders()
     }
 
@@ -164,14 +132,14 @@ class Requester(
     fun execChangeProfilePic(profilePic: File): JSONObject {
         val headers = HttpHeaders()
         headers.contentType = MediaType.MULTIPART_FORM_DATA
-        headers.add(TOKEN_KEY, userToken)
+        headers.add(UsersHelper.TOKEN_KEY, userToken)
         val body: MultiValueMap<String, Any> = LinkedMultiValueMap()
-        body.add(PROFILE_PIC_KEY, FileSystemResource(profilePic))
+        body.add(UsersHelper.PROFILE_PIC_KEY, FileSystemResource(profilePic))
         val requestEntity: HttpEntity<Any?> = HttpEntity<Any?>(body, headers)
         val restTemplate = RestTemplate()
         val response = restTemplate.postForEntity(
-            host + BASE_ENDPOINT + USERS_ENDPOINT + "/$userId/" +
-                    CHANGE_PROFILE_PIC_ENDPOINT, requestEntity, String::class.java
+            host + PandoroController.BASE_ENDPOINT + UsersController.USERS_ENDPOINT + "/$userId/" +
+                    UsersController.CHANGE_PROFILE_PIC_ENDPOINT, requestEntity, String::class.java
         ).body
         lastResponse = JsonHelper(response)
         return JSONObject(response)
@@ -189,7 +157,7 @@ class Requester(
     fun execChangeEmail(newEmail: String): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(newEmail, "")
-        return execPatch(createUsersEndpoint(CHANGE_EMAIL_ENDPOINT, userId), payload, false)
+        return execPatch(createUsersEndpoint(UsersController.CHANGE_EMAIL_ENDPOINT, userId), payload, false)
     }
 
     /**
@@ -204,7 +172,7 @@ class Requester(
     fun execChangePassword(newPassword: String): JSONObject {
         val payload = PandoroPayload()
         payload.addParam(newPassword, "")
-        return execPatch(createUsersEndpoint(CHANGE_PASSWORD_ENDPOINT, userId), payload, false)
+        return execPatch(createUsersEndpoint(UsersController.CHANGE_PASSWORD_ENDPOINT, userId), payload, false)
     }
 
     /**
@@ -217,7 +185,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/users/{id}/deleteAccount", method = DELETE)
     fun execDeleteAccount(): JSONObject {
-        return execDelete(createUsersEndpoint(DELETE_ACCOUNT_ENDPOINT, userId))
+        return execDelete(createUsersEndpoint(UsersController.DELETE_ACCOUNT_ENDPOINT, userId))
     }
 
     /**
@@ -233,7 +201,7 @@ class Requester(
         endpoint: String,
         id: String? = null
     ): String {
-        return createEndpoint(USERS_ENDPOINT, endpoint, id)
+        return createEndpoint(UsersController.USERS_ENDPOINT, endpoint, id)
     }
 
     /**
@@ -272,7 +240,7 @@ class Requester(
         projectRepository: String = ""
     ): JSONObject {
         return execPost(
-            createProjectsEndpoint(ADD_PROJECT_ENDPOINT),
+            createProjectsEndpoint(ProjectsController.ADD_PROJECT_ENDPOINT),
             createProjectPayload(
                 name, projectDescription, projectShortDescription, projectVersion, groups,
                 projectRepository
@@ -305,7 +273,7 @@ class Requester(
         projectRepository: String = ""
     ): JSONObject {
         return execPatch(
-            createProjectsEndpoint("/${projectId}" + EDIT_PROJECT_ENDPOINT),
+            createProjectsEndpoint("/${projectId}" + ProjectsController.EDIT_PROJECT_ENDPOINT),
             createProjectPayload(
                 name, projectDescription, projectShortDescription, projectVersion, groups,
                 projectRepository
@@ -336,12 +304,12 @@ class Requester(
         projectRepository: String = ""
     ): PandoroPayload {
         val payload = PandoroPayload()
-        payload.addParam(NAME_KEY, name)
-        payload.addParam(PROJECT_DESCRIPTION_KEY, projectDescription)
-        payload.addParam(PROJECT_SHORT_DESCRIPTION_KEY, projectShortDescription)
-        payload.addParam(PROJECT_VERSION_KEY, projectVersion)
-        payload.addParam(GROUPS_KEY, groups)
-        payload.addParam(PROJECT_REPOSITORY_KEY, projectRepository)
+        payload.addParam(UsersHelper.NAME_KEY, name)
+        payload.addParam(ProjectsHelper.PROJECT_DESCRIPTION_KEY, projectDescription)
+        payload.addParam(ProjectsHelper.PROJECT_SHORT_DESCRIPTION_KEY, projectShortDescription)
+        payload.addParam(ProjectsHelper.PROJECT_VERSION_KEY, projectVersion)
+        payload.addParam(GroupsController.GROUPS_KEY, groups)
+        payload.addParam(ProjectsHelper.PROJECT_REPOSITORY_KEY, projectRepository)
         return payload
     }
 
@@ -368,7 +336,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/projects/{project_id}", method = DELETE)
     fun execDeleteProject(projectId: String): JSONObject {
-        return execDelete(createProjectsEndpoint(DELETE_PROJECT_ENDPOINT, projectId))
+        return execDelete(createProjectsEndpoint(ProjectsController.DELETE_PROJECT_ENDPOINT, projectId))
     }
 
     /**
@@ -384,7 +352,7 @@ class Requester(
         endpoint: String,
         id: String? = null
     ): String {
-        return createEndpoint(PROJECTS_KEY, endpoint, id)
+        return createEndpoint(ProjectsHelper.PROJECTS_KEY, endpoint, id)
     }
 
     /**
@@ -404,9 +372,9 @@ class Requester(
         updateChangeNotes: List<String>
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(UPDATE_TARGET_VERSION_KEY, targetVersion)
-        payload.addParam(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes)
-        return execPost(createUpdatesEndpoint(SCHEDULE_UPDATE_ENDPOINT, projectId), payload)
+        payload.addParam(ProjectsHelper.UPDATE_TARGET_VERSION_KEY, targetVersion)
+        payload.addParam(ProjectsHelper.UPDATE_CHANGE_NOTES_KEY, updateChangeNotes)
+        return execPost(createUpdatesEndpoint(ProjectsController.SCHEDULE_UPDATE_ENDPOINT, projectId), payload)
     }
 
     /**
@@ -423,7 +391,7 @@ class Requester(
         projectId: String,
         updateId: String
     ): JSONObject {
-        return execPatch(createUpdatesEndpoint(START_UPDATE_ENDPOINT, projectId, updateId, false))
+        return execPatch(createUpdatesEndpoint(ProjectsController.START_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     /**
@@ -440,7 +408,7 @@ class Requester(
         projectId: String,
         updateId: String
     ): JSONObject {
-        return execPatch(createUpdatesEndpoint(PUBLISH_UPDATE_ENDPOINT, projectId, updateId, false))
+        return execPatch(createUpdatesEndpoint(ProjectsController.PUBLISH_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     /**
@@ -462,7 +430,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(changeNote, "")
         return execPut(
-            createUpdatesEndpoint(ADD_CHANGE_NOTE_ENDPOINT, projectId, updateId, false),
+            createUpdatesEndpoint(ProjectsController.ADD_CHANGE_NOTE_ENDPOINT, projectId, updateId, false),
             payload,
             false,
         )
@@ -489,7 +457,8 @@ class Requester(
     ): JSONObject {
         return execPatch(
             createUpdatesEndpoint(
-                "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_DONE_ENDPOINT", projectId,
+                "/${NotesController.NOTES_KEY}/$changeNoteId${ProjectsController.MARK_CHANGE_NOTE_AS_DONE_ENDPOINT}",
+                projectId,
                 updateId,
                 false
             )
@@ -517,7 +486,8 @@ class Requester(
     ): JSONObject {
         return execPatch(
             createUpdatesEndpoint(
-                "/$NOTES_KEY/$changeNoteId$MARK_CHANGE_NOTE_AS_TODO_ENDPOINT", projectId,
+                "/${NotesController.NOTES_KEY}/$changeNoteId${ProjectsController.MARK_CHANGE_NOTE_AS_TODO_ENDPOINT}",
+                projectId,
                 updateId, false
             ),
         )
@@ -544,7 +514,8 @@ class Requester(
     ): JSONObject {
         return execDelete(
             createUpdatesEndpoint(
-                "/$NOTES_KEY/$changeNoteId$DELETE_CHANGE_NOTE_ENDPOINT", projectId,
+                "/${NotesController.NOTES_KEY}/$changeNoteId${ProjectsController.DELETE_CHANGE_NOTE_ENDPOINT}",
+                projectId,
                 updateId, false
             ),
         )
@@ -564,7 +535,7 @@ class Requester(
         projectId: String,
         updateId: String,
     ): JSONObject {
-        return execDelete(createUpdatesEndpoint(DELETE_UPDATE_ENDPOINT, projectId, updateId, false))
+        return execDelete(createUpdatesEndpoint(ProjectsController.DELETE_UPDATE_ENDPOINT, projectId, updateId, false))
     }
 
     /**
@@ -584,7 +555,10 @@ class Requester(
         updateId: String? = null,
         insertSlash: Boolean = true
     ): String {
-        return createProjectsEndpoint("", projectId) + UPDATES_PATH + createPathId(updateId, insertSlash) +
+        return createProjectsEndpoint("", projectId) + ProjectsController.UPDATES_PATH + createPathId(
+            updateId,
+            insertSlash
+        ) +
                 endpoint
     }
 
@@ -618,11 +592,11 @@ class Requester(
         members: List<String>
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(NAME_KEY, name)
-        payload.addParam(GROUP_DESCRIPTION_KEY, groupDescription)
-        payload.addParam(GROUP_MEMBERS_KEY, members)
+        payload.addParam(UsersHelper.NAME_KEY, name)
+        payload.addParam(GroupsHelper.GROUP_DESCRIPTION_KEY, groupDescription)
+        payload.addParam(GroupsHelper.GROUP_MEMBERS_KEY, members)
         return execPost(
-            createGroupsEndpoint(CREATE_GROUP_ENDPOINT),
+            createGroupsEndpoint(GroupsController.CREATE_GROUP_ENDPOINT),
             payload
         )
     }
@@ -657,7 +631,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(members.toString(), "")
         return execPut(
-            createGroupsEndpoint(ADD_MEMBERS_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.ADD_MEMBERS_ENDPOINT, groupId),
             payload,
             false
         )
@@ -680,7 +654,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(changelogId, "")
         return execPatch(
-            createGroupsEndpoint(ACCEPT_GROUP_INVITATION_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.ACCEPT_GROUP_INVITATION_ENDPOINT, groupId),
             payload,
             false
         )
@@ -703,7 +677,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(changelogId, "")
         return execDelete(
-            createGroupsEndpoint(DECLINE_GROUP_INVITATION_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.DECLINE_GROUP_INVITATION_ENDPOINT, groupId),
             payload,
             false
         )
@@ -726,10 +700,10 @@ class Requester(
         role: Role
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(IDENTIFIER_KEY, memberId)
-        payload.addParam(MEMBER_ROLE_KEY, role)
+        payload.addParam(PandoroController.IDENTIFIER_KEY, memberId)
+        payload.addParam(GroupsHelper.MEMBER_ROLE_KEY, role)
         return execPatch(
-            createGroupsEndpoint(CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
             payload
         )
     }
@@ -751,7 +725,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(memberId, "")
         return execDelete(
-            createGroupsEndpoint(REMOVE_MEMBER_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.REMOVE_MEMBER_ENDPOINT, groupId),
             payload,
             false
         )
@@ -774,7 +748,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(projects.toString(), "")
         return execPatch(
-            createGroupsEndpoint(EDIT_PROJECTS_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.EDIT_PROJECTS_ENDPOINT, groupId),
             payload,
             false
         )
@@ -798,7 +772,7 @@ class Requester(
         if (nextAdminId != null)
             payload.addParam(nextAdminId, "")
         return execDelete(
-            createGroupsEndpoint(LEAVE_GROUP_ENDPOINT, groupId),
+            createGroupsEndpoint(GroupsController.LEAVE_GROUP_ENDPOINT, groupId),
             payload,
             false
         )
@@ -814,7 +788,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/groups/{group_id}/deleteGroup", method = DELETE)
     fun execDeleteGroup(groupId: String): JSONObject {
-        return execDelete(createGroupsEndpoint(DELETE_GROUP_ENDPOINT, groupId))
+        return execDelete(createGroupsEndpoint(GroupsController.DELETE_GROUP_ENDPOINT, groupId))
     }
 
     /**
@@ -830,7 +804,7 @@ class Requester(
         endpoint: String,
         id: String? = null
     ): String {
-        return createEndpoint(GROUPS_KEY, endpoint, id)
+        return createEndpoint(GroupsController.GROUPS_KEY, endpoint, id)
     }
 
     /**
@@ -858,7 +832,7 @@ class Requester(
         val payload = PandoroPayload()
         payload.addParam(contentNote, "")
         return execPost(
-            createNotesEndpoint(CREATE_NOTE_ENDPOINT),
+            createNotesEndpoint(NotesController.CREATE_NOTE_ENDPOINT),
             payload,
             false
         )
@@ -873,7 +847,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/notes/{note_id}/markAsDone", method = PATCH)
     fun execMarkNoteAsDone(noteId: String): JSONObject {
-        return execPatch(createNotesEndpoint(MARK_AS_DONE_ENDPOINT, noteId))
+        return execPatch(createNotesEndpoint(NotesController.MARK_AS_DONE_ENDPOINT, noteId))
     }
 
     /**
@@ -885,7 +859,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/notes/{note_id}/markAsToDo", method = PATCH)
     fun execMarkNoteAsToDo(noteId: String): JSONObject {
-        return execPatch(createNotesEndpoint(MARK_AS_TO_DO_ENDPOINT, noteId))
+        return execPatch(createNotesEndpoint(NotesController.MARK_AS_TO_DO_ENDPOINT, noteId))
     }
 
     /**
@@ -897,7 +871,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/notes/{note_id}/deleteNote", method = DELETE)
     fun execDeleteNote(noteId: String): JSONObject {
-        return execDelete(createNotesEndpoint(DELETE_NOTE_ENDPOINT, noteId))
+        return execDelete(createNotesEndpoint(NotesController.DELETE_NOTE_ENDPOINT, noteId))
     }
 
     /**
@@ -913,7 +887,7 @@ class Requester(
         endpoint: String,
         id: String? = null
     ): String {
-        return createEndpoint(NOTES_KEY, endpoint, id)
+        return createEndpoint(NotesController.NOTES_KEY, endpoint, id)
     }
 
     /**
@@ -939,7 +913,7 @@ class Requester(
      */
     @RequestPath(path = "/api/v1/changelogs/{changelog_id}/readChangelog", method = PATCH)
     fun execReadChangelog(changelogId: String): JSONObject {
-        return execPatch(createChangelogsEndpoint(READ_CHANGELOG_ENDPOINT, changelogId))
+        return execPatch(createChangelogsEndpoint(ChangelogsController.READ_CHANGELOG_ENDPOINT, changelogId))
     }
 
     /**
@@ -960,12 +934,12 @@ class Requester(
             val payload = PandoroPayload()
             payload.addParam(groupId, "")
             return execDelete(
-                createChangelogsEndpoint(DELETE_CHANGELOG_ENDPOINT, changelogId),
+                createChangelogsEndpoint(ChangelogsController.DELETE_CHANGELOG_ENDPOINT, changelogId),
                 payload,
                 false
             )
         }
-        return execDelete(createChangelogsEndpoint(DELETE_CHANGELOG_ENDPOINT, changelogId))
+        return execDelete(createChangelogsEndpoint(ChangelogsController.DELETE_CHANGELOG_ENDPOINT, changelogId))
     }
 
     /**
@@ -981,7 +955,7 @@ class Requester(
         endpoint: String,
         id: String? = null
     ): String {
-        return createEndpoint(CHANGELOGS_KEY, endpoint, id)
+        return createEndpoint(ChangelogsController.CHANGELOGS_KEY, endpoint, id)
     }
 
     /**
@@ -1030,7 +1004,7 @@ class Requester(
      * @return check whether the request has been successful as [Boolean]
      */
     fun successResponse(): Boolean {
-        return lastResponse!!.jsonObjectSource == null || lastResponse!!.getBoolean(SUCCESS_KEY, true)
+        return lastResponse!!.jsonObjectSource == null || lastResponse!!.getBoolean(PandoroController.SUCCESS_KEY, true)
     }
 
     /**
@@ -1041,7 +1015,7 @@ class Requester(
      * @return error message of the request as [String]
      */
     fun errorMessage(): String {
-        return lastResponse!!.getString(ERROR_KEY)
+        return lastResponse!!.getString(PandoroController.ERROR_KEY)
     }
 
     /**
@@ -1175,52 +1149,35 @@ class Requester(
      * @param payload: the payload of the request, default null
      * @param jsonPayload: whether the payload must be formatted as JSON, default true
      */
-    private fun execRequest(
+    protected abstract fun execRequest(
         contentType: String,
         endpoint: String,
-        requestMethod: RequestMethod,
+        requestMethod: APIRequest.RequestMethod,
         payload: PandoroPayload? = null,
         jsonPayload: Boolean = true
-    ): String {
-        headers.addHeader("Content-Type", contentType)
-        val response: String?
-        return try {
-            val requestUrl = host + BASE_ENDPOINT + endpoint
-            if (payload != null) {
-                if (jsonPayload)
-                    apiRequest.sendJSONPayloadedAPIRequest(requestUrl, requestMethod, headers, payload)
-                else
-                    apiRequest.sendPayloadedAPIRequest(requestUrl, requestMethod, headers, payload)
-            } else
-                apiRequest.sendAPIRequest(requestUrl, requestMethod, headers)
-            response = apiRequest.response
-            lastResponse = JsonHelper(response)
-            response
-        } catch (e: Exception) {
-            lastResponse = JsonHelper(errorResponse)
-            errorResponse
-        }
-    }
+    ): String
 
     /**
      * The **PandoroPayload** class is useful to create the payload for the requests to the Pandoro's backend
      *
      * @author N7ghtm4r3 - Tecknobit
-     * @see Params
      */
-    private class PandoroPayload : Params() {
+    open class PandoroPayload {
+
+        private val payload = mutableMapOf<String, Any>()
 
         /**
-         * Method to assemble a body params of an **HTTP** request
+         * Function to add a new param value
          *
-         * No-any params required
-         *
-         * @return body params as [String] assembled es. param=mandatory1&param2=mandatory2
-         *
-         * @throws IllegalArgumentException when extra params in list is empty or is null
+         * @param keyParam:   key of the param
+         * @param valueParam: value of the param
          */
-        override fun createPayload(): String {
-            return super.createPayload().replace("=", "")
+        fun <T : Any> addParam(keyParam: String, valueParam: T) {
+            payload[keyParam] = valueParam
+        }
+
+        fun getPayload(): Map<String, Any> {
+            return payload
         }
 
     }

@@ -8,7 +8,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
-version = "0.0.0.0"
+version = "0.0.0.1"
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandoro"
                 artifactId = "Pandoro"
-                version = "0.0.0.0"
+                version = "0.0.0.1"
                 from(components["java"])
             }
         }
