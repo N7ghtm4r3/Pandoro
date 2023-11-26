@@ -334,9 +334,10 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void deleteGroup(String memberId, String groupId) {
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
+        String groupName = groupsRepository.getGroup(memberId, groupId).getName();
         groupsRepository.deleteGroup(memberId, groupId);
         for (GroupMember member : members)
-            changelogsCreator.groupDeleted(groupId, member.getId());
+            changelogsCreator.groupDeleted(groupName, member.getId());
     }
 
 }

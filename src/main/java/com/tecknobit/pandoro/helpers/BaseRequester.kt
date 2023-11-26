@@ -432,7 +432,7 @@ abstract class BaseRequester(
         return execPut(
             createUpdatesEndpoint(ProjectsController.ADD_CHANGE_NOTE_ENDPOINT, projectId, updateId, false),
             payload,
-            false,
+            false
         )
     }
 
