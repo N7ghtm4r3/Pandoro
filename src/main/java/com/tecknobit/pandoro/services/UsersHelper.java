@@ -20,6 +20,7 @@ import java.util.Objects;
 import static com.tecknobit.apimanager.apis.APIRequest.SHA256_ALGORITHM;
 import static com.tecknobit.apimanager.apis.APIRequest.base64Digest;
 import static com.tecknobit.pandoro.Launcher.IMAGES_PATH;
+import static java.lang.System.currentTimeMillis;
 import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
 import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 
@@ -177,7 +178,7 @@ public class UsersHelper {
      */
     public String changeProfilePic(String userId, String token, MultipartFile profilePic) throws IOException {
         deleteProfilePic(userId);
-        File file = new File(PROFILE_PICS_FOLDER + userId + "." + getSuffix(profilePic));
+        File file = new File(PROFILE_PICS_FOLDER + userId + currentTimeMillis() + "." + getSuffix(profilePic));
         try (OutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(profilePic.getBytes());
         }
