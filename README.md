@@ -117,17 +117,17 @@ spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=10MB
 ```
 
-| Property                                  | Default value                       | Not-Critical       | Recommended to change |
-|-------------------------------------------|-------------------------------------|--------------------|-----------------------|
-| spring.datasource.url                     | jdbc:mysql://localhost:3306/pandoro | :white_check_mark: | :x:                   | 
-| server.port                               | 1809                                | :white_check_mark: | /                     |
-| spring.datasource.username                | root                                | :white_check_mark: | :white_check_mark:    |
-| spring.jpa.generate-ddl                   | update                              | :x:                | :x:                   |
-| spring.jpa.hibernate.ddl.auto             | auto                                | :x:                | :x:                   |           
-| spring.jpa.properties.hibernate.dialect   | org.hibernate.dialect.MySQL8Dialect | :x:                | :x:                   |           
-| spring.mvc.dispatch-options-request       | true                                | :x:                | :x:                   |           
-| spring.servlet.multipart.max-file-size    | 10MB                                | :white_check_mark: | /                     |           
-| spring.servlet.multipart.max-request-size | 10MB                                | :white_check_mark: | /                     |
+| Property                                  | Default value                       |    Not-Critical    | Recommended to change |
+|-------------------------------------------|-------------------------------------|:------------------:|:---------------------:|
+| spring.datasource.url                     | jdbc:mysql://localhost:3306/pandoro | :white_check_mark: |          :x:          | 
+| server.port                               | 1809                                | :white_check_mark: |           /           |
+| spring.datasource.username                | root                                | :white_check_mark: |  :white_check_mark:   |
+| spring.jpa.generate-ddl                   | update                              |        :x:         |          :x:          |
+| spring.jpa.hibernate.ddl.auto             | auto                                |        :x:         |          :x:          |           
+| spring.jpa.properties.hibernate.dialect   | org.hibernate.dialect.MySQL8Dialect |        :x:         |          :x:          |           
+| spring.mvc.dispatch-options-request       | true                                |        :x:         |          :x:          |           
+| spring.servlet.multipart.max-file-size    | 10MB                                | :white_check_mark: |           /           |           
+| spring.servlet.multipart.max-request-size | 10MB                                | :white_check_mark: |           /           |
 
 The **spring.datasource.username** if is not set is used the default password of the MySQL enviroment
 
