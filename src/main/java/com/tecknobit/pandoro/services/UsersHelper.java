@@ -192,21 +192,14 @@ public class UsersHelper {
      *
      * @param profilePic: thw multipart file uploaded
      * @return the suffix of the image as {@link String}
-     * @throws IOException when the change operation fails
      */
-    private String getSuffix(MultipartFile profilePic) throws IOException {
+    private String getSuffix(MultipartFile profilePic) {
         String contentType = profilePic.getContentType();
         String suffix;
         switch (Objects.requireNonNull(contentType)) {
             case IMAGE_JPEG_VALUE -> suffix = "jpeg";
             case IMAGE_PNG_VALUE -> suffix = "png";
-            default -> {
-                String name = profilePic.getName();
-                if (contentType.startsWith("image") && name.contains("."))
-                    suffix = name.split("\\.")[1];
-                else
-                    throw new IOException();
-            }
+            default -> suffix = "jpg";
         }
         return suffix;
     }
