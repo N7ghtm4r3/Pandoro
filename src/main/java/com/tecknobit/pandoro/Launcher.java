@@ -62,16 +62,16 @@ public class Launcher {
      * <ul>
      *     <li>
      *         <b>rss</b> -> launch your java application with "rss" to recreate the server secret <br>
-     *                       e.g java -jar your_jar.jar rss
+     *                       e.g java -jar Pandoro.jar rss
      *     </li>
      *     <li>
      *         <b>dss</b> -> launch your java application with "dss" to delete the current server secret <br>
-     *                       e.g java -jar your_jar.jar dss
+     *                       e.g java -jar Pandoro.jar dss
      *     </li>
      *     <li>
      *         <b>dssi</b> -> launch your java application with "dssi" to delete the current server secret and interrupt
      *                        the current workflow of the server <br>
-     *                        e.g java -jar your_jar.jar dssi
+     *                        e.g java -jar Pandoro.jar dssi
      *     </li>
      * </ul>
      */
