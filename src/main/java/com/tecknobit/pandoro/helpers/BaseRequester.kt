@@ -9,6 +9,7 @@ import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
 import com.tecknobit.apimanager.apis.sockets.SocketManager
 import com.tecknobit.apimanager.formatters.JsonHelper
 import com.tecknobit.pandoro.controllers.*
+import com.tecknobit.pandoro.helpers.ServerProtector.SERVER_SECRET_KEY
 import com.tecknobit.pandoro.records.users.GroupMember.Role
 import com.tecknobit.pandoro.services.GroupsHelper
 import com.tecknobit.pandoro.services.ProjectsHelper
@@ -62,6 +63,7 @@ abstract class BaseRequester(
     /**
      * Function to execute the request to sign up in the Pandoro's system
      *
+     * @param serverSecret: the secret of the personal Pandoro's backend
      * @param name: the name of the user
      * @param surname: the surname of the user
      * @param email: the email of the user
@@ -72,12 +74,14 @@ abstract class BaseRequester(
      */
     @RequestPath(path = "/api/v1/users/signUp", method = POST)
     fun execSignUp(
+        serverSecret: String,
         name: String,
         surname: String,
         email: String,
         password: String
     ): JSONObject {
         val payload = PandoroPayload()
+        payload.addParam(SERVER_SECRET_KEY, serverSecret)
         payload.addParam(UsersHelper.NAME_KEY, name)
         payload.addParam(UsersHelper.SURNAME_KEY, surname)
         payload.addParam(UsersHelper.EMAIL_KEY, email)

@@ -1,5 +1,7 @@
 package com.tecknobit.pandoro;
 
+import com.tecknobit.apimanager.exceptions.SaveData;
+import com.tecknobit.pandoro.helpers.ServerProtector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -14,6 +16,8 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import java.security.NoSuchAlgorithmException;
 
 import static com.tecknobit.pandoro.Launcher.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.pandoro.Launcher.DEFAULT_CONFIGURATION_FILE_PATH;
@@ -52,11 +56,59 @@ public class Launcher {
     public static final String CUSTOM_CONFIGURATION_FILE_PATH = "pandoro.properties";
 
     /**
+     * {@code protector} the instance to launch the server protector to manage the server accesses
+     *
+     * @apiNote the commands scheme:
+     * <ul>
+     *     <li>
+     *         <b>rss</b> -> launch your java application with "rss" to recreate the server secret <br>
+     *                       e.g java -jar your_jar.jar rss
+     *     </li>
+     *     <li>
+     *         <b>dss</b> -> launch your java application with "dss" to delete the current server secret <br>
+     *                       e.g java -jar your_jar.jar dss
+     *     </li>
+     *     <li>
+     *         <b>dssi</b> -> launch your java application with "dssi" to delete the current server secret and interrupt
+     *                        the current workflow of the server <br>
+     *                        e.g java -jar your_jar.jar dssi
+     *     </li>
+     * </ul>
+     */
+    public static final ServerProtector protector = new ServerProtector("tecknobit/pandoro/backend",
+            " to correctly register a new user in the Pandoro system ");
+
+    /**
      * Main method to start the backend
      *
-     * @param args: custom arguments to share with {@link SpringApplication}
+     * @param args: custom arguments to share with {@link SpringApplication} and with the {@link #protector}
+     * @apiNote the arguments scheme:
+     * <ul>
+     *     <li>
+     *         {@link #protector} ->
+     *         <ul>
+     *          <li>
+     *             <b>rss</b> -> launch your java application with "rss" to recreate the server secret <br>
+     *                       e.g java -jar Pandoro.jar rss
+     *             </li>
+     *              <li>
+     *                  <b>dss</b> -> launch your java application with "dss" to delete the current server secret <br>
+     *                       e.g java -jar Pandoro.jar dss
+     *              </li>
+     *              <li>
+     *                  <b>dssi</b> -> launch your java application with "dssi" to delete the current server secret and interrupt
+     *                        the current workflow of the server <br>
+     *                        e.g java -jar Pandoro.jar dssi
+     *              </li>
+     *          </ul>
+     *     </li>
+     *     <li>
+     *         {@link SpringApplication} -> see the allowed arguments <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html">here</a>
+     *     </li>
+     * </ul>
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException, SaveData {
+        protector.launch(args);
         SpringApplication.run(Launcher.class, args);
     }
 

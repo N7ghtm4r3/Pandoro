@@ -13,9 +13,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.pandoro.Launcher.protector;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
 import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
+import static com.tecknobit.pandoro.helpers.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
@@ -95,6 +97,7 @@ public class UsersController extends PandoroController {
      * <pre>
      *      {@code
      *              {
+     *                  "server_secret" : "the secret of the server" -> [String],
      *                  "name" : "the name of the user" -> [String],
      *                  "surname": "the surname of the user" -> [String],
      *                  "email": "the email of the user" -> [String],
@@ -108,34 +111,37 @@ public class UsersController extends PandoroController {
     @PostMapping(path = SIGN_UP_ENDPOINT)
     @RequestPath(path = "/api/v1/users/signUp", method = POST)
     public String signUp(@RequestBody Map<String, String> payload) {
-        String name = payload.get(NAME_KEY);
-        String surname = payload.get(SURNAME_KEY);
-        String email = payload.get(EMAIL_KEY);
-        String password = payload.get(PASSWORD_KEY);
-        if (isNameValid(name)) {
-            if (isSurnameValid(surname)) {
-                if (isEmailValid(email)) {
-                    if (isPasswordValid(password)) {
-                        String userId = generateIdentifier();
-                        String token = generateIdentifier();
-                        try {
-                            usersHelper.signUp(userId, token, name, surname, email, password);
-                            return successResponse(new JSONObject()
-                                    .put(IDENTIFIER_KEY, userId)
-                                    .put(TOKEN_KEY, token)
-                                    .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
-                            );
-                        } catch (Exception e) {
-                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                        }
+        if (protector.serverSecretMatches(payload.get(SERVER_SECRET_KEY))) {
+            String name = payload.get(NAME_KEY);
+            String surname = payload.get(SURNAME_KEY);
+            String email = payload.get(EMAIL_KEY);
+            String password = payload.get(PASSWORD_KEY);
+            if (isNameValid(name)) {
+                if (isSurnameValid(surname)) {
+                    if (isEmailValid(email)) {
+                        if (isPasswordValid(password)) {
+                            String userId = generateIdentifier();
+                            String token = generateIdentifier();
+                            try {
+                                usersHelper.signUp(userId, token, name, surname, email, password);
+                                return successResponse(new JSONObject()
+                                        .put(IDENTIFIER_KEY, userId)
+                                        .put(TOKEN_KEY, token)
+                                        .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
+                                );
+                            } catch (Exception e) {
+                                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                            }
+                        } else
+                            return failedResponse(WRONG_PASSWORD_MESSAGE);
                     } else
-                        return failedResponse(WRONG_PASSWORD_MESSAGE);
+                        return failedResponse(WRONG_EMAIL_MESSAGE);
                 } else
-                    return failedResponse(WRONG_EMAIL_MESSAGE);
+                    return failedResponse("Wrong surname");
             } else
-                return failedResponse("Wrong surname");
+                return failedResponse("Wrong name");
         } else
-            return failedResponse("Wrong name");
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
 
     /**

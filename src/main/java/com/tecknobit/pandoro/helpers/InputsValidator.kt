@@ -111,6 +111,16 @@ fun isServerAddressValid(serverAddress: String?): Boolean {
 }
 
 /**
+ * Function to check the validity of a server secret
+ *
+ * @param serverSecret: server secret to check
+ * @return whether the server secret is valid as [Boolean]
+ */
+fun isServerSecretValid(serverSecret: String?): Boolean {
+    return !serverSecret.isNullOrEmpty()
+}
+
+/**
  * Function to check the validity of a name
  *
  * @param name: name to check
