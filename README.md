@@ -129,12 +129,18 @@ spring.servlet.multipart.max-request-size=10MB
 | spring.servlet.multipart.max-file-size    | 10MB                                | :white_check_mark: |           /           |           
 | spring.servlet.multipart.max-request-size | 10MB                                | :white_check_mark: |           /           |
 
-The **spring.datasource.username** if is not set is used the default password of the MySQL enviroment
+The **spring.datasource.username** if is not set is used the default password of the MySQL environment
 
 #### Custom configuration
 
 To customize the properties to launch the backend service you must create a file **in the same folder where you placed
-the server file (.jar)** and call it **"pandoro.properties"**.
+the server file (.jar)** and call it **"pandoro.properties"** as below:
+
+``` bash
+  folderOfWhereYouPlacedTheServerFile
+   |-- pandoro.properties
+   |-- pandoro.jar
+  ```
 
 If your custom properties do not contain the properties of the default configuration will be used these default
 properties instead,
@@ -151,8 +157,23 @@ To start the **Pandoro** service on your own infrastructure you have to follow t
 #### Requirements
 
 - An SQL environment installed, it is recommended to use **MySQL**
-- Before run the backend service, for the first time, you need to create a database named **pandoro** by default or a
-  custom name that must be inserted in the connection URL cited below
+- Before run the backend service, **for the first time only**, you need to create a database named **pandoro** by
+  default or a
+  custom name that must be inserted in the connection URL cited below in this section
+- Before run the backend service, **for the first time only**, you need to create the **images** folder **in the same
+  folder
+  where you placed the server file (.jar)** as below:
+  ``` bash
+  folderOfWhereYouPlacedTheServerFile
+   |-- images
+   |   |-- profiles
+   |   |   |-- defProfilePic.jpg
+   |-- pandoro.jar
+  ```
+  This action is required because to provide the images media the service need an external place where store and fetch
+  that media files, you can take a look directly <a href="https://github.com/N7ghtm4r3/Pandoro/tree/main/images">
+  here</a>
+  to get more information and to get the **defProfilePic** file to store in the **profiles** subpath
 - The SQL service running on "localhost:3306/pandoro" by default, or if has been customized, with the custom data to
   format correctly the connection URL
 
