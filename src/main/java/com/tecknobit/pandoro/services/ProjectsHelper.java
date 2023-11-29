@@ -1,11 +1,13 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
+import com.tecknobit.pandoro.records.Group;
 import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.ProjectUpdate;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
+import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +142,12 @@ public class ProjectsHelper extends ChangelogOperator {
     private NotesRepository notesRepository;
 
     /**
+     * {@code groupsRepository} instance for the groups repository
+     */
+    @Autowired
+    private GroupsRepository groupsRepository;
+
+    /**
      * {@code groupMembersRepository} instance for the group members repository
      */
     @Autowired
@@ -245,6 +253,10 @@ public class ProjectsHelper extends ChangelogOperator {
      * @param projectId: the project identifier
      */
     public void deleteProject(String userId, String projectId) {
+        Project project = getProjectById(projectId);
+        if (project.hasGroups())
+            for (Group group : project.getGroups())
+                groupsRepository.removeGroupProject(projectId, group.getId());
         projectsRepository.deleteProject(userId, projectId);
     }
 

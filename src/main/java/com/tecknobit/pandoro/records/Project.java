@@ -215,9 +215,13 @@ public class Project extends PandoroItem implements Serializable {
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
         updatesNumber = updates.size();
-        if (updatesNumber > 0)
-            lastUpdate = updates.get(updatesNumber - 1).getPublishTimestamp();
-        else
+        if (updatesNumber > 0) {
+            ArrayList<ProjectUpdate> publishedUpdates = getPublishedUpdates();
+            if (!publishedUpdates.isEmpty())
+                lastUpdate = updates.get(publishedUpdates.size() - 1).getPublishTimestamp();
+            else
+                lastUpdate = -1;
+        } else
             lastUpdate = -1;
         projectRepo = hItem.getString(PROJECT_REPOSITORY_KEY, "");
         if (!projectRepo.isEmpty())
