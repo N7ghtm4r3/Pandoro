@@ -709,7 +709,7 @@ public class ProjectsController extends PandoroController {
         if (isAuthenticatedUser(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null &&
                     projectsHelper.updateExists(projectId, updateId) != null) {
-                projectsHelper.deleteUpdate(projectId, updateId, projectId);
+                projectsHelper.deleteUpdate(projectId, updateId, id);
                 return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);

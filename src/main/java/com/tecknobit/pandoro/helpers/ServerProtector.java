@@ -46,14 +46,18 @@ public class ServerProtector {
 
     /**
      * {@code saveMessage} the message to print when the server secret has been generated
+     *                   the start of the message is <b>"Note: is not an error, but is an alert!
+     *                   Please you should safely save: server_secret_token_generated"</b>
      */
     private final String saveMessage;
 
     /**
      * Constructor to init the {@link ServerProtector}
      *
-     * @param storagePath:       instance to manage the storage of the server secret
-     * @param saveMessage:{@code saveMessage} the message to print when the server secret has been generated
+     * @param storagePath:  instance to manage the storage of the server secret
+     * @param saveMessage: the message to print when the server secret has been generated,
+     *                   the start of the message is <b>"Note: is not an error, but is an alert!
+     *                   Please you should safely save: server_secret_token_generated"</b>
      */
     public ServerProtector(String storagePath, String saveMessage) {
         this.preferences = Preferences.userRoot().node(storagePath);
