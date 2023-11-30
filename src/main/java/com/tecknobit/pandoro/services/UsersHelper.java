@@ -130,7 +130,7 @@ public class UsersHelper {
     /**
      * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
      */
-    public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.jpg";
+    public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.png";
 
     /**
      * Method to execute the signup action and store the new user details

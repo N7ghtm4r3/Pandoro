@@ -167,7 +167,7 @@ To start the **Pandoro** service on your own infrastructure you have to follow t
   folderOfWhereYouPlacedTheServerFile
    |-- images
    |   |-- profiles
-   |   |   |-- defProfilePic.jpg
+   |   |   |-- defProfilePic.png
    |-- pandoro.jar
   ```
   This action is required because to provide the images media the service need an external place where store and fetch

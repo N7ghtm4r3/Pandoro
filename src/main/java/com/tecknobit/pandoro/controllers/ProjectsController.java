@@ -7,6 +7,7 @@ import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.ProjectUpdate;
 import com.tecknobit.pandoro.records.ProjectUpdate.Status;
 import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandoro.services.GroupsHelper;
 import com.tecknobit.pandoro.services.ProjectsHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,13 +104,20 @@ public class ProjectsController extends PandoroController {
     private final ProjectsHelper projectsHelper;
 
     /**
+     * {@code groupsHelper} instance to manage the groups database operations
+     */
+    private final GroupsHelper groupsHelper;
+
+    /**
      * Constructor to init the {@link ProjectsController} controller
      *
-     * @param projectsHelper:{@code projectsHelper} instance to manage the projects database operations
+     * @param projectsHelper: instance to manage the projects database operations
+     * @param groupsHelper: instance to manage the groups database operations
      */
     @Autowired
-    public ProjectsController(ProjectsHelper projectsHelper) {
+    public ProjectsController(ProjectsHelper projectsHelper, GroupsHelper groupsHelper) {
         this.projectsHelper = projectsHelper;
+        this.groupsHelper = groupsHelper;
     }
 
     /**
@@ -264,6 +272,11 @@ public class ProjectsController extends PandoroController {
                                 ArrayList<String> adminGroups = new ArrayList<>();
                                 for (Group group : me.getAdminGroups())
                                     adminGroups.add(group.getId());
+                                if (adminGroups.isEmpty()) {
+                                    me.setGroups(groupsHelper.getGroups(id));
+                                    for (Group group : me.getAdminGroups())
+                                        adminGroups.add(group.getId());
+                                }
                                 if (groups.isEmpty() || adminGroups.containsAll(groups)) {
                                     String repository = hPayload.getString(PROJECT_REPOSITORY_KEY);
                                     if (isValidRepository(repository)) {
