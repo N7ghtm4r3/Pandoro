@@ -26,7 +26,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 
 /**
- * The {@code GroupsController} class is useful to manage all the groups operations
+ * The {@code GroupsController} class is useful to manage all the group operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see PandoroController

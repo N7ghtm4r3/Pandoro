@@ -28,7 +28,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 
 /**
- * The {@code ProjectsController} class is useful to manage all the projects operations
+ * The {@code ProjectsController} class is useful to manage all the project operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see PandoroController

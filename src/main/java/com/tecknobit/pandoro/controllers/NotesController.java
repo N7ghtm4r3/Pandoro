@@ -14,7 +14,7 @@ import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 
 /**
- * The {@code NotesController} class is useful to manage all the notes operations
+ * The {@code NotesController} class is useful to manage all the note operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see PandoroController
@@ -182,7 +182,7 @@ public class NotesController extends PandoroController {
     }
 
     /**
-     * Method to mark as delete an existing note
+     * Method to delete an existing note
      *
      * @param id: the identifier of the user
      * @param token: the token of the user

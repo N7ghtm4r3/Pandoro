@@ -393,11 +393,10 @@ public class ProjectsHelper extends ChangelogOperator {
      * @param userId: the user identifier
      */
     public void deleteUpdate(String projectId, String updateId, String userId) {
+        ProjectUpdate update = updatesRepository.getUpdateById(projectId, updateId);
         updatesRepository.deleteUpdate(updateId);
-        if (projectsRepository.getProjectById(projectId).hasGroups()) {
-            changelogsCreator.updateDeleted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
-                    projectId, userId);
-        }
+        if (projectsRepository.getProjectById(projectId).hasGroups())
+            changelogsCreator.updateDeleted(update.getTargetVersion(), projectId, userId);
     }
 
 }

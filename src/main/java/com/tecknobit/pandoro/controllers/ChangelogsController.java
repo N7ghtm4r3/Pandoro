@@ -14,7 +14,7 @@ import static com.tecknobit.pandoro.services.ChangelogsHelper.CHANGELOG_IDENTIFI
 import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 
 /**
- * The {@code ChangelogsController} class is useful to manage all the changelogs operations
+ * The {@code ChangelogsController} class is useful to manage all the changelog operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see PandoroController

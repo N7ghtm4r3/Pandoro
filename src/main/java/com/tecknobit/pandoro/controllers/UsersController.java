@@ -21,7 +21,7 @@ import static com.tecknobit.pandoro.helpers.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
- * The {@code UsersController} class is useful to manage all the users operations
+ * The {@code UsersController} class is useful to manage all the user operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see PandoroController
