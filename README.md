@@ -13,33 +13,13 @@ Add the JitPack repository to your build file
 
 ### Gradle
 
-- Add it in your root build.gradle at the end of repositories
-
-  #### Gradle (Short)
-
-    ```gradle
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-    ```
-
-  #### Gradle (Kotlin)
-
-    ```gradle
-    repositories {
-        ...
-        maven("https://jitpack.io")
-    }
-    ```
-
 - Add the dependency
 
   #### Gradle (Short)
 
     ```gradle
     dependencies {
-        implementation 'com.github.N7ghtm4r3:Pandoro:1.0.0'
+        implementation 'com.tecknobit.pandoro:Pandoro:1.0.0'
     }
     ```
 
@@ -47,7 +27,7 @@ Add the JitPack repository to your build file
 
     ```gradle
     dependencies {
-        implementation("com.github.N7ghtm4r3:Pandoro:1.0.0")
+        implementation("com.tecknobit.pandoro:Pandoro:1.0.0")
     }
     ```
 
@@ -156,6 +136,7 @@ To start the **Pandoro** service on your own infrastructure you have to follow t
 
 #### Requirements
 
+- At least **Java 18 JDK** installed on your machine
 - An SQL environment installed, it is recommended to use **MySQL**
 - Before run the backend service, **for the first time only**, you need to create a database named **pandoro** by
   default or a

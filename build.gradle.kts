@@ -30,10 +30,10 @@ dependencies {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "19"
+        kotlinOptions.jvmTarget = "18"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "19"
+        kotlinOptions.jvmTarget = "18"
     }
 }
 
@@ -55,12 +55,11 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(19)
+    jvmToolchain(18)
 }
 
 configurations.all {
     exclude("commons-logging", "commons-logging")
 }
 
-// TODO: REMOVE THIS FOR TESTING PURPOSES ONLY
 tasks.withType<Jar> { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
