@@ -67,17 +67,19 @@ This project will be constantly developed to reach different platforms to work o
 steps:
 
 - Mobile
-  - <a href="https://github.com/N7ghtm4r3/Pandoro-Android#readme">Android</a> -> **available soon!**
+  - <a href="https://github.com/N7ghtm4r3/Pandoro-Android#readme">Android</a>
   - iOS -> planned
 - <a href="https://github.com/N7ghtm4r3/Pandoro-Desktop/releases/tag/1.0.0">Pandoro desktop version</a>
-- <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a> -> **available soon!**
+- <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a>
 - <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.0">Backend service "out-of-the-box"</a>
 
 ## Usages
 
 ### Backend configuration
 
-### Note: the service will run using the *HTTP* protocol as default, it is recommended to implement an *SSL* or *TLS* certificate to secure communication on your infrastructure.
+> [!WARNING]  
+> Note: the service will run using the *HTTP* protocol as default, it is recommended to implement an *SSL* or *TLS* certificate to secure communication on your infrastructure.
+> Take a look <a href="https://www.thomasvitale.com/https-spring-boot-ssl-certificate/">here</a> to get more information.
 
 #### Default configuration
 
