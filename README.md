@@ -79,7 +79,19 @@ steps:
 
 > [!WARNING]  
 > Note: the service will run using the *HTTP* protocol as default, it is recommended to implement an *SSL* or *TLS* certificate to secure communication on your infrastructure.
-> Take a look <a href="https://www.thomasvitale.com/https-spring-boot-ssl-certificate/">here</a> to get more information.
+>
+> **Wikis**
+> 
+> To create the certificate you can look <a href="https://tecadmin.net/step-by-step-guide-to-creating-self-signed-ssl-certificates/">here</a>
+>
+> To implement the certificate in Spring you can look <a href="https://www.thomasvitale.com/https-spring-boot-ssl-certificate/">here</a>
+>
+> If you encounter any problems with the creation of the keystore you can look <a href="https://stackoverflow.com/questions/906402/how-to-import-an-existing-x-509-certificate-and-private-key-in-java-keystore-to">here</a> to get more information, or
+> use the following command to add the **private key** to the keystore:
+> ```xml
+> openssl pkcs12 -export -in your_certificate_file.crt -inkey your_private_key.key -out your_out_pkcs12_file.p12 -name your_alias_name -CAfile your_certificate_file.crt -caname root
+> ```
+
 
 #### Default configuration
 
