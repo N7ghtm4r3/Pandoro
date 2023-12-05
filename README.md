@@ -70,7 +70,7 @@ steps:
   - <a href="https://github.com/N7ghtm4r3/Pandoro-Android#readme">Android</a> -> **available soon!**
   - iOS -> planned
 - <a href="https://github.com/N7ghtm4r3/Pandoro-Desktop/releases/tag/1.0.0">Pandoro desktop version</a>
-- <a href="https://github.com/N7ghtm4r3/Pandoro-webapp">Pandoro webapp version</a> -> **available soon!**
+- <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a> -> **available soon!**
 - <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.0">Backend service "out-of-the-box"</a>
 
 ## Usages
