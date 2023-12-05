@@ -79,6 +79,8 @@ steps:
 
 #### Default configuration
 
+##### Note: the service will run using the *HTTP* protocol as default, it is recommended to implement an *SSL* certificate to secure communication on your infrastructure.
+
 The default properties to launch the backend service as designed are the following:
 
 ``` properties
