@@ -5,11 +5,12 @@ import com.tecknobit.apimanager.annotations.Returner
 import com.tecknobit.apimanager.annotations.Structure
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.apis.APIRequest
+import com.tecknobit.apimanager.apis.APIRequest.Params
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
+import com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY
 import com.tecknobit.apimanager.apis.sockets.SocketManager
 import com.tecknobit.apimanager.formatters.JsonHelper
 import com.tecknobit.pandoro.controllers.*
-import com.tecknobit.pandoro.helpers.ServerProtector.SERVER_SECRET_KEY
 import com.tecknobit.pandoro.records.users.GroupMember.Role
 import com.tecknobit.pandoro.services.GroupsHelper
 import com.tecknobit.pandoro.services.ProjectsHelper
@@ -1165,32 +1166,21 @@ abstract class BaseRequester(
      * The **PandoroPayload** class is useful to create the payload for the requests to the Pandoro's backend
      *
      * @author N7ghtm4r3 - Tecknobit
+     * @see Params
      */
-    open class PandoroPayload {
+    open class PandoroPayload : Params() {
 
         /**
-         * **payload** -> the payload to asseble for the requests
-         */
-        private val payload = mutableMapOf<String, Any>()
-
-        /**
-         * Function to add a new param value
-         *
-         * @param keyParam:   key of the param
-         * @param valueParam: value of the param
-         */
-        fun <T : Any> addParam(keyParam: String, valueParam: T) {
-            payload[keyParam] = valueParam
-        }
-
-        /**
-         * Function to get the assembled payload for the requests
+         * Method to assemble a body params of an **HTTP** request
          *
          * No-any params required
-         * @return the payload as [Map] of <[String], [Any]>
+         *
+         * @return body params as [String] assembled es. param=mandatory1&param2=mandatory2
+         *
+         * @throws IllegalArgumentException when extra params in list is empty or is null
          */
-        fun getPayload(): Map<String, Any> {
-            return payload
+        override fun createPayload(): String {
+            return super.createPayload().replace("=", "")
         }
 
     }

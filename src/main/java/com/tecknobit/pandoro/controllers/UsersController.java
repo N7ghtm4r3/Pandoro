@@ -13,11 +13,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.Launcher.protector;
 import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
 import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
 import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.helpers.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**

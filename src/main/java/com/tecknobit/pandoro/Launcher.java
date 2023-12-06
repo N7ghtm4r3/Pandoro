@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro;
 
+import com.tecknobit.apimanager.apis.ServerProtector;
 import com.tecknobit.apimanager.exceptions.SaveData;
-import com.tecknobit.pandoro.helpers.ServerProtector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

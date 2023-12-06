@@ -8,7 +8,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.5")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-    implementation("com.github.N7ghtm4r3:APIManager:2.1.7")
+    implementation("com.github.N7ghtm4r3:APIManager:2.2.1")
     implementation("org.json:json:20230227")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.5")
     implementation("org.springframework.boot:spring-boot-maven-plugin:3.2.0")
@@ -44,7 +44,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandoro"
                 artifactId = "Pandoro"
-                version = "1.0.0"
+                version = "1.0.1"
                 from(components["java"])
             }
         }
