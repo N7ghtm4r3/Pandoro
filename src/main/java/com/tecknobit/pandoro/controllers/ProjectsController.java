@@ -268,7 +268,7 @@ public class ProjectsController extends PandoroController {
                         if (isValidProjectShortDescription(shortDescription)) {
                             String version = hPayload.getString(PROJECT_VERSION_KEY);
                             if (isValidVersion(version)) {
-                                ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY);
+                                ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY, new ArrayList<>());
                                 ArrayList<String> adminGroups = new ArrayList<>();
                                 for (Group group : me.getAdminGroups())
                                     adminGroups.add(group.getId());
