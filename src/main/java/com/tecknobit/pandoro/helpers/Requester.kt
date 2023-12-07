@@ -11,10 +11,14 @@ import com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY
 import com.tecknobit.apimanager.apis.sockets.SocketManager
 import com.tecknobit.apimanager.formatters.JsonHelper
 import com.tecknobit.pandoro.controllers.*
+import com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT
+import com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
 import com.tecknobit.pandoro.records.users.GroupMember.Role
 import com.tecknobit.pandoro.services.GroupsHelper
 import com.tecknobit.pandoro.services.ProjectsHelper
 import com.tecknobit.pandoro.services.UsersHelper
+import com.tecknobit.pandoro.services.UsersHelper.PROFILE_PIC_KEY
+import com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY
 import org.json.JSONObject
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpEntity
@@ -26,7 +30,7 @@ import org.springframework.web.client.RestTemplate
 import java.io.File
 
 /**
- * The **BaseRequester** class is useful to communicate with the Pandoro's backend
+ * The **Requester** class is useful to communicate with the Pandoro's backend
  *
  * @param host: the host where is running the Pandoro's backend
  * @param userId: the user identifier
@@ -35,11 +39,21 @@ import java.io.File
  * @author N7ghtm4r3 - Tecknobit
  */
 @Structure
-abstract class BaseRequester(
+open class Requester(
     private val host: String,
     open var userId: String? = null,
     open var userToken: String? = null
 ) {
+
+    /**
+     * **apiRequest** -> the instance to communicate and make the requests to the backend
+     */
+    protected val apiRequest: APIRequest = APIRequest()
+
+    /**
+     * **headers** -> the headers of the requests
+     */
+    protected val headers: APIRequest.Headers = APIRequest.Headers()
 
     /**
      * **errorResponse** -> the default error response to send when the request throws an [Exception]
@@ -54,12 +68,21 @@ abstract class BaseRequester(
      */
     protected var lastResponse: JsonHelper? = null
 
+    init {
+        setAuthHeaders()
+    }
+
     /**
      * Function to set the headers for the authentication of the user
      *
      * No-any params required
      */
-    protected abstract fun setAuthHeaders()
+    protected fun setAuthHeaders() {
+        if (userId != null && userToken != null) {
+            headers.addHeader(IDENTIFIER_KEY, userId)
+            headers.addHeader(TOKEN_KEY, userToken)
+        }
+    }
 
     /**
      * Function to execute the request to sign up in the Pandoro's system
@@ -120,8 +143,8 @@ abstract class BaseRequester(
      */
     private fun setAuthCredentials(response: JSONObject) {
         val hResponse = JsonHelper(response)
-        userId = hResponse.getString(PandoroController.IDENTIFIER_KEY)
-        userToken = hResponse.getString(UsersHelper.TOKEN_KEY)
+        userId = hResponse.getString(IDENTIFIER_KEY)
+        userToken = hResponse.getString(TOKEN_KEY)
         setAuthHeaders()
     }
 
@@ -137,13 +160,13 @@ abstract class BaseRequester(
     open fun execChangeProfilePic(profilePic: File): JSONObject {
         val headers = HttpHeaders()
         headers.contentType = MediaType.MULTIPART_FORM_DATA
-        headers.add(UsersHelper.TOKEN_KEY, userToken)
+        headers.add(TOKEN_KEY, userToken)
         val body: MultiValueMap<String, Any> = LinkedMultiValueMap()
-        body.add(UsersHelper.PROFILE_PIC_KEY, FileSystemResource(profilePic))
+        body.add(PROFILE_PIC_KEY, FileSystemResource(profilePic))
         val requestEntity: HttpEntity<Any?> = HttpEntity<Any?>(body, headers)
         val restTemplate = RestTemplate()
         val response = restTemplate.postForEntity(
-            host + PandoroController.BASE_ENDPOINT + UsersController.USERS_ENDPOINT + "/$userId/" +
+            host + BASE_ENDPOINT + UsersController.USERS_ENDPOINT + "/$userId/" +
                     UsersController.CHANGE_PROFILE_PIC_ENDPOINT, requestEntity, String::class.java
         ).body
         lastResponse = JsonHelper(response)
@@ -705,7 +728,7 @@ abstract class BaseRequester(
         role: Role
     ): JSONObject {
         val payload = PandoroPayload()
-        payload.addParam(PandoroController.IDENTIFIER_KEY, memberId)
+        payload.addParam(IDENTIFIER_KEY, memberId)
         payload.addParam(GroupsHelper.MEMBER_ROLE_KEY, role)
         return execPatch(
             createGroupsEndpoint(GroupsController.CHANGE_MEMBER_ROLE_ENDPOINT, groupId),
@@ -1154,13 +1177,34 @@ abstract class BaseRequester(
      * @param payload: the payload of the request, default null
      * @param jsonPayload: whether the payload must be formatted as JSON, default true
      */
-    protected abstract fun execRequest(
+    @Synchronized
+    open fun execRequest(
         contentType: String,
         endpoint: String,
         requestMethod: APIRequest.RequestMethod,
         payload: PandoroPayload? = null,
         jsonPayload: Boolean = true
-    ): String
+    ): String {
+        headers.addHeader("Content-Type", contentType)
+        if (host.startsWith("https"))
+            apiRequest.validateSelfSignedCertificate()
+        return try {
+            val requestUrl = host + BASE_ENDPOINT + endpoint
+            if (payload != null) {
+                if (jsonPayload)
+                    apiRequest.sendJSONPayloadedAPIRequest(requestUrl, requestMethod, headers, payload)
+                else
+                    apiRequest.sendPayloadedAPIRequest(requestUrl, requestMethod, headers, payload)
+            } else
+                apiRequest.sendAPIRequest(requestUrl, requestMethod, headers)
+            val response = apiRequest.response
+            lastResponse = JsonHelper(response)
+            response
+        } catch (e: Exception) {
+            lastResponse = JsonHelper(errorResponse)
+            errorResponse
+        }
+    }
 
     /**
      * The **PandoroPayload** class is useful to create the payload for the requests to the Pandoro's backend
