@@ -33,26 +33,14 @@ Add the JitPack repository to your build file
 
 ### Maven
 
-- Add it in your root build.gradle at the end of repositories
-
-```xml
-
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-
 - Add the dependency
 
 ```xml
 
 <dependency>
-  <groupId>com.github.N7ghtm4r3</groupId>
+  <groupId>com.tecknobit.pandoro</groupId>
   <artifactId>Pandoro</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
