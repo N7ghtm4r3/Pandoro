@@ -232,4 +232,4 @@ If you want support project and developer
 If you want support project and developer
 with <a href="https://www.paypal.com/donate/?hosted_button_id=5QMN5UQH7LDT4">PayPal</a>
 
-Copyright © 2023 Tecknobit
+Copyright © 2024 Tecknobit
