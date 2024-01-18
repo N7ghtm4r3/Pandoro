@@ -44,13 +44,15 @@ class OverviewUIHelper(var userProjects: List<Project>) {
             val pUpdatesNumber = project.updatesNumber
             if (!project.hasGroups() && pUpdatesNumber > 0) {
                 val pDevelopmentDays = project.totalDevelopmentDays
-                val pAverageDevelopmentTime = project.averageDevelopmentTime
-                if (pUpdatesNumber >= updatesNumber && pDevelopmentDays <= developmentDays) {
-                    if (pAverageDevelopmentTime < averageDevelopmentTime || bestProject == null) {
-                        bestProject = project
-                        updatesNumber = pUpdatesNumber
-                        developmentDays = pDevelopmentDays
-                        averageDevelopmentTime = pAverageDevelopmentTime
+                if (pDevelopmentDays > 0) {
+                    val pAverageDevelopmentTime = project.averageDevelopmentTime
+                    if (pUpdatesNumber >= updatesNumber && pDevelopmentDays <= developmentDays) {
+                        if (pAverageDevelopmentTime < averageDevelopmentTime || bestProject == null) {
+                            bestProject = project
+                            updatesNumber = pUpdatesNumber
+                            developmentDays = pDevelopmentDays
+                            averageDevelopmentTime = pAverageDevelopmentTime
+                        }
                     }
                 }
             }
@@ -127,13 +129,15 @@ class OverviewUIHelper(var userProjects: List<Project>) {
             val pUpdatesNumber = project.updatesNumber
             if (project.hasGroups() && pUpdatesNumber > 0) {
                 val pDevelopmentDays = project.totalDevelopmentDays
-                val pAverageDevelopmentTime = project.averageDevelopmentTime
-                if (pUpdatesNumber >= updatesNumber && pDevelopmentDays <= developmentDays) {
-                    if (pAverageDevelopmentTime < averageDevelopmentTime || bestProject == null) {
-                        bestProject = project
-                        updatesNumber = pUpdatesNumber
-                        developmentDays = pDevelopmentDays
-                        averageDevelopmentTime = pAverageDevelopmentTime
+                if (pDevelopmentDays > 0) {
+                    val pAverageDevelopmentTime = project.averageDevelopmentTime
+                    if (pUpdatesNumber >= updatesNumber && pDevelopmentDays <= developmentDays) {
+                        if (pAverageDevelopmentTime < averageDevelopmentTime || bestProject == null) {
+                            bestProject = project
+                            updatesNumber = pUpdatesNumber
+                            developmentDays = pDevelopmentDays
+                            averageDevelopmentTime = pAverageDevelopmentTime
+                        }
                     }
                 }
             }

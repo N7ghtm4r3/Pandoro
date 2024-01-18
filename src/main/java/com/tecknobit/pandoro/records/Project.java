@@ -217,9 +217,15 @@ public class Project extends PandoroItem implements Serializable {
         updatesNumber = updates.size();
         if (updatesNumber > 0) {
             ArrayList<ProjectUpdate> publishedUpdates = getPublishedUpdates();
-            if (!publishedUpdates.isEmpty())
-                lastUpdate = updates.get(publishedUpdates.size() - 1).getPublishTimestamp();
-            else
+            if (!publishedUpdates.isEmpty()) {
+                long lastUpdateTimestamp = 0L;
+                for (ProjectUpdate update : publishedUpdates) {
+                    long checkValueTimestamp = update.getPublishTimestamp();
+                    if (checkValueTimestamp > lastUpdateTimestamp)
+                        lastUpdateTimestamp = checkValueTimestamp;
+                }
+                lastUpdate = lastUpdateTimestamp;
+            } else
                 lastUpdate = -1;
         } else
             lastUpdate = -1;
