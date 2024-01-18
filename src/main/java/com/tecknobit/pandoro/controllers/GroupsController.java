@@ -376,7 +376,7 @@ public class GroupsController extends PandoroController {
             String hisId = hPayload.getString(IDENTIFIER_KEY, "");
             Group uGroup = groupsHelper.getGroup(hisId, groupId);
             if (!id.equals(hisId)) {
-                if (meGroup != null && uGroup != null) {
+                if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, hisId)) {
                     GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, hisId);
                     if (iMember != null && heMember != null && heMember.getInvitationStatus() == JOINED) {
@@ -439,7 +439,7 @@ public class GroupsController extends PandoroController {
             Group meGroup = groupsHelper.getGroup(id, groupId);
             Group uGroup = groupsHelper.getGroup(memberId, groupId);
             if (!id.equals(memberId)) {
-                if (meGroup != null && uGroup != null) {
+                if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, memberId)) {
                     GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, memberId);
                     if (iMember != null && heMember != null) {
@@ -466,6 +466,17 @@ public class GroupsController extends PandoroController {
                 return failedResponse(CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE);
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    /**
+     * Method to check whether the member of the operation is not the author of the group
+     *
+     * @param group: the group of the operation
+     * @param memberId: the identifier of the member to check
+     * @return whether the member of the operation is not the author of the group as boolean
+     */
+    private boolean isNotTheAuthor(Group group, String memberId) {
+        return !group.getAuthor().getId().equals(memberId);
     }
 
     /**
