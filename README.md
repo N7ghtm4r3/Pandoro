@@ -1,6 +1,6 @@
 # Pandoro
 
-**v1.0.1**
+**v1.0.2**
 
 This project, based on Java and the
 Spring Boot framework, is an open source management software useful in managing your personal projects and group
@@ -19,7 +19,7 @@ Add the JitPack repository to your build file
 
     ```gradle
     dependencies {
-        implementation 'com.tecknobit.pandoro:Pandoro:1.0.1'
+        implementation 'com.tecknobit.pandoro:Pandoro:1.0.2'
     }
     ```
 
@@ -27,7 +27,7 @@ Add the JitPack repository to your build file
 
     ```gradle
     dependencies {
-        implementation("com.tecknobit.pandoro:Pandoro:1.0.1")
+        implementation("com.tecknobit.pandoro:Pandoro:1.0.2")
     }
     ```
 
