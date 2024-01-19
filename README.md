@@ -40,7 +40,7 @@ Add the JitPack repository to your build file
 <dependency>
   <groupId>com.tecknobit.pandoro</groupId>
   <artifactId>Pandoro</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
@@ -59,7 +59,7 @@ steps:
   - iOS -> planned
 - <a href="https://github.com/N7ghtm4r3/Pandoro-Desktop/releases/tag/1.0.1">Pandoro desktop version</a>
 - <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a>
-- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.1">Backend service "out-of-the-box"</a>
+- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.2">Backend service "out-of-the-box"</a>
 
 ## Usages
 
@@ -211,8 +211,6 @@ Thank you for your help!
 [![](https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 
 [![](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)](https://spring.io/projects/spring-boot)
-
-[![](https://jitpack.io/v/N7ghtm4r3/Pandoro.svg)](https://jitpack.io/#N7ghtm4r3/Pandoro)
 
 ## Business contact
 
