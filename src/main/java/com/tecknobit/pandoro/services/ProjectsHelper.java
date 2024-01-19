@@ -322,9 +322,11 @@ public class ProjectsHelper extends ChangelogOperator {
      * @param projectId: the project identifier
      * @param updateId: the update identifier
      * @param userId: the user identifier who publish the update
+     * @param updateVersion: the version of the update to set as last version of the project
      */
-    public void publishUpdate(String projectId, String updateId, String userId) {
+    public void publishUpdate(String projectId, String updateId, String userId, String updateVersion) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
+        projectsRepository.updateProjectVersion(userId, projectId, updateVersion);
         if (projectsRepository.getProjectById(projectId).hasGroups()) {
             changelogsCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
                     projectId, userId);

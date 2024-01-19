@@ -497,7 +497,7 @@ public class ProjectsController extends PandoroController {
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
                         return failedResponse("An update to be published must be IN_DEVELOPMENT first");
-                    projectsHelper.publishUpdate(projectId, updateId, id);
+                    projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
                 } else {
                     if (status != SCHEDULED)
                         return failedResponse("An update to be published must be SCHEDULED first");

@@ -214,6 +214,29 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     );
 
     /**
+     * Method to execute the query to update to the last published update version
+     * the version of the {@link Project}
+     *
+     * @param author:    the author of the project
+     * @param projectId: the project identifier
+     * @param version:   the last version of the project
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + PROJECTS_KEY + " SET "
+                    + PROJECT_VERSION_KEY + "=:" + PROJECT_VERSION_KEY
+                    + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " AND "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void updateProjectVersion(
+            @Param(AUTHOR_KEY) String author,
+            @Param(IDENTIFIER_KEY) String projectId,
+            @Param(PROJECT_VERSION_KEY) String version
+    );
+
+    /**
      * Method to execute the query to select an existing {@link Project}
      *
      * @param userId: the user identifier
