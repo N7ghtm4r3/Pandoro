@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.records.Group;
+import com.tecknobit.pandoro.records.Project;
 import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.records.users.GroupMember.Role;
 import com.tecknobit.pandoro.records.users.PublicUser;
@@ -11,6 +12,7 @@ import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
+import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +73,12 @@ public class GroupsHelper extends ChangelogOperator {
      */
     @Autowired
     private UsersRepository usersRepository;
+
+    /**
+     * {@code projectsRepository} instance for the projects repository
+     */
+    @Autowired
+    private ProjectsRepository projectsRepository;
 
     /**
      * {@code groupsRepository} instance for the groups repository
@@ -320,6 +328,9 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
         membersRepository.leaveGroup(memberId, groupId);
+        for (Project project : getGroup(memberId, groupId).getProjects())
+            if (project.getAuthor().getId().equals(memberId))
+                groupsRepository.removeGroupProject(project.getId(), groupId);
         if (deleteGroup)
             deleteGroup(memberId, groupId);
         else
@@ -335,7 +346,7 @@ public class GroupsHelper extends ChangelogOperator {
     public void deleteGroup(String memberId, String groupId) {
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         String groupName = groupsRepository.getGroup(memberId, groupId).getName();
-        groupsRepository.deleteGroup(memberId, groupId);
+        groupsRepository.deleteGroup(groupId);
         for (GroupMember member : members)
             changelogsCreator.groupDeleted(groupName, member.getId());
     }

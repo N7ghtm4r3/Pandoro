@@ -40,9 +40,9 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      */
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE
-                    + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "."
-                    + INVITATION_STATUS_KEY + " = " + "'JOINED'",
+                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+                    + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
+                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'",
             nativeQuery = true
     )
     List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
@@ -172,19 +172,14 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     /**
      * Method to execute the query to delete an existing {@link Group}
      *
-     * @param userId: the user identifier
      * @param groupId: the group identifier
      */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + GROUPS_KEY + " WHERE " + GROUPS_KEY + ".id=:" + GROUP_IDENTIFIER_KEY
-                    + " AND " + GROUPS_KEY + ".author=:" + AUTHOR_KEY,
+            value = "DELETE FROM " + GROUPS_KEY + " WHERE " + GROUPS_KEY + ".id=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void deleteGroup(
-            @Param(AUTHOR_KEY) String userId,
-            @Param(GROUP_IDENTIFIER_KEY) String groupId
-    );
+    void deleteGroup(@Param(GROUP_IDENTIFIER_KEY) String groupId);
 
 }
