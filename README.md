@@ -212,12 +212,6 @@ Thank you for your help!
 
 [![](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)](https://spring.io/projects/spring-boot)
 
-## Business contact
-
-If you need to contact me for a project
-
-[![](https://img.shields.io/badge/fiverr-1DBF73?style=for-the-badge&logo=fiverr&logoColor=white)](https://www.fiverr.com/manuel_maurizio)
-
 ## Donations
 
 If you want support project and developer
