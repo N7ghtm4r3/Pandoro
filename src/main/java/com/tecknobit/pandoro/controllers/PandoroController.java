@@ -72,31 +72,15 @@ public abstract class PandoroController {
     public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "You cannot execute this action on your account";
 
     /**
+     * {@code CREATION_DATE_KEY} creation date key
+     */
+    public static final String CREATION_DATE_KEY = "creation_date";
+
+    /**
      * {@code usersRepository} instance for the user repository
      */
     @Autowired
     protected UsersRepository usersRepository;
-
-    /**
-     * - SUCCESSFUL
-     * {
-     *   "success" : true,
-     *   "data": {
-     *       //values
-     *   }
-     * }
-     * - FAILED
-     * {
-     *   "success" : false,
-     *   "error" : "error_message"
-     * }
-     *
-     *
-     *
-     * FOR DOCU README
-     * - https://www.apachefriends.org/it/index.html
-     *
-     */
 
     /**
      * Method to create an identifier for an item <br>

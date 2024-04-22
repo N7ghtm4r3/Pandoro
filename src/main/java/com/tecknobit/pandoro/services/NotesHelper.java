@@ -28,11 +28,6 @@ public class NotesHelper {
     public static final String CONTENT_NOTE_KEY = "content_note";
 
     /**
-     * {@code CREATION_DATE_KEY} the creation date key
-     */
-    public static final String CREATION_DATE_KEY = "creation_date";
-
-    /**
      * {@code MARKED_AS_DONE_KEY} mark as done key
      */
     public static final String MARKED_AS_DONE_KEY = "marked_as_done";

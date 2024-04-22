@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.*;
 import static com.tecknobit.pandoro.services.GroupsHelper.*;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
 import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
@@ -47,7 +46,8 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
                     + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "."
                     + IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY
-                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY,
+                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY
+                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Project> getProjectsList(@Param(AUTHOR_KEY) String userId);
@@ -87,6 +87,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param author: the author of the project
      * @param projectId: the project identifier
      * @param name: the name of the project
+     * @param creationDate: the date when the project has been created
      * @param description: the description of the project
      * @param shortDescription: the short description of the project
      * @param version: the version of the project
@@ -100,6 +101,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + AUTHOR_KEY + ","
                     + IDENTIFIER_KEY + ","
                     + NAME_KEY + ","
+                    + CREATION_DATE_KEY + ","
                     + PROJECT_DESCRIPTION_KEY + ","
                     + PROJECT_SHORT_DESCRIPTION_KEY + ","
                     + PROJECT_VERSION_KEY + ","
@@ -108,6 +110,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + ":" + AUTHOR_KEY + ","
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + NAME_KEY + ","
+                    + ":" + CREATION_DATE_KEY + ","
                     + ":" + PROJECT_DESCRIPTION_KEY + ","
                     + ":" + PROJECT_SHORT_DESCRIPTION_KEY + ","
                     + ":" + PROJECT_VERSION_KEY + ","
@@ -118,6 +121,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(AUTHOR_KEY) String author,
             @Param(IDENTIFIER_KEY) String projectId,
             @Param(NAME_KEY) String name,
+            @Param(CREATION_DATE_KEY) long creationDate,
             @Param(PROJECT_DESCRIPTION_KEY) String description,
             @Param(PROJECT_SHORT_DESCRIPTION_KEY) String shortDescription,
             @Param(PROJECT_VERSION_KEY) String version,

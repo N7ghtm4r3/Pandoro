@@ -12,7 +12,6 @@ import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
-import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,12 +74,6 @@ public class GroupsHelper extends ChangelogOperator {
     private UsersRepository usersRepository;
 
     /**
-     * {@code projectsRepository} instance for the projects repository
-     */
-    @Autowired
-    private ProjectsRepository projectsRepository;
-
-    /**
      * {@code groupsRepository} instance for the groups repository
      */
     @Autowired
@@ -131,7 +124,13 @@ public class GroupsHelper extends ChangelogOperator {
     public void createGroup(PublicUser author, String groupId, String groupName, String groupDescription,
                             ArrayList<String> members) {
         String authorId = author.getId();
-        groupsRepository.createGroup(authorId, groupId, groupName, groupDescription);
+        groupsRepository.createGroup(
+                authorId,
+                groupId,
+                groupName,
+                System.currentTimeMillis(),
+                groupDescription
+        );
         membersRepository.insertMember(
                 authorId,
                 author.getName(),

@@ -214,7 +214,16 @@ public class ProjectsHelper extends ChangelogOperator {
     public void workWithProject(String userId, String projectId, String name, String description, String shortDescription,
                                 String version, String repository, ArrayList<String> groups, boolean isAdding) {
         if (isAdding) {
-            projectsRepository.insertProject(userId, projectId, name, description, shortDescription, version, repository);
+            projectsRepository.insertProject(
+                    userId,
+                    projectId,
+                    name,
+                    System.currentTimeMillis(),
+                    description,
+                    shortDescription,
+                    version,
+                    repository
+            );
             addGroupsToAProject(groups, projectId);
         } else {
             projectsRepository.editProject(userId, projectId, name, description, shortDescription, version, repository);

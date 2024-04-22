@@ -68,6 +68,12 @@ open class Requester(
      */
     protected var lastResponse: JsonHelper? = null
 
+    /**
+     * **mustValidateCertificates** flag whether the requests must validate the SSL certificates, this need for example
+     * when the SSL is a self-signed certificate
+     */
+    protected var mustValidateCertificates = host.startsWith("https")
+
     init {
         setAuthHeaders()
     }
@@ -1186,7 +1192,7 @@ open class Requester(
         jsonPayload: Boolean = true
     ): String {
         headers.addHeader("Content-Type", contentType)
-        if (host.startsWith("https"))
+        if (mustValidateCertificates)
             apiRequest.validateSelfSignedCertificate()
         return try {
             val requestUrl = host + BASE_ENDPOINT + endpoint

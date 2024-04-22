@@ -22,6 +22,7 @@ import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_
 import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
+import static com.tecknobit.pandoro.controllers.PandoroController.CREATION_DATE_KEY;
 import static com.tecknobit.pandoro.records.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
 import static com.tecknobit.pandoro.services.ProjectsHelper.*;
@@ -101,6 +102,12 @@ public class Project extends PandoroItem implements Serializable {
     public static final int PROJECT_DESCRIPTION_MAX_LENGTH = 1500;
 
     /**
+     * {@code creationDate} when the project has been created
+     */
+    @Column(name = CREATION_DATE_KEY)
+    private final long creationDate;
+
+    /**
      * {@code author} author of the project
      */
     @ManyToOne(
@@ -177,6 +184,7 @@ public class Project extends PandoroItem implements Serializable {
             mappedBy = PROJECT_KEY,
             cascade = CascadeType.ALL
     )
+    @OrderBy(UPDATE_CREATE_DATE_KEY + " DESC")
     private final List<ProjectUpdate> updates;
 
     /**
@@ -197,8 +205,7 @@ public class Project extends PandoroItem implements Serializable {
      * @apiNote empty constructor required
      */
     public Project() {
-        this(null, null, null, null, null, null, null,
-                new ArrayList<>(), "");
+        this(null, null, -1, null, null, null, null, null, new ArrayList<>(), "");
     }
 
     /**
@@ -208,6 +215,7 @@ public class Project extends PandoroItem implements Serializable {
      */
     public Project(JSONObject jProject) {
         super(jProject);
+        creationDate = hItem.getLong(CREATION_DATE_KEY);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
         description = hItem.getString(PROJECT_DESCRIPTION_KEY);
@@ -241,6 +249,7 @@ public class Project extends PandoroItem implements Serializable {
      *
      * @param id:               identifier of the project
      * @param name:             name of the project
+     * @param creationDate: when the project has been created
      * @param author:           author of the project
      * @param shortDescription:{@code shortDescription} short description of the project
      * @param description:      description of the project
@@ -249,9 +258,10 @@ public class Project extends PandoroItem implements Serializable {
      * @param updates:          updates of the project
      * @param projectRepo:      the repository of the project
      */
-    public Project(String id, String name, User author, String shortDescription, String description, String version,
+    public Project(String id, String name, long creationDate, User author, String shortDescription, String description, String version,
                    ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         super(id, name);
+        this.creationDate = creationDate;
         this.author = author;
         this.shortDescription = shortDescription;
         this.description = description;
@@ -268,6 +278,28 @@ public class Project extends PandoroItem implements Serializable {
             repositoryPlatform = RepositoryPlatform.reachPlatform(projectRepo);
         else
             repositoryPlatform = null;
+    }
+
+    /**
+     * Method to get {@link #creationDate} instance <br>
+     * No-any params required
+     *
+     * @return {@link #creationDate} instance as long
+     */
+    @JsonGetter(CREATION_DATE_KEY)
+    public long getCreation() {
+        return creationDate;
+    }
+
+    /**
+     * Method to get {@link #creationDate} instance <br>
+     * No-any params required
+     *
+     * @return {@link #creationDate} instance as {@link String}
+     */
+    @JsonIgnore
+    public String getCreationDate() {
+        return TimeFormatter.getStringDate(creationDate);
     }
 
     /**
