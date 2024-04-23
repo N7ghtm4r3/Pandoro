@@ -1,7 +1,7 @@
-package com.tecknobit.pandoro.helpers.ui
+package com.tecknobit.pandorocore.ui
 
-import com.tecknobit.pandoro.records.Group
-import com.tecknobit.pandoro.records.Project
+import com.tecknobit.pandorocore.records.Group
+import com.tecknobit.pandorocore.records.Project
 
 /**
  * Function to populate the frequent projects list

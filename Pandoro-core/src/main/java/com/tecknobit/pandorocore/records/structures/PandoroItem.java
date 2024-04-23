@@ -1,13 +1,11 @@
-package com.tecknobit.pandoro.records.structures;
+package com.tecknobit.pandorocore.records.structures;
 
 import com.tecknobit.apimanager.annotations.Structure;
+import com.tecknobit.pandorocore.records.users.PublicUser;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 
 /**
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>
@@ -22,6 +20,21 @@ import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
 public abstract class PandoroItem extends PandoroItemStructure {
 
     /**
+     * {@code IDENTIFIER_KEY} identifier key
+     */
+    public static final String IDENTIFIER_KEY = "id";
+
+    /**
+     * {@code AUTHOR_KEY} author key
+     */
+    public static final String AUTHOR_KEY = "author";
+
+    /**
+     * {@code CREATION_DATE_KEY} creation date key
+     */
+    public static final String CREATION_DATE_KEY = "creation_date";
+
+    /**
      * {@code id} identifier of the item
      */
     @Id
@@ -31,7 +44,7 @@ public abstract class PandoroItem extends PandoroItemStructure {
     /**
      * {@code name} of the item
      */
-    @Column(name = NAME_KEY)
+    @Column(name = PublicUser.NAME_KEY)
     protected final String name;
 
     /**
@@ -42,7 +55,7 @@ public abstract class PandoroItem extends PandoroItemStructure {
     public PandoroItem(JSONObject jItem) {
         super(jItem);
         id = hItem.getString(IDENTIFIER_KEY);
-        name = hItem.getString(NAME_KEY);
+        name = hItem.getString(PublicUser.NAME_KEY);
     }
 
     /**

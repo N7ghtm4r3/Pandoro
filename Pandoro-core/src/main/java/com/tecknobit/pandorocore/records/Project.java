@@ -1,13 +1,14 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandorocore.records;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.structures.PandoroItem;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.users.PublicUser;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,15 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.CREATION_DATE_KEY;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.PUBLISHED;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.PUBLISHED;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
@@ -37,8 +30,103 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * @see Serializable
  */
 @Entity
-@Table(name = PROJECTS_KEY)
+@Table(name = Project.PROJECTS_KEY)
 public class Project extends PandoroItem implements Serializable {
+
+    /**
+     * {@code PROJECTS_KEY} projects key
+     */
+    public static final String PROJECTS_KEY = "projects";
+
+    /**
+     * {@code PROJECT_IDENTIFIER_KEY} project identifier key
+     */
+    public static final String PROJECT_IDENTIFIER_KEY = "project_id";
+
+    /**
+     * {@code PROJECTS_GROUPS_TABLE} projects groups table
+     */
+    public static final String PROJECTS_GROUPS_TABLE = "projects_groups";
+
+    /**
+     * {@code PROJECT_KEY} project key
+     */
+    public static final String PROJECT_KEY = "project";
+
+    /**
+     * {@code PROJECT_SHORT_DESCRIPTION_KEY} project short description key
+     */
+    public static final String PROJECT_SHORT_DESCRIPTION_KEY = "project_short_description";
+
+    /**
+     * {@code PROJECT_DESCRIPTION_KEY} project description key
+     */
+    public static final String PROJECT_DESCRIPTION_KEY = "project_description";
+
+    /**
+     * {@code PROJECT_VERSION_KEY} project version key
+     */
+    public static final String PROJECT_VERSION_KEY = "project_version";
+
+    /**
+     * {@code PROJECT_REPOSITORY_KEY} project repository key
+     */
+    public static final String PROJECT_REPOSITORY_KEY = "project_repository";
+
+    /**
+     * {@code UPDATES_KEY} updates key
+     */
+    public static final String UPDATES_KEY = "updates";
+
+    /**
+     * {@code UPDATE_ID} update identifier key
+     */
+    public static final String UPDATE_ID = "update_id";
+
+    /**
+     * {@code UPDATE_KEY} project update key
+     */
+    public static final String UPDATE_KEY = "project_update";
+
+    /**
+     * {@code UPDATE_CREATE_DATE_KEY} create date key
+     */
+    public static final String UPDATE_CREATE_DATE_KEY = "create_date";
+
+    /**
+     * {@code UPDATE_TARGET_VERSION_KEY} target version key
+     */
+    public static final String UPDATE_TARGET_VERSION_KEY = "target_version";
+
+    /**
+     * {@code UPDATE_CHANGE_NOTES_KEY} update change notes key
+     */
+    public static final String UPDATE_CHANGE_NOTES_KEY = "update_change_notes";
+
+    /**
+     * {@code UPDATE_STATUS_KEY} update status key
+     */
+    public static final String UPDATE_STATUS_KEY = "status";
+
+    /**
+     * {@code UPDATE_STARTED_BY_KEY} started by key
+     */
+    public static final String UPDATE_STARTED_BY_KEY = "started_by";
+
+    /**
+     * {@code UPDATE_START_DATE_KEY} start date key
+     */
+    public static final String UPDATE_START_DATE_KEY = "start_date";
+
+    /**
+     * {@code UPDATE_PUBLISHED_BY_KEY} published by key
+     */
+    public static final String UPDATE_PUBLISHED_BY_KEY = "published_by";
+
+    /**
+     * {@code UPDATE_PUBLISH_DATE_KEY} publish date key
+     */
+    public static final String UPDATE_PUBLISH_DATE_KEY = "publish_date";
 
     /**
      * {@code RepositoryPlatform} list of available repository platforms
@@ -116,15 +204,15 @@ public class Project extends PandoroItem implements Serializable {
     )
     @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
             PROJECTS_KEY,
-            NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            Note.NOTES_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -168,7 +256,7 @@ public class Project extends PandoroItem implements Serializable {
     @JoinTable(
             name = PROJECTS_GROUPS_TABLE,
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
-            inverseJoinColumns = {@JoinColumn(name = GROUP_IDENTIFIER_KEY)}
+            inverseJoinColumns = {@JoinColumn(name = Group.GROUP_IDENTIFIER_KEY)}
     )
     @JsonIgnoreProperties({
             PROJECTS_KEY,
@@ -220,7 +308,7 @@ public class Project extends PandoroItem implements Serializable {
         shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
         description = hItem.getString(PROJECT_DESCRIPTION_KEY);
         version = hItem.getString(PROJECT_VERSION_KEY);
-        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
+        groups = Group.getInstances(hItem.getJSONArray(Group.GROUPS_KEY));
         updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
         updatesNumber = updates.size();
         if (updatesNumber > 0) {

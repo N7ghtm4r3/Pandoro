@@ -2,11 +2,11 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
-import com.tecknobit.pandoro.records.users.GroupMember;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
+import com.tecknobit.pandorocore.records.users.GroupMember;
+import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandoro.services.GroupsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
+import static com.tecknobit.pandorocore.helpers.Requester.SUCCESS_KEY;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.Group.*;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations
@@ -34,56 +36,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + GROUPS_KEY)
 public class GroupsController extends PandoroController {
-
-    /**
-     * {@code GROUPS_KEY} groups key
-     */
-    public static final String GROUPS_KEY = "groups";
-
-    /**
-     * {@code CREATE_GROUP_ENDPOINT} endpoint to create a new group
-     */
-    public static final String CREATE_GROUP_ENDPOINT = "/createGroup";
-
-    /**
-     * {@code ADD_MEMBERS_ENDPOINT} endpoint to add member to group
-     */
-    public static final String ADD_MEMBERS_ENDPOINT = "/addMembers";
-
-    /**
-     * {@code ACCEPT_GROUP_INVITATION_ENDPOINT} endpoint to accept a group invitation
-     */
-    public static final String ACCEPT_GROUP_INVITATION_ENDPOINT = "/acceptGroupInvitation";
-
-    /**
-     * {@code DECLINE_GROUP_INVITATION_ENDPOINT} endpoint to decline a group invitation
-     */
-    public static final String DECLINE_GROUP_INVITATION_ENDPOINT = "/declineGroupInvitation";
-
-    /**
-     * {@code CHANGE_MEMBER_ROLE_ENDPOINT} endpoint to change the role of a member of a group
-     */
-    public static final String CHANGE_MEMBER_ROLE_ENDPOINT = "/changeMemberRole";
-
-    /**
-     * {@code REMOVE_MEMBER_ENDPOINT} endpoint to remove a member of a group
-     */
-    public static final String REMOVE_MEMBER_ENDPOINT = "/removeMember";
-
-    /**
-     * {@code EDIT_PROJECTS_ENDPOINT} endpoint to edit the projects of a group
-     */
-    public static final String EDIT_PROJECTS_ENDPOINT = "/editProjects";
-
-    /**
-     * {@code LEAVE_GROUP_ENDPOINT} endpoint to leave from a group
-     */
-    public static final String LEAVE_GROUP_ENDPOINT = "/leaveGroup";
-
-    /**
-     * {@code DELETE_GROUP_ENDPOINT} endpoint to delete a group
-     */
-    public static final String DELETE_GROUP_ENDPOINT = "/deleteGroup";
 
     /**
      * {@code WRONG_ADMIN_MESSAGE} message to use when a wrong admin has been inserted

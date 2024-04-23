@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.UsersHelper;
+import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,12 @@ import java.util.Map;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.Launcher.protector;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
-import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.*;
+import static com.tecknobit.pandorocore.records.users.User.DEFAULT_PROFILE_PIC;
 
 /**
  * The {@code UsersController} class is useful to manage all the user operations
@@ -29,41 +31,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + USERS_ENDPOINT)
 public class UsersController extends PandoroController {
-
-    /**
-     * {@code USERS_ENDPOINT} base endpoint for the users
-     */
-    public static final String USERS_ENDPOINT = "users";
-
-    /**
-     * {@code SIGN_UP_ENDPOINT} endpoint to sign up in the <b>Pandoro's system</b>
-     */
-    public static final String SIGN_UP_ENDPOINT = "/signUp";
-
-    /**
-     * {@code SIGN_IN_ENDPOINT} endpoint to sign in the <b>Pandoro's system</b>
-     */
-    public static final String SIGN_IN_ENDPOINT = "/signIn";
-
-    /**
-     * {@code CHANGE_PROFILE_PIC_ENDPOINT} endpoint to change the profile pic of the user
-     */
-    public static final String CHANGE_PROFILE_PIC_ENDPOINT = "/changeProfilePic";
-
-    /**
-     * {@code CHANGE_EMAIL_ENDPOINT} endpoint to change the email of the user
-     */
-    public static final String CHANGE_EMAIL_ENDPOINT = "/changeEmail";
-
-    /**
-     * {@code CHANGE_PASSWORD_ENDPOINT} endpoint to change the password of the user
-     */
-    public static final String CHANGE_PASSWORD_ENDPOINT = "/changePassword";
-
-    /**
-     * {@code DELETE_ACCOUNT_ENDPOINT} endpoint to delete the account of the user
-     */
-    public static final String DELETE_ACCOUNT_ENDPOINT = "/deleteAccount";
 
     /**
      * {@code WRONG_EMAIL_MESSAGE} message to use when the email inserted is wrong

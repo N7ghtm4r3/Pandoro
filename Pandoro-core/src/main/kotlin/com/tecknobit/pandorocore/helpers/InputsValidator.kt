@@ -1,14 +1,14 @@
-package com.tecknobit.pandoro.helpers
+package com.tecknobit.pandorocore.helpers
 
-import com.tecknobit.pandoro.helpers.InputStatus.*
-import com.tecknobit.pandoro.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
-import com.tecknobit.pandoro.records.Group.GROUP_NAME_MAX_LENGTH
-import com.tecknobit.pandoro.records.Note
-import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
-import com.tecknobit.pandoro.records.Project.*
-import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
-import com.tecknobit.pandoro.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
-import com.tecknobit.pandoro.records.users.User.*
+import com.tecknobit.pandorocore.helpers.InputStatus.*
+import com.tecknobit.pandorocore.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Group.GROUP_NAME_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Note
+import com.tecknobit.pandorocore.records.Note.NOTE_CONTENT_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Project.*
+import com.tecknobit.pandorocore.records.Project.RepositoryPlatform.isValidPlatform
+import com.tecknobit.pandorocore.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
+import com.tecknobit.pandorocore.records.users.User.*
 import org.apache.commons.validator.routines.EmailValidator
 import org.apache.commons.validator.routines.UrlValidator
 

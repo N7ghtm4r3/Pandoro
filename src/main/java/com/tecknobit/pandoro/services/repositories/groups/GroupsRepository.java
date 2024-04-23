@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.repositories.groups;
 
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,13 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.*;
-import static com.tecknobit.pandoro.services.GroupsHelper.*;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_GROUPS_TABLE;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
+import static com.tecknobit.pandorocore.records.Group.*;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_GROUPS_TABLE;
+import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.GROUP_MEMBERS_TABLE;
+import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
 
 /**
  * The {@code GroupsRepository} interface is useful to manage the queries for the groups

@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.records.users;
+package com.tecknobit.pandorocore.records.users;
 
 /**
  * The {@code GroupMemberCompositeKey} is useful for the {@link GroupMember} class to specify its ids

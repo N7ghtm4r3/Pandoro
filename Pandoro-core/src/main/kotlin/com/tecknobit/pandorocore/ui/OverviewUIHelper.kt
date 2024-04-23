@@ -1,6 +1,6 @@
-package com.tecknobit.pandoro.helpers.ui
+package com.tecknobit.pandorocore.ui
 
-import com.tecknobit.pandoro.records.Project
+import com.tecknobit.pandorocore.records.Project
 
 /**
  * The **OverviewUIHelper** class is useful to serve the UI with the performance of personal and group projects

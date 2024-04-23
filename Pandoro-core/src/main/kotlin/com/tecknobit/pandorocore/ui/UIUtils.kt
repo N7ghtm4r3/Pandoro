@@ -1,10 +1,10 @@
-package com.tecknobit.pandoro.helpers.ui
+package com.tecknobit.pandorocore.ui
 
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.formatters.JsonHelper
-import com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure
-import com.tecknobit.pandoro.services.UsersHelper.*
+import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure
+import com.tecknobit.pandorocore.records.users.PublicUser.*
 import org.json.JSONArray
 import java.util.*
 

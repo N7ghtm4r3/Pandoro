@@ -1,15 +1,15 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
-import com.tecknobit.pandoro.records.ProjectUpdate;
-import com.tecknobit.pandoro.records.users.GroupMember;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
+import com.tecknobit.pandorocore.records.ProjectUpdate;
+import com.tecknobit.pandorocore.records.users.GroupMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandoro.controllers.PandoroController.generateIdentifier;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
+import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.SCHEDULED;
 
 /**
  * The {@code ProjectsHelper} class is useful to manage all the projects database operations
@@ -27,101 +27,6 @@ import static com.tecknobit.pandoro.records.ProjectUpdate.Status.SCHEDULED;
  */
 @Service
 public class ProjectsHelper extends ChangelogOperator {
-
-    /**
-     * {@code PROJECTS_KEY} projects key
-     */
-    public static final String PROJECTS_KEY = "projects";
-
-    /**
-     * {@code PROJECT_IDENTIFIER_KEY} project identifier key
-     */
-    public static final String PROJECT_IDENTIFIER_KEY = "project_id";
-
-    /**
-     * {@code PROJECTS_GROUPS_TABLE} projects groups table
-     */
-    public static final String PROJECTS_GROUPS_TABLE = "projects_groups";
-
-    /**
-     * {@code PROJECT_KEY} project key
-     */
-    public static final String PROJECT_KEY = "project";
-
-    /**
-     * {@code PROJECT_SHORT_DESCRIPTION_KEY} project short description key
-     */
-    public static final String PROJECT_SHORT_DESCRIPTION_KEY = "project_short_description";
-
-    /**
-     * {@code PROJECT_DESCRIPTION_KEY} project description key
-     */
-    public static final String PROJECT_DESCRIPTION_KEY = "project_description";
-
-    /**
-     * {@code PROJECT_VERSION_KEY} project version key
-     */
-    public static final String PROJECT_VERSION_KEY = "project_version";
-
-    /**
-     * {@code PROJECT_REPOSITORY_KEY} project repository key
-     */
-    public static final String PROJECT_REPOSITORY_KEY = "project_repository";
-
-    /**
-     * {@code UPDATES_KEY} updates key
-     */
-    public static final String UPDATES_KEY = "updates";
-
-    /**
-     * {@code UPDATE_ID} update identifier key
-     */
-    public static final String UPDATE_ID = "update_id";
-
-    /**
-     * {@code UPDATE_KEY} project update key
-     */
-    public static final String UPDATE_KEY = "project_update";
-
-    /**
-     * {@code UPDATE_CREATE_DATE_KEY} create date key
-     */
-    public static final String UPDATE_CREATE_DATE_KEY = "create_date";
-
-    /**
-     * {@code UPDATE_TARGET_VERSION_KEY} target version key
-     */
-    public static final String UPDATE_TARGET_VERSION_KEY = "target_version";
-
-    /**
-     * {@code UPDATE_CHANGE_NOTES_KEY} update change notes key
-     */
-    public static final String UPDATE_CHANGE_NOTES_KEY = "update_change_notes";
-
-    /**
-     * {@code UPDATE_STATUS_KEY} update status key
-     */
-    public static final String UPDATE_STATUS_KEY = "status";
-
-    /**
-     * {@code UPDATE_STARTED_BY_KEY} started by key
-     */
-    public static final String UPDATE_STARTED_BY_KEY = "started_by";
-
-    /**
-     * {@code UPDATE_START_DATE_KEY} start date key
-     */
-    public static final String UPDATE_START_DATE_KEY = "start_date";
-
-    /**
-     * {@code UPDATE_PUBLISHED_BY_KEY} published by key
-     */
-    public static final String UPDATE_PUBLISHED_BY_KEY = "published_by";
-
-    /**
-     * {@code UPDATE_PUBLISH_DATE_KEY} publish date key
-     */
-    public static final String UPDATE_PUBLISH_DATE_KEY = "publish_date";
 
     /**
      * {@code projectsRepository} instance for the projects repository

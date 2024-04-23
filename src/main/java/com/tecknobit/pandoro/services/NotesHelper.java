@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services;
 
-import com.tecknobit.pandoro.records.Note;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
+import com.tecknobit.pandorocore.records.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,31 +16,6 @@ import static java.lang.System.currentTimeMillis;
  */
 @Service
 public class NotesHelper {
-
-    /**
-     * {@code NOTE_IDENTIFIER_KEY} the note identifier key
-     */
-    public static final String NOTE_IDENTIFIER_KEY = "note_id";
-
-    /**
-     * {@code CONTENT_NOTE_KEY} the content of the note key
-     */
-    public static final String CONTENT_NOTE_KEY = "content_note";
-
-    /**
-     * {@code MARKED_AS_DONE_KEY} mark as done key
-     */
-    public static final String MARKED_AS_DONE_KEY = "marked_as_done";
-
-    /**
-     * {@code MARKED_AS_DONE_BY_KEY} mark as done author key
-     */
-    public static final String MARKED_AS_DONE_BY_KEY = "marked_as_done_by";
-
-    /**
-     * {@code MARKED_AS_DONE_DATE_KEY} marked as done date key
-     */
-    public static final String MARKED_AS_DONE_DATE_KEY = "marked_as_done_date";
 
     /**
      * {@code notesRepository} instance for the notes repository

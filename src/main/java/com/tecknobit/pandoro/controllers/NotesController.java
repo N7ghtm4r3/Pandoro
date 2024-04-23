@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.helpers.InputsValidatorKt.isContentNoteValid;
-import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.isContentNoteValid;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code NotesController} class is useful to manage all the note operations
@@ -22,31 +24,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + NOTES_KEY)
 public class NotesController extends PandoroController {
-
-    /**
-     * {@code NOTES_KEY} notes key
-     */
-    public static final String NOTES_KEY = "notes";
-
-    /**
-     * {@code CREATE_NOTE_ENDPOINT} endpoint to create a new note
-     */
-    public static final String CREATE_NOTE_ENDPOINT = "/create";
-
-    /**
-     * {@code MARK_AS_DONE_ENDPOINT} endpoint to mark as done an existing note
-     */
-    public static final String MARK_AS_DONE_ENDPOINT = "/markAsDone";
-
-    /**
-     * {@code MARK_AS_TO_DO_ENDPOINT} endpoint to mark as todo an existing note
-     */
-    public static final String MARK_AS_TO_DO_ENDPOINT = "/markAsToDo";
-
-    /**
-     * {@code DELETE_NOTE_ENDPOINT} endpoint to delete an existing note
-     */
-    public static final String DELETE_NOTE_ENDPOINT = "/deleteNote";
 
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted

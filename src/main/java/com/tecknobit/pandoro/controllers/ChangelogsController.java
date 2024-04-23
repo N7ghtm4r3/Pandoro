@@ -1,17 +1,19 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.pandoro.records.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.ChangelogsHelper;
+import com.tecknobit.pandorocore.records.Changelog.ChangelogEvent;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.services.ChangelogsHelper.CHANGELOG_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code ChangelogsController} class is useful to manage all the changelog operations
@@ -22,21 +24,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + CHANGELOGS_KEY)
 public class ChangelogsController extends PandoroController {
-
-    /**
-     * {@code CHANGELOGS_KEY} changelogs key
-     */
-    public static final String CHANGELOGS_KEY = "changelogs";
-
-    /**
-     * {@code READ_CHANGELOG_ENDPOINT} endpoint to read a changelog
-     */
-    public static final String READ_CHANGELOG_ENDPOINT = "/readChangelog";
-
-    /**
-     * {@code DELETE_CHANGELOG_ENDPOINT} endpoint to delete a changelog
-     */
-    public static final String DELETE_CHANGELOG_ENDPOINT = "/deleteChangelog";
 
     /**
      * {@code changelogsHelper} instance to manage the changelogs database operations
