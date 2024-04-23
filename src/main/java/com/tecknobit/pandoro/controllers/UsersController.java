@@ -21,6 +21,7 @@ import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAG
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.users.PublicUser.*;
 import static com.tecknobit.pandorocore.records.users.User.DEFAULT_PROFILE_PIC;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code UsersController} class is useful to manage all the user operations
@@ -68,7 +69,8 @@ public class UsersController extends PandoroController {
      *                  "name" : "the name of the user" -> [String],
      *                  "surname": "the surname of the user" -> [String],
      *                  "email": "the email of the user" -> [String],
-     *                  "password": "the password of the user" -> [String]
+     *                  "password": "the password of the user" -> [String],
+     *                  "language": "the language of the user" -> [String]
      *              }
      *      }
      * </pre>
@@ -87,18 +89,22 @@ public class UsersController extends PandoroController {
                 if (isSurnameValid(surname)) {
                     if (isEmailValid(email)) {
                         if (isPasswordValid(password)) {
-                            String userId = generateIdentifier();
-                            String token = generateIdentifier();
-                            try {
-                                usersHelper.signUp(userId, token, name, surname, email, password);
-                                return successResponse(new JSONObject()
-                                        .put(IDENTIFIER_KEY, userId)
-                                        .put(TOKEN_KEY, token)
-                                        .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
-                                );
-                            } catch (Exception e) {
+                            String language = payload.get(LANGUAGE_KEY);
+                            if (isLanguageValid(language)) {
+                                String userId = generateIdentifier();
+                                String token = generateIdentifier();
+                                try {
+                                    usersHelper.signUp(userId, token, name, surname, email, password, language);
+                                    return successResponse(new JSONObject()
+                                            .put(IDENTIFIER_KEY, userId)
+                                            .put(TOKEN_KEY, token)
+                                            .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
+                                    );
+                                } catch (Exception e) {
+                                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                                }
+                            } else
                                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                            }
                         } else
                             return failedResponse(WRONG_PASSWORD_MESSAGE);
                     } else
@@ -254,6 +260,36 @@ public class UsersController extends PandoroController {
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
         } else
             return failedResponse(WRONG_PASSWORD_MESSAGE);
+    }
+
+    /**
+     * Method to change the language of the user
+     *
+     * @param id:          the identifier of the user
+     * @param token:       the token of the user
+     * @param newLanguage: the new user language to set
+     * @return the result of the request as {@link String}
+     */
+    @PatchMapping(
+            path = "{" + IDENTIFIER_KEY + "}" + CHANGE_LANGUAGE_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/changeLanguage", method = PATCH)
+    public String changeLanguage(
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestBody String newLanguage
+    ) {
+        if (isLanguageValid(newLanguage)) {
+            if (isAuthenticatedUser(id, token)) {
+                usersHelper.changeLanguage(id, token, newLanguage);
+                return successResponse();
+            } else
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     /**

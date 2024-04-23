@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.PUBLISHED;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
@@ -206,6 +207,7 @@ public class Project extends PandoroItem implements Serializable {
     @JsonIgnoreProperties({
             PublicUser.TOKEN_KEY,
             PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
             PublicUser.COMPLETE_NAME_KEY,
             Changelog.CHANGELOGS_KEY,
             Group.GROUPS_KEY,

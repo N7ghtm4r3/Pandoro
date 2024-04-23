@@ -43,6 +43,11 @@ public class Endpoints {
     public static final String CHANGE_PASSWORD_ENDPOINT = "/changePassword";
 
     /**
+     * {@code CHANGE_LANGUAGE_ENDPOINT} endpoint to change the language of the user
+     */
+    public static final String CHANGE_LANGUAGE_ENDPOINT = "/changeLanguage";
+
+    /**
      * {@code DELETE_ACCOUNT_ENDPOINT} endpoint to delete the account of the user
      */
     public static final String DELETE_ACCOUNT_ENDPOINT = "/deleteAccount";

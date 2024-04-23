@@ -233,6 +233,21 @@ open class Requester(
     }
 
     /**
+     * Function to execute the request to change the language of the user
+     *
+     * @param newLanguage: the new language of the user
+     *
+     * @return the result of the request as [JSONObject]
+     *
+     */
+    @RequestPath(path = "/api/v1/users/{id}/changeLanguage", method = PATCH)
+    fun execChangeLanguage(newLanguage: String): JSONObject {
+        val payload = PandoroPayload()
+        payload.addParam(newLanguage, "")
+        return execPatch(createUsersEndpoint(CHANGE_LANGUAGE_ENDPOINT, userId), payload, false)
+    }
+
+    /**
      * Function to execute the request to delete the account of the user
      *
      * No-any params required

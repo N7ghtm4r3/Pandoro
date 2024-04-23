@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import static com.tecknobit.pandorocore.records.users.PublicUser.*;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code UsersRepository} interface is useful to manage the queries for the users
@@ -126,6 +127,26 @@ public interface UsersRepository extends JpaRepository<User, String> {
             @Param(IDENTIFIER_KEY) String userId,
             @Param(TOKEN_KEY) String token,
             @Param(PASSWORD_KEY) String password
+    );
+
+    /**
+     * Method to execute the query to change the user's language
+     *
+     * @param userId:   the user identifier
+     * @param token:    the token of the user
+     * @param language: the new user language to set
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + USERS_TABLE + " SET " + LANGUAGE_KEY + "=:" + LANGUAGE_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
+            nativeQuery = true
+    )
+    void changeLanguage(
+            @Param(IDENTIFIER_KEY) String userId,
+            @Param(TOKEN_KEY) String token,
+            @Param(LANGUAGE_KEY) String language
     );
 
     /**

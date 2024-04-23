@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -77,6 +78,7 @@ public class ProjectUpdate extends PandoroItemStructure {
     @JsonIgnoreProperties({
             PublicUser.TOKEN_KEY,
             PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
             PublicUser.COMPLETE_NAME_KEY,
             Changelog.CHANGELOGS_KEY,
             Group.GROUPS_KEY,

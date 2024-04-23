@@ -72,17 +72,19 @@ public class UsersHelper {
      * @param surname:  the surname of the user
      * @param email:    the email of the user
      * @param password: the password of the user
+     * @param language: the language of the user
      * @throws NoSuchAlgorithmException when the hash of the password fails
      */
-    public void signUp(String userId, String token, String name, String surname, String email,
-                       String password) throws NoSuchAlgorithmException {
+    public void signUp(String userId, String token, String name, String surname, String email, String password,
+                       String language) throws NoSuchAlgorithmException {
         usersRepository.save(new User(
                 userId,
                 name,
                 token,
                 surname,
                 email.toLowerCase(),
-                hash(password)
+                hash(password),
+                language
         ));
     }
 
@@ -182,6 +184,17 @@ public class UsersHelper {
      */
     private String hash(String valueToHash) throws NoSuchAlgorithmException {
         return base64Digest(valueToHash, SHA256_ALGORITHM);
+    }
+
+    /**
+     * Method to execute the change and store of the user's language
+     *
+     * @param userId:      the user identifier
+     * @param token:       the token of the user
+     * @param newLanguage: the new user language to set
+     */
+    public void changeLanguage(String userId, String token, String newLanguage) {
+        usersRepository.changeLanguage(userId, token, newLanguage);
     }
 
     /**

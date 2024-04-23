@@ -25,6 +25,7 @@ import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
 import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -105,6 +106,7 @@ public class Group extends PandoroItem {
     @JsonIgnoreProperties({
             PublicUser.TOKEN_KEY,
             PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
             PublicUser.COMPLETE_NAME_KEY,
             CHANGELOGS_KEY,
             GROUPS_KEY,

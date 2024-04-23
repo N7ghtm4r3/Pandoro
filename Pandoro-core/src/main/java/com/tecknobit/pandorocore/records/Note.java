@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
 import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
@@ -86,6 +87,7 @@ public class Note extends PandoroItemStructure {
     @JsonIgnoreProperties({
             PublicUser.TOKEN_KEY,
             PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
             PublicUser.COMPLETE_NAME_KEY,
             Changelog.CHANGELOGS_KEY,
             Group.GROUPS_KEY,

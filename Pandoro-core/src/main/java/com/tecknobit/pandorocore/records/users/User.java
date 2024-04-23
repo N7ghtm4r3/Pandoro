@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.DEFAULT_USER_LANGUAGE;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_OWNER_KEY;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
@@ -36,6 +37,11 @@ import static com.tecknobit.pandorocore.records.users.PublicUser.USERS_TABLE;
 @Table(name = USERS_TABLE)
 @DiscriminatorValue(TOKEN_KEY)
 public class User extends PublicUser {
+
+    /**
+     * {@code LANGUAGE_KEY} language key
+     */
+    public static final String LANGUAGE_KEY = "language";
 
     /**
      * {@code PASSWORD_MIN_LENGTH} the min length of the password for a user
@@ -66,6 +72,12 @@ public class User extends PublicUser {
      */
     @Column(name = PASSWORD_KEY)
     private final String password;
+
+    /**
+     * {@code language} the language of the user
+     */
+    @Column(name = LANGUAGE_KEY)
+    private final String language;
 
     /**
      * {@code changelogs} list of action messages for the user
@@ -109,7 +121,7 @@ public class User extends PublicUser {
      * @apiNote empty constructor required
      */
     public User() {
-        this(null, null, null, null, null, null, null, new ArrayList<>(),
+        this(null, null, null, null, null, null, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
@@ -121,6 +133,7 @@ public class User extends PublicUser {
     public User(JSONObject jUser) {
         super(jUser);
         password = hItem.getString(PASSWORD_KEY);
+        language = hItem.getString(LANGUAGE_KEY, DEFAULT_USER_LANGUAGE);
         token = hItem.getString(TOKEN_KEY);
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
@@ -137,10 +150,11 @@ public class User extends PublicUser {
      * @param surname : the surname of the user
      * @param email   :   the email of the user
      * @param password   :   the password of the user
+     * @param language:the language of the user
      *
      */
-    public User(String id, String name, String token, String surname, String email, String password) {
-        this(id, name, token, null, surname, email, password, new ArrayList<>(),
+    public User(String id, String name, String token, String surname, String email, String password, String language) {
+        this(id, name, token, null, surname, email, password, language, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
@@ -154,17 +168,19 @@ public class User extends PublicUser {
      * @param surname    :    the surname of the user
      * @param email      :      the email of the user
      * @param password   :   the password of the user
+     * @param language:the language of the user
      * @param changelogs : list of action messages for the user
      * @param groups     :     list of the groups of the user
      * @param projects   :   list of the projects of the user
      * @param notes      :      list of the notes of the user
      */
     public User(String id, String name, String token, String profilePic, String surname, String email, String password,
-                ArrayList<Changelog> changelogs, ArrayList<Group> groups, ArrayList<Project> projects,
+                String language, ArrayList<Changelog> changelogs, ArrayList<Group> groups, ArrayList<Project> projects,
                 ArrayList<Note> notes) {
         super(id, name, surname, profilePic, email);
         this.password = password;
         this.token = token;
+        this.language = language;
         this.groups = groups;
         this.changelogs = changelogs;
         this.projects = projects;
@@ -189,6 +205,16 @@ public class User extends PublicUser {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Method to get {@link #language} instance <br>
+     * No-any params required
+     *
+     * @return {@link #language} instance as {@link String}
+     */
+    public String getLanguage() {
+        return language;
     }
 
     /**
