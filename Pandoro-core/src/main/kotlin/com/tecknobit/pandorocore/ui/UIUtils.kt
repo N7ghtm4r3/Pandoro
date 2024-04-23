@@ -58,9 +58,6 @@ interface ListManager {
      *
      * @return whether refresh the list as [Boolean]
      */
-    @Deprecated(
-        message = "REMOVE OLD CHECK USELESS",
-    )
     fun <T : PandoroItemStructure> needToRefresh(currentList: List<T>, newList: List<T>): Boolean {
         return ((currentList.isEmpty() && newList.isNotEmpty()) ||
                 (JSONArray(currentList).toString() != JSONArray(newList).toString()))
@@ -91,9 +88,6 @@ interface SingleItemManager {
      *
      * @return whether refresh the item as [Boolean]
      */
-    @Deprecated(
-        message = "REMOVE OLD CHECK USELESS",
-    )
     fun <T : PandoroItemStructure> needToRefresh(currentItem: T, newItem: T): Boolean {
         return currentItem.toString() != newItem.toString()
     }

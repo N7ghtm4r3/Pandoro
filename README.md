@@ -81,8 +81,8 @@ Add the JitPack repository to your build file
 ```xml
 
 <dependency>
-  <groupId>com.tecknobit.pandoro</groupId>
-  <artifactId>Pandoro</artifactId>
+  <groupId>com.tecknobit.pandorocore</groupId>
+  <artifactId>Pandoro-core</artifactId>
   <version>1.0.3</version>
 </dependency>
 ```
