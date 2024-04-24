@@ -148,6 +148,7 @@ public class UsersController extends PandoroController {
                                 .put(NAME_KEY, user.getName())
                                 .put(SURNAME_KEY, user.getSurname())
                                 .put(PROFILE_PIC_KEY, user.getProfilePic())
+                                .put(LANGUAGE_KEY, user.getLanguage())
                         );
                     } else
                         return failedResponse(WRONG_PROCEDURE_MESSAGE);

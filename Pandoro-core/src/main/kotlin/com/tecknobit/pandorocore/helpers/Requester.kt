@@ -18,6 +18,7 @@ import com.tecknobit.pandorocore.records.Project.*
 import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.records.users.GroupMember.Role
 import com.tecknobit.pandorocore.records.users.PublicUser.*
+import com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY
 import org.json.JSONObject
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.HttpEntity
@@ -121,6 +122,7 @@ open class Requester(
      * @param surname: the surname of the user
      * @param email: the email of the user
      * @param password: the password of the user
+     * @param language: the language of the user
      *
      * @return the result of the request as [JSONObject]
      *
@@ -131,14 +133,20 @@ open class Requester(
         name: String,
         surname: String,
         email: String,
-        password: String
+        password: String,
+        language: String
     ): JSONObject {
+        val inputLanguage = if (!isLanguageValid(language))
+            DEFAULT_USER_LANGUAGE
+        else
+            language
         val payload = PandoroPayload()
         payload.addParam(SERVER_SECRET_KEY, serverSecret)
         payload.addParam(NAME_KEY, name)
         payload.addParam(SURNAME_KEY, surname)
         payload.addParam(EMAIL_KEY, email)
         payload.addParam(PASSWORD_KEY, password)
+        payload.addParam(LANGUAGE_KEY, inputLanguage)
         val response = execPost(createUsersEndpoint(SIGN_UP_ENDPOINT), payload)
         setAuthCredentials(response)
         return response

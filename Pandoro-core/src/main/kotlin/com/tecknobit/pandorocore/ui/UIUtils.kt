@@ -2,9 +2,11 @@ package com.tecknobit.pandorocore.ui
 
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.formatters.JsonHelper
+import com.tecknobit.pandorocore.records.ProjectUpdate
 import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.records.structures.PandoroItemStructure
 import com.tecknobit.pandorocore.records.users.PublicUser.*
+import com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY
 import org.json.JSONArray
 import java.util.*
 
@@ -95,6 +97,21 @@ interface SingleItemManager {
 }
 
 /**
+ * Function to format as **markdown** the notes of an update
+ *
+ * @param update: the update from format the notes
+ *
+ * @return the notes of an update formatted as markdown as [String]
+ */
+fun formatNotesAsMarkdown(update: ProjectUpdate): String {
+    val builder = StringBuilder()
+    update.notes.forEach { note ->
+        builder.append("- ").append(note.content).append("\n")
+    }
+    return builder.toString()
+}
+
+/**
  * This **LocalUser** class is useful to manage the credentials of the user in local
  *
  * @author Tecknobit - N7ghtm4r3
@@ -131,6 +148,7 @@ abstract class LocalUser {
      * @param surname: the surname of the user
      * @param email: the email of the user
      * @param password: the password of the user
+     * @param language: the language of the user
      */
     open fun initUserSession(
         response: JsonHelper,
@@ -138,7 +156,8 @@ abstract class LocalUser {
         name: String,
         surname: String,
         email: String?,
-        password: String?
+        password: String?,
+        language: String?
     ) {
         storeUserValue(IDENTIFIER_KEY, response.getString(IDENTIFIER_KEY))
         storeUserValue(TOKEN_KEY, response.getString(TOKEN_KEY))
@@ -148,6 +167,7 @@ abstract class LocalUser {
         storeSurname(surname)
         storeEmail(email)
         storePassword(password)
+        storeLanguage(language)
         initUserCredentials()
     }
 
@@ -228,6 +248,20 @@ abstract class LocalUser {
         refreshUser: Boolean = false
     ) {
         storeUserValue(PASSWORD_KEY, password, refreshUser)
+    }
+
+    /**
+     * Function to store the language value
+     *
+     * @param language: the language of the user
+     * @param refreshUser: whether refresh the user
+     */
+    @Wrapper
+    fun storeLanguage(
+        language: String?,
+        refreshUser: Boolean = false
+    ) {
+        storeUserValue(LANGUAGE_KEY, language, refreshUser)
     }
 
     /**
