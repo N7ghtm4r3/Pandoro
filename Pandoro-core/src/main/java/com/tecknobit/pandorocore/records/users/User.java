@@ -121,7 +121,7 @@ public class User extends PublicUser {
      * @apiNote empty constructor required
      */
     public User() {
-        this(null, null, null, null, null, null, null, null, new ArrayList<>(),
+        this(null, null, null, DEFAULT_PROFILE_PIC, null, null, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
