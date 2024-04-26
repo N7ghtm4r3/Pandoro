@@ -1,14 +1,14 @@
-package com.tecknobit.pandoro.records.users;
+package com.tecknobit.pandorocore.records.users;
 
 import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.pandoro.records.structures.PandoroItem;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.users.PublicUser.PUBLIC_USERS_TABLE;
 
 /**
  * The {@code PublicUser} class is useful to create a <b>Pandoro's public user</b>
@@ -22,6 +22,66 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 @Table(name = PUBLIC_USERS_TABLE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class PublicUser extends PandoroItem {
+
+    /**
+     * {@code PUBLIC_USERS_TABLE} public users table
+     */
+    public static final String PUBLIC_USERS_TABLE = "public_users";
+
+    /**
+     * {@code USERS_TABLE} users table
+     */
+    public static final String USERS_TABLE = "users";
+
+    /**
+     * {@code GROUP_MEMBERS_TABLE} group members table
+     */
+    public static final String GROUP_MEMBERS_TABLE = "group_members";
+
+    /**
+     * {@code NAME_KEY} name key
+     */
+    public static final String NAME_KEY = "name";
+
+    /**
+     * {@code TOKEN_KEY} token key
+     */
+    public static final String TOKEN_KEY = "token";
+
+    /**
+     * {@code COMPLETE_NAME_KEY} complete name key
+     */
+    public static final String COMPLETE_NAME_KEY = "completeName";
+
+    /**
+     * {@code SURNAME_KEY} surname key
+     */
+    public static final String SURNAME_KEY = "surname";
+
+    /**
+     * {@code PROFILE_PIC_KEY} profile pic key
+     */
+    public static final String PROFILE_PIC_KEY = "profile_pic";
+
+    /**
+     * {@code EMAIL_KEY} email key
+     */
+    public static final String EMAIL_KEY = "email";
+
+    /**
+     * {@code PASSWORD_KEY} password key
+     */
+    public static final String PASSWORD_KEY = "password";
+
+    /**
+     * {@code UNREAD_CHANGELOGS_KEY} unread changelogs number key
+     */
+    public static final String UNREAD_CHANGELOGS_KEY = "unreadChangelogsNumber";
+
+    /**
+     * {@code ADMIN_GROUPS_KEY} admin groups key
+     */
+    public static final String ADMIN_GROUPS_KEY = "adminGroups";
 
     /**
      * {@code USER_NAME_MAX_LENGTH} the max length of the name for a user
@@ -49,7 +109,7 @@ public class PublicUser extends PandoroItem {
      */
     @Column(
             name = PROFILE_PIC_KEY,
-            columnDefinition = "text default '" + DEFAULT_PROFILE_PIC + "'",
+            columnDefinition = "text default '" + User.DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
     protected final String profilePic;
@@ -77,7 +137,7 @@ public class PublicUser extends PandoroItem {
     public PublicUser(JSONObject jPublicUser) {
         super(jPublicUser);
         surname = hItem.getString(SURNAME_KEY);
-        profilePic = hItem.getString(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC);
+        profilePic = hItem.getString(PROFILE_PIC_KEY, User.DEFAULT_PROFILE_PIC);
         email = hItem.getString(EMAIL_KEY);
     }
 

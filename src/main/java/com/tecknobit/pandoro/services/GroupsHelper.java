@@ -2,27 +2,26 @@ package com.tecknobit.pandoro.services;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
-import com.tecknobit.pandoro.records.users.GroupMember;
-import com.tecknobit.pandoro.records.users.GroupMember.Role;
-import com.tecknobit.pandoro.records.users.PublicUser;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.ChangelogsRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupsRepository;
-import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
+import com.tecknobit.pandorocore.records.users.GroupMember;
+import com.tecknobit.pandorocore.records.users.GroupMember.Role;
+import com.tecknobit.pandorocore.records.users.PublicUser;
+import com.tecknobit.pandorocore.records.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.PENDING;
-import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
+import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.PENDING;
+import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandorocore.records.users.GroupMember.Role.DEVELOPER;
 
 /**
  * The {@code GroupsHelper} class is useful to manage all the groups database operations
@@ -34,51 +33,10 @@ import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
 public class GroupsHelper extends ChangelogOperator {
 
     /**
-     * {@code GROUP_IDENTIFIER_KEY} the group identifier key
-     */
-    public static final String GROUP_IDENTIFIER_KEY = "group_id";
-
-    /**
-     * {@code GROUP_KEY} the group key
-     */
-    public static final String GROUP_KEY = "group";
-
-    /**
-     * {@code GROUP_MEMBER_KEY} the group member key
-     */
-    public static final String GROUP_MEMBER_KEY = "group_member";
-
-    /**
-     * {@code GROUP_DESCRIPTION_KEY} the group member key
-     */
-    public static final String GROUP_DESCRIPTION_KEY = "group_description";
-
-    /**
-     * {@code GROUP_MEMBERS_KEY} the group members key
-     */
-    public static final String GROUP_MEMBERS_KEY = "members";
-
-    /**
-     * {@code MEMBER_ROLE_KEY} the role of a member key
-     */
-    public static final String MEMBER_ROLE_KEY = "role";
-
-    /**
-     * {@code INVITATION_STATUS_KEY} the invitation status key
-     */
-    public static final String INVITATION_STATUS_KEY = "invitation_status";
-
-    /**
      * {@code usersRepository} instance for the users repository
      */
     @Autowired
     private UsersRepository usersRepository;
-
-    /**
-     * {@code projectsRepository} instance for the projects repository
-     */
-    @Autowired
-    private ProjectsRepository projectsRepository;
 
     /**
      * {@code groupsRepository} instance for the groups repository
@@ -131,7 +89,13 @@ public class GroupsHelper extends ChangelogOperator {
     public void createGroup(PublicUser author, String groupId, String groupName, String groupDescription,
                             ArrayList<String> members) {
         String authorId = author.getId();
-        groupsRepository.createGroup(authorId, groupId, groupName, groupDescription);
+        groupsRepository.createGroup(
+                authorId,
+                groupId,
+                groupName,
+                System.currentTimeMillis(),
+                groupDescription
+        );
         membersRepository.insertMember(
                 authorId,
                 author.getName(),

@@ -2,13 +2,13 @@ package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
-import com.tecknobit.pandoro.records.ProjectUpdate;
-import com.tecknobit.pandoro.records.ProjectUpdate.Status;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import com.tecknobit.pandoro.services.ProjectsHelper;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
+import com.tecknobit.pandorocore.records.ProjectUpdate;
+import com.tecknobit.pandorocore.records.ProjectUpdate.Status;
+import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +17,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
 import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.*;
-import static com.tecknobit.pandoro.services.NotesHelper.NOTE_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Project.*;
+import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
@@ -37,66 +39,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.TOKEN_KEY;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + PROJECTS_KEY)
 public class ProjectsController extends PandoroController {
-
-    /**
-     * {@code ADD_PROJECT_ENDPOINT} endpoint to add a new project
-     */
-    public static final String ADD_PROJECT_ENDPOINT = "/addProject";
-
-    /**
-     * {@code EDIT_PROJECT_ENDPOINT} endpoint to edit an existing project
-     */
-    public static final String EDIT_PROJECT_ENDPOINT = "/editProject";
-
-    /**
-     * {@code DELETE_PROJECT_ENDPOINT} endpoint to delete an existing project
-     */
-    public static final String DELETE_PROJECT_ENDPOINT = "/deleteProject";
-
-    /**
-     * {@code UPDATES_PATH} path for the updates operations
-     */
-    public static final String UPDATES_PATH = "/updates/";
-
-    /**
-     * {@code SCHEDULE_UPDATE_ENDPOINT} endpoint to schedule a new update for a project
-     */
-    public static final String SCHEDULE_UPDATE_ENDPOINT = "schedule";
-
-    /**
-     * {@code START_UPDATE_ENDPOINT} endpoint to start an existing update for a project
-     */
-    public static final String START_UPDATE_ENDPOINT = "/start";
-
-    /**
-     * {@code PUBLISH_UPDATE_ENDPOINT} endpoint to publish an existing update for a project
-     */
-    public static final String PUBLISH_UPDATE_ENDPOINT = "/publish";
-
-    /**
-     * {@code ADD_CHANGE_NOTE_ENDPOINT} endpoint to add a new change note for an update
-     */
-    public static final String ADD_CHANGE_NOTE_ENDPOINT = "/addChangeNote";
-
-    /**
-     * {@code MARK_CHANGE_NOTE_AS_DONE_ENDPOINT} endpoint to mark as done a change note of an update
-     */
-    public static final String MARK_CHANGE_NOTE_AS_DONE_ENDPOINT = "/markChangeNoteAsDone";
-
-    /**
-     * {@code MARK_CHANGE_NOTE_AS_TODO_ENDPOINT} endpoint to mark as todo a change note of an update
-     */
-    public static final String MARK_CHANGE_NOTE_AS_TODO_ENDPOINT = "/markChangeNoteAsToDo";
-
-    /**
-     * {@code DELETE_CHANGE_NOTE_ENDPOINT} endpoint to delete a change note of an update
-     */
-    public static final String DELETE_CHANGE_NOTE_ENDPOINT = "/deleteChangeNote";
-
-    /**
-     * {@code DELETE_UPDATE_ENDPOINT} endpoint to delete a project
-     */
-    public static final String DELETE_UPDATE_ENDPOINT = "/delete";
 
     /**
      * {@code projectsHelper} instance to manage the projects database operations

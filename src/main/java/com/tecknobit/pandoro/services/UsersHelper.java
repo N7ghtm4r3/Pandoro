@@ -1,11 +1,11 @@
 package com.tecknobit.pandoro.services;
 
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
 import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
 import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
+import com.tecknobit.pandorocore.records.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,8 @@ import java.util.Objects;
 
 import static com.tecknobit.apimanager.apis.APIRequest.SHA256_ALGORITHM;
 import static com.tecknobit.apimanager.apis.APIRequest.base64Digest;
-import static com.tecknobit.pandoro.Launcher.IMAGES_PATH;
+import static com.tecknobit.pandoro.helpers.ResourcesProvider.IMAGES_PATH;
+import static com.tecknobit.pandoro.helpers.ResourcesProvider.PROFILE_PICS_PATH;
 import static java.lang.System.currentTimeMillis;
 import static org.springframework.util.MimeTypeUtils.IMAGE_JPEG_VALUE;
 import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
@@ -31,71 +32,6 @@ import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
  */
 @Service
 public class UsersHelper {
-
-    /**
-     * {@code PUBLIC_USERS_TABLE} public users table
-     */
-    public static final String PUBLIC_USERS_TABLE = "public_users";
-
-    /**
-     * {@code USERS_TABLE} users table
-     */
-    public static final String USERS_TABLE = "users";
-
-    /**
-     * {@code GROUP_MEMBERS_TABLE} group members table
-     */
-    public static final String GROUP_MEMBERS_TABLE = "group_members";
-
-    /**
-     * {@code NAME_KEY} name key
-     */
-    public static final String NAME_KEY = "name";
-
-    /**
-     * {@code TOKEN_KEY} token key
-     */
-    public static final String TOKEN_KEY = "token";
-
-    /**
-     * {@code COMPLETE_NAME_KEY} complete name key
-     */
-    public static final String COMPLETE_NAME_KEY = "completeName";
-
-    /**
-     * {@code SURNAME_KEY} surname key
-     */
-    public static final String SURNAME_KEY = "surname";
-
-    /**
-     * {@code PROFILE_PIC_KEY} profile pic key
-     */
-    public static final String PROFILE_PIC_KEY = "profile_pic";
-
-    /**
-     * {@code EMAIL_KEY} email key
-     */
-    public static final String EMAIL_KEY = "email";
-
-    /**
-     * {@code PASSWORD_KEY} password key
-     */
-    public static final String PASSWORD_KEY = "password";
-
-    /**
-     * {@code UNREAD_CHANGELOGS_KEY} unread changelogs number key
-     */
-    public static final String UNREAD_CHANGELOGS_KEY = "unreadChangelogsNumber";
-
-    /**
-     * {@code ADMIN_GROUPS_KEY} admin groups key
-     */
-    public static final String ADMIN_GROUPS_KEY = "adminGroups";
-
-    /**
-     * {@code PROFILE_PICS_FOLDER} the path of the folder where store the profile pics
-     */
-    public static final String PROFILE_PICS_FOLDER = IMAGES_PATH + "profiles/";
 
     /**
      * {@code usersRepository} instance for the users repository
@@ -128,11 +64,6 @@ public class UsersHelper {
     private NotesRepository notesRepository;
 
     /**
-     * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
-     */
-    public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.png";
-
-    /**
      * Method to execute the signup action and store the new user details
      *
      * @param userId:   the user identifier
@@ -141,17 +72,19 @@ public class UsersHelper {
      * @param surname:  the surname of the user
      * @param email:    the email of the user
      * @param password: the password of the user
+     * @param language: the language of the user
      * @throws NoSuchAlgorithmException when the hash of the password fails
      */
-    public void signUp(String userId, String token, String name, String surname, String email,
-                       String password) throws NoSuchAlgorithmException {
+    public void signUp(String userId, String token, String name, String surname, String email, String password,
+                       String language) throws NoSuchAlgorithmException {
         usersRepository.save(new User(
                 userId,
                 name,
                 token,
                 surname,
                 email.toLowerCase(),
-                hash(password)
+                hash(password),
+                language
         ));
     }
 
@@ -178,7 +111,7 @@ public class UsersHelper {
      */
     public String changeProfilePic(String userId, String token, MultipartFile profilePic) throws IOException {
         deleteProfilePic(userId);
-        File file = new File(PROFILE_PICS_FOLDER + userId + currentTimeMillis() + "." + getSuffix(profilePic));
+        File file = new File(PROFILE_PICS_PATH + userId + currentTimeMillis() + "." + getSuffix(profilePic));
         try (OutputStream outputStream = new FileOutputStream(file)) {
             outputStream.write(profilePic.getBytes());
         }
@@ -211,7 +144,7 @@ public class UsersHelper {
      * @param userId: the user id for the profile pic deletion
      */
     private void deleteProfilePic(String userId) throws IOException {
-        File picsFolder = new File(PROFILE_PICS_FOLDER);
+        File picsFolder = new File(PROFILE_PICS_PATH);
         for (File pic : Objects.requireNonNull(picsFolder.listFiles())) {
             if (pic.getName().contains(userId))
                 if (!pic.delete())
@@ -251,6 +184,17 @@ public class UsersHelper {
      */
     private String hash(String valueToHash) throws NoSuchAlgorithmException {
         return base64Digest(valueToHash, SHA256_ALGORITHM);
+    }
+
+    /**
+     * Method to execute the change and store of the user's language
+     *
+     * @param userId:      the user identifier
+     * @param token:       the token of the user
+     * @param newLanguage: the new user language to set
+     */
+    public void changeLanguage(String userId, String token, String newLanguage) {
+        usersRepository.changeLanguage(userId, token, newLanguage);
     }
 
     /**

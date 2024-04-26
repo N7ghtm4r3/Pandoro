@@ -1,12 +1,12 @@
-package com.tecknobit.pandoro.records.users;
+package com.tecknobit.pandorocore.records.users;
 
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.structures.PandoroItem;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,12 +15,6 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus.PENDING;
-import static com.tecknobit.pandoro.records.users.GroupMember.Role.DEVELOPER;
-import static com.tecknobit.pandoro.services.GroupsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
 
 /**
  * The {@code GroupMember} class is useful to create a <b>Pandoro's group member</b>
@@ -31,7 +25,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * @see Serializable
  */
 @Entity
-@Table(name = GROUP_MEMBERS_TABLE)
+@Table(name = PublicUser.GROUP_MEMBERS_TABLE)
 @IdClass(GroupMemberCompositeKey.class)
 public class GroupMember extends PandoroItemStructure {
 
@@ -89,28 +83,28 @@ public class GroupMember extends PandoroItemStructure {
      * {@code id} identifier of the item
      */
     @Id
-    @Column(name = IDENTIFIER_KEY)
+    @Column(name = PandoroItem.IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final String id;
 
     /**
      * {@code name} of the item
      */
-    @Column(name = NAME_KEY)
+    @Column(name = PublicUser.NAME_KEY)
     private final String name;
 
     /**
      * {@code surname} the surname of the user
      */
-    @Column(name = SURNAME_KEY)
+    @Column(name = PublicUser.SURNAME_KEY)
     private final String surname;
 
     /**
      * {@code profilePic} the profile picture of the user
      */
     @Column(
-            name = PROFILE_PIC_KEY,
-            columnDefinition = "text default '" + DEFAULT_PROFILE_PIC + "'",
+            name = PublicUser.PROFILE_PIC_KEY,
+            columnDefinition = "text default '" + User.DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
     private final String profilePic;
@@ -118,21 +112,21 @@ public class GroupMember extends PandoroItemStructure {
     /**
      * {@code email} the email of the user
      */
-    @Column(name = EMAIL_KEY)
+    @Column(name = PublicUser.EMAIL_KEY)
     private final String email;
 
     /**
      * {@code role} the role of the member
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = MEMBER_ROLE_KEY)
+    @Column(name = Group.MEMBER_ROLE_KEY)
     private final Role role;
 
     /**
      * {@code invitationStatus} status of the invitation
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = INVITATION_STATUS_KEY)
+    @Column(name = Group.INVITATION_STATUS_KEY)
     private final InvitationStatus invitationStatus;
 
     /**
@@ -146,7 +140,7 @@ public class GroupMember extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = GROUP_MEMBER_KEY)
+    @JoinColumn(name = Group.GROUP_MEMBER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group_member;
 
@@ -166,13 +160,13 @@ public class GroupMember extends PandoroItemStructure {
      */
     public GroupMember(JSONObject jGroupMember) {
         super(jGroupMember);
-        id = hItem.getString(IDENTIFIER_KEY);
-        name = hItem.getString(NAME_KEY);
-        surname = hItem.getString(SURNAME_KEY);
-        profilePic = hItem.getString(PROFILE_PIC_KEY);
-        email = hItem.getString(EMAIL_KEY);
-        role = Role.valueOf(hItem.getString(MEMBER_ROLE_KEY, DEVELOPER.name()));
-        invitationStatus = InvitationStatus.valueOf(hItem.getString(INVITATION_STATUS_KEY, PENDING.name()));
+        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
+        name = hItem.getString(PublicUser.NAME_KEY);
+        surname = hItem.getString(PublicUser.SURNAME_KEY);
+        profilePic = hItem.getString(PublicUser.PROFILE_PIC_KEY);
+        email = hItem.getString(PublicUser.EMAIL_KEY);
+        role = Role.valueOf(hItem.getString(Group.MEMBER_ROLE_KEY, Role.DEVELOPER.name()));
+        invitationStatus = InvitationStatus.valueOf(hItem.getString(Group.INVITATION_STATUS_KEY, InvitationStatus.PENDING.name()));
     }
 
     /**
@@ -224,7 +218,7 @@ public class GroupMember extends PandoroItemStructure {
      *
      * @return {@link #profilePic} instance as {@link String}
      */
-    @JsonGetter(PROFILE_PIC_KEY)
+    @JsonGetter(PublicUser.PROFILE_PIC_KEY)
     public String getProfilePic() {
         return profilePic;
     }
@@ -277,7 +271,7 @@ public class GroupMember extends PandoroItemStructure {
      *
      * @return {@link #invitationStatus} instance as {@link InvitationStatus}
      */
-    @JsonGetter(INVITATION_STATUS_KEY)
+    @JsonGetter(Group.INVITATION_STATUS_KEY)
     public InvitationStatus getInvitationStatus() {
         return invitationStatus;
     }

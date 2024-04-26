@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.repositories.UsersRepository;
+import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
+import static com.tecknobit.pandorocore.helpers.Requester.*;
 
 /**
  * The {@code PandoroController} class is useful to give the base behavior of the <b>Pandoro's controllers</b>
@@ -20,44 +21,9 @@ import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardRespon
 public abstract class PandoroController {
 
     /**
-     * {@code BASE_ENDPOINT} the base endpoint for the backend service
-     */
-    public static final String BASE_ENDPOINT = "/api/v1/";
-
-    /**
-     * {@code SUCCESS_KEY} success key
-     */
-    public static final String SUCCESS_KEY = "success";
-
-    /**
      * {@code DATA_KEY} data key
      */
     public static final String DATA_KEY = "data";
-
-    /**
-     * {@code STATUS_CODE_KEY} status code key
-     */
-    public static final String STATUS_CODE_KEY = "statusCode";
-
-    /**
-     * {@code ERROR_KEY} error key
-     */
-    public static final String ERROR_KEY = "error";
-
-    /**
-     * {@code IDENTIFIER_KEY} identifier key
-     */
-    public static final String IDENTIFIER_KEY = "id";
-
-    /**
-     * {@code AUTHOR_KEY} author key
-     */
-    public static final String AUTHOR_KEY = "author";
-
-    /**
-     * {@code WRONG_PROCEDURE_MESSAGE} message to use when the procedure is wrong
-     */
-    public static final String WRONG_PROCEDURE_MESSAGE = "Wrong procedure";
 
     /**
      * {@code NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE} message to use when the request is by a not authorized user or
@@ -76,27 +42,6 @@ public abstract class PandoroController {
      */
     @Autowired
     protected UsersRepository usersRepository;
-
-    /**
-     * - SUCCESSFUL
-     * {
-     *   "success" : true,
-     *   "data": {
-     *       //values
-     *   }
-     * }
-     * - FAILED
-     * {
-     *   "success" : false,
-     *   "error" : "error_message"
-     * }
-     *
-     *
-     *
-     * FOR DOCU README
-     * - https://www.apachefriends.org/it/index.html
-     *
-     */
 
     /**
      * Method to create an identifier for an item <br>

@@ -1,15 +1,16 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandorocore.records;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.pandoro.records.structures.PandoroItem;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
-import com.tecknobit.pandoro.records.users.GroupMember;
-import com.tecknobit.pandoro.records.users.GroupMember.Role;
-import com.tecknobit.pandoro.records.users.PublicUser;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.users.GroupMember;
+import com.tecknobit.pandorocore.records.users.GroupMember.Role;
+import com.tecknobit.pandorocore.records.users.PublicUser;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,14 +21,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_DESCRIPTION_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_MEMBER_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
+import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -42,6 +40,46 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 public class Group extends PandoroItem {
 
     /**
+     * {@code GROUPS_KEY} groups key
+     */
+    public static final String GROUPS_KEY = "groups";
+
+    /**
+     * {@code GROUP_IDENTIFIER_KEY} the group identifier key
+     */
+    public static final String GROUP_IDENTIFIER_KEY = "group_id";
+
+    /**
+     * {@code GROUP_KEY} the group key
+     */
+    public static final String GROUP_KEY = "group";
+
+    /**
+     * {@code GROUP_MEMBER_KEY} the group member key
+     */
+    public static final String GROUP_MEMBER_KEY = "group_member";
+
+    /**
+     * {@code GROUP_DESCRIPTION_KEY} the group member key
+     */
+    public static final String GROUP_DESCRIPTION_KEY = "group_description";
+
+    /**
+     * {@code GROUP_MEMBERS_KEY} the group members key
+     */
+    public static final String GROUP_MEMBERS_KEY = "members";
+
+    /**
+     * {@code MEMBER_ROLE_KEY} the role of a member key
+     */
+    public static final String MEMBER_ROLE_KEY = "role";
+
+    /**
+     * {@code INVITATION_STATUS_KEY} the invitation status key
+     */
+    public static final String INVITATION_STATUS_KEY = "invitation_status";
+
+    /**
      * {@code GROUP_NAME_MAX_LENGTH} the max length of the name for a group
      */
     public static final int GROUP_NAME_MAX_LENGTH = 15;
@@ -52,6 +90,12 @@ public class Group extends PandoroItem {
     public static final int GROUP_DESCRIPTION_MAX_LENGTH = 30;
 
     /**
+     * {@code creationDate} when the group has been created
+     */
+    @Column(name = CREATION_DATE_KEY)
+    private final long creationDate;
+
+    /**
      * {@code author} the author of the group
      */
     @ManyToOne(
@@ -60,15 +104,16 @@ public class Group extends PandoroItem {
     )
     @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
             CHANGELOGS_KEY,
             GROUPS_KEY,
             PROJECTS_KEY,
             NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -123,7 +168,7 @@ public class Group extends PandoroItem {
      * @apiNote empty constructor required
      */
     public Group() {
-        this(null, null, null, null, new ArrayList<>(), new ArrayList<>());
+        this(null, null, -1, null, null, new ArrayList<>(), new ArrayList<>());
     }
 
     /**
@@ -133,9 +178,10 @@ public class Group extends PandoroItem {
      */
     public Group(JSONObject jGroup) {
         super(jGroup);
+        creationDate = hItem.getLong(CREATION_DATE_KEY);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         description = hItem.getString(GROUP_DESCRIPTION_KEY);
-        groupMembers = GroupMember.getInstances(hItem.getJSONArray(GROUP_MEMBERS_TABLE));
+        groupMembers = GroupMember.getInstances(hItem.getJSONArray(PublicUser.GROUP_MEMBERS_TABLE));
         totalMembers = groupMembers.size();
         projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
         totalProjects = projects.size();
@@ -146,14 +192,16 @@ public class Group extends PandoroItem {
      *
      * @param id:          identifier of the group
      * @param name:        name of the group
+     * @param creationDate: when the project has been created
      * @param author:      the author of the group
      * @param description:{@code description} the description of the group
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, User author, String description, ArrayList<GroupMember> groupMembers,
+    public Group(String id, String name, long creationDate, User author, String description, ArrayList<GroupMember> groupMembers,
                  ArrayList<Project> projects) {
         super(id, name);
+        this.creationDate = creationDate;
         this.author = author;
         this.description = description;
         this.groupMembers = groupMembers;
@@ -166,6 +214,28 @@ public class Group extends PandoroItem {
             totalProjects = projects.size();
         else
             totalProjects = 0;
+    }
+
+    /**
+     * Method to get {@link #creationDate} instance <br>
+     * No-any params required
+     *
+     * @return {@link #creationDate} instance as long
+     */
+    @JsonGetter(CREATION_DATE_KEY)
+    public long getCreation() {
+        return creationDate;
+    }
+
+    /**
+     * Method to get {@link #creationDate} instance <br>
+     * No-any params required
+     *
+     * @return {@link #creationDate} instance as {@link String}
+     */
+    @JsonIgnore
+    public String getCreationDate() {
+        return TimeFormatter.getStringDate(creationDate);
     }
 
     /**
@@ -195,7 +265,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #groupMembers} instance as {@link ArrayList} of {@link GroupMember}
      */
-    @JsonGetter(GROUP_MEMBERS_TABLE)
+    @JsonGetter(PublicUser.GROUP_MEMBERS_TABLE)
     public ArrayList<GroupMember> getMembers() {
         return new ArrayList<>(groupMembers);
     }

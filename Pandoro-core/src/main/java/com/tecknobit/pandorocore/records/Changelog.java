@@ -1,12 +1,12 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandorocore.records;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,14 +16,11 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.records.users.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandoro.services.ChangelogsHelper.*;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.GROUP_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_KEY;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
+import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Project.PROJECT_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -35,6 +32,41 @@ import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_KEY;
 @Entity
 @Table(name = CHANGELOGS_KEY)
 public class Changelog extends PandoroItemStructure {
+
+    /**
+     * {@code CHANGELOGS_KEY} changelogs key
+     */
+    public static final String CHANGELOGS_KEY = "changelogs";
+
+    /**
+     * {@code CHANGELOG_IDENTIFIER_KEY} changelog identifier key
+     */
+    public static final String CHANGELOG_IDENTIFIER_KEY = "changelog_id";
+
+    /**
+     * {@code CHANGELOG_EVENT_KEY} changelog event key
+     */
+    public static final String CHANGELOG_EVENT_KEY = "changelog_event";
+
+    /**
+     * {@code CHANGELOG_TIMESTAMP_KEY} changelog timestamp key
+     */
+    public static final String CHANGELOG_TIMESTAMP_KEY = "timestamp";
+
+    /**
+     * {@code CHANGELOG_EXTRA_CONTENT_KEY} extra content of the changelog key
+     */
+    public static final String CHANGELOG_EXTRA_CONTENT_KEY = "extra_content";
+
+    /**
+     * {@code CHANGELOG_RED_KEY} whether the changelog is red key
+     */
+    public static final String CHANGELOG_RED_KEY = "red";
+
+    /**
+     * {@code CHANGELOG_OWNER_KEY} owner of the changelog key
+     */
+    public static final String CHANGELOG_OWNER_KEY = "owner";
 
     /**
      * {@code ChangelogEvent} list of available event types
@@ -164,7 +196,7 @@ public class Changelog extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = GROUP_IDENTIFIER_KEY)
+    @JoinColumn(name = Group.GROUP_IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({
             "hibernateLazyInitializer",
@@ -217,7 +249,7 @@ public class Changelog extends PandoroItemStructure {
         project = Project.getInstance(hItem.getJSONObject(PROJECT_KEY));
         extraContent = hItem.getString(CHANGELOG_EXTRA_CONTENT_KEY);
         red = hItem.getBoolean(CHANGELOG_RED_KEY);
-        group = Group.getInstance(hItem.getJSONObject(GROUP_KEY));
+        group = Group.getInstance(hItem.getJSONObject(Group.GROUP_KEY));
     }
 
     /**

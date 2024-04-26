@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.repositories.groups;
 
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.Project;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,14 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.*;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_GROUPS_TABLE;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandoro.services.UsersHelper.NAME_KEY;
+import static com.tecknobit.pandorocore.records.Group.*;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_GROUPS_TABLE;
+import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.GROUP_MEMBERS_TABLE;
+import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
 
 /**
  * The {@code GroupsRepository} interface is useful to manage the queries for the groups
@@ -42,7 +39,8 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
                     + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
-                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'",
+                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'"
+                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
@@ -70,6 +68,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @param author: the author of the group
      * @param groupId: the identifier of the new group
      * @param groupName: the name of the group
+     * @param creationDate: the date when the group has been created
      * @param groupDescription: the description of the group
      */
     @Modifying(clearAutomatically = true)
@@ -79,11 +78,13 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + NAME_KEY + ","
+                    + CREATION_DATE_KEY + ","
                     + GROUP_DESCRIPTION_KEY + ","
                     + AUTHOR_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + NAME_KEY + ","
+                    + ":" + CREATION_DATE_KEY + ","
                     + ":" + GROUP_DESCRIPTION_KEY + ","
                     + ":" + AUTHOR_KEY + ")",
             nativeQuery = true
@@ -92,6 +93,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(AUTHOR_KEY) String author,
             @Param(IDENTIFIER_KEY) String groupId,
             @Param(NAME_KEY) String groupName,
+            @Param(CREATION_DATE_KEY) long creationDate,
             @Param(GROUP_DESCRIPTION_KEY) String groupDescription
     );
 

@@ -1,13 +1,14 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandorocore.records;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
-import com.tecknobit.pandoro.records.users.PublicUser;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.users.PublicUser;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,15 +18,10 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.NotesHelper.*;
-import static com.tecknobit.pandoro.services.ProjectsHelper.PROJECTS_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
+import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
@@ -37,6 +33,36 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 @Entity
 @Table(name = NOTES_KEY)
 public class Note extends PandoroItemStructure {
+
+    /**
+     * {@code NOTES_KEY} notes key
+     */
+    public static final String NOTES_KEY = "notes";
+
+    /**
+     * {@code NOTE_IDENTIFIER_KEY} the note identifier key
+     */
+    public static final String NOTE_IDENTIFIER_KEY = "note_id";
+
+    /**
+     * {@code CONTENT_NOTE_KEY} the content of the note key
+     */
+    public static final String CONTENT_NOTE_KEY = "content_note";
+
+    /**
+     * {@code MARKED_AS_DONE_KEY} mark as done key
+     */
+    public static final String MARKED_AS_DONE_KEY = "marked_as_done";
+
+    /**
+     * {@code MARKED_AS_DONE_BY_KEY} mark as done author key
+     */
+    public static final String MARKED_AS_DONE_BY_KEY = "marked_as_done_by";
+
+    /**
+     * {@code MARKED_AS_DONE_DATE_KEY} marked as done date key
+     */
+    public static final String MARKED_AS_DONE_DATE_KEY = "marked_as_done_date";
 
     /**
      * {@code NOTE_CONTENT_MAX_LENGTH} the max length of the content for a note
@@ -57,17 +83,18 @@ public class Note extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = AUTHOR_KEY)
+    @JoinColumn(name = PandoroItem.AUTHOR_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
             PROJECTS_KEY,
             NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -85,7 +112,7 @@ public class Note extends PandoroItemStructure {
     /**
      * {@code creationDate} when the note has been created
      */
-    @Column(name = CREATION_DATE_KEY)
+    @Column(name = PandoroItem.CREATION_DATE_KEY)
     private final long creationDate;
 
     /**
@@ -103,15 +130,15 @@ public class Note extends PandoroItemStructure {
     )
     @JoinColumn(name = MARKED_AS_DONE_BY_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
             PROJECTS_KEY,
             NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -134,7 +161,7 @@ public class Note extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
+    @JoinColumn(name = UPDATE_KEY, referencedColumnName = PandoroItem.IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectUpdate project_update;
 
@@ -154,10 +181,10 @@ public class Note extends PandoroItemStructure {
      */
     public Note(JSONObject jNote) {
         super(jNote);
-        id = hItem.getString(IDENTIFIER_KEY);
-        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
+        author = User.getInstance(hItem.getJSONObject(PandoroItem.AUTHOR_KEY));
         content = hItem.getString(CONTENT_NOTE_KEY);
-        creationDate = hItem.getLong(CREATION_DATE_KEY, -1);
+        creationDate = hItem.getLong(PandoroItem.CREATION_DATE_KEY, -1);
         markedAsDone = hItem.getBoolean(MARKED_AS_DONE_KEY);
         markedAsDoneBy = PublicUser.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
         markAsDoneDate = hItem.getLong(MARKED_AS_DONE_DATE_KEY, -1);
@@ -222,7 +249,7 @@ public class Note extends PandoroItemStructure {
      *
      * @return {@link #creationDate} instance as long
      */
-    @JsonGetter(CREATION_DATE_KEY)
+    @JsonGetter(PandoroItem.CREATION_DATE_KEY)
     public long getCreation() {
         return creationDate;
     }

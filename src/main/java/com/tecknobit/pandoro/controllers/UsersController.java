@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.pandoro.records.users.User;
 import com.tecknobit.pandoro.services.UsersHelper;
+import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,13 @@ import java.util.Map;
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.ServerProtector.SERVER_SECRET_KEY;
 import static com.tecknobit.pandoro.Launcher.protector;
-import static com.tecknobit.pandoro.controllers.PandoroController.BASE_ENDPOINT;
-import static com.tecknobit.pandoro.controllers.UsersController.USERS_ENDPOINT;
-import static com.tecknobit.pandoro.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
+import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.*;
+import static com.tecknobit.pandorocore.records.users.User.DEFAULT_PROFILE_PIC;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code UsersController} class is useful to manage all the user operations
@@ -29,41 +32,6 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
 @RestController
 @RequestMapping(path = BASE_ENDPOINT + USERS_ENDPOINT)
 public class UsersController extends PandoroController {
-
-    /**
-     * {@code USERS_ENDPOINT} base endpoint for the users
-     */
-    public static final String USERS_ENDPOINT = "users";
-
-    /**
-     * {@code SIGN_UP_ENDPOINT} endpoint to sign up in the <b>Pandoro's system</b>
-     */
-    public static final String SIGN_UP_ENDPOINT = "/signUp";
-
-    /**
-     * {@code SIGN_IN_ENDPOINT} endpoint to sign in the <b>Pandoro's system</b>
-     */
-    public static final String SIGN_IN_ENDPOINT = "/signIn";
-
-    /**
-     * {@code CHANGE_PROFILE_PIC_ENDPOINT} endpoint to change the profile pic of the user
-     */
-    public static final String CHANGE_PROFILE_PIC_ENDPOINT = "/changeProfilePic";
-
-    /**
-     * {@code CHANGE_EMAIL_ENDPOINT} endpoint to change the email of the user
-     */
-    public static final String CHANGE_EMAIL_ENDPOINT = "/changeEmail";
-
-    /**
-     * {@code CHANGE_PASSWORD_ENDPOINT} endpoint to change the password of the user
-     */
-    public static final String CHANGE_PASSWORD_ENDPOINT = "/changePassword";
-
-    /**
-     * {@code DELETE_ACCOUNT_ENDPOINT} endpoint to delete the account of the user
-     */
-    public static final String DELETE_ACCOUNT_ENDPOINT = "/deleteAccount";
 
     /**
      * {@code WRONG_EMAIL_MESSAGE} message to use when the email inserted is wrong
@@ -101,7 +69,8 @@ public class UsersController extends PandoroController {
      *                  "name" : "the name of the user" -> [String],
      *                  "surname": "the surname of the user" -> [String],
      *                  "email": "the email of the user" -> [String],
-     *                  "password": "the password of the user" -> [String]
+     *                  "password": "the password of the user" -> [String],
+     *                  "language": "the language of the user" -> [String]
      *              }
      *      }
      * </pre>
@@ -120,18 +89,22 @@ public class UsersController extends PandoroController {
                 if (isSurnameValid(surname)) {
                     if (isEmailValid(email)) {
                         if (isPasswordValid(password)) {
-                            String userId = generateIdentifier();
-                            String token = generateIdentifier();
-                            try {
-                                usersHelper.signUp(userId, token, name, surname, email, password);
-                                return successResponse(new JSONObject()
-                                        .put(IDENTIFIER_KEY, userId)
-                                        .put(TOKEN_KEY, token)
-                                        .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
-                                );
-                            } catch (Exception e) {
+                            String language = payload.get(LANGUAGE_KEY);
+                            if (isLanguageValid(language)) {
+                                String userId = generateIdentifier();
+                                String token = generateIdentifier();
+                                try {
+                                    usersHelper.signUp(userId, token, name, surname, email, password, language);
+                                    return successResponse(new JSONObject()
+                                            .put(IDENTIFIER_KEY, userId)
+                                            .put(TOKEN_KEY, token)
+                                            .put(PROFILE_PIC_KEY, DEFAULT_PROFILE_PIC)
+                                    );
+                                } catch (Exception e) {
+                                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                                }
+                            } else
                                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                            }
                         } else
                             return failedResponse(WRONG_PASSWORD_MESSAGE);
                     } else
@@ -175,6 +148,7 @@ public class UsersController extends PandoroController {
                                 .put(NAME_KEY, user.getName())
                                 .put(SURNAME_KEY, user.getSurname())
                                 .put(PROFILE_PIC_KEY, user.getProfilePic())
+                                .put(LANGUAGE_KEY, user.getLanguage())
                         );
                     } else
                         return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -287,6 +261,36 @@ public class UsersController extends PandoroController {
                 return failedResponse(WRONG_PROCEDURE_MESSAGE);
         } else
             return failedResponse(WRONG_PASSWORD_MESSAGE);
+    }
+
+    /**
+     * Method to change the language of the user
+     *
+     * @param id:          the identifier of the user
+     * @param token:       the token of the user
+     * @param newLanguage: the new user language to set
+     * @return the result of the request as {@link String}
+     */
+    @PatchMapping(
+            path = "{" + IDENTIFIER_KEY + "}" + CHANGE_LANGUAGE_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/changeLanguage", method = PATCH)
+    public String changeLanguage(
+            @PathVariable String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestBody String newLanguage
+    ) {
+        if (isLanguageValid(newLanguage)) {
+            if (isAuthenticatedUser(id, token)) {
+                usersHelper.changeLanguage(id, token, newLanguage);
+                return successResponse();
+            } else
+                return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        } else
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.records.structures;
+package com.tecknobit.pandorocore.records.structures;
 
 import com.tecknobit.apimanager.annotations.Structure;
 import com.tecknobit.apimanager.formatters.JsonHelper;

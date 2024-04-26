@@ -1,9 +1,9 @@
 package com.tecknobit.pandoro.services.repositories.groups;
 
-import com.tecknobit.pandoro.records.Group;
-import com.tecknobit.pandoro.records.users.GroupMember;
-import com.tecknobit.pandoro.records.users.GroupMember.InvitationStatus;
-import com.tecknobit.pandoro.records.users.GroupMember.Role;
+import com.tecknobit.pandorocore.records.Group;
+import com.tecknobit.pandorocore.records.users.GroupMember;
+import com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus;
+import com.tecknobit.pandorocore.records.users.GroupMember.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.GroupsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.Group.*;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.users.PublicUser.*;
 
 /**
  * The {@code GroupMembersRepository} interface is useful to manage the queries for the members of the groups

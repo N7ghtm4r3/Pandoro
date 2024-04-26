@@ -1,16 +1,17 @@
-package com.tecknobit.pandoro.helpers
+package com.tecknobit.pandorocore.helpers
 
-import com.tecknobit.pandoro.helpers.InputStatus.*
-import com.tecknobit.pandoro.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
-import com.tecknobit.pandoro.records.Group.GROUP_NAME_MAX_LENGTH
-import com.tecknobit.pandoro.records.Note
-import com.tecknobit.pandoro.records.Note.NOTE_CONTENT_MAX_LENGTH
-import com.tecknobit.pandoro.records.Project.*
-import com.tecknobit.pandoro.records.Project.RepositoryPlatform.isValidPlatform
-import com.tecknobit.pandoro.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
-import com.tecknobit.pandoro.records.users.User.*
+import com.tecknobit.pandorocore.helpers.InputStatus.*
+import com.tecknobit.pandorocore.records.Group.GROUP_DESCRIPTION_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Group.GROUP_NAME_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Note
+import com.tecknobit.pandorocore.records.Note.NOTE_CONTENT_MAX_LENGTH
+import com.tecknobit.pandorocore.records.Project.*
+import com.tecknobit.pandorocore.records.Project.RepositoryPlatform.isValidPlatform
+import com.tecknobit.pandorocore.records.ProjectUpdate.TARGET_VERSION_MAX_LENGTH
+import com.tecknobit.pandorocore.records.users.User.*
 import org.apache.commons.validator.routines.EmailValidator
 import org.apache.commons.validator.routines.UrlValidator
+
 
 /**
  * **InputStatus** -> list of available input statuses
@@ -89,6 +90,22 @@ enum class ScreenType {
     }
 
 }
+
+/**
+ * `LANGUAGES_SUPPORTED` list of the supported languages
+ */
+val LANGUAGES_SUPPORTED = HashMap<String, String>()
+    .apply {
+        put("it", "ITALIAN")
+        put("en", "ENGLISH")
+        put("fr", "FRENCH")
+        put("es", "SPANISH")
+    }
+
+/**
+ * `DEFAULT_USER_LANGUAGE` the default value of the user language
+ */
+const val DEFAULT_USER_LANGUAGE = "en"
 
 /**
  * **validator** -> the validator to check the validity of the emails
@@ -189,6 +206,17 @@ fun isEmailValid(email: String?): Boolean {
  */
 fun isPasswordValid(password: String?): Boolean {
     return password != null && password.length in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH
+}
+
+/**
+ * Method to validate a language
+ *
+ * @param language: language value to check the validity
+ *
+ * @return whether the language is valid or not as `boolean`
+ */
+fun isLanguageValid(language: String?): Boolean {
+    return language != null && (LANGUAGES_SUPPORTED.containsKey(language) || LANGUAGES_SUPPORTED.containsValue(language))
 }
 
 /**

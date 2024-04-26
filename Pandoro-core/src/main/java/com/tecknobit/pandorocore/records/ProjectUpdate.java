@@ -1,13 +1,14 @@
-package com.tecknobit.pandoro.records;
+package com.tecknobit.pandorocore.records;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandoro.records.structures.PandoroItemStructure;
-import com.tecknobit.pandoro.records.users.PublicUser;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
+import com.tecknobit.pandorocore.records.users.PublicUser;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,14 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.ChangelogsController.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.controllers.GroupsController.GROUPS_KEY;
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.records.ProjectUpdate.Status.*;
-import static com.tecknobit.pandoro.services.ProjectsHelper.*;
-import static com.tecknobit.pandoro.services.UsersHelper.*;
+import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
+import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -35,7 +30,7 @@ import static com.tecknobit.pandoro.services.UsersHelper.*;
  * @see Serializable
  */
 @Entity
-@Table(name = UPDATES_KEY)
+@Table(name = Project.UPDATES_KEY)
 public class ProjectUpdate extends PandoroItemStructure {
 
     /**
@@ -69,7 +64,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      * {@code id} identifier of the update
      */
     @Id
-    @Column(name = IDENTIFIER_KEY)
+    @Column(name = PandoroItem.IDENTIFIER_KEY)
     private final String id;
 
     /**
@@ -79,17 +74,18 @@ public class ProjectUpdate extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = AUTHOR_KEY)
+    @JoinColumn(name = PandoroItem.AUTHOR_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
-            PROJECTS_KEY,
-            NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            LANGUAGE_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
+            Project.PROJECTS_KEY,
+            Note.NOTES_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -98,20 +94,20 @@ public class ProjectUpdate extends PandoroItemStructure {
     /**
      * {@code createDate} when the update has been created
      */
-    @Column(name = UPDATE_CREATE_DATE_KEY)
+    @Column(name = Project.UPDATE_CREATE_DATE_KEY)
     private final long createDate;
 
     /**
      * {@code targetVersion} the target version of the update
      */
-    @Column(name = UPDATE_TARGET_VERSION_KEY)
+    @Column(name = Project.UPDATE_TARGET_VERSION_KEY)
     private final String targetVersion;
 
     /**
      * {@code status} the status of the update
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = UPDATE_STATUS_KEY)
+    @Column(name = Project.UPDATE_STATUS_KEY)
     private final Status status;
 
     /**
@@ -121,17 +117,17 @@ public class ProjectUpdate extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_STARTED_BY_KEY)
+    @JoinColumn(name = Project.UPDATE_STARTED_BY_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
-            PROJECTS_KEY,
-            NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
+            Project.PROJECTS_KEY,
+            Note.NOTES_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -140,7 +136,7 @@ public class ProjectUpdate extends PandoroItemStructure {
     /**
      * {@code startDate} when the update has been started
      */
-    @Column(name = UPDATE_START_DATE_KEY)
+    @Column(name = Project.UPDATE_START_DATE_KEY)
     private final long startDate;
 
     /**
@@ -150,17 +146,17 @@ public class ProjectUpdate extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_PUBLISHED_BY_KEY)
+    @JoinColumn(name = Project.UPDATE_PUBLISHED_BY_KEY)
     @JsonIgnoreProperties({
-            TOKEN_KEY,
-            PASSWORD_KEY,
-            COMPLETE_NAME_KEY,
-            CHANGELOGS_KEY,
-            GROUPS_KEY,
-            PROJECTS_KEY,
-            NOTES_KEY,
-            UNREAD_CHANGELOGS_KEY,
-            ADMIN_GROUPS_KEY,
+            PublicUser.TOKEN_KEY,
+            PublicUser.PASSWORD_KEY,
+            PublicUser.COMPLETE_NAME_KEY,
+            Changelog.CHANGELOGS_KEY,
+            Group.GROUPS_KEY,
+            Project.PROJECTS_KEY,
+            Note.NOTES_KEY,
+            PublicUser.UNREAD_CHANGELOGS_KEY,
+            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -169,7 +165,7 @@ public class ProjectUpdate extends PandoroItemStructure {
     /**
      * {@code publishDate} when the update has been published
      */
-    @Column(name = UPDATE_PUBLISH_DATE_KEY)
+    @Column(name = Project.UPDATE_PUBLISH_DATE_KEY)
     private final long publishDate;
 
     /**
@@ -182,7 +178,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      * {@code notes} the notes for the update to be done
      */
     @OneToMany(
-            mappedBy = UPDATE_KEY,
+            mappedBy = Project.UPDATE_KEY,
             cascade = CascadeType.ALL
     )
     private final List<Note> notes;
@@ -197,7 +193,7 @@ public class ProjectUpdate extends PandoroItemStructure {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = PROJECT_KEY)
+    @JoinColumn(name = Project.PROJECT_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
@@ -217,14 +213,14 @@ public class ProjectUpdate extends PandoroItemStructure {
      */
     public ProjectUpdate(JSONObject jProjectUpdate) {
         super(jProjectUpdate);
-        id = hItem.getString(IDENTIFIER_KEY);
-        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
-        createDate = hItem.getLong(UPDATE_CREATE_DATE_KEY, -1);
-        targetVersion = hItem.getString(UPDATE_TARGET_VERSION_KEY);
-        startedBy = PublicUser.getInstance(hItem.getJSONObject(UPDATE_STARTED_BY_KEY));
-        startDate = hItem.getLong(UPDATE_START_DATE_KEY, -1);
-        publishedBy = PublicUser.getInstance(hItem.getJSONObject(UPDATE_PUBLISHED_BY_KEY));
-        publishDate = hItem.getLong(UPDATE_PUBLISH_DATE_KEY, -1);
+        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
+        author = User.getInstance(hItem.getJSONObject(PandoroItem.AUTHOR_KEY));
+        createDate = hItem.getLong(Project.UPDATE_CREATE_DATE_KEY, -1);
+        targetVersion = hItem.getString(Project.UPDATE_TARGET_VERSION_KEY);
+        startedBy = PublicUser.getInstance(hItem.getJSONObject(Project.UPDATE_STARTED_BY_KEY));
+        startDate = hItem.getLong(Project.UPDATE_START_DATE_KEY, -1);
+        publishedBy = PublicUser.getInstance(hItem.getJSONObject(Project.UPDATE_PUBLISHED_BY_KEY));
+        publishDate = hItem.getLong(Project.UPDATE_PUBLISH_DATE_KEY, -1);
         if (publishDate != -1) {
             developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
             status = PUBLISHED;
@@ -235,7 +231,7 @@ public class ProjectUpdate extends PandoroItemStructure {
             developmentDuration = -1;
             status = IN_DEVELOPMENT;
         }
-        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
+        notes = Note.getInstances(hItem.getJSONArray(Note.NOTES_KEY));
     }
 
     /**
@@ -301,7 +297,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #createDate} instance as long
      */
-    @JsonGetter(UPDATE_CREATE_DATE_KEY)
+    @JsonGetter(Project.UPDATE_CREATE_DATE_KEY)
     public long getCreateTimestamp() {
         return createDate;
     }
@@ -323,7 +319,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #targetVersion} instance as {@link String}
      */
-    @JsonGetter(UPDATE_TARGET_VERSION_KEY)
+    @JsonGetter(Project.UPDATE_TARGET_VERSION_KEY)
     public String getTargetVersion() {
         return targetVersion;
     }
@@ -334,7 +330,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #startedBy} instance as {@link User}
      */
-    @JsonGetter(UPDATE_STARTED_BY_KEY)
+    @JsonGetter(Project.UPDATE_STARTED_BY_KEY)
     public PublicUser getStartedBy() {
         return startedBy;
     }
@@ -345,7 +341,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #startDate} instance as long
      */
-    @JsonGetter(UPDATE_START_DATE_KEY)
+    @JsonGetter(Project.UPDATE_START_DATE_KEY)
     public long getStartTimestamp() {
         return startDate;
     }
@@ -369,7 +365,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #publishedBy} instance as {@link User}
      */
-    @JsonGetter(UPDATE_PUBLISHED_BY_KEY)
+    @JsonGetter(Project.UPDATE_PUBLISHED_BY_KEY)
     public PublicUser getPublishedBy() {
         return publishedBy;
     }
@@ -380,7 +376,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      *
      * @return {@link #publishDate} instance as long
      */
-    @JsonGetter(UPDATE_PUBLISH_DATE_KEY)
+    @JsonGetter(Project.UPDATE_PUBLISH_DATE_KEY)
     public long getPublishTimestamp() {
         return publishDate;
     }

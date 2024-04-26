@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.repositories;
 
-import com.tecknobit.pandoro.records.Note;
-import com.tecknobit.pandoro.records.ProjectUpdate;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.Note;
+import com.tecknobit.pandorocore.records.ProjectUpdate;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.NotesController.NOTES_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.NotesHelper.*;
-import static com.tecknobit.pandoro.services.ProjectsHelper.UPDATE_KEY;
+import static com.tecknobit.pandorocore.records.Note.*;
+import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.*;
 
 /**
  * The {@code NotesRepository} interface is useful to manage the queries for the notes

@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.repositories.projects;
 
-import com.tecknobit.pandoro.records.ProjectUpdate;
-import com.tecknobit.pandoro.records.ProjectUpdate.Status;
-import com.tecknobit.pandoro.records.users.User;
+import com.tecknobit.pandorocore.records.ProjectUpdate;
+import com.tecknobit.pandorocore.records.ProjectUpdate.Status;
+import com.tecknobit.pandorocore.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,9 +11,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import static com.tecknobit.pandoro.controllers.PandoroController.AUTHOR_KEY;
-import static com.tecknobit.pandoro.controllers.PandoroController.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.ProjectsHelper.*;
+import static com.tecknobit.pandorocore.records.Project.*;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
 
 /**
  * The {@code UpdatesRepository} interface is useful to manage the queries for the updates of a project
