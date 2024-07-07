@@ -15,7 +15,8 @@ import java.util.List;
 
 import static com.tecknobit.pandorocore.records.Note.*;
 import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.*;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.CREATION_DATE_KEY;
 
 /**
  * The {@code NotesRepository} interface is useful to manage the queries for the notes
@@ -39,7 +40,9 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Note> getNotes(@Param(AUTHOR_KEY) String authorId);
+    List<Note> getNotes(
+            @Param(AUTHOR_KEY) String authorId
+    );
 
     /**
      * Method to execute the query to select a {@link Note} by its id
@@ -49,13 +52,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
      * @return the note as {@link Note}
      */
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     Note getNote(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId
+            @Param(IDENTIFIER_KEY) String noteId
     );
 
     /**
@@ -66,13 +69,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
      * @return the note as {@link Note}
      */
     @Query(
-            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+            value = "SELECT * FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     Note getNoteByUpdate(
             @Param(UPDATE_KEY) String updateId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId
+            @Param(IDENTIFIER_KEY) String noteId
     );
 
     /**
@@ -87,7 +90,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "INSERT INTO " + NOTES_KEY
-                    + " (" + NOTE_IDENTIFIER_KEY + ","
+                    + " (" + IDENTIFIER_KEY + ","
                     + AUTHOR_KEY + ","
                     + CONTENT_NOTE_KEY + ","
                     + CREATION_DATE_KEY + ","
@@ -95,7 +98,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ")"
                     + "VALUES ("
-                    + ":" + NOTE_IDENTIFIER_KEY + ","
+                    + ":" + IDENTIFIER_KEY + ","
                     + ":" + AUTHOR_KEY + ","
                     + ":" + CONTENT_NOTE_KEY + ","
                     + ":" + CREATION_DATE_KEY + ","
@@ -107,7 +110,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     void createNote(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(IDENTIFIER_KEY) String noteId,
             @Param(CONTENT_NOTE_KEY) String contentNote,
             @Param(CREATION_DATE_KEY) long creationDate
     );
@@ -125,7 +128,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "INSERT INTO " + NOTES_KEY
-                    + " (" + NOTE_IDENTIFIER_KEY + ","
+                    + " (" + IDENTIFIER_KEY + ","
                     + AUTHOR_KEY + ","
                     + CONTENT_NOTE_KEY + ","
                     + CREATION_DATE_KEY + ","
@@ -134,7 +137,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_DATE_KEY + ","
                     + UPDATE_KEY + ") "
                     + "VALUES ("
-                    + ":" + NOTE_IDENTIFIER_KEY + ","
+                    + ":" + IDENTIFIER_KEY + ","
                     + ":" + AUTHOR_KEY + ","
                     + ":" + CONTENT_NOTE_KEY + ","
                     + ":" + CREATION_DATE_KEY + ","
@@ -147,7 +150,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     )
     void addChangeNote(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(IDENTIFIER_KEY) String noteId,
             @Param(CONTENT_NOTE_KEY) String contentNote,
             @Param(CREATION_DATE_KEY) long creationDate,
             @Param(UPDATE_KEY) String updateId
@@ -168,13 +171,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY + ","
                     + MARKED_AS_DONE_BY_KEY + "= NULL,"
                     + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
-                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY + " AND "
+                    + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND "
                     + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void manageNoteStatus(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(IDENTIFIER_KEY) String noteId,
             @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
             @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
     );
@@ -195,13 +198,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY + ","
                     + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
-                    + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY + " AND "
+                    + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND "
                     + UPDATE_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     void manageChangeNoteStatus(
             @Param(UPDATE_KEY) String updateId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId,
+            @Param(IDENTIFIER_KEY) String noteId,
             @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
             @Param(MARKED_AS_DONE_BY_KEY) String marker,
             @Param(MARKED_AS_DONE_DATE_KEY) long markedAsDoneDate
@@ -216,13 +219,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void deleteNote(
             @Param(AUTHOR_KEY) String authorId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId
+            @Param(IDENTIFIER_KEY) String noteId
     );
 
     /**
@@ -234,13 +237,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + NOTES_KEY + " WHERE " + NOTE_IDENTIFIER_KEY + "=:" + NOTE_IDENTIFIER_KEY
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     void deleteChangeNote(
             @Param(UPDATE_KEY) String updateId,
-            @Param(NOTE_IDENTIFIER_KEY) String noteId
+            @Param(IDENTIFIER_KEY) String noteId
     );
 
     /**

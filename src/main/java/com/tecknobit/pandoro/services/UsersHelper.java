@@ -3,6 +3,8 @@ package com.tecknobit.pandoro.services;
 import com.tecknobit.equinox.environment.helpers.services.EquinoxUsersHelper;
 import com.tecknobit.pandoro.services.repositories.NotesRepository;
 import com.tecknobit.pandoro.services.repositories.groups.GroupMembersRepository;
+import com.tecknobit.pandoro.services.repositories.projects.ProjectsRepository;
+import com.tecknobit.pandoro.services.repositories.projects.UpdatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,18 @@ public class UsersHelper extends EquinoxUsersHelper {
     private GroupMembersRepository membersRepository;
 
     /**
+     * {@code projectsRepository} instance for the projects repository
+     */
+    @Autowired
+    private ProjectsRepository projectsRepository;
+
+    /**
+     * {@code updatesRepository} instance for the updates repository
+     */
+    @Autowired
+    private UpdatesRepository updatesRepository;
+
+    /**
      * {@code notesRepository} instance for the notes repository
      */
     @Autowired
@@ -31,6 +45,8 @@ public class UsersHelper extends EquinoxUsersHelper {
         notesRepository.removeUserConstraints(id);
         notesRepository.setGroupNotesAuthorAfterUserDeletion(id);
         notesRepository.setGroupNotesMarkerAfterUserDeletion(id);
+        updatesRepository.removeUserConstraints(id);
+        projectsRepository.deleteProjects(id);
         membersRepository.deleteMember(id);
         super.deleteUser(id);
     }

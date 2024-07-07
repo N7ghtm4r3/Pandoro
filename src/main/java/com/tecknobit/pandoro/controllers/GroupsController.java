@@ -44,12 +44,12 @@ public class GroupsController extends EquinoxController {
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
      * account wrong
      */
-    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "You cannot execute this action on your account";
+    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "action_executed_on_own_account_error_key";
 
     /**
      * {@code WRONG_ADMIN_MESSAGE} message to use when a wrong admin has been inserted
      */
-    public static final String WRONG_ADMIN_MESSAGE = "You need to insert a valid new admin";
+    public static final String WRONG_ADMIN_MESSAGE = "wrong_admin_inserted_key";
 
     /**
      * {@code groupsHelper} instance to manage the groups database operations
@@ -134,13 +134,13 @@ public class GroupsController extends EquinoxController {
                             groupsHelper.createGroup((User) me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();
                         } else
-                            return failedResponse("Wrong members list");
+                            return failedResponse("wrong_members_list_key");
                     } else
-                        return failedResponse("Wrong group description");
+                        return failedResponse("wrong_group_description_key");
                 } else
-                    return failedResponse("A group with this name already exists");
+                    return failedResponse("group_name_already_exists_key");
             } else
-                return failedResponse("Wrong group name");
+                return failedResponse("wrong_group_name_key");
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -470,7 +470,7 @@ public class GroupsController extends EquinoxController {
                     groupsHelper.editProjects(groupId, projectsList);
                     return successResponse();
                 } else
-                    return failedResponse("Wrong projects list");
+                    return failedResponse("wrong_projects_list_key");
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else

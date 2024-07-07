@@ -76,7 +76,7 @@ public class User extends EquinoxUser {
             mappedBy = AUTHOR_KEY,
             cascade = CascadeType.ALL
     )
-    private final List<Note> notes;
+    private List<Note> notes;
 
     /**
      * Default constructor
@@ -213,6 +213,15 @@ public class User extends EquinoxUser {
      */
     public ArrayList<Note> getNotes() {
         return new ArrayList<>(notes);
+    }
+
+    /**
+     * Method to set {@link #notes} instance <br>
+     *
+     * @param notes:{@code notes} list of the notes of the user
+     */
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     /**

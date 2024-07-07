@@ -7,13 +7,14 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.Endpoints.*;
 import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Note.*;
 
 /**
  * The {@code NotesController} class is useful to manage all the note operations
@@ -22,13 +23,13 @@ import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIE
  * @see EquinoxController
  */
 @RestController
-@RequestMapping(path = BASE_EQUINOX_ENDPOINT + NOTES_KEY)
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + NOTES_KEY)
 public class NotesController extends EquinoxController {
 
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
      */
-    public static final String WRONG_CONTENT_NOTE_MESSAGE = "Wrong content note";
+    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note_key";
 
     /**
      * {@code notesHelper} instance to manage the notes database operations
@@ -54,13 +55,12 @@ public class NotesController extends EquinoxController {
      */
     @GetMapping(
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
     public <T> T getNotesList(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
@@ -74,23 +74,23 @@ public class NotesController extends EquinoxController {
      *
      * @param id:          the identifier of the user
      * @param token:       the token of the user
-     * @param contentNote: the content of the note
+     * @param payload: the payload with the content of the note
      * @return the result of the request as {@link String}
      */
     @PostMapping(
-            path = CREATE_NOTE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/create", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = POST)
     public String createNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String contentNote
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
+            loadJsonHelper(payload);
+            String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
             if (Companion.isContentNoteValid(contentNote)) {
                 notesHelper.createNote(id, generateIdentifier(), contentNote);
                 return successResponse();
@@ -112,13 +112,12 @@ public class NotesController extends EquinoxController {
     @PatchMapping(
             path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_DONE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsDone", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsDone", method = PATCH)
     public String markAsDone(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
@@ -141,13 +140,12 @@ public class NotesController extends EquinoxController {
     @PatchMapping(
             path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_TO_DO_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsToDo", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsToDo", method = PATCH)
     public String markAsToDo(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
@@ -168,15 +166,14 @@ public class NotesController extends EquinoxController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_NOTE_ENDPOINT,
+            path = "{" + NOTE_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/deleteNote", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = DELETE)
     public String deleteNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {

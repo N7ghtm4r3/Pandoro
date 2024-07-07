@@ -303,6 +303,7 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: TO ADAPT WITH THE NEW REQUESTS DETAILS
     @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
     fun execAddChangeNote(
         projectId: String,
@@ -393,7 +394,7 @@ open class PandoroRequester(
      *
      */
     @RequestPath(
-        path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/deleteChangeNote",
+        path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}",
         method = DELETE
     )
     fun execDeleteChangeNote(
@@ -403,7 +404,7 @@ open class PandoroRequester(
     ): JSONObject {
         return execDelete(
             endpoint = createUpdatesEndpoint(
-                endpoint = "/${NOTES_KEY}/$changeNoteId${DELETE_CHANGE_NOTE_ENDPOINT}",
+                endpoint = "/${NOTES_KEY}/$changeNoteId",
                 projectId = projectId,
                 updateId = updateId, insertSlash = false
             ),
@@ -419,14 +420,15 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/delete", method = DELETE)
+    //TODO: TO FIX ENDPOINT
+    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}", method = DELETE)
     fun execDeleteUpdate(
         projectId: String,
         updateId: String,
     ): JSONObject {
         return execDelete(
             endpoint = createUpdatesEndpoint(
-                endpoint = DELETE_UPDATE_ENDPOINT,
+                endpoint = "TO-FIX",
                 projectId = projectId,
                 updateId = updateId,
                 insertSlash = false
@@ -758,13 +760,14 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: TO FIX ENDPOINT
     @RequestPath(path = "/api/v1/notes/create", method = POST)
     fun execAddNote(contentNote: String): JSONObject {
         val payload = Params()
         payload.addParam(contentNote, "")
         return execPost(
             endpoint = createNotesEndpoint(
-                endpoint = CREATE_NOTE_ENDPOINT
+                endpoint = "TO-FIX"
             ),
             payload = payload
         )
@@ -813,11 +816,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: TO FIX ENDPOINT
     @RequestPath(path = "/api/v1/notes/{note_id}/deleteNote", method = DELETE)
     fun execDeleteNote(noteId: String): JSONObject {
         return execDelete(
             endpoint = createNotesEndpoint(
-                endpoint = DELETE_NOTE_ENDPOINT,
+                endpoint = "TO-FIX",
                 id = noteId
             )
         )

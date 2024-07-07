@@ -51,7 +51,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Project> getProjectsList(@Param(AUTHOR_KEY) String userId);
+    List<Project> getProjectsList(
+            @Param(AUTHOR_KEY) String userId
+    );
 
     /**
      * Method to execute the query to select a {@link Project} by its name

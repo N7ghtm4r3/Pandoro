@@ -95,21 +95,6 @@ public class Endpoints extends EquinoxBaseEndpointsSet {
     public static final String MARK_CHANGE_NOTE_AS_TODO_ENDPOINT = "/markChangeNoteAsToDo";
 
     /**
-     * {@code DELETE_CHANGE_NOTE_ENDPOINT} endpoint to delete a change note of an update
-     */
-    public static final String DELETE_CHANGE_NOTE_ENDPOINT = "/deleteChangeNote";
-
-    /**
-     * {@code DELETE_UPDATE_ENDPOINT} endpoint to delete a project
-     */
-    public static final String DELETE_UPDATE_ENDPOINT = "/delete";
-
-    /**
-     * {@code CREATE_NOTE_ENDPOINT} endpoint to create a new note
-     */
-    public static final String CREATE_NOTE_ENDPOINT = "/create";
-
-    /**
      * {@code MARK_AS_DONE_ENDPOINT} endpoint to mark as done an existing note
      */
     public static final String MARK_AS_DONE_ENDPOINT = "/markAsDone";
@@ -118,11 +103,6 @@ public class Endpoints extends EquinoxBaseEndpointsSet {
      * {@code MARK_AS_TO_DO_ENDPOINT} endpoint to mark as todo an existing note
      */
     public static final String MARK_AS_TO_DO_ENDPOINT = "/markAsToDo";
-
-    /**
-     * {@code DELETE_NOTE_ENDPOINT} endpoint to delete an existing note
-     */
-    public static final String DELETE_NOTE_ENDPOINT = "/deleteNote";
 
     /**
      * {@code READ_CHANGELOG_ENDPOINT} endpoint to read a changelog

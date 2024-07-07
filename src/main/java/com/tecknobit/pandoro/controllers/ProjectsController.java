@@ -15,18 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.IDENTIFIER_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandorocore.Endpoints.*;
 import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Note.*;
 import static com.tecknobit.pandorocore.records.Project.*;
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
@@ -325,13 +325,12 @@ public class ProjectsController extends PandoroController {
     @PostMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + SCHEDULE_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/schedule", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/schedule", method = POST)
     public String scheduleUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @RequestBody String payload
@@ -347,11 +346,11 @@ public class ProjectsController extends PandoroController {
                             projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
                             return successResponse();
                         } else
-                            return failedResponse("Wrong change notes list");
+                            return failedResponse("wrong_change_notes_list_key");
                     } else
-                        return failedResponse("An update with this target version already exists");
+                        return failedResponse("update_version_already_exists_key");
                 } else
-                    return failedResponse("Wrong target version");
+                    return failedResponse("wrong_target_version_key");
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
@@ -371,13 +370,12 @@ public class ProjectsController extends PandoroController {
     @PatchMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + START_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/start", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/start", method = PATCH)
     public String startUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId
@@ -398,13 +396,12 @@ public class ProjectsController extends PandoroController {
     @PatchMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + PUBLISH_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
     public String publishUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId
@@ -430,11 +427,11 @@ public class ProjectsController extends PandoroController {
                 Status status = update.getStatus();
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
-                        return failedResponse("An update to be published must be IN_DEVELOPMENT first");
+                        return failedResponse("wrong_publish_update_request_key");
                     projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
                 } else {
                     if (status != SCHEDULED)
-                        return failedResponse("An update to be published must be SCHEDULED first");
+                        return failedResponse("wrong_development_update_request_key");
                     projectsHelper.startUpdate(projectId, updateId, id);
                 }
                 return successResponse();
@@ -451,28 +448,29 @@ public class ProjectsController extends PandoroController {
      * @param token: the token of the user
      * @param projectId: the identifier of the project where add the new change note
      * @param updateId: the identifier of the update where add the new change note
-     * @param contentNote: the content of the change note
+     * @param payload: the payload with the content of the change note
      *
      * @return the result of the request as {@link String}
      */
     @PutMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + ADD_CHANGE_NOTE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
     public String addChangeNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
-            @RequestBody String contentNote
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
             if (projectsHelper.getProject(id, projectId) != null && update != null && update.getStatus() != PUBLISHED) {
+                loadJsonHelper(payload);
+                String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
                 if (Companion.isContentNoteValid(contentNote)) {
                     projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
                     return successResponse();
@@ -499,16 +497,15 @@ public class ProjectsController extends PandoroController {
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_DONE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
             method = PATCH
     )
     public String markChangeNoteAsDone(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -532,16 +529,15 @@ public class ProjectsController extends PandoroController {
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_TODO_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
             method = PATCH
     )
     public String markChangeNoteAsToDo(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -563,18 +559,17 @@ public class ProjectsController extends PandoroController {
      */
     @DeleteMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
-                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_CHANGE_NOTE_ENDPOINT,
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/deleteChangeNote",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}",
             method = DELETE
     )
     public String deleteChangeNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -640,15 +635,14 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + DELETE_UPDATE_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/delete", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}", method = DELETE)
     public String deleteUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId

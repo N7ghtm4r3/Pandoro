@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -23,6 +23,8 @@ import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
 import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
 import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.CREATION_DATE_KEY;
 import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
@@ -71,20 +73,13 @@ public class Note extends EquinoxItem {
     public static final int NOTE_CONTENT_MAX_LENGTH = 200;
 
     /**
-     * {@code id} the identifier of the note
-     */
-    @Id
-    @Column(name = NOTE_IDENTIFIER_KEY)
-    private final String id;
-
-    /**
      * {@code author} the author of the note
      */
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = PandoroItem.AUTHOR_KEY)
+    @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
             TOKEN_KEY,
             PASSWORD_KEY,
@@ -96,7 +91,8 @@ public class Note extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final User author;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private final EquinoxUser author;
 
     /**
      * {@code content} the content of the note
@@ -110,7 +106,7 @@ public class Note extends EquinoxItem {
     /**
      * {@code creationDate} when the note has been created
      */
-    @Column(name = PandoroItem.CREATION_DATE_KEY)
+    @Column(name = CREATION_DATE_KEY)
     private final long creationDate;
 
     /**
@@ -156,7 +152,7 @@ public class Note extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_KEY, referencedColumnName = PandoroItem.IDENTIFIER_KEY)
+    @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ProjectUpdate project_update;
 
@@ -176,10 +172,9 @@ public class Note extends EquinoxItem {
      */
     public Note(JSONObject jNote) {
         super(jNote);
-        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
-        author = User.getInstance(hItem.getJSONObject(PandoroItem.AUTHOR_KEY));
+        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         content = hItem.getString(CONTENT_NOTE_KEY);
-        creationDate = hItem.getLong(PandoroItem.CREATION_DATE_KEY, -1);
+        creationDate = hItem.getLong(CREATION_DATE_KEY, -1);
         markedAsDone = hItem.getBoolean(MARKED_AS_DONE_KEY);
         markedAsDoneBy = User.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
         markAsDoneDate = hItem.getLong(MARKED_AS_DONE_DATE_KEY, -1);
@@ -198,7 +193,6 @@ public class Note extends EquinoxItem {
     public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
                 User markedAsDoneBy, long markAsDoneDate) {
         super(id);
-        this.id = id;
         this.author = author;
         this.content = content;
         this.creationDate = creationDate;
@@ -213,7 +207,7 @@ public class Note extends EquinoxItem {
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public EquinoxUser getAuthor() {
         return author;
     }
 
@@ -234,7 +228,7 @@ public class Note extends EquinoxItem {
      *
      * @return {@link #creationDate} instance as long
      */
-    @JsonGetter(PandoroItem.CREATION_DATE_KEY)
+    @JsonGetter(CREATION_DATE_KEY)
     public long getCreation() {
         return creationDate;
     }
