@@ -258,7 +258,9 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + " AND " + UPDATE_KEY + " IS NULL",
             nativeQuery = true
     )
-    void removeUserConstraints(@Param(IDENTIFIER_KEY) String userId);
+    void removeUserConstraints(
+            @Param(IDENTIFIER_KEY) String userId
+    );
 
     /**
      * Method to execute the query to remove the constraints between {@link User} deleted and the author of the
@@ -275,7 +277,9 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + " AND " + UPDATE_KEY + " IS NOT NULL",
             nativeQuery = true
     )
-    void setGroupNotesAuthorAfterUserDeletion(@Param(IDENTIFIER_KEY) String userId);
+    void setGroupNotesAuthorAfterUserDeletion(
+            @Param(IDENTIFIER_KEY) String userId
+    );
 
     /**
      * Method to execute the query to remove the constraints between {@link User} deleted and the marker of the
@@ -292,6 +296,8 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + " AND " + UPDATE_KEY + " IS NOT NULL",
             nativeQuery = true
     )
-    void setGroupNotesMarkerAfterUserDeletion(@Param(IDENTIFIER_KEY) String userId);
+    void setGroupNotesMarkerAfterUserDeletion(
+            @Param(IDENTIFIER_KEY) String userId
+    );
 
 }

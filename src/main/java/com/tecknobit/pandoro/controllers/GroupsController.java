@@ -16,16 +16,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
 import static com.tecknobit.equinox.Requester.RESPONSE_STATUS_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.pandorocore.Endpoints.*;
 import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.Group.*;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
@@ -35,10 +37,11 @@ import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see EquinoxController
+ * @see PandoroController
  */
 @RestController
-@RequestMapping(path = BASE_EQUINOX_ENDPOINT + GROUPS_KEY)
-public class GroupsController extends EquinoxController {
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + GROUPS_KEY)
+public class GroupsController extends PandoroController {
 
     /**
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
@@ -75,13 +78,12 @@ public class GroupsController extends EquinoxController {
      */
     @GetMapping(
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
     public <T> T getGroupsList(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
@@ -112,13 +114,12 @@ public class GroupsController extends EquinoxController {
     @PostMapping(
             path = CREATE_GROUP_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/createGroup", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/groups/createGroup", method = POST)
     public String createGroup(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody String payload
     ) {
@@ -131,7 +132,7 @@ public class GroupsController extends EquinoxController {
                     if (Companion.isGroupDescriptionValid(groupDescription)) {
                         ArrayList<String> members = hPayload.fetchList(GROUP_MEMBERS_KEY);
                         if (Companion.checkMembersValidity(members)) {
-                            groupsHelper.createGroup((User) me, generateIdentifier(), groupName, groupDescription, members);
+                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();
                         } else
                             return failedResponse("wrong_members_list_key");
@@ -157,13 +158,12 @@ public class GroupsController extends EquinoxController {
     @GetMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
     public <T> T getGroup(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
@@ -183,28 +183,28 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group where add the members
-     * @param membersList: the list of the member to add
+     * @param payload: the payload with the list of the member to add
      *
      * @return the result of the request as {@link String}
      */
     @PutMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + ADD_MEMBERS_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/addMembers", method = PUT)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/addMembers", method = PUT)
     public String addMembers(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String membersList
+            @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserMaintainer((User) me)) {
-                List<?> members = new JsonHelper(membersList).toList();
+            if (group != null && group.isUserMaintainer(me)) {
+                loadJsonHelper(payload);
+                List<?> members = jsonHelper.getJSONArray(GROUP_MEMBERS_KEY, new JSONArray()).toList();
                 if (!members.isEmpty()) {
                     groupsHelper.addMembers(group.getName(), (List<String>) members, groupId);
                     return successResponse();
@@ -222,29 +222,29 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group to accept the invitation
-     * @param changelogId: the changelog identifier to delete
+     * @param payload: the payload with the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + ACCEPT_GROUP_INVITATION_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/acceptGroupInvitation", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/acceptGroupInvitation", method = PATCH)
     public String acceptInvitation(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String changelogId
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
+                loadJsonHelper(payload);
                 try {
-                    groupsHelper.acceptGroupInvitation(groupId, changelogId, (User) me);
+                    groupsHelper.acceptGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
                     return successResponse();
                 } catch (IllegalAccessException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -261,29 +261,29 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group to decline the invitation
-     * @param changelogId: the changelog identifier to delete
+     * @param payload: the payload with the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + DECLINE_GROUP_INVITATION_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/declineGroupInvitation", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/declineGroupInvitation", method = DELETE)
     public String declineInvitation(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String changelogId
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
+                loadJsonHelper(payload);
                 try {
-                    groupsHelper.declineGroupInvitation(groupId, changelogId, (User) me);
+                    groupsHelper.declineGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
                     return successResponse();
                 } catch (IllegalAccessException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -315,13 +315,12 @@ public class GroupsController extends EquinoxController {
     @PatchMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + CHANGE_MEMBER_ROLE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/changeMemberRole", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/changeMemberRole", method = PATCH)
     public String changeMemberRole(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String payload
@@ -333,7 +332,7 @@ public class GroupsController extends EquinoxController {
             Group uGroup = groupsHelper.getGroup(hisId, groupId);
             if (!id.equals(hisId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, hisId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, (User) me);
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, hisId);
                     if (iMember != null && heMember != null && heMember.getInvitationStatus() == JOINED) {
                         boolean isMeAdmin = iMember.isAdmin();
@@ -372,30 +371,31 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group where remove the member
-     * @param memberId: the member identifier to remove
+     * @param payload: payload with the member identifier to remove
      *
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + REMOVE_MEMBER_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/removeMember", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/removeMember", method = DELETE)
     public String removeMember(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String memberId
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             Group meGroup = groupsHelper.getGroup(id, groupId);
+            loadJsonHelper(payload);
+            String memberId = jsonHelper.getString(IDENTIFIER_KEY);
             Group uGroup = groupsHelper.getGroup(memberId, groupId);
             if (!id.equals(memberId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, memberId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, (User) me);
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, memberId);
                     if (iMember != null && heMember != null) {
                         boolean isMeAdmin = iMember.isAdmin();
@@ -440,33 +440,33 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group where edit the projects list
-     * @param projects: the list of projects for the group
+     * @param payload: the payload with the list of projects for the group
      *
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + EDIT_PROJECTS_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/editProjects", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/editProjects", method = PATCH)
     public String editProjects(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String projects
+            @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token)) {
-            User me = (User) super.me;
+            User me = super.me;
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null && group.isUserAdmin(me)) {
-                List<String> projectsList = JsonHelper.toList(new JSONArray(projects));
+                loadJsonHelper(payload);
+                List<String> projectsList = jsonHelper.fetchList(PROJECTS_KEY, new ArrayList<>());
                 ArrayList<String> projectsIds = new ArrayList<>();
                 for (Project project : me.getProjects())
                     projectsIds.add(project.getId());
-                if (projectsIds.containsAll(projectsList)) {
+                if (projectsIds.containsAll(projectsList) && !projectsList.isEmpty()) {
                     groupsHelper.editProjects(groupId, projectsList);
                     return successResponse();
                 } else
@@ -483,32 +483,33 @@ public class GroupsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param groupId: the identifier of the group from leave
-     * @param nextAdminId: the identifier of the admin, if required
+     * @param payload: the payload with the identifier of the admin, if required
      *
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}" + LEAVE_GROUP_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/leaveGroup", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/leaveGroup", method = DELETE)
     public String leaveGroup(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody(required = false) String nextAdminId
+            @RequestBody(required = false) Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
-                GroupMember meMember = groupsHelper.getGroupMember(groupId, (User) me);
+                GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
                 if (meMember != null) {
                     if (meMember.isAdmin()) {
                         if (groupsHelper.hasOtherMembers(groupId)) {
                             if (!groupsHelper.hasGroupAdmins(id, groupId)) {
+                                loadJsonHelper(payload);
+                                String nextAdminId = jsonHelper.getString(IDENTIFIER_KEY);
                                 if (nextAdminId != null && groupsHelper.getGroup(nextAdminId, groupId) != null) {
                                     String result = changeMemberRole(id, token, groupId, new JSONObject()
                                             .put(IDENTIFIER_KEY, nextAdminId)
@@ -561,21 +562,20 @@ public class GroupsController extends EquinoxController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + GROUP_IDENTIFIER_KEY + "}" + DELETE_GROUP_ENDPOINT,
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/groups/{group_id}/deleteGroup", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = DELETE)
     public String deleteGroup(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserAdmin((User) me)) {
+            if (group != null && group.isUserAdmin(me)) {
                 groupsHelper.deleteGroup(id, groupId);
                 return successResponse();
             } else

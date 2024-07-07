@@ -134,7 +134,7 @@ public class Note extends EquinoxItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final User markedAsDoneBy;
+    private final EquinoxUser markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
@@ -262,7 +262,7 @@ public class Note extends EquinoxItem {
      * @return {@link #markedAsDoneBy} instance as {@link User}
      */
     @JsonGetter(MARKED_AS_DONE_BY_KEY)
-    public User getMarkedAsDoneBy() {
+    public EquinoxUser getMarkedAsDoneBy() {
         return markedAsDoneBy;
     }
 

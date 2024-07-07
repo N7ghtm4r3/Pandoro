@@ -33,6 +33,7 @@ import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see EquinoxController
+ * @see PandoroController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + PROJECTS_KEY)

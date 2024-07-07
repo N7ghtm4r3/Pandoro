@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
+import static com.tecknobit.pandorocore.Endpoints.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
@@ -22,7 +23,7 @@ import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIE
  * @see EquinoxController
  */
 @RestController
-@RequestMapping(path = BASE_EQUINOX_ENDPOINT + CHANGELOGS_KEY)
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + CHANGELOGS_KEY)
 public class ChangelogsController extends EquinoxController {
 
     /**
@@ -49,13 +50,12 @@ public class ChangelogsController extends EquinoxController {
      */
     @GetMapping(
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/changelogs", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/changelogs", method = GET)
     public <T> T getChangelogs(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
@@ -73,15 +73,14 @@ public class ChangelogsController extends EquinoxController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "{" + CHANGELOG_IDENTIFIER_KEY + "}" + READ_CHANGELOG_ENDPOINT,
+            path = "{" + CHANGELOG_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}/readChangelog", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/{changelog_id}", method = PATCH)
     public String readChangelog(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
     ) {
@@ -103,15 +102,14 @@ public class ChangelogsController extends EquinoxController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "{" + CHANGELOG_IDENTIFIER_KEY + "}" + DELETE_CHANGELOG_ENDPOINT,
+            path = "{" + CHANGELOG_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}/deleteChangelog", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/{changelog_id}", method = DELETE)
     public String deleteChangelog(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
             @RequestBody(required = false) String groupId

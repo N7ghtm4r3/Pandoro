@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
@@ -82,7 +83,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final User author;
+    private final EquinoxUser author;
 
     /**
      * {@code createDate} when the update has been created
@@ -121,7 +122,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final User startedBy;
+    private final EquinoxUser startedBy;
 
     /**
      * {@code startDate} when the update has been started
@@ -147,7 +148,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final User publishedBy;
+    private final EquinoxUser publishedBy;
 
     /**
      * {@code publishDate} when the update has been published
@@ -262,7 +263,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public EquinoxUser getAuthor() {
         return author;
     }
 
@@ -306,7 +307,7 @@ public class ProjectUpdate extends EquinoxItem {
      * @return {@link #startedBy} instance as {@link User}
      */
     @JsonGetter(Project.UPDATE_STARTED_BY_KEY)
-    public User getStartedBy() {
+    public EquinoxUser getStartedBy() {
         return startedBy;
     }
 
@@ -341,7 +342,7 @@ public class ProjectUpdate extends EquinoxItem {
      * @return {@link #publishedBy} instance as {@link User}
      */
     @JsonGetter(Project.UPDATE_PUBLISHED_BY_KEY)
-    public User getPublishedBy() {
+    public EquinoxUser getPublishedBy() {
         return publishedBy;
     }
 

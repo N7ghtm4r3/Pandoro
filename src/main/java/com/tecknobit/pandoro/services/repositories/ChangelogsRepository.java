@@ -47,12 +47,12 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
      * @return the changelog as {@link Changelog}
      */
     @Query(
-            value = "SELECT * FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_IDENTIFIER_KEY + "=:"
-                    + CHANGELOG_IDENTIFIER_KEY + " AND " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
+            value = "SELECT * FROM " + CHANGELOGS_KEY + " WHERE " + IDENTIFIER_KEY + "=:"
+                    + IDENTIFIER_KEY + " AND " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
             nativeQuery = true
     )
     Changelog getChangelog(
-            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId,
+            @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_OWNER_KEY) String owner
     );
 
@@ -62,7 +62,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
 
             value = "INSERT INTO " + CHANGELOGS_KEY
                     + "( "
-                    + CHANGELOG_IDENTIFIER_KEY + ","
+                    + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
                     + CHANGELOG_EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_RED_KEY + ","
@@ -70,7 +70,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + PROJECT_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
                     + "( "
-                    + ":" + CHANGELOG_IDENTIFIER_KEY + ","
+                    + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
                     + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
                     + "false,"
@@ -80,7 +80,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
             nativeQuery = true
     )
     void addProjectChangelog(
-            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId,
+            @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
             @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
             @Param(CHANGELOG_TIMESTAMP_KEY) long changelogTimestamp,
@@ -94,7 +94,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
 
             value = "INSERT INTO " + CHANGELOGS_KEY
                     + "( "
-                    + CHANGELOG_IDENTIFIER_KEY + ","
+                    + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
                     + CHANGELOG_EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_RED_KEY + ","
@@ -102,7 +102,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + GROUP_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
                     + "( "
-                    + ":" + CHANGELOG_IDENTIFIER_KEY + ","
+                    + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
                     + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
                     + "false,"
@@ -112,7 +112,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
             nativeQuery = true
     )
     void addGroupChangelog(
-            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId,
+            @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
             @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
             @Param(CHANGELOG_TIMESTAMP_KEY) long changelogTimestamp,
@@ -131,12 +131,12 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     @Query(
             value = "UPDATE " + CHANGELOGS_KEY + " SET " + CHANGELOG_RED_KEY + "=true WHERE "
                     + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY + " AND "
-                    + CHANGELOG_IDENTIFIER_KEY + "=:" + CHANGELOG_IDENTIFIER_KEY,
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void markAsRed(
             @Param(CHANGELOG_OWNER_KEY) String owner,
-            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId
+            @Param(IDENTIFIER_KEY) String changelogId
     );
 
     /**
@@ -150,12 +150,12 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     @Query(
             value = "DELETE FROM " + CHANGELOGS_KEY + " WHERE "
                     + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY + " AND "
-                    + CHANGELOG_IDENTIFIER_KEY + "=:" + CHANGELOG_IDENTIFIER_KEY,
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void deleteChangelog(
             @Param(CHANGELOG_OWNER_KEY) String owner,
-            @Param(CHANGELOG_IDENTIFIER_KEY) String changelogId
+            @Param(IDENTIFIER_KEY) String changelogId
     );
 
 }

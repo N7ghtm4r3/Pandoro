@@ -17,7 +17,8 @@ import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.records.users.GroupMember.Role
 import org.json.JSONObject
 
-//TODO REMAP REQUESTS ENDPOINTS
+//TODO REMAP REQUESTS ENDPOINTS AND
+//TODO: ADAPT THE METHODS WITH THE NEW REQUIREMENTS
 
 /**
  * The **PandoroRequester** class is useful to communicate with the Pandoro's backend
@@ -555,6 +556,7 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
     @RequestPath(path = "/api/v1/groups/{group_id}/acceptGroupInvitation", method = PATCH)
     fun execAcceptInvitation(
         groupId: String,
@@ -580,6 +582,7 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
     @RequestPath(path = "/api/v1/groups/{group_id}/declineGroupInvitation", method = DELETE)
     fun execDeclineInvitation(
         groupId: String,
@@ -606,6 +609,7 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
     @RequestPath(path = "/api/v1/groups/{group_id}/changeMemberRole", method = PATCH)
     fun execChangeMemberRole(
         groupId: String,
@@ -633,6 +637,7 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
     @RequestPath(path = "/api/v1/groups/{group_id}/removeMember", method = DELETE)
     fun execRemoveMember(
         groupId: String,
@@ -708,11 +713,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
+    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
     @RequestPath(path = "/api/v1/groups/{group_id}/deleteGroup", method = DELETE)
     fun execDeleteGroup(groupId: String): JSONObject {
         return execDelete(
             endpoint = createGroupsEndpoint(
-                endpoint = DELETE_GROUP_ENDPOINT,
+                endpoint = "TO-FIX",
                 id = groupId
             )
         )
@@ -870,11 +876,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}/readChangelog", method = PATCH)
+    //TODO: TO FIX ENDPOINT
+    @RequestPath(path = "/api/v1/changelogs/{changelog_id}", method = PATCH)
     fun execReadChangelog(changelogId: String): JSONObject {
         return execPatch(
             endpoint = createChangelogsEndpoint(
-                endpoint = READ_CHANGELOG_ENDPOINT,
+                endpoint = "TO-FIX",
                 id = changelogId
             ),
             payload = Params()
@@ -890,7 +897,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}/deleteChangelog", method = DELETE)
+    //TODO: TO FIX ENDPOINT
+    @RequestPath(path = "/api/v1/changelogs/{changelog_id}", method = DELETE)
     fun execDeleteChangelog(
         changelogId: String,
         groupId: String? = null
@@ -900,7 +908,7 @@ open class PandoroRequester(
             payload.addParam(groupId, "")
             return execDelete(
                 endpoint = createChangelogsEndpoint(
-                    endpoint = DELETE_CHANGELOG_ENDPOINT,
+                    endpoint = "TO-FIX",
                     id = changelogId
                 ),
                 payload = payload
@@ -908,7 +916,7 @@ open class PandoroRequester(
         }
         return execDelete(
             endpoint = createChangelogsEndpoint(
-                endpoint = DELETE_CHANGELOG_ENDPOINT,
+                endpoint = "TO-FIX",
                 id = changelogId
             )
         )

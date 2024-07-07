@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinox.environment.records.EquinoxItem;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -217,7 +217,7 @@ public class Changelog extends EquinoxItem {
     @JoinColumn(name = CHANGELOG_OWNER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private User owner;
+    private EquinoxUser owner;
 
     /**
      * Default constructor

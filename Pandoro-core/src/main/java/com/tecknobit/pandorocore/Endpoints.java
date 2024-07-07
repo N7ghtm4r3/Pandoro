@@ -50,11 +50,6 @@ public class Endpoints extends EquinoxBaseEndpointsSet {
     public static final String LEAVE_GROUP_ENDPOINT = "/leaveGroup";
 
     /**
-     * {@code DELETE_GROUP_ENDPOINT} endpoint to delete a group
-     */
-    public static final String DELETE_GROUP_ENDPOINT = "/deleteGroup";
-
-    /**
      * {@code ADD_PROJECT_ENDPOINT} endpoint to add a new project
      */
     public static final String ADD_PROJECT_ENDPOINT = "/addProject";
@@ -103,16 +98,6 @@ public class Endpoints extends EquinoxBaseEndpointsSet {
      * {@code MARK_AS_TO_DO_ENDPOINT} endpoint to mark as todo an existing note
      */
     public static final String MARK_AS_TO_DO_ENDPOINT = "/markAsToDo";
-
-    /**
-     * {@code READ_CHANGELOG_ENDPOINT} endpoint to read a changelog
-     */
-    public static final String READ_CHANGELOG_ENDPOINT = "/readChangelog";
-
-    /**
-     * {@code DELETE_CHANGELOG_ENDPOINT} endpoint to delete a changelog
-     */
-    public static final String DELETE_CHANGELOG_ENDPOINT = "/deleteChangelog";
 
     /**
      * Constructor to init the {@link Endpoints} class <br>

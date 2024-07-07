@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
 import com.tecknobit.pandorocore.records.users.GroupMember;
 import com.tecknobit.pandorocore.records.users.GroupMember.Role;
@@ -115,7 +116,7 @@ public class Group extends PandoroItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final User author;
+    private final EquinoxUser author;
 
     /**
      * {@code description} the description of the group
@@ -241,7 +242,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public EquinoxUser getAuthor() {
         return author;
     }
 

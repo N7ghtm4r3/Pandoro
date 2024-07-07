@@ -43,7 +43,9 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
+    List<Group> getGroups(
+            @Param(AUTHOR_KEY) String userId
+    );
 
     /**
      * Method to execute the query to select a {@link Group} by its name
