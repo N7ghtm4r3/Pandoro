@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinox.environment.records.EquinoxItem;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
-import com.tecknobit.pandorocore.records.users.PublicUser;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -19,6 +18,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
+import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
@@ -26,13 +30,13 @@ import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
+ * @see EquinoxItem
  * @see PandoroItem
  * @see Serializable
  */
 @Entity
 @Table(name = Project.PROJECTS_KEY)
-public class Project extends PandoroItem implements Serializable {
+public class Project extends PandoroItem {
 
     /**
      * {@code PROJECTS_KEY} projects key
@@ -205,16 +209,13 @@ public class Project extends PandoroItem implements Serializable {
     )
     @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
-            PublicUser.TOKEN_KEY,
-            PublicUser.PASSWORD_KEY,
+            TOKEN_KEY,
+            PASSWORD_KEY,
             LANGUAGE_KEY,
-            PublicUser.COMPLETE_NAME_KEY,
-            Changelog.CHANGELOGS_KEY,
-            Group.GROUPS_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
             PROJECTS_KEY,
-            Note.NOTES_KEY,
-            PublicUser.UNREAD_CHANGELOGS_KEY,
-            PublicUser.ADMIN_GROUPS_KEY,
+            NOTES_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
@@ -310,7 +311,7 @@ public class Project extends PandoroItem implements Serializable {
         shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
         description = hItem.getString(PROJECT_DESCRIPTION_KEY);
         version = hItem.getString(PROJECT_VERSION_KEY);
-        groups = Group.getInstances(hItem.getJSONArray(Group.GROUPS_KEY));
+        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
         updatesNumber = updates.size();
         if (updatesNumber > 0) {

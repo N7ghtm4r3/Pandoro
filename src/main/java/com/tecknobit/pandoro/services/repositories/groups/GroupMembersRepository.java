@@ -14,9 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.pandorocore.records.Group.*;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.*;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
 
 /**
  * The {@code GroupMembersRepository} interface is useful to manage the queries for the members of the groups

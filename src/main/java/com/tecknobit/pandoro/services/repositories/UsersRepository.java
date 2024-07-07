@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.repositories;
 
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,8 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import static com.tecknobit.pandorocore.records.users.PublicUser.*;
-import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 
 /**
  * The {@code UsersRepository} interface is useful to manage the queries for the users
@@ -31,7 +31,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
      * @return the user, if exists, as {@link User}
      */
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
+            value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
                     + " AND " + PASSWORD_KEY + "=:" + PASSWORD_KEY,
             nativeQuery = true
     )
@@ -48,7 +48,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
      * @return the user, if exists, as {@link User}
      */
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
+            value = "SELECT * FROM " + USERS_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
@@ -64,107 +64,97 @@ public interface UsersRepository extends JpaRepository<User, String> {
      * @return the user, if exists, as {@link User}
      */
     @Query(
-            value = "SELECT * FROM " + USERS_TABLE + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
+            value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
             nativeQuery = true
     )
-    User getUserByEmail(@Param(EMAIL_KEY) String email);
-
-    /**
-     * Method to execute the query to change the user's profile pic
-     *
-     * @param userId: the user identifier
-     * @param token: the token of the user
-     * @param profilePic: the profile pic chosen by the user to set as the new profile pic
-     */
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + PROFILE_PIC_KEY + "=:" + PROFILE_PIC_KEY + " WHERE "
-                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
-            nativeQuery = true
-    )
-    void changeProfilePic(
-            @Param(IDENTIFIER_KEY) String userId,
-            @Param(TOKEN_KEY) String token,
-            @Param(PROFILE_PIC_KEY) String profilePic
-    );
-
-    /**
-     * Method to execute the query to change the user's email
-     *
-     * @param userId: the user identifier
-     * @param token: the token of the user
-     * @param email: the new user email to set
-     */
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + EMAIL_KEY + "=:" + EMAIL_KEY
-                    + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
-            nativeQuery = true
-    )
-    void changeEmail(
-            @Param(IDENTIFIER_KEY) String userId,
-            @Param(TOKEN_KEY) String token,
+    User getUserByEmail(
             @Param(EMAIL_KEY) String email
     );
 
     /**
-     * Method to execute the query to change the user's password
+     * Method to execute the query to find a {@link EquinoxUser} by email field
      *
-     * @param userId: the user identifier
-     * @param token: the token of the user
-     * @param password: the new user password to set
+     * @param email: the email to find the user
+     * @return the user, if exists, as {@link EquinoxUser}
+     */
+    @Query(
+            value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
+            nativeQuery = true
+    )
+    User findUserByEmail(
+            @Param(EMAIL_KEY) String email
+    );
+
+    /**
+     * Method to execute the query to change the profile pic of the {@link EquinoxUser}
+     *
+     * @param profilePicUrl: the profile pic formatted as url
+     * @param id:            the identifier of the user
      */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + PASSWORD_KEY + "=:" + PASSWORD_KEY +
-                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
+            value = "UPDATE " + USERS_KEY + " SET " + PROFILE_PIC_KEY + "=:" + PROFILE_PIC_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void changeProfilePic(
+            @Param(PROFILE_PIC_KEY) String profilePicUrl,
+            @Param(IDENTIFIER_KEY) String id
+    );
+
+    /**
+     * Method to execute the query to change the email of the {@link EquinoxUser}
+     *
+     * @param newEmail: the new email of the user
+     * @param id:       the identifier of the user
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + USERS_KEY + " SET " + EMAIL_KEY + "=:" + EMAIL_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void changeEmail(
+            @Param(EMAIL_KEY) String newEmail,
+            @Param(IDENTIFIER_KEY) String id
+    );
+
+    /**
+     * Method to execute the query to change the password of the {@link EquinoxUser}
+     *
+     * @param newPassword: the new password of the user
+     * @param id:          the identifier of the user
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + USERS_KEY + " SET " + PASSWORD_KEY + "=:" + PASSWORD_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void changePassword(
-            @Param(IDENTIFIER_KEY) String userId,
-            @Param(TOKEN_KEY) String token,
-            @Param(PASSWORD_KEY) String password
+            @Param(PASSWORD_KEY) String newPassword,
+            @Param(IDENTIFIER_KEY) String id
     );
 
     /**
-     * Method to execute the query to change the user's language
+     * Method to execute the query to change the language of the {@link EquinoxUser}
      *
-     * @param userId:   the user identifier
-     * @param token:    the token of the user
-     * @param language: the new user language to set
+     * @param newLanguage: the new language of the user
+     * @param id:          the identifier of the user
      */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + USERS_TABLE + " SET " + LANGUAGE_KEY + "=:" + LANGUAGE_KEY +
-                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
+            value = "UPDATE " + USERS_KEY + " SET " + LANGUAGE_KEY + "=:" + LANGUAGE_KEY + " WHERE "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
     void changeLanguage(
-            @Param(IDENTIFIER_KEY) String userId,
-            @Param(TOKEN_KEY) String token,
-            @Param(LANGUAGE_KEY) String language
-    );
-
-    /**
-     * Method to execute the query to delete the user's account
-     *
-     * @param userId: the user identifier
-     * @param token: the token of the user
-     */
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(
-            value = "DELETE FROM " + USERS_TABLE + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
-            nativeQuery = true
-    )
-    void deleteAccount(
-            @Param(IDENTIFIER_KEY) String userId,
-            @Param(TOKEN_KEY) String token
+            @Param(LANGUAGE_KEY) String newLanguage,
+            @Param(IDENTIFIER_KEY) String id
     );
 
 }

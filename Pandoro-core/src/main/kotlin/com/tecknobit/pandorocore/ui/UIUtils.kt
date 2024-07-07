@@ -2,10 +2,10 @@ package com.tecknobit.pandorocore.ui
 
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.formatters.JsonHelper
+import com.tecknobit.equinox.environment.records.EquinoxItem
+import com.tecknobit.equinox.environment.records.EquinoxUser.*
 import com.tecknobit.pandorocore.records.ProjectUpdate
 import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure
-import com.tecknobit.pandorocore.records.users.PublicUser.*
 import com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY
 import org.json.JSONArray
 import java.util.*
@@ -75,7 +75,7 @@ interface ListManager {
      *
      * @return whether refresh the list as [Boolean]
      */
-    fun <T : PandoroItemStructure> needToRefresh(currentList: List<T>, newList: List<T>): Boolean {
+    fun <T : EquinoxItem> needToRefresh(currentList: List<T>, newList: List<T>): Boolean {
         return ((currentList.isEmpty() && newList.isNotEmpty()) ||
                 (JSONArray(currentList).toString() != JSONArray(newList).toString()))
     }
@@ -105,7 +105,7 @@ interface SingleItemManager {
      *
      * @return whether refresh the item as [Boolean]
      */
-    fun <T : PandoroItemStructure> needToRefresh(currentItem: T, newItem: T): Boolean {
+    fun <T : EquinoxItem> needToRefresh(currentItem: T, newItem: T): Boolean {
         return currentItem.toString() != newItem.toString()
     }
 

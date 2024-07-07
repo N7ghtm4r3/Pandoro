@@ -9,7 +9,7 @@ import com.tecknobit.pandorocore.records.users.GroupMember.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.tecknobit.pandoro.controllers.PandoroController.generateIdentifier;
+import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 import static com.tecknobit.pandorocore.records.Changelog.ChangelogEvent.*;
 import static java.lang.System.currentTimeMillis;
 

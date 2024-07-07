@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 import static com.tecknobit.pandorocore.records.Group.*;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_GROUPS_TABLE;
 import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
 
 /**
  * The {@code GroupsRepository} interface is useful to manage the queries for the groups

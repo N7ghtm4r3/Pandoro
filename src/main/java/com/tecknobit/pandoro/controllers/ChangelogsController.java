@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.pandoro.services.ChangelogsHelper;
 import com.tecknobit.pandorocore.records.Changelog.ChangelogEvent;
 import org.json.JSONArray;
@@ -8,22 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code ChangelogsController} class is useful to manage all the changelog operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroController
+ * @see EquinoxController
  */
 @RestController
-@RequestMapping(path = BASE_ENDPOINT + CHANGELOGS_KEY)
-public class ChangelogsController extends PandoroController {
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + CHANGELOGS_KEY)
+public class ChangelogsController extends EquinoxController {
 
     /**
      * {@code changelogsHelper} instance to manage the changelogs database operations
@@ -58,7 +58,7 @@ public class ChangelogsController extends PandoroController {
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token))
+        if (isMe(id, token))
             return (T) changelogsHelper.getChangelogs(id);
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -85,7 +85,7 @@ public class ChangelogsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
     ) {
-        if (isAuthenticatedUser(id, token) && changelogsHelper.changelogExists(changelogId)) {
+        if (isMe(id, token) && changelogsHelper.changelogExists(changelogId)) {
             changelogsHelper.markAsRed(changelogId, id);
             return successResponse();
         } else
@@ -116,7 +116,7 @@ public class ChangelogsController extends PandoroController {
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
             @RequestBody(required = false) String groupId
     ) {
-        if (isAuthenticatedUser(id, token) && changelogsHelper.changelogExists(changelogId)) {
+        if (isMe(id, token) && changelogsHelper.changelogExists(changelogId)) {
             try {
                 changelogsHelper.deleteChangelog(changelogId, id, groupId);
                 return successResponse();

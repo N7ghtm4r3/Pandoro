@@ -4,9 +4,9 @@ package com.tecknobit.pandorocore.records.users;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandorocore.records.Group;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,18 +16,20 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
+
 /**
  * The {@code GroupMember} class is useful to create a <b>Pandoro's group member</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
  * @see PandoroItem
  * @see Serializable
  */
 @Entity
-@Table(name = PublicUser.GROUP_MEMBERS_TABLE)
+@Table(name = GROUP_MEMBERS_TABLE)
 @IdClass(GroupMemberCompositeKey.class)
-public class GroupMember extends PandoroItemStructure {
+public class GroupMember {
 
     /**
      * {@code Role} list of available roles for a group's member
@@ -83,27 +85,26 @@ public class GroupMember extends PandoroItemStructure {
      * {@code id} identifier of the item
      */
     @Id
-    @Column(name = PandoroItem.IDENTIFIER_KEY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Column(name = IDENTIFIER_KEY)
     private final String id;
 
     /**
      * {@code name} of the item
      */
-    @Column(name = PublicUser.NAME_KEY)
+    @Column(name = NAME_KEY)
     private final String name;
 
     /**
      * {@code surname} the surname of the user
      */
-    @Column(name = PublicUser.SURNAME_KEY)
+    @Column(name = SURNAME_KEY)
     private final String surname;
 
     /**
      * {@code profilePic} the profile picture of the user
      */
     @Column(
-            name = PublicUser.PROFILE_PIC_KEY,
+            name = PROFILE_PIC_KEY,
             columnDefinition = "text default '" + User.DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
@@ -112,7 +113,7 @@ public class GroupMember extends PandoroItemStructure {
     /**
      * {@code email} the email of the user
      */
-    @Column(name = PublicUser.EMAIL_KEY)
+    @Column(name = EMAIL_KEY)
     private final String email;
 
     /**
@@ -159,12 +160,12 @@ public class GroupMember extends PandoroItemStructure {
      * @param jGroupMember: group member details as {@link JSONObject}
      */
     public GroupMember(JSONObject jGroupMember) {
-        super(jGroupMember);
-        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
-        name = hItem.getString(PublicUser.NAME_KEY);
-        surname = hItem.getString(PublicUser.SURNAME_KEY);
-        profilePic = hItem.getString(PublicUser.PROFILE_PIC_KEY);
-        email = hItem.getString(PublicUser.EMAIL_KEY);
+        JsonHelper hItem = new JsonHelper(jGroupMember);
+        id = hItem.getString(IDENTIFIER_KEY);
+        name = hItem.getString(NAME_KEY);
+        surname = hItem.getString(SURNAME_KEY);
+        profilePic = hItem.getString(PROFILE_PIC_KEY);
+        email = hItem.getString(EMAIL_KEY);
         role = Role.valueOf(hItem.getString(Group.MEMBER_ROLE_KEY, Role.DEVELOPER.name()));
         invitationStatus = InvitationStatus.valueOf(hItem.getString(Group.INVITATION_STATUS_KEY, InvitationStatus.PENDING.name()));
     }
@@ -182,7 +183,6 @@ public class GroupMember extends PandoroItemStructure {
      */
     public GroupMember(String id, String name, String surname, String profilePic, String email, Role role,
                        InvitationStatus invitationStatus) {
-        super(null);
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -218,7 +218,7 @@ public class GroupMember extends PandoroItemStructure {
      *
      * @return {@link #profilePic} instance as {@link String}
      */
-    @JsonGetter(PublicUser.PROFILE_PIC_KEY)
+    @JsonGetter(PROFILE_PIC_KEY)
     public String getProfilePic() {
         return profilePic;
     }

@@ -1,7 +1,9 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode;
 import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import com.tecknobit.pandorocore.records.Group;
 import com.tecknobit.pandorocore.records.Project;
@@ -16,26 +18,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
+import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
+import static com.tecknobit.equinox.Requester.RESPONSE_STATUS_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandorocore.helpers.Requester.SUCCESS_KEY;
-import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
 import static com.tecknobit.pandorocore.records.Group.*;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroController
+ * @see EquinoxController
  */
 @RestController
-@RequestMapping(path = BASE_ENDPOINT + GROUPS_KEY)
-public class GroupsController extends PandoroController {
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + GROUPS_KEY)
+public class GroupsController extends EquinoxController {
+
+    /**
+     * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
+     * account wrong
+     */
+    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "You cannot execute this action on your account";
 
     /**
      * {@code WRONG_ADMIN_MESSAGE} message to use when a wrong admin has been inserted
@@ -75,7 +84,7 @@ public class GroupsController extends PandoroController {
             @RequestHeader(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token))
+        if (isMe(id, token))
             return (T) groupsHelper.getGroups(id);
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -113,17 +122,16 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody String payload
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             JsonHelper hPayload = new JsonHelper(payload);
             String groupName = hPayload.getString(NAME_KEY);
-            if (isGroupNameValid(groupName)) {
+            if (Companion.isGroupNameValid(groupName)) {
                 if (!groupsHelper.groupExists(id, groupName)) {
                     String groupDescription = hPayload.getString(GROUP_DESCRIPTION_KEY);
-                    if (isGroupDescriptionValid(groupDescription)) {
+                    if (Companion.isGroupDescriptionValid(groupDescription)) {
                         ArrayList<String> members = hPayload.fetchList(GROUP_MEMBERS_KEY);
-                        if (checkMembersValidity(members)) {
-                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
+                        if (Companion.checkMembersValidity(members)) {
+                            groupsHelper.createGroup((User) me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();
                         } else
                             return failedResponse("Wrong members list");
@@ -159,7 +167,7 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null)
                 return (T) group;
@@ -193,10 +201,9 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String membersList
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserMaintainer(me)) {
+            if (group != null && group.isUserMaintainer((User) me)) {
                 List<?> members = new JsonHelper(membersList).toList();
                 if (!members.isEmpty()) {
                     groupsHelper.addMembers(group.getName(), (List<String>) members, groupId);
@@ -233,12 +240,11 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String changelogId
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
                 try {
-                    groupsHelper.acceptGroupInvitation(groupId, changelogId, me);
+                    groupsHelper.acceptGroupInvitation(groupId, changelogId, (User) me);
                     return successResponse();
                 } catch (IllegalAccessException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -273,12 +279,11 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String changelogId
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
                 try {
-                    groupsHelper.declineGroupInvitation(groupId, changelogId, me);
+                    groupsHelper.declineGroupInvitation(groupId, changelogId, (User) me);
                     return successResponse();
                 } catch (IllegalAccessException e) {
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -321,15 +326,14 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String payload
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group meGroup = groupsHelper.getGroup(id, groupId);
             JsonHelper hPayload = new JsonHelper(payload);
             String hisId = hPayload.getString(IDENTIFIER_KEY, "");
             Group uGroup = groupsHelper.getGroup(hisId, groupId);
             if (!id.equals(hisId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, hisId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, (User) me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, hisId);
                     if (iMember != null && heMember != null && heMember.getInvitationStatus() == JOINED) {
                         boolean isMeAdmin = iMember.isAdmin();
@@ -386,13 +390,12 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String memberId
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group meGroup = groupsHelper.getGroup(id, groupId);
             Group uGroup = groupsHelper.getGroup(memberId, groupId);
             if (!id.equals(memberId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, memberId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
+                    GroupMember iMember = groupsHelper.getGroupMember(groupId, (User) me);
                     GroupMember heMember = groupsHelper.getGroupMember(groupId, memberId);
                     if (iMember != null && heMember != null) {
                         boolean isMeAdmin = iMember.isAdmin();
@@ -455,8 +458,8 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody String projects
     ) {
-        User me = usersRepository.getAuthorizedUser(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
+            User me = (User) super.me;
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null && group.isUserAdmin(me)) {
                 List<String> projectsList = JsonHelper.toList(new JSONArray(projects));
@@ -498,11 +501,10 @@ public class GroupsController extends PandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody(required = false) String nextAdminId
     ) {
-        User me = getMe(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null) {
-                GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
+                GroupMember meMember = groupsHelper.getGroupMember(groupId, (User) me);
                 if (meMember != null) {
                     if (meMember.isAdmin()) {
                         if (groupsHelper.hasOtherMembers(groupId)) {
@@ -511,7 +513,7 @@ public class GroupsController extends PandoroController {
                                     String result = changeMemberRole(id, token, groupId, new JSONObject()
                                             .put(IDENTIFIER_KEY, nextAdminId)
                                             .put(MEMBER_ROLE_KEY, ADMIN).toString());
-                                    if (JsonHelper.getBoolean(new JSONObject(result), SUCCESS_KEY, true)) {
+                                    if (roleChanged(result)) {
                                         groupsHelper.leaveGroup(id, groupId);
                                         return successResponse();
                                     } else
@@ -539,6 +541,17 @@ public class GroupsController extends PandoroController {
     }
 
     /**
+     * Method to check if the role changed correctly
+     *
+     * @param result: the response of the request
+     * @return whether the request has been successful as boolean
+     */
+    private boolean roleChanged(String result) {
+        return StandardResponseCode.valueOf(JsonHelper.getString(new JSONObject(result),
+                RESPONSE_STATUS_KEY, FAILED.name())) == SUCCESSFUL;
+    }
+
+    /**
      * Method to delete a group
      *
      * @param id: the identifier of the user
@@ -560,10 +573,9 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
-        User me = usersRepository.getAuthorizedUser(id, token);
-        if (me != null) {
+        if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserAdmin(me)) {
+            if (group != null && group.isUserAdmin((User) me)) {
                 groupsHelper.deleteGroup(id, groupId);
                 return successResponse();
             } else

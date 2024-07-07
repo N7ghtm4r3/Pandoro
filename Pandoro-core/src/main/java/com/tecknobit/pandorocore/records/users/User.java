@@ -1,83 +1,46 @@
 package com.tecknobit.pandorocore.records.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
+import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.Changelog;
 import com.tecknobit.pandorocore.records.Group;
 import com.tecknobit.pandorocore.records.Note;
 import com.tecknobit.pandorocore.records.Project;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
 import com.tecknobit.pandorocore.records.users.GroupMember.Role;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.DEFAULT_USER_LANGUAGE;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_OWNER_KEY;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
 import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.USERS_TABLE;
+import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
 
 /**
  * The {@code User} class is useful to create a <b>Pandoro's user</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
- * @see PandoroItem
- * @see PublicUser
- * @see Serializable
+ * @see EquinoxItem
+ * @see EquinoxUser
  */
 @Entity
-@Table(name = USERS_TABLE)
-@DiscriminatorValue(TOKEN_KEY)
-public class User extends PublicUser {
+@Table(name = USERS_KEY)
+public class User extends EquinoxUser {
 
     /**
-     * {@code LANGUAGE_KEY} language key
+     * {@code GROUP_MEMBERS_TABLE} group members table
      */
-    public static final String LANGUAGE_KEY = "language";
-
-    /**
-     * {@code PASSWORD_MIN_LENGTH} the min length of the password for a user
-     */
-    public static final int PASSWORD_MIN_LENGTH = 8;
-
-    /**
-     * {@code PASSWORD_MAX_LENGTH} the max length of the password for a user
-     */
-    public static final int PASSWORD_MAX_LENGTH = 32;
-
-    /**
-     * {@code DEFAULT_PROFILE_PIC} the default profile pic path when the user has not set own image
-     */
-    public static final String DEFAULT_PROFILE_PIC = "profiles/defProfilePic.png";
-
-    /**
-     * token of the user
-     */
-    @Column(
-            name = TOKEN_KEY,
-            unique = true
-    )
-    private final String token;
-
-    /**
-     * {@code password} the password of the user
-     */
-    @Column(name = PASSWORD_KEY)
-    private final String password;
-
-    /**
-     * {@code language} the language of the user
-     */
-    @Column(name = LANGUAGE_KEY)
-    private final String language;
+    public static final String GROUP_MEMBERS_TABLE = "group_members";
 
     /**
      * {@code changelogs} list of action messages for the user
@@ -132,9 +95,6 @@ public class User extends PublicUser {
      */
     public User(JSONObject jUser) {
         super(jUser);
-        password = hItem.getString(PASSWORD_KEY);
-        language = hItem.getString(LANGUAGE_KEY, DEFAULT_USER_LANGUAGE);
-        token = hItem.getString(TOKEN_KEY);
         groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
         changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
         projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
@@ -145,13 +105,12 @@ public class User extends PublicUser {
      * Constructor to init a {@link User} object
      *
      * @param id         :         identifier of the user
+     * @param token: token of the user
      * @param name       :       name of the user
-     * @param token:token of the user
-     * @param surname : the surname of the user
-     * @param email   :   the email of the user
+     * @param surname    :    the surname of the user
+     * @param email      :      the email of the user
      * @param password   :   the password of the user
-     * @param language:the language of the user
-     *
+     * @param language: the language of the user
      */
     public User(String id, String name, String token, String surname, String email, String password, String language) {
         this(id, name, token, null, surname, email, password, language, new ArrayList<>(),
@@ -162,59 +121,25 @@ public class User extends PublicUser {
      * Constructor to init a {@link User} object
      *
      * @param id         :         identifier of the user
+     * @param token: token of the user
      * @param name       :       name of the user
-     * @param token:token of the user
-     * @param profilePic : the profile picture of the user
      * @param surname    :    the surname of the user
      * @param email      :      the email of the user
      * @param password   :   the password of the user
+     * @param profilePic : the profile picture of the user
      * @param language:the language of the user
      * @param changelogs : list of action messages for the user
-     * @param groups     :     list of the groups of the user
-     * @param projects   :   list of the projects of the user
      * @param notes      :      list of the notes of the user
+     * @param projects   :   list of the projects of the user
+     * @param groups     :     list of the groups of the user
      */
-    public User(String id, String name, String token, String profilePic, String surname, String email, String password,
-                String language, ArrayList<Changelog> changelogs, ArrayList<Group> groups, ArrayList<Project> projects,
-                ArrayList<Note> notes) {
-        super(id, name, surname, profilePic, email);
-        this.password = password;
-        this.token = token;
-        this.language = language;
-        this.groups = groups;
+    public User(String id, String token, String name, String surname, String email, String password, String profilePic,
+                String language, List<Changelog> changelogs, List<Note> notes, List<Project> projects, List<Group> groups) {
+        super(id, token, name, surname, email, password, profilePic, language, null);
         this.changelogs = changelogs;
-        this.projects = projects;
         this.notes = notes;
-    }
-
-    /**
-     * Method to get {@link #token} instance <br>
-     * No-any params required
-     *
-     * @return {@link #token} instance as {@link String}
-     */
-    public String getToken() {
-        return token;
-    }
-
-    /**
-     * Method to get {@link #password} instance <br>
-     * No-any params required
-     *
-     * @return {@link #password} instance as {@link String}
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Method to get {@link #language} instance <br>
-     * No-any params required
-     *
-     * @return {@link #language} instance as {@link String}
-     */
-    public String getLanguage() {
-        return language;
+        this.projects = projects;
+        this.groups = groups;
     }
 
     /**
@@ -252,6 +177,7 @@ public class User extends PublicUser {
      *
      * @return the number of {@link #changelogs} unread as int
      */
+    @JsonIgnore
     public int getUnreadChangelogsNumber() {
         int unread = 0;
         for (Changelog changelog : changelogs)
@@ -295,12 +221,22 @@ public class User extends PublicUser {
      *
      * @return groups as {@link ArrayList} of {@link Group}
      */
+    @JsonIgnore
     public ArrayList<Group> getAdminGroups() {
         ArrayList<Group> subGroups = new ArrayList<>();
         for (Group group : groups)
             if (group.isUserAdmin(this))
                 subGroups.add(group);
         return subGroups;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @JsonIgnore
+    public ApplicationTheme getTheme() {
+        return super.getTheme();
     }
 
     /**

@@ -1,28 +1,28 @@
 package com.tecknobit.pandorocore.records.structures;
 
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.pandorocore.records.users.PublicUser;
-import jakarta.persistence.*;
+import com.tecknobit.equinox.environment.records.EquinoxItem;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 
 /**
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
+ * @see EquinoxItem
  * @see Serializable
  */
 @Entity
 @Structure
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class PandoroItem extends PandoroItemStructure {
-
-    /**
-     * {@code IDENTIFIER_KEY} identifier key
-     */
-    public static final String IDENTIFIER_KEY = "id";
+public abstract class PandoroItem extends EquinoxItem implements Serializable {
 
     /**
      * {@code AUTHOR_KEY} author key
@@ -35,16 +35,9 @@ public abstract class PandoroItem extends PandoroItemStructure {
     public static final String CREATION_DATE_KEY = "creation_date";
 
     /**
-     * {@code id} identifier of the item
-     */
-    @Id
-    @Column(name = IDENTIFIER_KEY)
-    protected final String id;
-
-    /**
      * {@code name} of the item
      */
-    @Column(name = PublicUser.NAME_KEY)
+    @Column(name = NAME_KEY)
     protected final String name;
 
     /**
@@ -54,8 +47,7 @@ public abstract class PandoroItem extends PandoroItemStructure {
      */
     public PandoroItem(JSONObject jItem) {
         super(jItem);
-        id = hItem.getString(IDENTIFIER_KEY);
-        name = hItem.getString(PublicUser.NAME_KEY);
+        name = hItem.getString(NAME_KEY);
     }
 
     /**
@@ -65,21 +57,9 @@ public abstract class PandoroItem extends PandoroItemStructure {
      * @param name: of the item
      */
     public PandoroItem(String id, String name) {
-        super(null);
-        this.id = id;
+        super(id);
         this.name = name;
     }
-
-    /**
-     * Method to get {@link #id} instance <br>
-     * No-any params required
-     *
-     * @return {@link #id} instance as {@link String}
-     */
-    public String getId() {
-        return id;
-    }
-
     /**
      * Method to get {@link #name} instance <br>
      * No-any params required
