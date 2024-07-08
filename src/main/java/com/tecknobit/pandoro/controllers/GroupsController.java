@@ -112,12 +112,11 @@ public class GroupsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @PostMapping(
-            path = CREATE_GROUP_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/groups/createGroup", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = POST)
     public String createGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -205,7 +204,7 @@ public class GroupsController extends PandoroController {
             if (group != null && group.isUserMaintainer(me)) {
                 loadJsonHelper(payload);
                 List<?> members = jsonHelper.getJSONArray(GROUP_MEMBERS_KEY, new JSONArray()).toList();
-                if (!members.isEmpty()) {
+                if (Companion.checkMembersValidity((List<String>) members)) {
                     groupsHelper.addMembers(group.getName(), (List<String>) members, groupId);
                     return successResponse();
                 } else
@@ -466,7 +465,7 @@ public class GroupsController extends PandoroController {
                 ArrayList<String> projectsIds = new ArrayList<>();
                 for (Project project : me.getProjects())
                     projectsIds.add(project.getId());
-                if (projectsIds.containsAll(projectsList) && !projectsList.isEmpty()) {
+                if (projectsIds.containsAll(projectsList)) {
                     groupsHelper.editProjects(groupId, projectsList);
                     return successResponse();
                 } else

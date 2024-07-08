@@ -34,7 +34,7 @@
     "it": {
         "wrong_project_name_key": "Nome del progetto sbagliato",
         "wrong_project_short_description_key": "Breve descrizione del progetto sbagliato",
-        "wrong_project_repository_key": "Wrong project repository",
+        "wrong_project_repository_key": "Repository progetto errata",
         "project_name_already_exists_key": "Esiste giÃ  un progetto con questo nome",
         "wrong_project_description_key": "Descrizione del progetto sbagliato",
         "wrong_groups_list_key": "Elenco dei gruppi sbagliati",

@@ -10,11 +10,6 @@ import com.tecknobit.equinox.environment.helpers.EquinoxBaseEndpointsSet;
 public class Endpoints extends EquinoxBaseEndpointsSet {
 
     /**
-     * {@code CREATE_GROUP_ENDPOINT} endpoint to create a new group
-     */
-    public static final String CREATE_GROUP_ENDPOINT = "/createGroup";
-
-    /**
      * {@code ADD_MEMBERS_ENDPOINT} endpoint to add member to group
      */
     public static final String ADD_MEMBERS_ENDPOINT = "/addMembers";
@@ -48,11 +43,6 @@ public class Endpoints extends EquinoxBaseEndpointsSet {
      * {@code LEAVE_GROUP_ENDPOINT} endpoint to leave from a group
      */
     public static final String LEAVE_GROUP_ENDPOINT = "/leaveGroup";
-
-    /**
-     * {@code ADD_PROJECT_ENDPOINT} endpoint to add a new project
-     */
-    public static final String ADD_PROJECT_ENDPOINT = "/addProject";
 
     /**
      * {@code UPDATES_PATH} path for the updates operations

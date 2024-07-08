@@ -8,12 +8,15 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.Endpoints.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Group.GROUP_IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 
 /**
@@ -97,7 +100,7 @@ public class ChangelogsController extends EquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      * @param changelogId: the changelog identifier
-     * @param groupId: the group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
+     * @param payload: the payload with group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
      *
      * @return the result of the request as {@link String}
      */
@@ -112,9 +115,11 @@ public class ChangelogsController extends EquinoxController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
-            @RequestBody(required = false) String groupId
+            @RequestBody(required = false) Map<String, String> payload
     ) {
         if (isMe(id, token) && changelogsHelper.changelogExists(changelogId)) {
+            loadJsonHelper(payload);
+            String groupId = jsonHelper.getString(GROUP_IDENTIFIER_KEY);
             try {
                 changelogsHelper.deleteChangelog(changelogId, id, groupId);
                 return successResponse();

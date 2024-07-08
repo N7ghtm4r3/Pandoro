@@ -109,12 +109,11 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @PostMapping(
-            path = ADD_PROJECT_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects/addProject", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
     public String addProject(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -152,7 +151,7 @@ public class ProjectsController extends PandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/editProject", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
     public String editProject(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,

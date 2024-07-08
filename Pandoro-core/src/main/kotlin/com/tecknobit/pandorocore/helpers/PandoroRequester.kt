@@ -9,16 +9,14 @@ import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
 import com.tecknobit.equinox.environment.helpers.EquinoxRequester
 import com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY
 import com.tecknobit.pandorocore.Endpoints.*
-import com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY
+import com.tecknobit.pandorocore.records.Changelog.*
 import com.tecknobit.pandorocore.records.Group.*
+import com.tecknobit.pandorocore.records.Note.CONTENT_NOTE_KEY
 import com.tecknobit.pandorocore.records.Note.NOTES_KEY
 import com.tecknobit.pandorocore.records.Project.*
 import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.records.users.GroupMember.Role
 import org.json.JSONObject
-
-//TODO REMAP REQUESTS ENDPOINTS AND
-//TODO: ADAPT THE METHODS WITH THE NEW REQUIREMENTS
 
 /**
  * The **PandoroRequester** class is useful to communicate with the Pandoro's backend
@@ -33,13 +31,15 @@ import org.json.JSONObject
 open class PandoroRequester(
     host: String,
     userId: String? = null,
-    userToken: String? = null
+    userToken: String? = null,
+    debugMode: Boolean = false,
 ) : EquinoxRequester(
     host = host,
     userId = userId,
     userToken = userToken,
     enableCertificatesValidation = true,
-    connectionErrorMessage = ""
+    connectionErrorMessage = "Server is temporarily unavailable",
+    debugMode = debugMode
 ) {
 
     /**
@@ -50,10 +50,10 @@ open class PandoroRequester(
      * @return the result of the request as [String]
      *
      */
-    @RequestPath(path = "/api/v1/projects", method = GET)
-    fun execProjectsList(): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
+    fun getProjectsList(): JSONObject {
         return execGet(
-            endpoint = createProjectsEndpoint("")
+            endpoint = createProjectEndpoint("")
         )
     }
 
@@ -70,8 +70,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/addProject", method = POST)
-    fun execAddProject(
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
+    fun addProject(
         name: String,
         projectDescription: String,
         projectShortDescription: String,
@@ -80,7 +80,7 @@ open class PandoroRequester(
         projectRepository: String = ""
     ): JSONObject {
         return execPost(
-            endpoint = createProjectsEndpoint(ADD_PROJECT_ENDPOINT),
+            endpoint = createProjectEndpoint(),
             payload = createProjectPayload(
                 name = name,
                 projectDescription = projectDescription,
@@ -106,8 +106,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}/editProject", method = PATCH)
-    fun execEditProject(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
+    fun editProject(
         projectId: String,
         name: String,
         projectDescription: String,
@@ -117,8 +117,8 @@ open class PandoroRequester(
         projectRepository: String = ""
     ): JSONObject {
         return execPatch(
-            endpoint = createProjectsEndpoint(
-                endpoint = "/${projectId}"
+            endpoint = createProjectEndpoint(
+                id = projectId
             ),
             payload = createProjectPayload(
                 name = name,
@@ -132,7 +132,7 @@ open class PandoroRequester(
     }
 
     /**
-     * Function to create the payload to execute the [execAddProject] or the [execEditProject] requests
+     * Function to create the payload to execute the [addProject] or the [editProject] requests
      *
      * @param name: the name of the project
      * @param projectDescription: the description of the project
@@ -171,11 +171,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}", method = GET)
-    fun execGetSingleProject(projectId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = GET)
+    fun getProject(
+        projectId: String
+    ): JSONObject {
         return execGet(
-            endpoint = createProjectsEndpoint(
-                endpoint = "",
+            endpoint = createProjectEndpoint(
                 id = projectId
             )
         )
@@ -189,33 +190,14 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}", method = DELETE)
-    fun execDeleteProject(projectId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = DELETE)
+    fun deleteProject(
+        projectId: String
+    ): JSONObject {
         return execDelete(
-            endpoint = createProjectsEndpoint(
-                endpoint = "",//TODO REMAP REQUESTS,
+            endpoint = createProjectEndpoint(
                 id = projectId
             )
-        )
-    }
-
-    /**
-     * Method to an endpoint to make the request to the projects controller
-     *
-     * @param endpoint: the path endpoint of the url
-     * @param id: the eventual identifier to create the path variable
-     *
-     * @return an endpoint to make the request as [String]
-     */
-    @Wrapper
-    private fun createProjectsEndpoint(
-        endpoint: String,
-        id: String? = null
-    ): String {
-        return createEndpoint(
-            baseEndpoint = PROJECTS_KEY,
-            endpoint = endpoint,
-            id = id
         )
     }
 
@@ -229,8 +211,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/schedule", method = POST)
-    fun execScheduleUpdate(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/schedule", method = POST)
+    fun scheduleUpdate(
         projectId: String,
         targetVersion: String,
         updateChangeNotes: List<String>
@@ -239,7 +221,10 @@ open class PandoroRequester(
         payload.addParam(UPDATE_TARGET_VERSION_KEY, targetVersion)
         payload.addParam(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes)
         return execPost(
-            endpoint = createUpdatesEndpoint(SCHEDULE_UPDATE_ENDPOINT, projectId),
+            endpoint = createUpdatesEndpoint(
+                subEndpoint = SCHEDULE_UPDATE_ENDPOINT,
+                projectId = projectId
+            ),
             payload = payload
         )
     }
@@ -253,17 +238,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/start", method = PATCH)
-    fun execStartUpdate(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/start", method = PATCH)
+    fun startUpdate(
         projectId: String,
         updateId: String
     ): JSONObject {
         return execPatch(
             endpoint = createUpdatesEndpoint(
-                endpoint = START_UPDATE_ENDPOINT,
+                subEndpoint = START_UPDATE_ENDPOINT,
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             ),
             payload = Params()
         )
@@ -278,17 +262,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
-    fun execPublishUpdate(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
+    fun publishUpdate(
         projectId: String,
         updateId: String
     ): JSONObject {
         return execPatch(
             endpoint = createUpdatesEndpoint(
-                endpoint = PUBLISH_UPDATE_ENDPOINT,
+                subEndpoint = PUBLISH_UPDATE_ENDPOINT,
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             ),
             payload = Params()
         )
@@ -304,21 +287,19 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO ADAPT WITH THE NEW REQUESTS DETAILS
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
-    fun execAddChangeNote(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
+    fun addChangeNote(
         projectId: String,
         updateId: String,
         changeNote: String
     ): JSONObject {
         val payload = Params()
-        payload.addParam(changeNote, "")
+        payload.addParam(CONTENT_NOTE_KEY, changeNote)
         return execPut(
             endpoint = createUpdatesEndpoint(
-                endpoint = ADD_CHANGE_NOTE_ENDPOINT,
+                subEndpoint = ADD_CHANGE_NOTE_ENDPOINT,
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             ),
             payload = payload
         )
@@ -335,20 +316,19 @@ open class PandoroRequester(
      *
      */
     @RequestPath(
-        path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
         method = PATCH
     )
-    fun execMarkChangeNoteAsDone(
+    fun markChangeNoteAsDone(
         projectId: String,
         updateId: String,
         changeNoteId: String
     ): JSONObject {
         return execPatch(
             endpoint = createUpdatesEndpoint(
-                endpoint = "/${NOTES_KEY}/$changeNoteId${MARK_CHANGE_NOTE_AS_DONE_ENDPOINT}",
+                subEndpoint = "/${NOTES_KEY}/$changeNoteId${MARK_CHANGE_NOTE_AS_DONE_ENDPOINT}",
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             ),
             payload = Params()
         )
@@ -365,20 +345,19 @@ open class PandoroRequester(
      *
      */
     @RequestPath(
-        path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
         method = PATCH
     )
-    fun execMarkChangeNoteAsToDo(
+    fun markChangeNoteAsToDo(
         projectId: String,
         updateId: String,
         changeNoteId: String
     ): JSONObject {
         return execPatch(
             endpoint = createUpdatesEndpoint(
-                endpoint = "/${NOTES_KEY}/$changeNoteId${MARK_CHANGE_NOTE_AS_TODO_ENDPOINT}",
+                subEndpoint = "/${NOTES_KEY}/$changeNoteId${MARK_CHANGE_NOTE_AS_TODO_ENDPOINT}",
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             ),
             payload = Params()
         )
@@ -395,19 +374,19 @@ open class PandoroRequester(
      *
      */
     @RequestPath(
-        path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}",
+        path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}",
         method = DELETE
     )
-    fun execDeleteChangeNote(
+    fun deleteChangeNote(
         projectId: String,
         updateId: String,
         changeNoteId: String
     ): JSONObject {
         return execDelete(
             endpoint = createUpdatesEndpoint(
-                endpoint = "/${NOTES_KEY}/$changeNoteId",
+                subEndpoint = "/${NOTES_KEY}/$changeNoteId",
                 projectId = projectId,
-                updateId = updateId, insertSlash = false
+                updateId = updateId
             ),
         )
     }
@@ -421,18 +400,15 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO FIX ENDPOINT
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}", method = DELETE)
-    fun execDeleteUpdate(
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}", method = DELETE)
+    fun deleteUpdate(
         projectId: String,
         updateId: String,
     ): JSONObject {
         return execDelete(
             endpoint = createUpdatesEndpoint(
-                endpoint = "TO-FIX",
                 projectId = projectId,
-                updateId = updateId,
-                insertSlash = false
+                updateId = updateId
             )
         )
     }
@@ -440,27 +416,47 @@ open class PandoroRequester(
     /**
      * Method to an endpoint to make the request to the projects/updates controller
      *
-     * @param endpoint: the path endpoint of the url
+     * @param subEndpoint: the path sub-endpoint of the url
      * @param projectId: the project identifier
      * @param updateId: the update identifier
-     * @param insertSlash: whether insert the slash before the identifier, default true
      *
      * @return an endpoint to make the request as [String]
      */
     @Wrapper
     private fun createUpdatesEndpoint(
-        endpoint: String,
+        subEndpoint: String = "",
         projectId: String,
         updateId: String? = null,
-        insertSlash: Boolean = true
     ): String {
-        return createProjectsEndpoint(
-            endpoint = "",
+        var updatesEndpointPart = UPDATES_PATH
+        updatesEndpointPart += if (updateId != null)
+            updateId + subEndpoint
+        else
+            subEndpoint
+        return createProjectEndpoint(
+            subEndpoint = updatesEndpointPart,
             id = projectId
-        ) + UPDATES_PATH + createPathId(
-            updateId,
-            insertSlash
-        ) + endpoint
+        )
+    }
+
+    /**
+     * Method to an subEndpoint to make the request to the projects controller
+     *
+     * @param subEndpoint: the path of the sub-endpoint of the url
+     * @param id: the eventual identifier to create the path variable
+     *
+     * @return an subEndpoint to make the request as [String]
+     */
+    @Wrapper
+    private fun createProjectEndpoint(
+        subEndpoint: String? = null,
+        id: String? = null
+    ): String {
+        return createEndpoint(
+            baseEndpoint = PROJECTS_KEY,
+            subEndpoint = subEndpoint,
+            id = id
+        )
     }
 
     /**
@@ -471,10 +467,10 @@ open class PandoroRequester(
      * @return the result of the request as [String]
      *
      */
-    @RequestPath(path = "/api/v1/groups", method = GET)
-    fun execGroupsList(): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
+    fun getGroupsList(): JSONObject {
         return execGet(
-            endpoint = createGroupsEndpoint("")
+            endpoint = createGroupsEndpoint()
         )
     }
 
@@ -488,8 +484,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/groups/createGroup", method = POST)
-    fun execCreateGroup(
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = POST)
+    fun createGroup(
         name: String,
         groupDescription: String,
         members: List<String>
@@ -499,8 +495,8 @@ open class PandoroRequester(
         payload.addParam(GROUP_DESCRIPTION_KEY, groupDescription)
         payload.addParam(GROUP_MEMBERS_KEY, members)
         return execPost(
-            createGroupsEndpoint(CREATE_GROUP_ENDPOINT),
-            payload
+            endpoint = createGroupsEndpoint(),
+            payload = payload
         )
     }
 
@@ -512,11 +508,10 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/groups/{group_id}", method = GET)
-    fun execGetSingleGroup(groupId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
+    fun getGroup(groupId: String): JSONObject {
         return execGet(
             endpoint = createGroupsEndpoint(
-                endpoint = "",
                 id = groupId
             )
         )
@@ -531,16 +526,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/groups/{group_id}/addMembers", method = PUT)
-    fun execAddMembers(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/addMembers", method = PUT)
+    fun addMembers(
         groupId: String,
         members: List<String>
     ): JSONObject {
         val payload = Params()
-        payload.addParam(members.toString(), "")
+        payload.addParam(GROUP_MEMBERS_KEY, members)
         return execPut(
             endpoint = createGroupsEndpoint(
-                endpoint = ADD_MEMBERS_ENDPOINT,
+                subEndpoint = ADD_MEMBERS_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -556,17 +551,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
-    @RequestPath(path = "/api/v1/groups/{group_id}/acceptGroupInvitation", method = PATCH)
-    fun execAcceptInvitation(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/acceptGroupInvitation", method = PATCH)
+    fun acceptInvitation(
         groupId: String,
         changelogId: String
     ): JSONObject {
         val payload = Params()
-        payload.addParam(changelogId, "")
+        payload.addParam(CHANGELOG_IDENTIFIER_KEY, changelogId)
         return execPatch(
             endpoint = createGroupsEndpoint(
-                endpoint = ACCEPT_GROUP_INVITATION_ENDPOINT,
+                subEndpoint = ACCEPT_GROUP_INVITATION_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -582,17 +576,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
-    @RequestPath(path = "/api/v1/groups/{group_id}/declineGroupInvitation", method = DELETE)
-    fun execDeclineInvitation(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/declineGroupInvitation", method = DELETE)
+    fun declineInvitation(
         groupId: String,
         changelogId: String
     ): JSONObject {
         val payload = Params()
-        payload.addParam(changelogId, "")
+        payload.addParam(CHANGELOG_IDENTIFIER_KEY, changelogId)
         return execDelete(
             endpoint = createGroupsEndpoint(
-                endpoint = DECLINE_GROUP_INVITATION_ENDPOINT,
+                subEndpoint = DECLINE_GROUP_INVITATION_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -609,9 +602,8 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
-    @RequestPath(path = "/api/v1/groups/{group_id}/changeMemberRole", method = PATCH)
-    fun execChangeMemberRole(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/changeMemberRole", method = PATCH)
+    fun changeMemberRole(
         groupId: String,
         memberId: String,
         role: Role
@@ -621,7 +613,7 @@ open class PandoroRequester(
         payload.addParam(MEMBER_ROLE_KEY, role)
         return execPatch(
             endpoint = createGroupsEndpoint(
-                endpoint = CHANGE_MEMBER_ROLE_ENDPOINT,
+                subEndpoint = CHANGE_MEMBER_ROLE_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -637,17 +629,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
-    @RequestPath(path = "/api/v1/groups/{group_id}/removeMember", method = DELETE)
-    fun execRemoveMember(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/removeMember", method = DELETE)
+    fun removeMember(
         groupId: String,
         memberId: String,
     ): JSONObject {
         val payload = Params()
-        payload.addParam(memberId, "")
+        payload.addParam(IDENTIFIER_KEY, memberId)
         return execDelete(
             endpoint = createGroupsEndpoint(
-                endpoint = REMOVE_MEMBER_ENDPOINT,
+                subEndpoint = REMOVE_MEMBER_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -663,16 +654,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/groups/{group_id}/editProjects", method = PATCH)
-    fun execEditProjects(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/editProjects", method = PATCH)
+    fun editProjects(
         groupId: String,
         projects: List<String>
     ): JSONObject {
         val payload = Params()
-        payload.addParam(projects.toString(), "")
+        payload.addParam(PROJECTS_KEY, projects)
         return execPatch(
             endpoint = createGroupsEndpoint(
-                endpoint = EDIT_PROJECTS_ENDPOINT,
+                subEndpoint = EDIT_PROJECTS_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -688,17 +679,17 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/groups/{group_id}/leaveGroup", method = DELETE)
-    fun execLeaveGroup(
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/leaveGroup", method = DELETE)
+    fun leaveGroup(
         groupId: String,
         nextAdminId: String? = null,
     ): JSONObject {
         val payload = Params()
         if (nextAdminId != null)
-            payload.addParam(nextAdminId, "")
+            payload.addParam(IDENTIFIER_KEY, nextAdminId)
         return execDelete(
             endpoint = createGroupsEndpoint(
-                endpoint = LEAVE_GROUP_ENDPOINT,
+                subEndpoint = LEAVE_GROUP_ENDPOINT,
                 id = groupId
             ),
             payload = payload
@@ -713,12 +704,10 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: ADAPT THE METHOD WITH THE NEW REQUIREMENTS
-    @RequestPath(path = "/api/v1/groups/{group_id}/deleteGroup", method = DELETE)
-    fun execDeleteGroup(groupId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = DELETE)
+    fun deleteGroup(groupId: String): JSONObject {
         return execDelete(
             endpoint = createGroupsEndpoint(
-                endpoint = "TO-FIX",
                 id = groupId
             )
         )
@@ -727,19 +716,19 @@ open class PandoroRequester(
     /**
      * Method to an endpoint to make the request to the groups controller
      *
-     * @param endpoint: the path endpoint of the url
+     * @param subEndpoint: the path of the sub-endpoint of the url
      * @param id: the eventual identifier to create the path variable
      *
      * @return an endpoint to make the request as [String]
      */
     @Wrapper
     private fun createGroupsEndpoint(
-        endpoint: String,
+        subEndpoint: String? = null,
         id: String? = null
     ): String {
         return createEndpoint(
             baseEndpoint = GROUPS_KEY,
-            endpoint = endpoint,
+            subEndpoint = subEndpoint,
             id = id
         )
     }
@@ -752,10 +741,10 @@ open class PandoroRequester(
      * @return the result of the request as [String]
      *
      */
-    @RequestPath(path = "/api/v1/notes", method = GET)
-    fun execNotesList(): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
+    fun getNotesList(): JSONObject {
         return execGet(
-            endpoint = createNotesEndpoint("")
+            endpoint = createNotesEndpoint()
         )
     }
 
@@ -766,15 +755,14 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO FIX ENDPOINT
-    @RequestPath(path = "/api/v1/notes/create", method = POST)
-    fun execAddNote(contentNote: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = POST)
+    fun addNote(
+        contentNote: String
+    ): JSONObject {
         val payload = Params()
-        payload.addParam(contentNote, "")
+        payload.addParam(CONTENT_NOTE_KEY, contentNote)
         return execPost(
-            endpoint = createNotesEndpoint(
-                endpoint = "TO-FIX"
-            ),
+            endpoint = createNotesEndpoint(),
             payload = payload
         )
     }
@@ -786,11 +774,13 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsDone", method = PATCH)
-    fun execMarkNoteAsDone(noteId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsDone", method = PATCH)
+    fun markNoteAsDone(
+        noteId: String
+    ): JSONObject {
         return execPatch(
             endpoint = createNotesEndpoint(
-                endpoint = MARK_AS_DONE_ENDPOINT,
+                subEndpoint = MARK_AS_DONE_ENDPOINT,
                 id = noteId
             ),
             payload = Params()
@@ -804,11 +794,13 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsToDo", method = PATCH)
-    fun execMarkNoteAsToDo(noteId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsToDo", method = PATCH)
+    fun markNoteAsToDo(
+        noteId: String
+    ): JSONObject {
         return execPatch(
             endpoint = createNotesEndpoint(
-                endpoint = MARK_AS_TO_DO_ENDPOINT,
+                subEndpoint = MARK_AS_TO_DO_ENDPOINT,
                 id = noteId
             ),
             payload = Params()
@@ -822,12 +814,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO FIX ENDPOINT
-    @RequestPath(path = "/api/v1/notes/{note_id}/deleteNote", method = DELETE)
-    fun execDeleteNote(noteId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = DELETE)
+    fun deleteNote(
+        noteId: String
+    ): JSONObject {
         return execDelete(
             endpoint = createNotesEndpoint(
-                endpoint = "TO-FIX",
                 id = noteId
             )
         )
@@ -836,19 +828,19 @@ open class PandoroRequester(
     /**
      * Method to an endpoint to make the request to the notes controller
      *
-     * @param endpoint: the path endpoint of the url
+     * @param subEndpoint: the path of the sub-endpoint of the url
      * @param id: the eventual identifier to create the path variable
      *
      * @return an endpoint to make the request as [String]
      */
     @Wrapper
     private fun createNotesEndpoint(
-        endpoint: String,
+        subEndpoint: String? = null,
         id: String? = null
     ): String {
         return createEndpoint(
             baseEndpoint = NOTES_KEY,
-            endpoint = endpoint,
+            subEndpoint = subEndpoint,
             id = id
         )
     }
@@ -861,10 +853,10 @@ open class PandoroRequester(
      * @return the result of the request as [String]
      *
      */
-    @RequestPath(path = "/api/v1/changelogs", method = GET)
-    fun execChangelogsList(): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/changelogs", method = GET)
+    fun geChangelogsList(): JSONObject {
         return execGet(
-            endpoint = createChangelogsEndpoint("")
+            endpoint = createChangelogsEndpoint()
         )
     }
 
@@ -876,12 +868,12 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO FIX ENDPOINT
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}", method = PATCH)
-    fun execReadChangelog(changelogId: String): JSONObject {
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/{changelog_id}", method = PATCH)
+    fun readChangelog(
+        changelogId: String
+    ): JSONObject {
         return execPatch(
             endpoint = createChangelogsEndpoint(
-                endpoint = "TO-FIX",
                 id = changelogId
             ),
             payload = Params()
@@ -897,18 +889,16 @@ open class PandoroRequester(
      * @return the result of the request as [JSONObject]
      *
      */
-    //TODO: TO FIX ENDPOINT
-    @RequestPath(path = "/api/v1/changelogs/{changelog_id}", method = DELETE)
-    fun execDeleteChangelog(
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/{changelog_id}", method = DELETE)
+    fun deleteChangelog(
         changelogId: String,
         groupId: String? = null
     ): JSONObject {
         if (groupId != null) {
             val payload = Params()
-            payload.addParam(groupId, "")
+            payload.addParam(GROUP_IDENTIFIER_KEY, groupId)
             return execDelete(
                 endpoint = createChangelogsEndpoint(
-                    endpoint = "TO-FIX",
                     id = changelogId
                 ),
                 payload = payload
@@ -916,7 +906,6 @@ open class PandoroRequester(
         }
         return execDelete(
             endpoint = createChangelogsEndpoint(
-                endpoint = "TO-FIX",
                 id = changelogId
             )
         )
@@ -925,19 +914,19 @@ open class PandoroRequester(
     /**
      * Method to an endpoint to make the request to the changelogs controller
      *
-     * @param endpoint: the path endpoint of the url
+     * @param subEndpoint: the path of the sub-endpoint of the url
      * @param id: the eventual identifier to create the path variable
      *
      * @return an endpoint to make the request as [String]
      */
     @Wrapper
     private fun createChangelogsEndpoint(
-        endpoint: String,
+        subEndpoint: String? = null,
         id: String? = null
     ): String {
         return createEndpoint(
             baseEndpoint = CHANGELOGS_KEY,
-            endpoint = endpoint,
+            subEndpoint = subEndpoint,
             id = id
         )
     }
@@ -946,38 +935,23 @@ open class PandoroRequester(
      * Method to an endpoint to make the request
      *
      * @param baseEndpoint: the base endpoint of the url
-     * @param endpoint: the path endpoint of the url
+     * @param subEndpoint: the path of the sub-endpoint of the url
      * @param id: the eventual identifier to create the path variable
      *
      * @return an endpoint to make the request as [String]
      */
     private fun createEndpoint(
         baseEndpoint: String,
-        endpoint: String,
+        subEndpoint: String? = null,
         id: String? = null
     ): String {
-        return baseEndpoint + createPathId(id) + endpoint
-    }
-
-    /**
-     * Method to create a path variable for the url with an identifier
-     *
-     * @param id: the identifier to create the path variable
-     * @param insertSlash: whether insert the slash before the identifier, default true
-     *
-     * @return path variable for the url with an identifier as [String]
-     */
-    private fun createPathId(
-        id: String?,
-        insertSlash: Boolean = true
-    ): String {
-        return if (id != null) {
-            if (insertSlash)
-                "/$id"
-            else
-                id
-        } else
-            ""
+        var endpoint = assembleUsersEndpointPath() + "/$baseEndpoint"
+        if (id != null) {
+            endpoint += "/$id"
+            if (subEndpoint != null)
+                endpoint += subEndpoint
+        }
+        return endpoint
     }
 
 }
