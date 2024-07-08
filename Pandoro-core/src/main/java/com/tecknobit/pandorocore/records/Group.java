@@ -196,7 +196,7 @@ public class Group extends PandoroItem {
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, long creationDate, User author, String description, ArrayList<GroupMember> groupMembers,
+    public Group(String id, String name, long creationDate, EquinoxUser author, String description, ArrayList<GroupMember> groupMembers,
                  ArrayList<Project> projects) {
         super(id, name);
         this.creationDate = creationDate;

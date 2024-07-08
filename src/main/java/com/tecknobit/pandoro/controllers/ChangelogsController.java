@@ -59,7 +59,7 @@ public class ChangelogsController extends EquinoxController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) changelogsHelper.getChangelogs(id);
+            return (T) successResponse(changelogsHelper.getChangelogs(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

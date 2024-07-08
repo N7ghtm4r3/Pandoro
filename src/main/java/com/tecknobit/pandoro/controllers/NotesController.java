@@ -64,7 +64,7 @@ public class NotesController extends EquinoxController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) notesHelper.getNotes(id);
+            return (T) successResponse(notesHelper.getNotes(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

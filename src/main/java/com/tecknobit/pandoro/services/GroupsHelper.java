@@ -290,8 +290,9 @@ public class GroupsHelper extends ChangelogOperator {
      * @param deleteGroup: whether delete the group after the member left
      */
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
+        Group group = getGroup(memberId, groupId);
         membersRepository.leaveGroup(memberId, groupId);
-        for (Project project : getGroup(memberId, groupId).getProjects())
+        for (Project project : group.getProjects())
             if (project.getAuthor().getId().equals(memberId))
                 groupsRepository.removeGroupProject(project.getId(), groupId);
         if (deleteGroup)

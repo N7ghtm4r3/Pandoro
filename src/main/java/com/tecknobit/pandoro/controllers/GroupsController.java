@@ -87,7 +87,7 @@ public class GroupsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) groupsHelper.getGroups(id);
+            return (T) successResponse(groupsHelper.getGroups(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -170,7 +170,7 @@ public class GroupsController extends PandoroController {
         if (isMe(id, token)) {
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null)
-                return (T) group;
+                return (T) successResponse(group);
             else
                 return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else

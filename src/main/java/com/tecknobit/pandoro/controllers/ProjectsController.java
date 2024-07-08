@@ -80,7 +80,7 @@ public class ProjectsController extends PandoroController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) projectsHelper.getProjectsList(id);
+            return (T) successResponse(projectsHelper.getProjectsList(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -264,7 +264,7 @@ public class ProjectsController extends PandoroController {
         if (isMe(id, token)) {
             Project project = projectsHelper.getProject(id, projectId);
             if (project != null)
-                return (T) project;
+                return (T) successResponse(project);
             else
                 return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
