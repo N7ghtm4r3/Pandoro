@@ -16,6 +16,7 @@ import com.tecknobit.pandorocore.records.Note.NOTES_KEY
 import com.tecknobit.pandorocore.records.Project.*
 import com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.records.users.GroupMember.Role
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -158,7 +159,7 @@ open class PandoroRequester(
         payload.addParam(PROJECT_DESCRIPTION_KEY, projectDescription)
         payload.addParam(PROJECT_SHORT_DESCRIPTION_KEY, projectShortDescription)
         payload.addParam(PROJECT_VERSION_KEY, projectVersion)
-        payload.addParam(GROUPS_KEY, groups)
+        payload.addParam(GROUPS_KEY, JSONArray(groups))
         payload.addParam(PROJECT_REPOSITORY_KEY, projectRepository)
         return payload
     }
@@ -854,7 +855,7 @@ open class PandoroRequester(
      *
      */
     @RequestPath(path = "/api/v1/users/{id}/changelogs", method = GET)
-    fun geChangelogsList(): JSONObject {
+    fun getChangelogsList(): JSONObject {
         return execGet(
             endpoint = createChangelogsEndpoint()
         )

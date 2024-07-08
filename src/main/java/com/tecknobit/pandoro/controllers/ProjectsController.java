@@ -117,7 +117,7 @@ public class ProjectsController extends PandoroController {
     public String addProject(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         return workWithProject(id, token, payload, null);
     }
@@ -156,7 +156,7 @@ public class ProjectsController extends PandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         return workWithProject(id, token, payload, projectId);
     }
@@ -185,10 +185,10 @@ public class ProjectsController extends PandoroController {
      *
      * @return the result of the request as {@link String}
      */
-    private String workWithProject(String id, String token, String payload, String projectId) {
+    private String workWithProject(String id, String token, Map<String, Object> payload, String projectId) {
         if (isMe(id, token)) {
-            JsonHelper hPayload = new JsonHelper(payload);
-            String name = hPayload.getString(NAME_KEY);
+            loadJsonHelper(payload);
+            String name = jsonHelper.getString(NAME_KEY);
             boolean isAdding = projectId == null;
             if (Companion.isValidProjectName(name)) {
                 if (!isAdding) {
@@ -198,13 +198,13 @@ public class ProjectsController extends PandoroController {
                 }
                 Project checkProject = projectsHelper.getProjectByName(id, name);
                 if (checkProject == null || (!isAdding && checkProject.getId().equals(projectId))) {
-                    String description = hPayload.getString(PROJECT_DESCRIPTION_KEY);
+                    String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
                     if (Companion.isValidProjectDescription(description)) {
-                        String shortDescription = hPayload.getString(PROJECT_SHORT_DESCRIPTION_KEY);
+                        String shortDescription = jsonHelper.getString(PROJECT_SHORT_DESCRIPTION_KEY);
                         if (Companion.isValidProjectShortDescription(shortDescription)) {
-                            String version = hPayload.getString(PROJECT_VERSION_KEY);
+                            String version = jsonHelper.getString(PROJECT_VERSION_KEY);
                             if (Companion.isValidVersion(version)) {
-                                ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY, new ArrayList<>());
+                                ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
                                 ArrayList<String> adminGroups = new ArrayList<>();
                                 for (Group group : me.getAdminGroups())
                                     adminGroups.add(group.getId());
@@ -214,7 +214,7 @@ public class ProjectsController extends PandoroController {
                                         adminGroups.add(group.getId());
                                 }
                                 if (groups.isEmpty() || adminGroups.containsAll(groups)) {
-                                    String repository = hPayload.getString(PROJECT_REPOSITORY_KEY);
+                                    String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
                                     if (Companion.isValidRepository(repository)) {
                                         if (isAdding)
                                             projectId = generateIdentifier();

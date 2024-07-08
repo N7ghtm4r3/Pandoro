@@ -21,6 +21,26 @@ class InputsValidator : InputValidator() {
         private val urlValidator: UrlValidator = UrlValidator.getInstance()
 
         /**
+         * Function to check the validity of a server address
+         *
+         * @param serverAddress: server address to check
+         * @return whether the server address is valid as [Boolean]
+         */
+        fun isServerAddressValid(serverAddress: String?): Boolean {
+            return serverAddress != null && urlValidator.isValid(serverAddress)
+        }
+
+        /**
+         * Function to check the validity of a server secret
+         *
+         * @param serverSecret: server secret to check
+         * @return whether the server secret is valid as [Boolean]
+         */
+        fun isServerSecretValid(serverSecret: String?): Boolean {
+            return !serverSecret.isNullOrEmpty()
+        }
+
+        /**
          * Function to check the validity of the credentials
          *
          * @param email: email to check
