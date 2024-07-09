@@ -533,7 +533,7 @@ open class PandoroRequester(
         members: List<String>
     ): JSONObject {
         val payload = Params()
-        payload.addParam(GROUP_MEMBERS_KEY, members)
+        payload.addParam(GROUP_MEMBERS_KEY, JSONArray(members))
         return execPut(
             endpoint = createGroupsEndpoint(
                 subEndpoint = ADD_MEMBERS_ENDPOINT,
@@ -661,7 +661,7 @@ open class PandoroRequester(
         projects: List<String>
     ): JSONObject {
         val payload = Params()
-        payload.addParam(PROJECTS_KEY, projects)
+        payload.addParam(PROJECTS_KEY, JSONArray(projects))
         return execPatch(
             endpoint = createGroupsEndpoint(
                 subEndpoint = EDIT_PROJECTS_ENDPOINT,
