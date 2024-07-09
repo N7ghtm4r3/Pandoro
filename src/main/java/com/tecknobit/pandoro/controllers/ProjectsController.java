@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import com.tecknobit.pandoro.services.ProjectsHelper;
@@ -333,15 +332,15 @@ public class ProjectsController extends PandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null) {
-                JsonHelper hPayload = new JsonHelper(payload);
-                String targetVersion = hPayload.getString(UPDATE_TARGET_VERSION_KEY);
+                loadJsonHelper(payload);
+                String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
                 if (Companion.isValidVersion(targetVersion)) {
                     if (!projectsHelper.targetVersionExists(projectId, targetVersion)) {
-                        ArrayList<String> changeNotes = hPayload.fetchList(UPDATE_CHANGE_NOTES_KEY);
+                        ArrayList<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
                         if (Companion.areNotesValid(changeNotes)) {
                             projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
                             return successResponse();

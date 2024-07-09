@@ -220,7 +220,7 @@ open class PandoroRequester(
     ): JSONObject {
         val payload = Params()
         payload.addParam(UPDATE_TARGET_VERSION_KEY, targetVersion)
-        payload.addParam(UPDATE_CHANGE_NOTES_KEY, updateChangeNotes)
+        payload.addParam(UPDATE_CHANGE_NOTES_KEY, JSONArray(updateChangeNotes))
         return execPost(
             endpoint = createUpdatesEndpoint(
                 subEndpoint = SCHEDULE_UPDATE_ENDPOINT,
