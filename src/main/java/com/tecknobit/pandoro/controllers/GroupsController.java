@@ -120,16 +120,16 @@ public class GroupsController extends PandoroController {
     public String createGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token)) {
-            JsonHelper hPayload = new JsonHelper(payload);
-            String groupName = hPayload.getString(NAME_KEY);
+            loadJsonHelper(payload);
+            String groupName = jsonHelper.getString(NAME_KEY);
             if (Companion.isGroupNameValid(groupName)) {
                 if (!groupsHelper.groupExists(id, groupName)) {
-                    String groupDescription = hPayload.getString(GROUP_DESCRIPTION_KEY);
+                    String groupDescription = jsonHelper.getString(GROUP_DESCRIPTION_KEY);
                     if (Companion.isGroupDescriptionValid(groupDescription)) {
-                        ArrayList<String> members = hPayload.fetchList(GROUP_MEMBERS_KEY);
+                        ArrayList<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
                         if (Companion.checkMembersValidity(members)) {
                             groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();

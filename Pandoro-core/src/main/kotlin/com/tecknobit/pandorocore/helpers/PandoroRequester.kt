@@ -494,7 +494,7 @@ open class PandoroRequester(
         val payload = Params()
         payload.addParam(NAME_KEY, name)
         payload.addParam(GROUP_DESCRIPTION_KEY, groupDescription)
-        payload.addParam(GROUP_MEMBERS_KEY, members)
+        payload.addParam(GROUP_MEMBERS_KEY, JSONArray(members))
         return execPost(
             endpoint = createGroupsEndpoint(),
             payload = payload
