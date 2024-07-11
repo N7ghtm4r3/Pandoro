@@ -1,34 +1,35 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.pandoro.services.NotesHelper;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.isContentNoteValid;
-import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
+import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
+import static com.tecknobit.pandorocore.records.Note.*;
 
 /**
  * The {@code NotesController} class is useful to manage all the note operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroController
+ * @see EquinoxController
  */
 @RestController
-@RequestMapping(path = BASE_ENDPOINT + NOTES_KEY)
-public class NotesController extends PandoroController {
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + NOTES_KEY)
+public class NotesController extends EquinoxController {
 
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
      */
-    public static final String WRONG_CONTENT_NOTE_MESSAGE = "Wrong content note";
+    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note_key";
 
     /**
      * {@code notesHelper} instance to manage the notes database operations
@@ -54,17 +55,16 @@ public class NotesController extends PandoroController {
      */
     @GetMapping(
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
     public <T> T getNotesList(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token))
-            return (T) notesHelper.getNotes(id);
+        if (isMe(id, token))
+            return (T) successResponse(notesHelper.getNotes(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -74,24 +74,24 @@ public class NotesController extends PandoroController {
      *
      * @param id:          the identifier of the user
      * @param token:       the token of the user
-     * @param contentNote: the content of the note
+     * @param payload: the payload with the content of the note
      * @return the result of the request as {@link String}
      */
     @PostMapping(
-            path = CREATE_NOTE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/create", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/notes", method = POST)
     public String createNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String contentNote
+            @RequestBody Map<String, String> payload
     ) {
-        if (isAuthenticatedUser(id, token)) {
-            if (isContentNoteValid(contentNote)) {
+        if (isMe(id, token)) {
+            loadJsonHelper(payload);
+            String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+            if (Companion.isContentNoteValid(contentNote)) {
                 notesHelper.createNote(id, generateIdentifier(), contentNote);
                 return successResponse();
             } else
@@ -112,17 +112,16 @@ public class NotesController extends PandoroController {
     @PatchMapping(
             path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_DONE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsDone", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsDone", method = PATCH)
     public String markAsDone(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
             notesHelper.markAsDone(id, noteId);
             return successResponse();
         } else
@@ -141,17 +140,16 @@ public class NotesController extends PandoroController {
     @PatchMapping(
             path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_TO_DO_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/markAsToDo", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsToDo", method = PATCH)
     public String markAsToDo(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
             notesHelper.markAsToDo(id, noteId);
             return successResponse();
         } else
@@ -168,19 +166,18 @@ public class NotesController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_NOTE_ENDPOINT,
+            path = "{" + NOTE_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/notes/{note_id}/deleteNote", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = DELETE)
     public String deleteNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isAuthenticatedUser(id, token) && notesHelper.noteExists(id, noteId)) {
+        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
             notesHelper.deleteNote(id, noteId);
             return successResponse();
         } else

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.controllers.PandoroController.generateIdentifier;
+import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.SCHEDULED;
 
 /**

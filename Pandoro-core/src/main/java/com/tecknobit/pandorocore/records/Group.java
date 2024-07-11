@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
 import com.tecknobit.pandorocore.records.users.GroupMember;
 import com.tecknobit.pandorocore.records.users.GroupMember.Role;
-import com.tecknobit.pandorocore.records.users.PublicUser;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -21,17 +20,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
 import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
 import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
  * @see PandoroItem
  * @see Serializable
  */
@@ -104,21 +105,18 @@ public class Group extends PandoroItem {
     )
     @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
-            PublicUser.TOKEN_KEY,
-            PublicUser.PASSWORD_KEY,
+            TOKEN_KEY,
+            PASSWORD_KEY,
             LANGUAGE_KEY,
-            PublicUser.COMPLETE_NAME_KEY,
             CHANGELOGS_KEY,
             GROUPS_KEY,
             PROJECTS_KEY,
             NOTES_KEY,
-            PublicUser.UNREAD_CHANGELOGS_KEY,
-            PublicUser.ADMIN_GROUPS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final User author;
+    private final EquinoxUser author;
 
     /**
      * {@code description} the description of the group
@@ -181,7 +179,7 @@ public class Group extends PandoroItem {
         creationDate = hItem.getLong(CREATION_DATE_KEY);
         author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         description = hItem.getString(GROUP_DESCRIPTION_KEY);
-        groupMembers = GroupMember.getInstances(hItem.getJSONArray(PublicUser.GROUP_MEMBERS_TABLE));
+        groupMembers = GroupMember.getInstances(hItem.getJSONArray(GROUP_MEMBERS_TABLE));
         totalMembers = groupMembers.size();
         projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
         totalProjects = projects.size();
@@ -198,7 +196,7 @@ public class Group extends PandoroItem {
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, long creationDate, User author, String description, ArrayList<GroupMember> groupMembers,
+    public Group(String id, String name, long creationDate, EquinoxUser author, String description, ArrayList<GroupMember> groupMembers,
                  ArrayList<Project> projects) {
         super(id, name);
         this.creationDate = creationDate;
@@ -242,9 +240,9 @@ public class Group extends PandoroItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link PublicUser}
+     * @return {@link #author} instance as {@link User}
      */
-    public PublicUser getAuthor() {
+    public EquinoxUser getAuthor() {
         return author;
     }
 
@@ -265,7 +263,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #groupMembers} instance as {@link ArrayList} of {@link GroupMember}
      */
-    @JsonGetter(PublicUser.GROUP_MEMBERS_TABLE)
+    @JsonGetter(GROUP_MEMBERS_TABLE)
     public ArrayList<GroupMember> getMembers() {
         return new ArrayList<>(groupMembers);
     }

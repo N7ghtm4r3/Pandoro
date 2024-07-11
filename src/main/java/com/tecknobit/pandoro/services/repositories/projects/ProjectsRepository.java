@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 import static com.tecknobit.pandorocore.records.Group.AUTHOR_KEY;
 import static com.tecknobit.pandorocore.records.Group.CREATION_DATE_KEY;
 import static com.tecknobit.pandorocore.records.Group.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.Group.*;
 import static com.tecknobit.pandorocore.records.Project.*;
-import static com.tecknobit.pandorocore.records.users.PublicUser.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
 
 /**
  * The {@code ProjectsRepository} interface is useful to manage the queries for the projects
@@ -51,7 +51,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Project> getProjectsList(@Param(AUTHOR_KEY) String userId);
+    List<Project> getProjectsList(
+            @Param(AUTHOR_KEY) String userId
+    );
 
     /**
      * Method to execute the query to select a {@link Project} by its name

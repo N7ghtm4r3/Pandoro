@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
-import com.tecknobit.pandorocore.records.users.PublicUser;
 import com.tecknobit.pandorocore.records.users.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -15,10 +15,15 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
+import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
+import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
+import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
 import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 
@@ -26,12 +31,11 @@ import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
- * @see Serializable
+ * @see EquinoxItem
  */
 @Entity
 @Table(name = Project.UPDATES_KEY)
-public class ProjectUpdate extends PandoroItemStructure {
+public class ProjectUpdate extends EquinoxItem {
 
     /**
      * {@code TARGET_VERSION_MAX_LENGTH} the max length of the target version for an update
@@ -61,13 +65,6 @@ public class ProjectUpdate extends PandoroItemStructure {
     }
 
     /**
-     * {@code id} identifier of the update
-     */
-    @Id
-    @Column(name = PandoroItem.IDENTIFIER_KEY)
-    private final String id;
-
-    /**
      * {@code author} the author of the update
      */
     @ManyToOne(
@@ -76,20 +73,17 @@ public class ProjectUpdate extends PandoroItemStructure {
     )
     @JoinColumn(name = PandoroItem.AUTHOR_KEY)
     @JsonIgnoreProperties({
-            PublicUser.TOKEN_KEY,
-            PublicUser.PASSWORD_KEY,
+            TOKEN_KEY,
+            PASSWORD_KEY,
             LANGUAGE_KEY,
-            PublicUser.COMPLETE_NAME_KEY,
-            Changelog.CHANGELOGS_KEY,
-            Group.GROUPS_KEY,
-            Project.PROJECTS_KEY,
-            Note.NOTES_KEY,
-            PublicUser.UNREAD_CHANGELOGS_KEY,
-            PublicUser.ADMIN_GROUPS_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
-    private final User author;
+    private final EquinoxUser author;
 
     /**
      * {@code createDate} when the update has been created
@@ -119,19 +113,16 @@ public class ProjectUpdate extends PandoroItemStructure {
     )
     @JoinColumn(name = Project.UPDATE_STARTED_BY_KEY)
     @JsonIgnoreProperties({
-            PublicUser.TOKEN_KEY,
-            PublicUser.PASSWORD_KEY,
-            PublicUser.COMPLETE_NAME_KEY,
-            Changelog.CHANGELOGS_KEY,
-            Group.GROUPS_KEY,
-            Project.PROJECTS_KEY,
-            Note.NOTES_KEY,
-            PublicUser.UNREAD_CHANGELOGS_KEY,
-            PublicUser.ADMIN_GROUPS_KEY,
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
-    private final PublicUser startedBy;
+    private final EquinoxUser startedBy;
 
     /**
      * {@code startDate} when the update has been started
@@ -148,19 +139,16 @@ public class ProjectUpdate extends PandoroItemStructure {
     )
     @JoinColumn(name = Project.UPDATE_PUBLISHED_BY_KEY)
     @JsonIgnoreProperties({
-            PublicUser.TOKEN_KEY,
-            PublicUser.PASSWORD_KEY,
-            PublicUser.COMPLETE_NAME_KEY,
-            Changelog.CHANGELOGS_KEY,
-            Group.GROUPS_KEY,
-            Project.PROJECTS_KEY,
-            Note.NOTES_KEY,
-            PublicUser.UNREAD_CHANGELOGS_KEY,
-            PublicUser.ADMIN_GROUPS_KEY,
+            TOKEN_KEY,
+            PASSWORD_KEY,
+            CHANGELOGS_KEY,
+            GROUPS_KEY,
+            PROJECTS_KEY,
+            NOTES_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
-    private final PublicUser publishedBy;
+    private final EquinoxUser publishedBy;
 
     /**
      * {@code publishDate} when the update has been published
@@ -213,13 +201,12 @@ public class ProjectUpdate extends PandoroItemStructure {
      */
     public ProjectUpdate(JSONObject jProjectUpdate) {
         super(jProjectUpdate);
-        id = hItem.getString(PandoroItem.IDENTIFIER_KEY);
         author = User.getInstance(hItem.getJSONObject(PandoroItem.AUTHOR_KEY));
         createDate = hItem.getLong(Project.UPDATE_CREATE_DATE_KEY, -1);
         targetVersion = hItem.getString(Project.UPDATE_TARGET_VERSION_KEY);
-        startedBy = PublicUser.getInstance(hItem.getJSONObject(Project.UPDATE_STARTED_BY_KEY));
+        startedBy = User.getInstance(hItem.getJSONObject(Project.UPDATE_STARTED_BY_KEY));
         startDate = hItem.getLong(Project.UPDATE_START_DATE_KEY, -1);
-        publishedBy = PublicUser.getInstance(hItem.getJSONObject(Project.UPDATE_PUBLISHED_BY_KEY));
+        publishedBy = User.getInstance(hItem.getJSONObject(Project.UPDATE_PUBLISHED_BY_KEY));
         publishDate = hItem.getLong(Project.UPDATE_PUBLISH_DATE_KEY, -1);
         if (publishDate != -1) {
             developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
@@ -231,7 +218,7 @@ public class ProjectUpdate extends PandoroItemStructure {
             developmentDuration = -1;
             status = IN_DEVELOPMENT;
         }
-        notes = Note.getInstances(hItem.getJSONArray(Note.NOTES_KEY));
+        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
     /**
@@ -247,10 +234,9 @@ public class ProjectUpdate extends PandoroItemStructure {
      * @param publishDate:   when the update has been published
      * @param notes:         the notes for the update to be done
      */
-    public ProjectUpdate(String id, User author, long createDate, String targetVersion, PublicUser startedBy, long startDate,
-                         PublicUser publishedBy, long publishDate, ArrayList<Note> notes) {
-        super(null);
-        this.id = id;
+    public ProjectUpdate(String id, User author, long createDate, String targetVersion, User startedBy, long startDate,
+                         User publishedBy, long publishDate, ArrayList<Note> notes) {
+        super(id);
         this.author = author;
         this.createDate = createDate;
         this.targetVersion = targetVersion;
@@ -272,22 +258,12 @@ public class ProjectUpdate extends PandoroItemStructure {
     }
 
     /**
-     * Method to get {@link #id} instance <br>
-     * No-any params required
-     *
-     * @return {@link #id} instance as {@link String}
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
      * @return {@link #author} instance as {@link User}
      */
-    public User getAuthor() {
+    public EquinoxUser getAuthor() {
         return author;
     }
 
@@ -331,7 +307,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      * @return {@link #startedBy} instance as {@link User}
      */
     @JsonGetter(Project.UPDATE_STARTED_BY_KEY)
-    public PublicUser getStartedBy() {
+    public EquinoxUser getStartedBy() {
         return startedBy;
     }
 
@@ -366,7 +342,7 @@ public class ProjectUpdate extends PandoroItemStructure {
      * @return {@link #publishedBy} instance as {@link User}
      */
     @JsonGetter(Project.UPDATE_PUBLISHED_BY_KEY)
-    public PublicUser getPublishedBy() {
+    public EquinoxUser getPublishedBy() {
         return publishedBy;
     }
 

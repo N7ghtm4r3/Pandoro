@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.pandorocore.records.structures.PandoroItemStructure;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.equinox.environment.records.EquinoxUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,19 +19,18 @@ import java.util.ArrayList;
 import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.Project.PROJECT_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see PandoroItemStructure
+ * @see EquinoxItem
  * @see Serializable
  */
 @Entity
 @Table(name = CHANGELOGS_KEY)
-public class Changelog extends PandoroItemStructure {
+public class Changelog extends EquinoxItem {
 
     /**
      * {@code CHANGELOGS_KEY} changelogs key
@@ -155,13 +154,6 @@ public class Changelog extends PandoroItemStructure {
     }
 
     /**
-     * {@code id} the identifier of the changelog event message
-     */
-    @Id
-    @Column(name = CHANGELOG_IDENTIFIER_KEY)
-    private final String id;
-
-    /**
      * {@code changelogEvent} the value of the changelog event
      */
     @Enumerated(EnumType.STRING)
@@ -225,7 +217,7 @@ public class Changelog extends PandoroItemStructure {
     @JoinColumn(name = CHANGELOG_OWNER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private User owner;
+    private EquinoxUser owner;
 
     /**
      * Default constructor
@@ -243,7 +235,6 @@ public class Changelog extends PandoroItemStructure {
      */
     public Changelog(JSONObject jChangelog) {
         super(jChangelog);
-        id = hItem.getString(IDENTIFIER_KEY);
         changelogEvent = ChangelogEvent.valueOf(hItem.getString(CHANGELOG_EVENT_KEY));
         timestamp = hItem.getLong(CHANGELOG_TIMESTAMP_KEY, -1);
         project = Project.getInstance(hItem.getJSONObject(PROJECT_KEY));
@@ -264,24 +255,13 @@ public class Changelog extends PandoroItemStructure {
      */
     public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Project project,
                      String extraContent, boolean red) {
-        super(null);
-        this.id = id;
+        super(id);
         this.changelogEvent = changelogEvent;
         this.timestamp = timestamp;
         this.project = project;
         this.extraContent = extraContent;
         this.red = red;
         group = null;
-    }
-
-    /**
-     * Method to get {@link #id} instance <br>
-     * No-any params required
-     *
-     * @return {@link #id} instance as {@link String}
-     */
-    public String getId() {
-        return id;
     }
 
     /**

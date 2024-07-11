@@ -1,43 +1,41 @@
 package com.tecknobit.pandoro.controllers;
 
 import com.tecknobit.apimanager.annotations.RequestPath;
-import com.tecknobit.apimanager.formatters.JsonHelper;
+import com.tecknobit.equinox.environment.controllers.EquinoxController;
 import com.tecknobit.pandoro.services.GroupsHelper;
 import com.tecknobit.pandoro.services.ProjectsHelper;
 import com.tecknobit.pandorocore.records.Group;
 import com.tecknobit.pandorocore.records.Project;
 import com.tecknobit.pandorocore.records.ProjectUpdate;
 import com.tecknobit.pandorocore.records.ProjectUpdate.Status;
-import com.tecknobit.pandorocore.records.users.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.IDENTIFIER_KEY;
+import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.pandoro.controllers.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidatorKt.*;
-import static com.tecknobit.pandorocore.helpers.Requester.WRONG_PROCEDURE_MESSAGE;
+import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
 import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTE_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.records.Note.*;
 import static com.tecknobit.pandorocore.records.Project.*;
 import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.TOKEN_KEY;
 
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
  *
  * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxController
  * @see PandoroController
  */
 @RestController
-@RequestMapping(path = BASE_ENDPOINT + PROJECTS_KEY)
+@RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + PROJECTS_KEY)
 public class ProjectsController extends PandoroController {
 
     /**
@@ -72,17 +70,16 @@ public class ProjectsController extends PandoroController {
      */
     @GetMapping(
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
     public <T> T getProjectsList(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token
     ) {
-        if (isAuthenticatedUser(id, token))
-            return (T) projectsHelper.getProjectsList(id);
+        if (isMe(id, token))
+            return (T) successResponse(projectsHelper.getProjectsList(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -111,17 +108,15 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @PostMapping(
-            path = ADD_PROJECT_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/addProject", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/projects", method = POST)
     public String addProject(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         return workWithProject(id, token, payload, null);
     }
@@ -150,18 +145,17 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + EDIT_PROJECT_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/editProject", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = PATCH)
     public String editProject(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
         return workWithProject(id, token, payload, projectId);
     }
@@ -190,13 +184,12 @@ public class ProjectsController extends PandoroController {
      *
      * @return the result of the request as {@link String}
      */
-    private String workWithProject(String id, String token, String payload, String projectId) {
-        User me = getMe(id, token);
-        if (me != null) {
-            JsonHelper hPayload = new JsonHelper(payload);
-            String name = hPayload.getString(NAME_KEY);
+    private String workWithProject(String id, String token, Map<String, Object> payload, String projectId) {
+        if (isMe(id, token)) {
+            loadJsonHelper(payload);
+            String name = jsonHelper.getString(NAME_KEY);
             boolean isAdding = projectId == null;
-            if (isValidProjectName(name)) {
+            if (Companion.isValidProjectName(name)) {
                 if (!isAdding) {
                     Project currentEditingProject = projectsHelper.getProjectById(projectId);
                     if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
@@ -204,13 +197,13 @@ public class ProjectsController extends PandoroController {
                 }
                 Project checkProject = projectsHelper.getProjectByName(id, name);
                 if (checkProject == null || (!isAdding && checkProject.getId().equals(projectId))) {
-                    String description = hPayload.getString(PROJECT_DESCRIPTION_KEY);
-                    if (isValidProjectDescription(description)) {
-                        String shortDescription = hPayload.getString(PROJECT_SHORT_DESCRIPTION_KEY);
-                        if (isValidProjectShortDescription(shortDescription)) {
-                            String version = hPayload.getString(PROJECT_VERSION_KEY);
-                            if (isValidVersion(version)) {
-                                ArrayList<String> groups = hPayload.fetchList(GROUPS_KEY, new ArrayList<>());
+                    String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
+                    if (Companion.isValidProjectDescription(description)) {
+                        String shortDescription = jsonHelper.getString(PROJECT_SHORT_DESCRIPTION_KEY);
+                        if (Companion.isValidProjectShortDescription(shortDescription)) {
+                            String version = jsonHelper.getString(PROJECT_VERSION_KEY);
+                            if (Companion.isValidVersion(version)) {
+                                ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
                                 ArrayList<String> adminGroups = new ArrayList<>();
                                 for (Group group : me.getAdminGroups())
                                     adminGroups.add(group.getId());
@@ -220,27 +213,27 @@ public class ProjectsController extends PandoroController {
                                         adminGroups.add(group.getId());
                                 }
                                 if (groups.isEmpty() || adminGroups.containsAll(groups)) {
-                                    String repository = hPayload.getString(PROJECT_REPOSITORY_KEY);
-                                    if (isValidRepository(repository)) {
+                                    String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
+                                    if (Companion.isValidRepository(repository)) {
                                         if (isAdding)
                                             projectId = generateIdentifier();
                                         projectsHelper.workWithProject(id, projectId, name, description, shortDescription,
                                                 version, repository, groups, isAdding);
                                         return successResponse();
                                     } else
-                                        return failedResponse("Wrong project repository");
+                                        return failedResponse("wrong_project_repository_key");
                                 } else
-                                    return failedResponse("Wrong groups list");
+                                    return failedResponse("wrong_groups_list_key");
                             } else
-                                return failedResponse("Wrong project version");
+                                return failedResponse("wrong_project_version_key");
                         } else
-                            return failedResponse("Wrong project short description");
+                            return failedResponse("wrong_project_short_description_key");
                     } else
-                        return failedResponse("Wrong project description");
+                        return failedResponse("wrong_project_description_key");
                 } else
-                    return failedResponse("A project with this name already exists");
+                    return failedResponse("project_name_already_exists_key");
             } else
-                return failedResponse("Wrong project name");
+                return failedResponse("wrong_project_name_key");
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -257,20 +250,19 @@ public class ProjectsController extends PandoroController {
     @GetMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = GET)
     public <T> T getProject(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             Project project = projectsHelper.getProject(id, projectId);
             if (project != null)
-                return (T) project;
+                return (T) successResponse(project);
             else
                 return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
@@ -287,19 +279,18 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + IDENTIFIER_KEY + "}" + DELETE_PROJECT_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}", method = DELETE)
     public String deleteProject(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(IDENTIFIER_KEY) String projectId
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             Project project = projectsHelper.getProjectById(projectId);
             if (project != null && project.getAuthor().getId().equals(id)) {
                 projectsHelper.deleteProject(id, projectId);
@@ -333,33 +324,32 @@ public class ProjectsController extends PandoroController {
     @PostMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + SCHEDULE_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/schedule", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/schedule", method = POST)
     public String scheduleUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @RequestBody String payload
+            @RequestBody Map<String, Object> payload
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null) {
-                JsonHelper hPayload = new JsonHelper(payload);
-                String targetVersion = hPayload.getString(UPDATE_TARGET_VERSION_KEY);
-                if (isValidVersion(targetVersion)) {
+                loadJsonHelper(payload);
+                String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
+                if (Companion.isValidVersion(targetVersion)) {
                     if (!projectsHelper.targetVersionExists(projectId, targetVersion)) {
-                        ArrayList<String> changeNotes = hPayload.fetchList(UPDATE_CHANGE_NOTES_KEY);
-                        if (areNotesValid(changeNotes)) {
+                        ArrayList<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
+                        if (Companion.areNotesValid(changeNotes)) {
                             projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
                             return successResponse();
                         } else
-                            return failedResponse("Wrong change notes list");
+                            return failedResponse("wrong_change_notes_list_key");
                     } else
-                        return failedResponse("An update with this target version already exists");
+                        return failedResponse("update_version_already_exists_key");
                 } else
-                    return failedResponse("Wrong target version");
+                    return failedResponse("wrong_target_version_key");
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
@@ -379,13 +369,12 @@ public class ProjectsController extends PandoroController {
     @PatchMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + START_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/start", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/start", method = PATCH)
     public String startUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId
@@ -406,13 +395,12 @@ public class ProjectsController extends PandoroController {
     @PatchMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + PUBLISH_UPDATE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/publish", method = PATCH)
     public String publishUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId
@@ -432,17 +420,17 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
             if (projectsHelper.getProject(id, projectId) != null && update != null) {
                 Status status = update.getStatus();
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
-                        return failedResponse("An update to be published must be IN_DEVELOPMENT first");
+                        return failedResponse("wrong_publish_update_request_key");
                     projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
                 } else {
                     if (status != SCHEDULED)
-                        return failedResponse("An update to be published must be SCHEDULED first");
+                        return failedResponse("wrong_development_update_request_key");
                     projectsHelper.startUpdate(projectId, updateId, id);
                 }
                 return successResponse();
@@ -459,29 +447,30 @@ public class ProjectsController extends PandoroController {
      * @param token: the token of the user
      * @param projectId: the identifier of the project where add the new change note
      * @param updateId: the identifier of the update where add the new change note
-     * @param contentNote: the content of the change note
+     * @param payload: the payload with the content of the change note
      *
      * @return the result of the request as {@link String}
      */
     @PutMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + ADD_CHANGE_NOTE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/addChangeNote", method = PUT)
     public String addChangeNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
-            @RequestBody String contentNote
+            @RequestBody Map<String, String> payload
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
             if (projectsHelper.getProject(id, projectId) != null && update != null && update.getStatus() != PUBLISHED) {
-                if (isContentNoteValid(contentNote)) {
+                loadJsonHelper(payload);
+                String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+                if (Companion.isContentNoteValid(contentNote)) {
                     projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
                     return successResponse();
                 } else
@@ -507,16 +496,15 @@ public class ProjectsController extends PandoroController {
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_DONE_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsDone",
             method = PATCH
     )
     public String markChangeNoteAsDone(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -540,16 +528,15 @@ public class ProjectsController extends PandoroController {
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_TODO_ENDPOINT,
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/markChangeNoteAsToDo",
             method = PATCH
     )
     public String markChangeNoteAsToDo(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -571,18 +558,17 @@ public class ProjectsController extends PandoroController {
      */
     @DeleteMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
-                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + DELETE_CHANGE_NOTE_ENDPOINT,
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
     @RequestPath(
-            path = "/api/v1/projects/{project_id}/updates/{update_id}/notes/{note_id}/deleteChangeNote",
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}",
             method = DELETE
     )
     public String deleteChangeNote(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId,
@@ -605,7 +591,7 @@ public class ProjectsController extends PandoroController {
      */
     private String manageChangeNote(String id, String token, String projectId, String updateId, String noteId,
                                     String ope) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
             if (projectsHelper.getProject(id, projectId) != null && update != null &&
                     projectsHelper.changeNoteExists(updateId, noteId)) {
@@ -648,20 +634,19 @@ public class ProjectsController extends PandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + DELETE_UPDATE_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}",
             headers = {
-                    IDENTIFIER_KEY,
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/projects/{project_id}/updates/{update_id}/delete", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}", method = DELETE)
     public String deleteUpdate(
-            @RequestHeader(IDENTIFIER_KEY) String id,
+            @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_ID) String updateId
     ) {
-        if (isAuthenticatedUser(id, token)) {
+        if (isMe(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null &&
                     projectsHelper.updateExists(projectId, updateId) != null) {
                 projectsHelper.deleteUpdate(projectId, updateId, id);

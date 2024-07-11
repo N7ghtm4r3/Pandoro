@@ -10,7 +10,6 @@ import com.tecknobit.pandorocore.records.Group;
 import com.tecknobit.pandorocore.records.Project;
 import com.tecknobit.pandorocore.records.users.GroupMember;
 import com.tecknobit.pandorocore.records.users.GroupMember.Role;
-import com.tecknobit.pandorocore.records.users.PublicUser;
 import com.tecknobit.pandorocore.records.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,7 +85,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupDescription: the description of the group
      * @param members:          the list of the group members
      */
-    public void createGroup(PublicUser author, String groupId, String groupName, String groupDescription,
+    public void createGroup(User author, String groupId, String groupName, String groupDescription,
                             ArrayList<String> members) {
         String authorId = author.getId();
         groupsRepository.createGroup(
@@ -129,7 +128,7 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         for (String memberEmail : members) {
-            PublicUser member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
+            User member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
             if (member != null) {
                 String memberId = member.getId();
                 String email = member.getEmail();
@@ -291,14 +290,16 @@ public class GroupsHelper extends ChangelogOperator {
      * @param deleteGroup: whether delete the group after the member left
      */
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
-        membersRepository.leaveGroup(memberId, groupId);
-        for (Project project : getGroup(memberId, groupId).getProjects())
-            if (project.getAuthor().getId().equals(memberId))
-                groupsRepository.removeGroupProject(project.getId(), groupId);
         if (deleteGroup)
             deleteGroup(memberId, groupId);
-        else
+        else {
+            Group group = getGroup(memberId, groupId);
+            membersRepository.leaveGroup(memberId, groupId);
+            for (Project project : group.getProjects())
+                if (project.getAuthor().getId().equals(memberId))
+                    groupsRepository.removeGroupProject(project.getId(), groupId);
             changelogsCreator.memberLeftGroup(groupId, memberId);
+        }
     }
 
     /**

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 import static com.tecknobit.pandorocore.records.Group.*;
 import static com.tecknobit.pandorocore.records.Project.PROJECTS_GROUPS_TABLE;
 import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.PublicUser.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandorocore.records.users.PublicUser.NAME_KEY;
+import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
 
 /**
  * The {@code GroupsRepository} interface is useful to manage the queries for the groups
@@ -43,7 +43,9 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Group> getGroups(@Param(AUTHOR_KEY) String userId);
+    List<Group> getGroups(
+            @Param(AUTHOR_KEY) String userId
+    );
 
     /**
      * Method to execute the query to select a {@link Group} by its name
@@ -106,9 +108,9 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      */
     @Query(
             value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + IDENTIFIER_KEY + " WHERE " + GROUPS_KEY + "."
-                    + IDENTIFIER_KEY + " =:" + GROUP_IDENTIFIER_KEY + " OR " + GROUP_MEMBERS_TABLE + "."
-                    + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
+                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+                    + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " =:" + GROUP_IDENTIFIER_KEY
+                    + " AND " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     Group getGroup(
