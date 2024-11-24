@@ -1,6 +1,6 @@
 # Pandoro
 
-**v1.0.4**
+**v1.0.5**
 
 This project, based on Java and the
 Spring Boot framework, is an open source self-hosted management software useful in managing your personal projects and group
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:Pandoro-core:1.0.4'
+  implementation 'com.tecknobit.pandorocore:Pandoro-core:1.0.5'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:Pandoro-core:1.0.4")
+  implementation("com.tecknobit.pandorocore:Pandoro-core:1.0.5")
 }
 ```
 
@@ -62,7 +62,7 @@ Add the JitPack repository to your build file
 
     ```gradle
     dependencies {
-        implementation 'com.tecknobit.pandoro:Pandoro:1.0.4'
+        implementation 'com.tecknobit.pandoro:Pandoro:1.0.5'
     }
     ```
 
@@ -70,7 +70,7 @@ Add the JitPack repository to your build file
 
     ```gradle
     dependencies {
-        implementation("com.tecknobit.pandoro:Pandoro:1.0.4")
+        implementation("com.tecknobit.pandoro:Pandoro:1.0.5")
     }
     ```
 
@@ -83,7 +83,7 @@ Add the JitPack repository to your build file
 <dependency>
   <groupId>com.tecknobit.pandorocore</groupId>
   <artifactId>Pandoro-core</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
@@ -102,7 +102,7 @@ steps:
   - iOS -> planned
 - <a href="https://github.com/N7ghtm4r3/Pandoro-Desktop/releases/tag/1.0.4">Pandoro desktop version</a>
 - <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a>
-- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.4">Backend service "out-of-the-box"</a>
+- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.5">Backend service "out-of-the-box"</a>
 
 ## Usages
 
