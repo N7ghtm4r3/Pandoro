@@ -60,7 +60,7 @@ public class Launcher {
      */
     public static void main(String[] args) {
         EquinoxController.initEquinoxEnvironment(
-                "com/tecknobit/pandoro/backend",
+                "com/tecknobit/pandoro",
                 " to correctly register a new user in the Pandoro system ",
                 Launcher.class,
                 args

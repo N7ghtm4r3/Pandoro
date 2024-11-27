@@ -3,7 +3,6 @@ package com.tecknobit.pandoro.services.notes.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
@@ -45,7 +44,7 @@ public class Note extends EquinoxItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final EquinoxUser author;
+    private final PandoroUser author;
 
     /**
      * {@code content} the content of the note
@@ -87,7 +86,7 @@ public class Note extends EquinoxItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final com.tecknobit.equinoxbackend.environment.models.EquinoxUser markedAsDoneBy;
+    private final PandoroUser markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
@@ -145,7 +144,7 @@ public class Note extends EquinoxItem {
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
-    public EquinoxUser getAuthor() {
+    public PandoroUser getAuthor() {
         return author;
     }
 
@@ -169,17 +168,6 @@ public class Note extends EquinoxItem {
     @JsonGetter(CREATION_DATE_KEY)
     public long getCreation() {
         return creationDate;
-    }
-
-    /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #creationDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getCreationDate() {
-        return TimeFormatter.getStringDate(creationDate);
     }
 
     /**
@@ -213,19 +201,6 @@ public class Note extends EquinoxItem {
     @JsonGetter(MARKED_AS_DONE_DATE_KEY)
     public long getMarkAsDoneDate() {
         return markAsDoneDate;
-    }
-
-    /**
-     * Method to get {@link #markAsDoneDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #markAsDoneDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getMarkedAsDoneDate() {
-        if (markAsDoneDate == -1)
-            return "not marked as done yet";
-        return TimeFormatter.getStringDate(markAsDoneDate);
     }
 
 }

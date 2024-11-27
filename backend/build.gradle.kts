@@ -16,8 +16,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":core"))
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.3")
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.3")
     implementation("org.springframework.boot:spring-boot-maven-plugin:3.2.0")
@@ -25,6 +23,7 @@ dependencies {
     implementation("com.github.N7ghtm4r3:APIManager:2.2.4")
     implementation("io.github.n7ghtm4r3:equinox-backend:1.0.5")
     implementation("io.github.n7ghtm4r3:equinox-core:1.0.5")
+    implementation("org.json:json:20240303")
     implementation(project(":core"))
 }
 

@@ -1,7 +1,5 @@
 package com.tecknobit.pandoro.services.groups.controller;
 
-import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode;
-import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.model.Group;
@@ -10,17 +8,15 @@ import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
-import static com.tecknobit.equinoxbackend.Requester.RESPONSE_STATUS_KEY;
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
@@ -321,12 +317,12 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
-            @RequestBody String payload
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
             Group meGroup = groupsHelper.getGroup(id, groupId);
-            JsonHelper hPayload = new JsonHelper(payload);
-            String hisId = hPayload.getString(IDENTIFIER_KEY, "");
+            loadJsonHelper(payload);
+            String hisId = jsonHelper.getString(IDENTIFIER_KEY, "");
             Group uGroup = groupsHelper.getGroup(hisId, groupId);
             if (!id.equals(hisId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, hisId)) {
@@ -338,7 +334,7 @@ public class GroupsController extends DefaultPandoroController {
                         boolean isHeAdmin = heMember.isAdmin();
                         boolean isHeMaintainer = heMember.isMaintainer();
                         try {
-                            Role role = Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
+                            Role role = Role.valueOf(jsonHelper.getString(MEMBER_ROLE_KEY));
                             if (isMeAdmin) {
                                 groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
                                 return successResponse();
@@ -498,45 +494,42 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody(required = false) Map<String, String> payload
     ) {
-        if (isMe(id, token)) {
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null) {
-                GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
-                if (meMember != null) {
-                    if (meMember.isAdmin()) {
-                        if (groupsHelper.hasOtherMembers(groupId)) {
-                            if (!groupsHelper.hasGroupAdmins(id, groupId)) {
-                                loadJsonHelper(payload);
-                                String nextAdminId = jsonHelper.getString(IDENTIFIER_KEY);
-                                if (nextAdminId != null && groupsHelper.getGroup(nextAdminId, groupId) != null) {
-                                    String result = changeMemberRole(id, token, groupId, new JSONObject()
-                                            .put(IDENTIFIER_KEY, nextAdminId)
-                                            .put(MEMBER_ROLE_KEY, ADMIN).toString());
-                                    if (roleChanged(result)) {
-                                        groupsHelper.leaveGroup(id, groupId);
-                                        return successResponse();
-                                    } else
-                                        return failedResponse(WRONG_ADMIN_MESSAGE);
-                                } else
-                                    return failedResponse(WRONG_ADMIN_MESSAGE);
-                            } else {
-                                groupsHelper.leaveGroup(id, groupId, false);
-                                return successResponse();
-                            }
-                        } else {
-                            groupsHelper.leaveGroup(id, groupId, true);
-                            return successResponse();
-                        }
-                    } else {
+        if (!isMe(id, token))
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group == null)
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
+        if (meMember == null)
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (meMember.isAdmin()) {
+            if (groupsHelper.hasOtherMembers(groupId)) {
+                if (!groupsHelper.hasGroupAdmins(id, groupId)) {
+                    loadJsonHelper(payload);
+                    String nextAdminId = jsonHelper.getString(IDENTIFIER_KEY);
+                    if (nextAdminId == null || groupsHelper.getGroup(nextAdminId, groupId) == null)
+                        return failedResponse(WRONG_ADMIN_MESSAGE);
+                    HashMap<String, String> changeRolePayload = new HashMap<>();
+                    changeRolePayload.put(IDENTIFIER_KEY, nextAdminId);
+                    changeRolePayload.put(MEMBER_ROLE_KEY, ADMIN.name());
+                    String result = changeMemberRole(id, token, groupId, changeRolePayload);
+                    if (roleChanged(result)) {
                         groupsHelper.leaveGroup(id, groupId);
                         return successResponse();
-                    }
-                } else
-                    return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                    } else
+                        return failedResponse(WRONG_ADMIN_MESSAGE);
+                } else {
+                    groupsHelper.leaveGroup(id, groupId, false);
+                    return successResponse();
+                }
+            } else {
+                groupsHelper.leaveGroup(id, groupId, true);
+                return successResponse();
+            }
+        } else {
+            groupsHelper.leaveGroup(id, groupId);
+            return successResponse();
+        }
     }
 
     /**
@@ -546,8 +539,7 @@ public class GroupsController extends DefaultPandoroController {
      * @return whether the request has been successful as boolean
      */
     private boolean roleChanged(String result) {
-        return StandardResponseCode.valueOf(JsonHelper.getString(new JSONObject(result),
-                RESPONSE_STATUS_KEY, FAILED.name())) == SUCCESSFUL;
+        return result.contains(SUCCESSFUL.name());
     }
 
     /**

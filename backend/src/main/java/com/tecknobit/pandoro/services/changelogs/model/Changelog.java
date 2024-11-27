@@ -3,7 +3,6 @@ package com.tecknobit.pandoro.services.changelogs.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.groups.model.Group;
@@ -16,6 +15,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.io.Serializable;
 
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -137,16 +137,6 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get the title for the changelog event message <br>
-     * No-any params required
-     *
-     * @return the title for the changelog event message as {@link String}
-     */
-    public String getTitle() {
-        return changelogEvent.getEvent() + " at " + getDate();
-    }
-
-    /**
      * Method to get {@link #timestamp} instance <br>
      * No-any params required
      *
@@ -154,16 +144,6 @@ public class Changelog extends EquinoxItem {
      */
     public long getTimestamp() {
         return timestamp;
-    }
-
-    /**
-     * Method to get {@link #timestamp} instance <br>
-     * No-any params required
-     *
-     * @return {@link #timestamp} instance as {@link String}
-     */
-    public String getDate() {
-        return TimeFormatter.getStringDate(timestamp);
     }
 
     /**
@@ -186,7 +166,7 @@ public class Changelog extends EquinoxItem {
             case JOINED_GROUP -> "You joined in the " + entityName + " group";
             case ROLE_CHANGED -> {
                 String article = "a";
-                if (extraContent.equals(ADMIN.toString()))
+                if (extraContent.equals(ADMIN.name()))
                     article = "an";
                 yield "You became " + article + " " + extraContent + " in the " + entityName + " group";
             }

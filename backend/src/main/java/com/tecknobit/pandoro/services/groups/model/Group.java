@@ -1,9 +1,7 @@
 package com.tecknobit.pandoro.services.groups.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
@@ -57,7 +55,7 @@ public class Group extends PandoroItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final com.tecknobit.equinoxbackend.environment.models.EquinoxUser author;
+    private final PandoroUser author;
 
     /**
      * {@code description} the description of the group
@@ -121,7 +119,7 @@ public class Group extends PandoroItem {
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, long creationDate, EquinoxUser author, String description,
+    public Group(String id, String name, long creationDate, PandoroUser author, String description,
                  ArrayList<GroupMember> groupMembers, ArrayList<Project> projects) {
         super(id, name);
         this.creationDate = creationDate;
@@ -156,7 +154,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
-    public EquinoxUser getAuthor() {
+    public PandoroUser getAuthor() {
         return author;
     }
 
@@ -183,17 +181,6 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #totalMembers} instance <br>
-     * No-any params required
-     *
-     * @return {@link #totalMembers} instance as int
-     */
-    @JsonIgnore
-    public int getTotalMembers() {
-        return totalMembers;
-    }
-
-    /**
      * Method to get {@link #projects} instance <br>
      * No-any params required
      *
@@ -201,17 +188,6 @@ public class Group extends PandoroItem {
      */
     public ArrayList<Project> getProjects() {
         return new ArrayList<>(projects);
-    }
-
-    /**
-     * Method to get {@link #totalProjects} instance <br>
-     * No-any params required
-     *
-     * @return {@link #totalProjects} instance as int
-     */
-    @JsonIgnore
-    public int getTotalProjects() {
-        return totalProjects;
     }
 
     /**

@@ -3,7 +3,6 @@ package com.tecknobit.pandoro.services.projects.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
@@ -58,7 +57,7 @@ public class Project extends PandoroItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final com.tecknobit.equinoxbackend.environment.models.EquinoxUser author;
+    private final PandoroUser author;
 
     /**
      * {@code shortDescription} short description of the project
@@ -152,8 +151,9 @@ public class Project extends PandoroItem {
      * @param updates:          updates of the project
      * @param projectRepo:      the repository of the project
      */
-    public Project(String id, String name, long creationDate, PandoroUser author, String shortDescription, String description, String version,
-                   ArrayList<Group> groups, ArrayList<com.tecknobit.pandoro.services.projects.models.ProjectUpdate> updates, String projectRepo) {
+    public Project(String id, String name, long creationDate, PandoroUser author, String shortDescription,
+                   String description, String version, ArrayList<Group> groups, ArrayList<ProjectUpdate> updates,
+                   String projectRepo) {
         super(id, name);
         this.creationDate = creationDate;
         this.author = author;
@@ -186,23 +186,12 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #creationDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getCreationDate() {
-        return TimeFormatter.getStringDate(creationDate);
-    }
-
-    /**
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
-    public com.tecknobit.equinoxbackend.environment.models.EquinoxUser getAuthor() {
+    public PandoroUser getAuthor() {
         return author;
     }
 
@@ -248,19 +237,6 @@ public class Project extends PandoroItem {
     @JsonIgnore
     public long getLastUpdate() {
         return lastUpdate;
-    }
-
-    /**
-     * Method to get {@link #lastUpdate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #lastUpdate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getLastUpdateDate() {
-        if (lastUpdate == -1)
-            return "no updates yet";
-        return TimeFormatter.getStringDate(lastUpdate);
     }
 
     /**

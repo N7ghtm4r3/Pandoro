@@ -3,7 +3,6 @@ package com.tecknobit.pandoro.services.projects.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.notes.model.Note;
@@ -49,7 +48,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final EquinoxUser author;
+    private final PandoroUser author;
 
     /**
      * {@code createDate} when the update has been created
@@ -173,8 +172,8 @@ public class ProjectUpdate extends EquinoxItem {
      * @param publishDate:   when the update has been published
      * @param notes:         the notes for the update to be done
      */
-    public ProjectUpdate(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy, long startDate,
-                         PandoroUser publishedBy, long publishDate, ArrayList<Note> notes) {
+    public ProjectUpdate(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
+                         long startDate, PandoroUser publishedBy, long publishDate, ArrayList<Note> notes) {
         super(id);
         this.author = author;
         this.createDate = createDate;
@@ -202,7 +201,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
-    public EquinoxUser getAuthor() {
+    public PandoroUser getAuthor() {
         return author;
     }
 
@@ -215,17 +214,6 @@ public class ProjectUpdate extends EquinoxItem {
     @JsonGetter(UPDATE_CREATE_DATE_KEY)
     public long getCreateTimestamp() {
         return createDate;
-    }
-
-    /**
-     * Method to get {@link #createDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #createDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getCreateDate() {
-        return TimeFormatter.getStringDate(createDate);
     }
 
     /**
@@ -262,19 +250,6 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #startDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #startDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getStartDate() {
-        if (startDate == -1)
-            return "not started yet";
-        return TimeFormatter.getStringDate(startDate);
-    }
-
-    /**
      * Method to get {@link #publishedBy} instance <br>
      * No-any params required
      *
@@ -294,17 +269,6 @@ public class ProjectUpdate extends EquinoxItem {
     @JsonGetter(UPDATE_PUBLISH_DATE_KEY)
     public long getPublishTimestamp() {
         return publishDate;
-    }
-
-    /**
-     * Method to get {@link #publishDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #publishDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getPublishDate() {
-        return TimeFormatter.getStringDate(publishDate);
     }
 
     /**
