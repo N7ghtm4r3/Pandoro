@@ -1,7 +1,6 @@
 {
     "en": {
         "wrong_project_name_key": "Wrong project name",
-        "wrong_project_short_description_key": "Wrong project short description",
         "wrong_project_repository_key": "Wrong project repository",
         "project_name_already_exists_key": "A project with this name already exists",
         "wrong_project_description_key": "Wrong project description",
@@ -33,7 +32,6 @@
     "ignored_resources": {},
     "it": {
         "wrong_project_name_key": "Nome del progetto sbagliato",
-        "wrong_project_short_description_key": "Breve descrizione del progetto sbagliata",
         "wrong_project_repository_key": "Repository progetto errata",
         "project_name_already_exists_key": "Esiste già un progetto con questo nome",
         "wrong_project_description_key": "Descrizione del progetto sbagliata",
@@ -64,7 +62,6 @@
     },
     "fr": {
         "wrong_project_name_key": "Mauvais nom de projet",
-        "wrong_project_short_description_key": "Mauvaise description du projet",
         "wrong_project_repository_key": "Présentation incorrecte du projet",
         "project_name_already_exists_key": "Un projet portant ce nom existe déjà",
         "wrong_project_description_key": "Mauvaise description du projet",
@@ -95,7 +92,6 @@
     },
     "es": {
         "wrong_project_name_key": "Nombre del proyecto equivocado",
-        "wrong_project_short_description_key": "Breve descripción incorrecta del proyecto",
         "wrong_project_repository_key": "Repositorio del proyecto equivocado",
         "project_name_already_exists_key": "Un proyecto con este nombre ya existe",
         "wrong_project_description_key": "Descripción incorrecta del proyecto",

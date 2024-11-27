@@ -36,11 +36,6 @@ const val PROJECTS_GROUPS_TABLE = "projects_groups"
 const val PROJECT_KEY = "project"
 
 /**
- * `PROJECT_SHORT_DESCRIPTION_KEY` project short description key
- */
-const val PROJECT_SHORT_DESCRIPTION_KEY = "project_short_description"
-
-/**
  * `PROJECT_DESCRIPTION_KEY` project description key
  */
 const val PROJECT_DESCRIPTION_KEY = "project_description"

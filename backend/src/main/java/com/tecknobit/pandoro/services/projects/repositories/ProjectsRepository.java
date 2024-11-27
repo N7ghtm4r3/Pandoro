@@ -28,7 +28,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to select the list of a {@link Project}
      *
-     * @param userId: the user identifier
+     * @param userId The user identifier
      * @return the list of projects as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
@@ -50,26 +50,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     );
 
     /**
-     * Method to execute the query to select a {@link Project} by its name
-     *
-     * @param userId: the user identifier
-     * @param name:   the name of the project to fetch
-     * @return the project as {@link Project}
-     */
-    @Query(
-            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + NAME_KEY + "=:" + NAME_KEY,
-            nativeQuery = true
-    )
-    Project getProjectByName(
-            @Param(AUTHOR_KEY) String userId,
-            @Param(NAME_KEY) String name
-    );
-
-    /**
      * Method to execute the query to select a {@link Project} by its id
      *
-     * @param projectId: the identifier of the project to fetch
+     * @param projectId The identifier of the project to fetch
      * @return the project as {@link Project}
      */
     @Query(
@@ -81,14 +64,13 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to add a new {@link Project}
      *
-     * @param author: the author of the project
-     * @param projectId: the project identifier
-     * @param name: the name of the project
-     * @param creationDate: the date when the project has been created
-     * @param description: the description of the project
-     * @param shortDescription: the short description of the project
-     * @param version: the version of the project
-     * @param repository: the GitHub or Gitlab repository url of the project
+     * @param author The author of the project
+     * @param projectId The project identifier
+     * @param name The name of the project
+     * @param creationDate The date when the project has been created
+     * @param description The description of the project
+     * @param version The version of the project
+     * @param repository The GitHub or Gitlab repository url of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -100,7 +82,6 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + NAME_KEY + ","
                     + CREATION_DATE_KEY + ","
                     + PROJECT_DESCRIPTION_KEY + ","
-                    + PROJECT_SHORT_DESCRIPTION_KEY + ","
                     + PROJECT_VERSION_KEY + ","
                     + PROJECT_REPOSITORY_KEY + ") VALUES "
                     + "( "
@@ -109,7 +90,6 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + ":" + NAME_KEY + ","
                     + ":" + CREATION_DATE_KEY + ","
                     + ":" + PROJECT_DESCRIPTION_KEY + ","
-                    + ":" + PROJECT_SHORT_DESCRIPTION_KEY + ","
                     + ":" + PROJECT_VERSION_KEY + ","
                     + ":" + PROJECT_REPOSITORY_KEY + ")",
             nativeQuery = true
@@ -120,7 +100,6 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(NAME_KEY) String name,
             @Param(CREATION_DATE_KEY) long creationDate,
             @Param(PROJECT_DESCRIPTION_KEY) String description,
-            @Param(PROJECT_SHORT_DESCRIPTION_KEY) String shortDescription,
             @Param(PROJECT_VERSION_KEY) String version,
             @Param(PROJECT_REPOSITORY_KEY) String repository
     );
@@ -128,7 +107,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to select the list of a {@link Group}'s id of a project
      *
-     * @param projectId: the project from fetch the list
+     * @param projectId The project from fetch the list
      * @return the list of group ids of a project as {@link List} of {@link String}
      */
     @Modifying(clearAutomatically = true)
@@ -141,32 +120,10 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     List<String> getProjectGroupsIds(@Param(PROJECT_IDENTIFIER_KEY) String projectId);
 
     /**
-     * Method to execute the query to add a group to a project
-     *
-     * @param projectId: the project where add the group
-     * @param groupId: the group to add to a project
-     */
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(
-            value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
-                    + PROJECT_IDENTIFIER_KEY + ","
-                    + GROUP_IDENTIFIER_KEY
-                    + ") VALUES ("
-                    + ":" + PROJECT_IDENTIFIER_KEY + ","
-                    + ":" + GROUP_IDENTIFIER_KEY + ")",
-            nativeQuery = true
-    )
-    void addProjectGroup(
-            @Param(PROJECT_IDENTIFIER_KEY) String projectId,
-            @Param(GROUP_IDENTIFIER_KEY) String groupId
-    );
-
-    /**
      * Method to execute the query to remove a group from a project
      *
-     * @param projectId: the project where remove the group
-     * @param groupId: the group to remove from a project
+     * @param projectId The project where remove the group
+     * @param groupId The group to remove from a project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -183,13 +140,12 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to edit an existing {@link Project}
      *
-     * @param author: the author of the project
-     * @param projectId: the project identifier
-     * @param name: the name of the project
-     * @param description: the description of the project
-     * @param shortDescription: the short description of the project
-     * @param version: the version of the project
-     * @param repository: the GitHub or Gitlab repository url of the project
+     * @param author The author of the project
+     * @param projectId The project identifier
+     * @param name The name of the project
+     * @param description The description of the project
+     * @param version The version of the project
+     * @param repository The GitHub or Gitlab repository url of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -197,7 +153,6 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             value = "UPDATE " + PROJECTS_KEY + " SET "
                     + NAME_KEY + "=:" + NAME_KEY + ","
                     + PROJECT_DESCRIPTION_KEY + "=:" + PROJECT_DESCRIPTION_KEY + ","
-                    + PROJECT_SHORT_DESCRIPTION_KEY + "=:" + PROJECT_SHORT_DESCRIPTION_KEY + ","
                     + PROJECT_VERSION_KEY + "=:" + PROJECT_VERSION_KEY + ","
                     + PROJECT_REPOSITORY_KEY + "=:" + PROJECT_REPOSITORY_KEY
                     + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " AND "
@@ -209,7 +164,6 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(IDENTIFIER_KEY) String projectId,
             @Param(NAME_KEY) String name,
             @Param(PROJECT_DESCRIPTION_KEY) String description,
-            @Param(PROJECT_SHORT_DESCRIPTION_KEY) String shortDescription,
             @Param(PROJECT_VERSION_KEY) String version,
             @Param(PROJECT_REPOSITORY_KEY) String repository
     );
@@ -219,8 +173,8 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * the version of the {@link Project}
      *
      * @param author:    the author of the project
-     * @param projectId: the project identifier
-     * @param version:   the last version of the project
+     * @param projectId The project identifier
+     * @param version The last version of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -240,8 +194,8 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to select an existing {@link Project}
      *
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
+     * @param userId The user identifier
+     * @param projectId The project identifier
      * @return the project as {@link Project}
      * @apiNote also the projects of a group in which he is a member is returned
      */
@@ -265,8 +219,8 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to delete an existing {@link Project}
      *
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
+     * @param userId The user identifier
+     * @param projectId The project identifier
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -283,7 +237,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     /**
      * Method to execute the query to delete the current list of projects of an user
      *
-     * @param userId: the user identifier
+     * @param userId The user identifier
      */
     @Modifying(clearAutomatically = true)
     @Transactional

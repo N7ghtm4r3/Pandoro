@@ -186,18 +186,6 @@ object PandoroInputsValidator : InputsValidator() {
     }
 
     /**
-     * Function to check the validity of a project short description
-     *
-     * @param shortDescription: project short description to check
-     * @return whether the project short description is valid as [Boolean]
-     */
-    fun isValidProjectShortDescription(
-        shortDescription: String?,
-    ): Boolean {
-        return isInputValid(shortDescription) && shortDescription!!.length in 1..PROJECT_SHORT_DESCRIPTION_MAX_LENGTH
-    }
-
-    /**
      * Function to check the validity of a version
      *
      * @param version: target version to check
@@ -222,6 +210,10 @@ object PandoroInputsValidator : InputsValidator() {
                 isValidPlatform(repository))
     }
 
+    @Deprecated(
+        message = "USE THE BUILT-IN ONE",
+        replaceWith = ReplaceWith("the super method")
+    )
     private fun isInputValid(field: String?): Boolean {
         return !field.isNullOrEmpty()
     }

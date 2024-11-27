@@ -65,7 +65,7 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to get the user's projects list
      *
-     * @param userId: the user identifier
+     * @param userId The user identifier
      * @return the projects list as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
@@ -74,21 +74,9 @@ public class ProjectsHelper extends ChangelogOperator {
     }
 
     /**
-     * Method to get the user's project by its name
-     *
-     * @param userId:      the user identifier
-     * @param projectName: the name of the project
-     * @return the project as {@link Project}
-     * @apiNote also the project of a group in which he is a member is returned
-     */
-    public Project getProjectByName(String userId, String projectName) {
-        return projectsRepository.getProjectByName(userId, projectName);
-    }
-
-    /**
      * Method to get the user's project by its id
      *
-     * @param projectId: the project identifier
+     * @param projectId The project identifier
      * @return the project as {@link Project}
      */
     public Project getProjectById(String projectId) {
@@ -98,8 +86,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to get the user's project by its id
      *
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
+     * @param userId The user identifier
+     * @param projectId The project identifier
      * @return the project as {@link Project}
      * @apiNote also the project of a group in which he is a member is returned
      */
@@ -110,18 +98,17 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to work with a project, add or edit operation are executed
      *
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
-     * @param name: the name of the project
-     * @param description: the description of the project
-     * @param shortDescription: the short description of the project
-     * @param version: the version of the project
-     * @param repository: the GitHub or Gitlab repository url of the project
-     * @param groups: the groups of the project
+     * @param userId The user identifier
+     * @param projectId The project identifier
+     * @param name The name of the project
+     * @param description The description of the project
+     * @param version The version of the project
+     * @param repository The GitHub or Gitlab repository url of the project
+     * @param groups The groups of the project
      * @param isAdding: whether is the adding operation that need to be executed
      */
-    public void workWithProject(String userId, String projectId, String name, String description, String shortDescription,
-                                String version, String repository, ArrayList<String> groups, boolean isAdding) {
+    public void workWithProject(String userId, String projectId, String name, String description, String version,
+                                String repository, ArrayList<String> groups, boolean isAdding) {
         if (isAdding) {
             projectsRepository.insertProject(
                     userId,
@@ -129,13 +116,12 @@ public class ProjectsHelper extends ChangelogOperator {
                     name,
                     System.currentTimeMillis(),
                     description,
-                    shortDescription,
                     version,
                     repository
             );
             addGroupsToAProject(groups, projectId);
         } else {
-            projectsRepository.editProject(userId, projectId, name, description, shortDescription, version, repository);
+            projectsRepository.editProject(userId, projectId, name, description, version, repository);
             List<String> currentGroups = projectsRepository.getProjectGroupsIds(projectId);
             currentGroups.removeAll(groups);
             for (String group : currentGroups) {
@@ -153,7 +139,7 @@ public class ProjectsHelper extends ChangelogOperator {
      * Method to add groups list to a project
      *
      * @param groups:    the groups list to add
-     * @param projectId: the project identifier
+     * @param projectId The project identifier
      */
     private void addGroupsToAProject(ArrayList<String> groups, String projectId) {
         batchInsert(INSERT_INTO, PROJECTS_GROUPS_TABLE, groups, query -> {
@@ -173,8 +159,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to delete a user's project
      *
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
+     * @param userId The user identifier
+     * @param projectId The project identifier
      */
     public void deleteProject(String userId, String projectId) {
         Project project = getProjectById(projectId);
@@ -187,8 +173,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to check whether an update with the target version inserted already exists
      *
-     * @param projectId: the project identifier
-     * @param targetVersion: the target version to check
+     * @param projectId The project identifier
+     * @param targetVersion The target version to check
      * @return whether an update with the target version inserted already exists as boolean
      */
     public boolean targetVersionExists(String projectId, String targetVersion) {
@@ -198,8 +184,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to fetch and check if an update exists
      *
-     * @param projectId: the project identifier
-     * @param updateId: the update identifier
+     * @param projectId The project identifier
+     * @param updateId The update identifier
      * @return project update, if exists, as {@link ProjectUpdate}, null if not
      */
     public ProjectUpdate updateExists(String projectId, String updateId) {
@@ -209,11 +195,11 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to schedule a new update
      *
-     * @param updateId: the update identifier
-     * @param targetVersion: the target version of the new update
-     * @param changeNotes: the change notes of the new update
-     * @param userId: the user identifier
-     * @param projectId: the project identifier
+     * @param updateId The update identifier
+     * @param targetVersion The target version of the new update
+     * @param changeNotes The change notes of the new update
+     * @param userId The user identifier
+     * @param projectId The project identifier
      */
     public void scheduleUpdate(String updateId, String targetVersion, ArrayList<String> changeNotes,
                                String projectId, String userId) {
@@ -236,9 +222,9 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to start an existing update
      *
-     * @param projectId: the project identifier
-     * @param updateId: the update identifier
-     * @param userId: the user identifier who start the update
+     * @param projectId The project identifier
+     * @param updateId The update identifier
+     * @param userId The user identifier who start the update
      */
     public void startUpdate(String projectId, String updateId, String userId) {
         updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
@@ -251,10 +237,10 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to publish an existing update
      *
-     * @param projectId: the project identifier
-     * @param updateId: the update identifier
-     * @param userId: the user identifier who publish the update
-     * @param updateVersion: the version of the update to set as last version of the project
+     * @param projectId The project identifier
+     * @param updateId The update identifier
+     * @param userId The user identifier who publish the update
+     * @param updateVersion The version of the update to set as last version of the project
      */
     public void publishUpdate(String projectId, String updateId, String userId, String updateVersion) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
@@ -268,10 +254,10 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to add a change note to an update
      *
-     * @param userId: the user identifier
-     * @param noteId: the identifier of the note to add
-     * @param contentNote: the content of the note to add
-     * @param updateId: the update identifier
+     * @param userId The user identifier
+     * @param noteId The identifier of the note to add
+     * @param contentNote The content of the note to add
+     * @param updateId The update identifier
      */
     public void addChangeNote(String userId, String noteId, String contentNote, String updateId) {
         notesRepository.addChangeNote(userId, noteId, contentNote, System.currentTimeMillis(), updateId);
@@ -280,8 +266,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to check whether a change note exists
      *
-     * @param noteId: the identifier of the note to add
-     * @param updateId: the update identifier
+     * @param noteId The identifier of the note to add
+     * @param updateId The update identifier
      * @return whether the change note exists as boolean
      */
     public boolean changeNoteExists(String updateId, String noteId) {
@@ -291,9 +277,9 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to mark as done a change note
      *
-     * @param updateId: the update identifier
-     * @param noteId: the identifier of the note
-     * @param userId: the user identifier
+     * @param updateId The update identifier
+     * @param noteId The identifier of the note
+     * @param userId The user identifier
      */
     public void markChangeNoteAsDone(String updateId, String noteId, String userId) {
         notesRepository.manageChangeNoteStatus(updateId, noteId, true, userId, System.currentTimeMillis());
@@ -302,8 +288,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to mark as todo a change note
      *
-     * @param updateId: the update identifier
-     * @param noteId: the identifier of the note
+     * @param updateId The update identifier
+     * @param noteId The identifier of the note
      */
     public void markChangeNoteAsToDo(String updateId, String noteId) {
         notesRepository.manageChangeNoteStatus(updateId, noteId, false, null, -1);
@@ -312,8 +298,8 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to delete a change note
      *
-     * @param updateId: the update identifier
-     * @param noteId: the identifier of the note
+     * @param updateId The update identifier
+     * @param noteId The identifier of the note
      */
     public void deleteChangeNote(String updateId, String noteId) {
         notesRepository.deleteChangeNote(updateId, noteId);
@@ -322,9 +308,9 @@ public class ProjectsHelper extends ChangelogOperator {
     /**
      * Method to delete an update
      *
-     * @param projectId: the project identifier
-     * @param updateId: the update identifier
-     * @param userId: the user identifier
+     * @param projectId The project identifier
+     * @param updateId The update identifier
+     * @param userId The user identifier
      */
     public void deleteUpdate(String projectId, String updateId, String userId) {
         ProjectUpdate update = updatesRepository.getUpdateById(projectId, updateId);

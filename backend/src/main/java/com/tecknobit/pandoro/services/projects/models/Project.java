@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.projects.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
@@ -23,12 +24,15 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED;
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxbackend.environment.models.EquinoxItem
+ * @see EquinoxItem
  * @see PandoroItem
  * @see Serializable
  */
 @Entity
-@Table(name = PROJECTS_KEY)
+@Table(
+        name = PROJECTS_KEY,
+        uniqueConstraints = @UniqueConstraint(columnNames = NAME_KEY)
+)
 public class Project extends PandoroItem {
 
     /**
@@ -58,12 +62,6 @@ public class Project extends PandoroItem {
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final PandoroUser author;
-
-    /**
-     * {@code shortDescription} short description of the project
-     */
-    @Column(name = PROJECT_SHORT_DESCRIPTION_KEY)
-    private final String shortDescription;
 
     /**
      * {@code description} description of the project
@@ -133,31 +131,28 @@ public class Project extends PandoroItem {
      * @apiNote empty constructor required
      */
     public Project() {
-        this(null, null, -1, null, null, null,
+        this(null, null, -1, null, null,
                 null, null, new ArrayList<>(), "");
     }
 
     /**
      * Constructor to init a {@link Project} object
      *
-     * @param id:               identifier of the project
-     * @param name:             name of the project
-     * @param creationDate: when the project has been created
-     * @param author:           author of the project
-     * @param shortDescription:{@code shortDescription} short description of the project
-     * @param description:      description of the project
-     * @param version:          last update version
-     * @param groups:           groups where the project has been assigned
-     * @param updates:          updates of the project
-     * @param projectRepo:      the repository of the project
+     * @param id              identifier of the project
+     * @param name             name of the project
+     * @param creationDate when the project has been created
+     * @param author       author of the project
+     * @param description     description of the project
+     * @param version          last update version
+     * @param groups           groups where the project has been assigned
+     * @param updates          updates of the project
+     * @param projectRepo      the repository of the project
      */
-    public Project(String id, String name, long creationDate, PandoroUser author, String shortDescription,
-                   String description, String version, ArrayList<Group> groups, ArrayList<ProjectUpdate> updates,
-                   String projectRepo) {
+    public Project(String id, String name, long creationDate, PandoroUser author, String description, String version,
+                   ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         super(id, name);
         this.creationDate = creationDate;
         this.author = author;
-        this.shortDescription = shortDescription;
         this.description = description;
         this.version = version;
         updatesNumber = updates.size();
@@ -193,17 +188,6 @@ public class Project extends PandoroItem {
      */
     public PandoroUser getAuthor() {
         return author;
-    }
-
-    /**
-     * Method to get {@link #shortDescription} instance <br>
-     * No-any params required
-     *
-     * @return {@link #shortDescription} instance as {@link String}
-     */
-    @JsonGetter(PROJECT_SHORT_DESCRIPTION_KEY)
-    public String getShortDescription() {
-        return shortDescription;
     }
 
     /**

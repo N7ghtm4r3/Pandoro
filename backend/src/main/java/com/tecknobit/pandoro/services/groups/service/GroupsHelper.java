@@ -132,10 +132,11 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         List<PandoroUser> filteredMembers = filterMembers(members);
-        batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, filteredMembers, query -> {
+        batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, filteredMembers,
+                query -> {
                     int index = 1;
                     for (PandoroUser member : filteredMembers) {
-                String memberId = member.getId();
+                        String memberId = member.getId();
                         query.setParameter(index++, groupId);
                         query.setParameter(index++, memberId);
                         query.setParameter(index++, member.getEmail());
@@ -146,7 +147,8 @@ public class GroupsHelper extends ChangelogOperator {
                         query.setParameter(index++, member.getSurname());
                         changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
                     }
-                }, GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY, PROFILE_PIC_KEY, MEMBER_ROLE_KEY,
+                },
+                GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY, PROFILE_PIC_KEY, MEMBER_ROLE_KEY,
                 SURNAME_KEY);
     }
 
@@ -247,26 +249,24 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param projects: the projects list of a group to edit
      */
+    @Deprecated(
+            message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
+    )
     public void editProjects(String groupId, List<String> projects) {
-        ArrayList<String> currentProjects = new ArrayList<>(groupsRepository.getGroupProjectsIds(groupId));
-        syncBatch(new SyncBatchContainer() {
-            @Override
-            public <V> ArrayList<V> getCurrentData() {
-                return (ArrayList<V>) currentProjects;
-            }
-
-            @Override
-            public String[] getColumns() {
-                return new String[]{PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY};
-            }
-        }, PROJECTS_GROUPS_TABLE, groupId, projects, query -> {
-            int index = 1;
-            for (String project : projects) {
-                query.setParameter(index++, project);
-                query.setParameter(index++, groupId);
-            }
-        });
-        onSync(groupId, projects, currentProjects);
+        List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
+        List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
+        currentProjects.removeAll(projects);
+        for (String project : currentProjects) {
+            groupsRepository.removeGroupProject(project, groupId);
+            for (GroupMember member : groupMembers)
+                changelogsCreator.removedGroupProject(project, member.getId());
+        }
+        projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
+        for (String project : projects) {
+            groupsRepository.addGroupProject(project, groupId);
+            for (GroupMember member : groupMembers)
+                changelogsCreator.addedGroupProject(project, member.getId());
+        }
     }
 
     @Deprecated(

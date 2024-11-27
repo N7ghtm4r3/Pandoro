@@ -182,57 +182,46 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     private String workWithProject(String id, String token, Map<String, Object> payload, String projectId) {
-        if (isMe(id, token)) {
-            loadJsonHelper(payload);
-            String name = jsonHelper.getString(NAME_KEY);
-            boolean isAdding = projectId == null;
-            if (INSTANCE.isValidProjectName(name)) {
-                if (!isAdding) {
-                    Project currentEditingProject = projectsHelper.getProjectById(projectId);
-                    if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
-                        return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-                }
-                Project checkProject = projectsHelper.getProjectByName(id, name);
-                if (checkProject == null || (!isAdding && checkProject.getId().equals(projectId))) {
-                    String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
-                    if (INSTANCE.isValidProjectDescription(description)) {
-                        String shortDescription = jsonHelper.getString(PROJECT_SHORT_DESCRIPTION_KEY);
-                        if (INSTANCE.isValidProjectShortDescription(shortDescription)) {
-                            String version = jsonHelper.getString(PROJECT_VERSION_KEY);
-                            if (INSTANCE.isValidVersion(version)) {
-                                ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
-                                ArrayList<String> adminGroups = new ArrayList<>();
-                                for (Group group : me.getAdminGroups())
-                                    adminGroups.add(group.getId());
-                                if (adminGroups.isEmpty()) {
-                                    me.setGroups(groupsHelper.getGroups(id));
-                                    for (Group group : me.getAdminGroups())
-                                        adminGroups.add(group.getId());
-                                }
-                                if (groups.isEmpty() || adminGroups.containsAll(groups)) {
-                                    String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
-                                    if (INSTANCE.isValidRepository(repository)) {
-                                        if (isAdding)
-                                            projectId = generateIdentifier();
-                                        projectsHelper.workWithProject(id, projectId, name, description, shortDescription,
-                                                version, repository, groups, isAdding);
-                                        return successResponse();
-                                    } else
-                                        return failedResponse("wrong_project_repository_key");
-                                } else
-                                    return failedResponse("wrong_groups_list_key");
-                            } else
-                                return failedResponse("wrong_project_version_key");
-                        } else
-                            return failedResponse("wrong_project_short_description_key");
-                    } else
-                        return failedResponse("wrong_project_description_key");
-                } else
-                    return failedResponse("project_name_already_exists_key");
-            } else
-                return failedResponse("wrong_project_name_key");
-        } else
+        if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String name = jsonHelper.getString(NAME_KEY);
+        if (!INSTANCE.isValidProjectName(name))
+            return failedResponse("wrong_project_name_key");
+        boolean isAdding = projectId == null;
+        if (!isAdding) {
+            Project currentEditingProject = projectsHelper.getProjectById(projectId);
+            if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
+                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        }
+        String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
+        if (!INSTANCE.isValidProjectDescription(description))
+            return failedResponse("wrong_project_description_key");
+        String version = jsonHelper.getString(PROJECT_VERSION_KEY);
+        if (!INSTANCE.isValidVersion(version))
+            return failedResponse("wrong_project_version_key");
+        ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
+        ArrayList<String> adminGroups = new ArrayList<>();
+        for (Group group : me.getAdminGroups())
+            adminGroups.add(group.getId());
+        if (adminGroups.isEmpty()) {
+            me.setGroups(groupsHelper.getGroups(id));
+            for (Group group : me.getAdminGroups())
+                adminGroups.add(group.getId());
+        }
+        if (!groups.isEmpty() && !adminGroups.containsAll(groups))
+            return failedResponse("wrong_groups_list_key");
+        String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
+        if (!INSTANCE.isValidRepository(repository))
+            return failedResponse("wrong_project_repository_key");
+        if (isAdding)
+            projectId = generateIdentifier();
+        try {
+            projectsHelper.workWithProject(id, projectId, name, description, version, repository, groups, isAdding);
+        } catch (Exception e) {
+            return failedResponse("project_name_already_exists_key");
+        }
+        return successResponse();
     }
 
     /**
