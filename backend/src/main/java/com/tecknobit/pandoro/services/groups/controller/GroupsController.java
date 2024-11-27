@@ -1,10 +1,9 @@
 package com.tecknobit.pandoro.services.groups.controller;
 
-import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode;
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
@@ -29,7 +28,7 @@ import static com.tecknobit.pandoro.services.users.models.GroupMember.Invitation
 import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.Companion;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 import static com.tecknobit.pandorocore.records.Group.*;
 
 /**
@@ -37,11 +36,11 @@ import static com.tecknobit.pandorocore.records.Group.*;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
- * @see DefaultEquinoxController
+ * @see DefaultPandoroController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + GROUPS_KEY)
-public class GroupsController extends DefaultEquinoxController {
+public class GroupsController extends DefaultPandoroController {
 
     /**
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
@@ -125,12 +124,12 @@ public class GroupsController extends DefaultEquinoxController {
         if (isMe(id, token)) {
             loadJsonHelper(payload);
             String groupName = jsonHelper.getString(NAME_KEY);
-            if (Companion.isGroupNameValid(groupName)) {
+            if (INSTANCE.isGroupNameValid(groupName)) {
                 if (!groupsHelper.groupExists(id, groupName)) {
                     String groupDescription = jsonHelper.getString(GROUP_DESCRIPTION_KEY);
-                    if (Companion.isGroupDescriptionValid(groupDescription)) {
+                    if (INSTANCE.isGroupDescriptionValid(groupDescription)) {
                         ArrayList<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
-                        if (Companion.checkMembersValidity(members)) {
+                        if (INSTANCE.checkMembersValidity(members)) {
                             groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
                             return successResponse();
                         } else
@@ -152,7 +151,7 @@ public class GroupsController extends DefaultEquinoxController {
      * @param token: the token of the user
      * @param groupId: the identifier of the group to fetch
      *
-     * @return the result of the request as {@link String} if fails or {@link JSONObject} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             path = "/{" + GROUP_IDENTIFIER_KEY + "}",
@@ -160,7 +159,7 @@ public class GroupsController extends DefaultEquinoxController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = APIRequest.RequestMethod.GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
     public <T> T getGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -204,7 +203,7 @@ public class GroupsController extends DefaultEquinoxController {
             if (group != null && group.isUserMaintainer(me)) {
                 loadJsonHelper(payload);
                 List<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
-                if (Companion.checkMembersValidity(members)) {
+                if (INSTANCE.checkMembersValidity(members)) {
                     groupsHelper.addMembers(group.getName(), members, groupId);
                     return successResponse();
                 } else

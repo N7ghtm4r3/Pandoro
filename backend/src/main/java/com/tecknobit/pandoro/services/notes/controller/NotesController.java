@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.notes.controller;
 
-import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.notes.service.NotesHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +14,18 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.Companion;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
 /**
  * The {@code NotesController} class is useful to manage all the note operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
- * @see DefaultEquinoxController
+ * @see DefaultPandoroController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + NOTES_KEY)
-public class NotesController extends DefaultEquinoxController {
+public class NotesController extends DefaultPandoroController {
 
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
@@ -92,7 +92,7 @@ public class NotesController extends DefaultEquinoxController {
         if (isMe(id, token)) {
             loadJsonHelper(payload);
             String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
-            if (Companion.isContentNoteValid(contentNote)) {
+            if (INSTANCE.isContentNoteValid(contentNote)) {
                 notesHelper.createNote(id, generateIdentifier(), contentNote);
                 return successResponse();
             } else

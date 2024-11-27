@@ -1,16 +1,19 @@
 package com.tecknobit.pandoro.services.users.service;
 
+import com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersHelper;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @Primary
-public class UsersHelper extends com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersHelper {
+public class PandoroUsersHelper extends EquinoxUsersHelper<PandoroUser, PandoroUsersRepository> {
 
     /**
      * {@code membersRepository} instance for the members of a group repository

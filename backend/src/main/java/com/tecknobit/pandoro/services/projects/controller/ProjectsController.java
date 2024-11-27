@@ -1,14 +1,13 @@
 package com.tecknobit.pandoro.services.projects.controller;
 
-import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status;
 import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +28,11 @@ import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
- * @see DefaultEquinoxController
+ * @see DefaultPandoroController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + PROJECTS_KEY)
-public class ProjectsController extends DefaultEquinoxController {
+public class ProjectsController extends DefaultPandoroController {
 
     /**
      * {@code projectsHelper} instance to manage the projects database operations
@@ -242,7 +241,7 @@ public class ProjectsController extends DefaultEquinoxController {
      * @param token: the token of the user
      * @param projectId: the identifier of the project to fetch
      *
-     * @return the result of the request as {@link String} if fails or {@link JSONObject} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}",

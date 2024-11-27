@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.changelogs.controller;
 
-import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.changelogs.service.ChangelogsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
- * @see DefaultEquinoxController
+ * @see DefaultPandoroController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + CHANGELOGS_KEY)
-public class ChangelogsController extends DefaultEquinoxController {
+public class ChangelogsController extends DefaultPandoroController {
 
     /**
      * {@code changelogsHelper} instance to manage the changelogs database operations

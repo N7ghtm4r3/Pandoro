@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -21,7 +20,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  * @see JpaRepository
  * @see ProjectUpdate
  */
-@Service
 @Repository
 public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> {
 

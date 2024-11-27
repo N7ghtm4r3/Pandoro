@@ -6,7 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -29,16 +28,6 @@ public abstract class PandoroItem extends EquinoxItem implements Serializable {
      */
     @Column(name = NAME_KEY)
     protected final String name;
-
-    /**
-     * Constructor to init a {@link PandoroItem} object
-     *
-     * @param jItem: Pandoro's item details as {@link JSONObject}
-     */
-    public PandoroItem(JSONObject jItem) {
-        super(jItem);
-        name = hItem.getString(NAME_KEY);
-    }
 
     /**
      * Constructor to init a {@link PandoroItem} object
