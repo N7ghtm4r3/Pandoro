@@ -14,6 +14,8 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
 /**

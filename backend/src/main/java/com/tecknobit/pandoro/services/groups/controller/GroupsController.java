@@ -6,6 +6,7 @@ import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
+import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import org.json.JSONObject;
@@ -18,7 +19,6 @@ import java.util.Map;
 
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.equinoxbackend.Requester.RESPONSE_STATUS_KEY;
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -27,9 +27,8 @@ import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.JOINED;
 import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.Endpoints.*;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
-import static com.tecknobit.pandorocore.records.Group.*;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations

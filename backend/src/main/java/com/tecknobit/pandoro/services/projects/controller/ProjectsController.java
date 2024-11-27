@@ -21,6 +21,7 @@ import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
 /**
