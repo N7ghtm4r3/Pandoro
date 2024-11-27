@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.helpers;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.projects.models.Project;
@@ -186,7 +187,7 @@ public class ChangelogsCreator {
      * @author N7ghtm4r3 - Tecknobit
      */
     @Service
-    public static class ChangelogOperator {
+    public static class ChangelogOperator extends EquinoxItemsHelper {
 
         /**
          * {@code changelogsCreator} the changelogs creator helper

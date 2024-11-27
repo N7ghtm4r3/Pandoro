@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_IGNORE_INTO;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
 /**
@@ -77,7 +81,7 @@ public class ProjectsHelper extends ChangelogOperator {
      * @return the project as {@link Project}
      * @apiNote also the project of a group in which he is a member is returned
      */
-    public com.tecknobit.pandoro.services.projects.models.Project getProjectByName(String userId, String projectName) {
+    public Project getProjectByName(String userId, String projectName) {
         return projectsRepository.getProjectByName(userId, projectName);
     }
 
@@ -152,8 +156,14 @@ public class ProjectsHelper extends ChangelogOperator {
      * @param projectId: the project identifier
      */
     private void addGroupsToAProject(ArrayList<String> groups, String projectId) {
+        batchInsert(INSERT_INTO, PROJECTS_GROUPS_TABLE, groups, query -> {
+            int index = 1;
+            for (String group : groups) {
+                query.setParameter(index++, projectId);
+                query.setParameter(index++, group);
+            }
+        }, PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY);
         for (String group : groups) {
-            projectsRepository.addProjectGroup(projectId, group);
             List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
             for (GroupMember member : members)
                 changelogsCreator.addedGroupProject(projectId, member.getId());
@@ -209,8 +219,16 @@ public class ProjectsHelper extends ChangelogOperator {
                                String projectId, String userId) {
         updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED,
                 projectId, userId);
-        for (String note : changeNotes)
-            notesRepository.addChangeNote(userId, generateIdentifier(), note, System.currentTimeMillis(), updateId);
+        batchInsert(INSERT_IGNORE_INTO, NOTES_KEY, changeNotes, query -> {
+            int index = 1;
+            for (String changeNote : changeNotes) {
+                query.setParameter(index++, generateIdentifier());
+                query.setParameter(index++, userId);
+                query.setParameter(index++, changeNote);
+                query.setParameter(index++, System.currentTimeMillis());
+                query.setParameter(index++, updateId);
+            }
+        }, IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY);
         if (projectsRepository.getProjectById(projectId).hasGroups())
             changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
     }

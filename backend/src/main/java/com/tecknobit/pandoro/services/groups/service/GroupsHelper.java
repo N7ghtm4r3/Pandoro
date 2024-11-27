@@ -10,12 +10,17 @@ import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
+import kotlin.Deprecated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.REPLACE_INTO;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.PENDING;
 import static com.tecknobit.pandorocore.enums.Role.ADMIN;
@@ -126,26 +131,36 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier where add the members
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
+        List<PandoroUser> filteredMembers = filterMembers(members);
+        batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, filteredMembers, query -> {
+                    int index = 1;
+                    for (PandoroUser member : filteredMembers) {
+                String memberId = member.getId();
+                        query.setParameter(index++, groupId);
+                        query.setParameter(index++, memberId);
+                        query.setParameter(index++, member.getEmail());
+                        query.setParameter(index++, PENDING.name());
+                        query.setParameter(index++, member.getName());
+                        query.setParameter(index++, member.getProfilePic());
+                        query.setParameter(index++, DEVELOPER.name());
+                        query.setParameter(index++, member.getSurname());
+                        changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
+                    }
+                }, GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY, PROFILE_PIC_KEY, MEMBER_ROLE_KEY,
+                SURNAME_KEY);
+    }
+
+    @Deprecated(
+            message = "TO USE THE BUILT-IN ONE IN THE NEW EQUINOX VERSION (BATCH-QUERY)"
+    )
+    private List<PandoroUser> filterMembers(List<String> members) {
+        ArrayList<PandoroUser> filteredMembers = new ArrayList<>();
         for (String memberEmail : members) {
             PandoroUser member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
-            if (member != null) {
-                String memberId = member.getId();
-                String email = member.getEmail();
-                if (membersRepository.getGroupMemberByEmail(memberId, groupId, email) == null) {
-                    membersRepository.insertMember(
-                            memberId,
-                            member.getName(),
-                            email,
-                            member.getProfilePic(),
-                            member.getSurname(),
-                            DEVELOPER,
-                            PENDING,
-                            groupId
-                    );
-                    changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
-                }
-            }
+            if (member != null)
+                filteredMembers.add(member);
         }
+        return filteredMembers;
     }
 
     /**
@@ -233,20 +248,40 @@ public class GroupsHelper extends ChangelogOperator {
      * @param projects: the projects list of a group to edit
      */
     public void editProjects(String groupId, List<String> projects) {
-        List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
+        ArrayList<String> currentProjects = new ArrayList<>(groupsRepository.getGroupProjectsIds(groupId));
+        syncBatch(new SyncBatchContainer() {
+            @Override
+            public <V> ArrayList<V> getCurrentData() {
+                return (ArrayList<V>) currentProjects;
+            }
+
+            @Override
+            public String[] getColumns() {
+                return new String[]{PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY};
+            }
+        }, PROJECTS_GROUPS_TABLE, groupId, projects, query -> {
+            int index = 1;
+            for (String project : projects) {
+                query.setParameter(index++, project);
+                query.setParameter(index++, groupId);
+            }
+        });
+        onSync(groupId, projects, currentProjects);
+    }
+
+    @Deprecated(
+            message = "TO USE THE BUILT-IN ONE IN THE NEW EQUINOX VERSION (SyncBatchContainer)"
+    )
+    private void onSync(String groupId, List<String> projects, List<String> currentProjects) {
         List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
-        currentProjects.removeAll(projects);
         for (String project : currentProjects) {
-            groupsRepository.removeGroupProject(project, groupId);
             for (GroupMember member : groupMembers)
                 changelogsCreator.removedGroupProject(project, member.getId());
         }
         projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
-        for (String project : projects) {
-            groupsRepository.addGroupProject(project, groupId);
+        for (String project : projects)
             for (GroupMember member : groupMembers)
                 changelogsCreator.addedGroupProject(project, member.getId());
-        }
     }
 
     /**

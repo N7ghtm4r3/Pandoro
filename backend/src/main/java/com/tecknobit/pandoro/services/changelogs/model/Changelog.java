@@ -32,7 +32,7 @@ public class Changelog extends EquinoxItem {
      * {@code changelogEvent} the value of the changelog event
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = PROJECTS_GROUPS_TABLE)
+    @Column(name = CHANGELOG_EVENT_KEY)
     private final ChangelogEvent changelogEvent;
 
     /**

@@ -59,11 +59,13 @@ public interface PandoroUsersRepository extends EquinoxUsersRepository<PandoroUs
     /**
      * Method to execute the query to select a {@link PandoroUser} by its email
      *
-     * @param email: the user email
+     * @param email The user email
      * @return the user, if exists, as {@link PandoroUser}
      */
     @Query(
-            value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
+            value = "SELECT * FROM " + USERS_KEY + " WHERE "
+                    + EMAIL_KEY + "=:" + EMAIL_KEY
+                    + " AND dtype='PandoroUser'",
             nativeQuery = true
     )
     PandoroUser getUserByEmail(
