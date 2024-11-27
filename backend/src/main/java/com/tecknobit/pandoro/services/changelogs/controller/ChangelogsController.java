@@ -1,33 +1,31 @@
 package com.tecknobit.pandoro.services.changelogs.controller;
 
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.changelogs.service.ChangelogsHelper;
-import com.tecknobit.pandorocore.records.Changelog.ChangelogEvent;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
-import static com.tecknobit.pandorocore.Endpoints.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.Group.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code ChangelogsController} class is useful to manage all the changelog operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxController
+ * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
+ * @see DefaultEquinoxController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + CHANGELOGS_KEY)
-public class ChangelogsController extends EquinoxController {
+public class ChangelogsController extends DefaultEquinoxController {
 
     /**
      * {@code changelogsHelper} instance to manage the changelogs database operations
@@ -49,7 +47,7 @@ public class ChangelogsController extends EquinoxController {
      *
      * @param id:    the identifier of the user
      * @param token: the token of the user
-     * @return the result of the request as {@link String} if fails or {@link JSONArray} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             headers = {

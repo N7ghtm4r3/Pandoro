@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.model.Group;
-import com.tecknobit.pandoro.services.users.models.User;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,119 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
-import static com.tecknobit.pandoro.services.PandoroItem.AUTHOR_KEY;
-import static com.tecknobit.pandoro.services.PandoroItem.CREATION_DATE_KEY;
-import static com.tecknobit.pandoro.services.changelogs.model.Changelog.CHANGELOGS_KEY;
-import static com.tecknobit.pandoro.services.groups.model.Group.GROUPS_KEY;
-import static com.tecknobit.pandoro.services.notes.model.Note.NOTES_KEY;
 import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.PUBLISHED;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxItem
+ * @see com.tecknobit.equinoxbackend.environment.models.EquinoxItem
  * @see PandoroItem
  * @see Serializable
  */
 @Entity
-@Table(name = Project.PROJECTS_KEY)
+@Table(name = PROJECTS_KEY)
 public class Project extends PandoroItem {
 
-    /**
-     * {@code PROJECTS_KEY} projects key
-     */
-    public static final String PROJECTS_KEY = "projects";
-
-    /**
-     * {@code PROJECT_IDENTIFIER_KEY} project identifier key
-     */
-    public static final String PROJECT_IDENTIFIER_KEY = "project_id";
-
-    /**
-     * {@code PROJECTS_GROUPS_TABLE} projects groups table
-     */
-    public static final String PROJECTS_GROUPS_TABLE = "projects_groups";
-
-    /**
-     * {@code PROJECT_KEY} project key
-     */
-    public static final String PROJECT_KEY = "project";
-
-    /**
-     * {@code PROJECT_SHORT_DESCRIPTION_KEY} project short description key
-     */
-    public static final String PROJECT_SHORT_DESCRIPTION_KEY = "project_short_description";
-
-    /**
-     * {@code PROJECT_DESCRIPTION_KEY} project description key
-     */
-    public static final String PROJECT_DESCRIPTION_KEY = "project_description";
-
-    /**
-     * {@code PROJECT_VERSION_KEY} project version key
-     */
-    public static final String PROJECT_VERSION_KEY = "project_version";
-
-    /**
-     * {@code PROJECT_REPOSITORY_KEY} project repository key
-     */
-    public static final String PROJECT_REPOSITORY_KEY = "project_repository";
-
-    /**
-     * {@code UPDATES_KEY} updates key
-     */
-    public static final String UPDATES_KEY = "updates";
-
-    /**
-     * {@code UPDATE_ID} update identifier key
-     */
-    public static final String UPDATE_ID = "update_id";
-
-    /**
-     * {@code UPDATE_KEY} project update key
-     */
-    public static final String UPDATE_KEY = "project_update";
-
-    /**
-     * {@code UPDATE_CREATE_DATE_KEY} create date key
-     */
-    public static final String UPDATE_CREATE_DATE_KEY = "create_date";
-
-    /**
-     * {@code UPDATE_TARGET_VERSION_KEY} target version key
-     */
-    public static final String UPDATE_TARGET_VERSION_KEY = "target_version";
-
-    /**
-     * {@code UPDATE_CHANGE_NOTES_KEY} update change notes key
-     */
-    public static final String UPDATE_CHANGE_NOTES_KEY = "update_change_notes";
-
-    /**
-     * {@code UPDATE_STATUS_KEY} update status key
-     */
-    public static final String UPDATE_STATUS_KEY = "status";
-
-    /**
-     * {@code UPDATE_STARTED_BY_KEY} started by key
-     */
-    public static final String UPDATE_STARTED_BY_KEY = "started_by";
-
-    /**
-     * {@code UPDATE_START_DATE_KEY} start date key
-     */
-    public static final String UPDATE_START_DATE_KEY = "start_date";
-
-    /**
-     * {@code UPDATE_PUBLISHED_BY_KEY} published by key
-     */
-    public static final String UPDATE_PUBLISHED_BY_KEY = "published_by";
-
-    /**
-     * {@code UPDATE_PUBLISH_DATE_KEY} publish date key
-     */
-    public static final String UPDATE_PUBLISH_DATE_KEY = "publish_date";
 
     /**
      * {@code RepositoryPlatform} list of available repository platforms
@@ -308,7 +209,7 @@ public class Project extends PandoroItem {
     public Project(JSONObject jProject) {
         super(jProject);
         creationDate = hItem.getLong(CREATION_DATE_KEY);
-        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
         description = hItem.getString(PROJECT_DESCRIPTION_KEY);
         version = hItem.getString(PROJECT_VERSION_KEY);
@@ -350,7 +251,7 @@ public class Project extends PandoroItem {
      * @param updates:          updates of the project
      * @param projectRepo:      the repository of the project
      */
-    public Project(String id, String name, long creationDate, User author, String shortDescription, String description, String version,
+    public Project(String id, String name, long creationDate, PandoroUser author, String shortDescription, String description, String version,
                    ArrayList<Group> groups, ArrayList<com.tecknobit.pandoro.services.projects.models.ProjectUpdate> updates, String projectRepo) {
         super(id, name);
         this.creationDate = creationDate;
@@ -398,7 +299,7 @@ public class Project extends PandoroItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link User}
+     * @return {@link #author} instance as {@link PandoroUser}
      */
     public com.tecknobit.equinoxbackend.environment.models.EquinoxUser getAuthor() {
         return author;

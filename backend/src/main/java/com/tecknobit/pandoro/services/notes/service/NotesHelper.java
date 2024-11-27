@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.notes.service;
 
+import com.tecknobit.pandoro.services.notes.model.Note;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
-import com.tecknobit.pandorocore.records.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

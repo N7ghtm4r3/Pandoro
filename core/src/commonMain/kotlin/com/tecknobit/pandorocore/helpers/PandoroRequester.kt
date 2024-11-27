@@ -1,19 +1,18 @@
 package com.tecknobit.pandorocore.helpers
 
-import com.tecknobit.apimanager.annotations.RequestPath
-import com.tecknobit.apimanager.annotations.Returner
-import com.tecknobit.apimanager.annotations.Structure
 import com.tecknobit.apimanager.annotations.Wrapper
 import com.tecknobit.apimanager.apis.APIRequest.Params
 import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
-import com.tecknobit.equinox.environment.helpers.EquinoxRequester
 import com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY
+import com.tecknobit.equinoxbackend.environment.helpers.EquinoxRequester
+import com.tecknobit.equinoxcore.annotations.RequestPath
+import com.tecknobit.equinoxcore.annotations.Structure
+import com.tecknobit.equinoxcore.network.RequestMethod.*
 import com.tecknobit.pandoro.services.PandoroItem.IDENTIFIER_KEY
+import com.tecknobit.pandorocore.*
 import com.tecknobit.pandorocore.Endpoints.*
 import com.tecknobit.pandorocore.records.Changelog.*
 import com.tecknobit.pandorocore.records.Group.*
-import com.tecknobit.pandorocore.records.Note.CONTENT_NOTE_KEY
-import com.tecknobit.pandorocore.records.Note.NOTES_KEY
 import com.tecknobit.pandorocore.records.Project.*
 import com.tecknobit.pandorocore.records.users.GroupMember.Role
 import org.json.JSONArray
@@ -145,7 +144,6 @@ open class PandoroRequester(
      * @return the payload as [Params]
      *
      */
-    @Returner
     private fun createProjectPayload(
         name: String,
         projectDescription: String,

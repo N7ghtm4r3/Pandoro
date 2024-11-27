@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
-import com.tecknobit.equinox.environment.records.EquinoxUser;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
+import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandoro.services.projects.models.Project;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,9 +18,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.Project.PROJECT_KEY;
-import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -28,43 +28,8 @@ import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
  * @see Serializable
  */
 @Entity
-@Table(name = Changelog.CHANGELOGS_KEY)
+@Table(name = CHANGELOGS_KEY)
 public class Changelog extends EquinoxItem {
-
-    /**
-     * {@code CHANGELOGS_KEY} changelogs key
-     */
-    public static final String CHANGELOGS_KEY = "changelogs";
-
-    /**
-     * {@code CHANGELOG_IDENTIFIER_KEY} changelog identifier key
-     */
-    public static final String CHANGELOG_IDENTIFIER_KEY = "changelog_id";
-
-    /**
-     * {@code CHANGELOG_EVENT_KEY} changelog event key
-     */
-    public static final String CHANGELOG_EVENT_KEY = "changelog_event";
-
-    /**
-     * {@code CHANGELOG_TIMESTAMP_KEY} changelog timestamp key
-     */
-    public static final String CHANGELOG_TIMESTAMP_KEY = "timestamp";
-
-    /**
-     * {@code CHANGELOG_EXTRA_CONTENT_KEY} extra content of the changelog key
-     */
-    public static final String CHANGELOG_EXTRA_CONTENT_KEY = "extra_content";
-
-    /**
-     * {@code CHANGELOG_RED_KEY} whether the changelog is red key
-     */
-    public static final String CHANGELOG_RED_KEY = "red";
-
-    /**
-     * {@code CHANGELOG_OWNER_KEY} owner of the changelog key
-     */
-    public static final String CHANGELOG_OWNER_KEY = "owner";
 
     /**
      * {@code ChangelogEvent} list of available event types
@@ -156,7 +121,7 @@ public class Changelog extends EquinoxItem {
      * {@code changelogEvent} the value of the changelog event
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = CHANGELOG_EVENT_KEY)
+    @Column(name = PROJECTS_GROUPS_TABLE)
     private final ChangelogEvent changelogEvent;
 
     /**
@@ -187,7 +152,7 @@ public class Changelog extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = Group.GROUP_IDENTIFIER_KEY)
+    @JoinColumn(name = GROUP_IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({
             "hibernateLazyInitializer",
@@ -239,7 +204,7 @@ public class Changelog extends EquinoxItem {
         project = Project.getInstance(hItem.getJSONObject(PROJECT_KEY));
         extraContent = hItem.getString(CHANGELOG_EXTRA_CONTENT_KEY);
         red = hItem.getBoolean(CHANGELOG_RED_KEY);
-        group = Group.getInstance(hItem.getJSONObject(Group.GROUP_KEY));
+        group = Group.getInstance(hItem.getJSONObject(GROUP_KEY));
     }
 
     /**

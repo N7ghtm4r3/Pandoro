@@ -14,11 +14,7 @@ import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY;
-import static com.tecknobit.pandoro.services.PandoroItem.AUTHOR_KEY;
-import static com.tecknobit.pandoro.services.PandoroItem.CREATION_DATE_KEY;
-import static com.tecknobit.pandoro.services.groups.model.Group.*;
-import static com.tecknobit.pandoro.services.projects.models.Project.*;
-import static com.tecknobit.pandoro.services.users.models.User.GROUP_MEMBERS_TABLE;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code ProjectsRepository} interface is useful to manage the queries for the projects

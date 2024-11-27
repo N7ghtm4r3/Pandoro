@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.groups.repositories;
 
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.Project;
+import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandoro.services.projects.models.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,11 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
-import static com.tecknobit.pandorocore.records.Group.*;
-import static com.tecknobit.pandorocore.records.Project.PROJECTS_GROUPS_TABLE;
-import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code GroupsRepository} interface is useful to manage the queries for the groups

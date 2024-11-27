@@ -1,6 +1,6 @@
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     kotlin("multiplatform")
@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.serialization") version "2.0.20"
 }
 
-group = "com.tecknobit"
+group = "com.tecknobit.pandoro"
 version = "1.0.5"
 
 repositories {
@@ -32,7 +32,8 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_18)
         }
     }
-    listOf(
+    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
+    /*listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -41,8 +42,9 @@ kotlin {
             baseName = "Pandoro-Core"
             isStatic = true
         }
-    }
-    @OptIn(ExperimentalWasmDsl::class)
+    }*/
+    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
+    /*@OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         binaries.executable()
         browser {
@@ -51,13 +53,15 @@ kotlin {
                 }
             }
         }
-    }
+    }*/
 
     sourceSets {
 
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+                implementation("io.github.n7ghtm4r3:equinox-core:1.0.5")
+                implementation("io.github.n7ghtm4r3:equinox-backend:1.0.5")
             }
         }
 

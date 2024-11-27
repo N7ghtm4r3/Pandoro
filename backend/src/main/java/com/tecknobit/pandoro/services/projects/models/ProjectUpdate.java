@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
-import com.tecknobit.equinox.environment.records.EquinoxUser;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
+import com.tecknobit.pandoro.services.notes.model.Note;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,15 +18,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.*;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
-import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
-import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
-import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -35,7 +29,7 @@ import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
  * @see EquinoxItem
  */
 @Entity
-@Table(name = Project.UPDATES_KEY)
+@Table(name = UPDATES_KEY)
 public class ProjectUpdate extends EquinoxItem {
 
     /**
@@ -72,7 +66,7 @@ public class ProjectUpdate extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = PandoroItem.AUTHOR_KEY)
+    @JoinColumn(name = AUTHOR_KEY)
     @JsonIgnoreProperties({
             TOKEN_KEY,
             PASSWORD_KEY,
@@ -89,20 +83,20 @@ public class ProjectUpdate extends EquinoxItem {
     /**
      * {@code createDate} when the update has been created
      */
-    @Column(name = Project.UPDATE_CREATE_DATE_KEY)
+    @Column(name = UPDATE_CREATE_DATE_KEY)
     private final long createDate;
 
     /**
      * {@code targetVersion} the target version of the update
      */
-    @Column(name = Project.UPDATE_TARGET_VERSION_KEY)
+    @Column(name = UPDATE_TARGET_VERSION_KEY)
     private final String targetVersion;
 
     /**
      * {@code status} the status of the update
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = Project.UPDATE_STATUS_KEY)
+    @Column(name = UPDATE_STATUS_KEY)
     private final Status status;
 
     /**
@@ -112,7 +106,7 @@ public class ProjectUpdate extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = Project.UPDATE_STARTED_BY_KEY)
+    @JoinColumn(name = UPDATE_STARTED_BY_KEY)
     @JsonIgnoreProperties({
             TOKEN_KEY,
             PASSWORD_KEY,
@@ -128,7 +122,7 @@ public class ProjectUpdate extends EquinoxItem {
     /**
      * {@code startDate} when the update has been started
      */
-    @Column(name = Project.UPDATE_START_DATE_KEY)
+    @Column(name = UPDATE_START_DATE_KEY)
     private final long startDate;
 
     /**
@@ -138,7 +132,7 @@ public class ProjectUpdate extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = Project.UPDATE_PUBLISHED_BY_KEY)
+    @JoinColumn(name = UPDATE_PUBLISHED_BY_KEY)
     @JsonIgnoreProperties({
             TOKEN_KEY,
             PASSWORD_KEY,
@@ -154,7 +148,7 @@ public class ProjectUpdate extends EquinoxItem {
     /**
      * {@code publishDate} when the update has been published
      */
-    @Column(name = Project.UPDATE_PUBLISH_DATE_KEY)
+    @Column(name = UPDATE_PUBLISH_DATE_KEY)
     private final long publishDate;
 
     /**
@@ -167,7 +161,7 @@ public class ProjectUpdate extends EquinoxItem {
      * {@code notes} the notes for the update to be done
      */
     @OneToMany(
-            mappedBy = Project.UPDATE_KEY,
+            mappedBy = UPDATE_KEY,
             cascade = CascadeType.ALL
     )
     private final List<Note> notes;
@@ -182,7 +176,7 @@ public class ProjectUpdate extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = Project.PROJECT_KEY)
+    @JoinColumn(name = PROJECT_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
@@ -202,13 +196,13 @@ public class ProjectUpdate extends EquinoxItem {
      */
     public ProjectUpdate(JSONObject jProjectUpdate) {
         super(jProjectUpdate);
-        author = User.getInstance(hItem.getJSONObject(PandoroItem.AUTHOR_KEY));
-        createDate = hItem.getLong(Project.UPDATE_CREATE_DATE_KEY, -1);
-        targetVersion = hItem.getString(Project.UPDATE_TARGET_VERSION_KEY);
-        startedBy = User.getInstance(hItem.getJSONObject(Project.UPDATE_STARTED_BY_KEY));
-        startDate = hItem.getLong(Project.UPDATE_START_DATE_KEY, -1);
-        publishedBy = User.getInstance(hItem.getJSONObject(Project.UPDATE_PUBLISHED_BY_KEY));
-        publishDate = hItem.getLong(Project.UPDATE_PUBLISH_DATE_KEY, -1);
+        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        createDate = hItem.getLong(UPDATE_CREATE_DATE_KEY, -1);
+        targetVersion = hItem.getString(UPDATE_TARGET_VERSION_KEY);
+        startedBy = PandoroUser.getInstance(hItem.getJSONObject(UPDATE_STARTED_BY_KEY));
+        startDate = hItem.getLong(UPDATE_START_DATE_KEY, -1);
+        publishedBy = PandoroUser.getInstance(hItem.getJSONObject(UPDATE_PUBLISHED_BY_KEY));
+        publishDate = hItem.getLong(UPDATE_PUBLISH_DATE_KEY, -1);
         if (publishDate != -1) {
             developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
             status = PUBLISHED;
@@ -235,8 +229,8 @@ public class ProjectUpdate extends EquinoxItem {
      * @param publishDate:   when the update has been published
      * @param notes:         the notes for the update to be done
      */
-    public ProjectUpdate(String id, User author, long createDate, String targetVersion, User startedBy, long startDate,
-                         User publishedBy, long publishDate, ArrayList<Note> notes) {
+    public ProjectUpdate(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy, long startDate,
+                         PandoroUser publishedBy, long publishDate, ArrayList<Note> notes) {
         super(id);
         this.author = author;
         this.createDate = createDate;
@@ -262,7 +256,7 @@ public class ProjectUpdate extends EquinoxItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link User}
+     * @return {@link #author} instance as {@link PandoroUser}
      */
     public EquinoxUser getAuthor() {
         return author;
@@ -274,7 +268,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #createDate} instance as long
      */
-    @JsonGetter(Project.UPDATE_CREATE_DATE_KEY)
+    @JsonGetter(UPDATE_CREATE_DATE_KEY)
     public long getCreateTimestamp() {
         return createDate;
     }
@@ -296,7 +290,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #targetVersion} instance as {@link String}
      */
-    @JsonGetter(Project.UPDATE_TARGET_VERSION_KEY)
+    @JsonGetter(UPDATE_TARGET_VERSION_KEY)
     public String getTargetVersion() {
         return targetVersion;
     }
@@ -305,9 +299,9 @@ public class ProjectUpdate extends EquinoxItem {
      * Method to get {@link #startedBy} instance <br>
      * No-any params required
      *
-     * @return {@link #startedBy} instance as {@link User}
+     * @return {@link #startedBy} instance as {@link PandoroUser}
      */
-    @JsonGetter(Project.UPDATE_STARTED_BY_KEY)
+    @JsonGetter(UPDATE_STARTED_BY_KEY)
     public EquinoxUser getStartedBy() {
         return startedBy;
     }
@@ -318,7 +312,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #startDate} instance as long
      */
-    @JsonGetter(Project.UPDATE_START_DATE_KEY)
+    @JsonGetter(UPDATE_START_DATE_KEY)
     public long getStartTimestamp() {
         return startDate;
     }
@@ -340,9 +334,9 @@ public class ProjectUpdate extends EquinoxItem {
      * Method to get {@link #publishedBy} instance <br>
      * No-any params required
      *
-     * @return {@link #publishedBy} instance as {@link User}
+     * @return {@link #publishedBy} instance as {@link PandoroUser}
      */
-    @JsonGetter(Project.UPDATE_PUBLISHED_BY_KEY)
+    @JsonGetter(UPDATE_PUBLISHED_BY_KEY)
     public EquinoxUser getPublishedBy() {
         return publishedBy;
     }
@@ -353,7 +347,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @return {@link #publishDate} instance as long
      */
-    @JsonGetter(Project.UPDATE_PUBLISH_DATE_KEY)
+    @JsonGetter(UPDATE_PUBLISH_DATE_KEY)
     public long getPublishTimestamp() {
         return publishDate;
     }

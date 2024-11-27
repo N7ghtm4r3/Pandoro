@@ -3,24 +3,24 @@ package com.tecknobit.pandoro.services.groups.service;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
+import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
+import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandoro.services.users.models.GroupMember;
+import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.UsersRepository;
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.Project;
-import com.tecknobit.pandorocore.records.users.GroupMember;
-import com.tecknobit.pandorocore.records.users.GroupMember.Role;
-import com.tecknobit.pandorocore.records.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.PENDING;
-import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandorocore.records.users.GroupMember.Role.DEVELOPER;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.PENDING;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.DEVELOPER;
 
 /**
  * The {@code GroupsHelper} class is useful to manage all the groups database operations
@@ -85,7 +85,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupDescription: the description of the group
      * @param members:          the list of the group members
      */
-    public void createGroup(User author, String groupId, String groupName, String groupDescription,
+    public void createGroup(PandoroUser author, String groupId, String groupName, String groupDescription,
                             ArrayList<String> members) {
         String authorId = author.getId();
         groupsRepository.createGroup(
@@ -128,7 +128,7 @@ public class GroupsHelper extends ChangelogOperator {
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         for (String memberEmail : members) {
-            User member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
+            PandoroUser member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
             if (member != null) {
                 String memberId = member.getId();
                 String email = member.getEmail();
@@ -155,7 +155,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param user: the user who accepts the invitation
      */
-    public void acceptGroupInvitation(String groupId, String changelogId, User user) throws IllegalAccessException {
+    public void acceptGroupInvitation(String groupId, String changelogId, PandoroUser user) throws IllegalAccessException {
         String userId = user.getId();
         if (changelogsRepository.getChangelog(changelogId, userId) == null)
             throw new IllegalAccessException();
@@ -172,7 +172,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param user: the user who declines the invitation
      */
-    public void declineGroupInvitation(String groupId, String changelogId, User user) throws IllegalAccessException {
+    public void declineGroupInvitation(String groupId, String changelogId, PandoroUser user) throws IllegalAccessException {
         String userId = user.getId();
         if (changelogsRepository.getChangelog(changelogId, userId) == null)
             throw new IllegalAccessException();
@@ -190,7 +190,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param user: the user to fetch
      * @return the member of a group as {@link GroupMember}
      */
-    public GroupMember getGroupMember(String groupId, User user) {
+    public GroupMember getGroupMember(String groupId, PandoroUser user) {
         return membersRepository.getGroupMemberByEmail(user.getId(), groupId, user.getEmail());
     }
 

@@ -1,13 +1,15 @@
 package com.tecknobit.pandoro.services.changelogs.service;
 
+import com.tecknobit.pandoro.services.changelogs.model.Changelog;
+import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
-import com.tecknobit.pandorocore.records.Changelog;
-import com.tecknobit.pandorocore.records.Changelog.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent.INVITED_GROUP;
 
 /**
  * The {@code ChangelogsHelper} class is useful to manage all the changelogs database operations
@@ -69,7 +71,7 @@ public class ChangelogsHelper {
     public void deleteChangelog(String changelogId, String ownerId, String groupId) throws IllegalAccessException {
         Changelog changelog = changelogsRepository.getChangelog(changelogId, ownerId);
         if (changelog != null) {
-            if (changelog.getChangelogEvent() == ChangelogEvent.INVITED_GROUP) {
+            if (changelog.getChangelogEvent() == INVITED_GROUP) {
                 if (groupId == null)
                     throw new IllegalAccessException();
                 membersRepository.leaveGroup(ownerId, groupId);

@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.users.GroupMemberCompositeKey;
+import com.tecknobit.pandoro.services.PandoroItem;
+import com.tecknobit.pandoro.services.groups.model.Group;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,8 +16,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
-import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code GroupMember} class is useful to create a <b>Pandoro's group member</b>
@@ -106,7 +106,7 @@ public class GroupMember {
      */
     @Column(
             name = PROFILE_PIC_KEY,
-            columnDefinition = "text default '" + User.DEFAULT_PROFILE_PIC + "'",
+            columnDefinition = "text default '" + PandoroUser.DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
     private final String profilePic;
@@ -121,14 +121,14 @@ public class GroupMember {
      * {@code role} the role of the member
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = Group.MEMBER_ROLE_KEY)
+    @Column(name = MEMBER_ROLE_KEY)
     private final Role role;
 
     /**
      * {@code invitationStatus} status of the invitation
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = Group.INVITATION_STATUS_KEY)
+    @Column(name = INVITATION_STATUS_KEY)
     private final InvitationStatus invitationStatus;
 
     /**
@@ -142,7 +142,7 @@ public class GroupMember {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = Group.GROUP_MEMBER_KEY)
+    @JoinColumn(name = GROUP_MEMBER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Group group_member;
 
@@ -167,8 +167,8 @@ public class GroupMember {
         surname = hItem.getString(SURNAME_KEY);
         profilePic = hItem.getString(PROFILE_PIC_KEY);
         email = hItem.getString(EMAIL_KEY);
-        role = Role.valueOf(hItem.getString(Group.MEMBER_ROLE_KEY, Role.DEVELOPER.name()));
-        invitationStatus = InvitationStatus.valueOf(hItem.getString(Group.INVITATION_STATUS_KEY, InvitationStatus.PENDING.name()));
+        role = Role.valueOf(hItem.getString(MEMBER_ROLE_KEY, Role.DEVELOPER.name()));
+        invitationStatus = InvitationStatus.valueOf(hItem.getString(INVITATION_STATUS_KEY, InvitationStatus.PENDING.name()));
     }
 
     /**
@@ -272,7 +272,7 @@ public class GroupMember {
      *
      * @return {@link #invitationStatus} instance as {@link InvitationStatus}
      */
-    @JsonGetter(Group.INVITATION_STATUS_KEY)
+    @JsonGetter(INVITATION_STATUS_KEY)
     public InvitationStatus getInvitationStatus() {
         return invitationStatus;
     }
@@ -305,7 +305,7 @@ public class GroupMember {
      * @param userLogged: the user logged in the session
      * @return whether the user logged in the session is the current member iterated as boolean
      */
-    public boolean isLoggedUser(User userLogged) {
+    public boolean isLoggedUser(PandoroUser userLogged) {
         return userLogged.getId().equals(id);
     }
 

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
-import com.tecknobit.equinox.environment.records.EquinoxUser;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
+import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,15 +16,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
-import static com.tecknobit.pandorocore.records.Group.GROUPS_KEY;
-import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
-import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.CREATION_DATE_KEY;
-import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code Note} class is useful to create a <b>Pandoro's note</b>
@@ -33,38 +26,8 @@ import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
  * @see EquinoxItem
  */
 @Entity
-@Table(name = Note.NOTES_KEY)
-public class Note extends EquinoxItem {
-
-    /**
-     * {@code NOTES_KEY} notes key
-     */
-    public static final String NOTES_KEY = "notes";
-
-    /**
-     * {@code NOTE_IDENTIFIER_KEY} the note identifier key
-     */
-    public static final String NOTE_IDENTIFIER_KEY = "note_id";
-
-    /**
-     * {@code CONTENT_NOTE_KEY} the content of the note key
-     */
-    public static final String CONTENT_NOTE_KEY = "content_note";
-
-    /**
-     * {@code MARKED_AS_DONE_KEY} mark as done key
-     */
-    public static final String MARKED_AS_DONE_KEY = "marked_as_done";
-
-    /**
-     * {@code MARKED_AS_DONE_BY_KEY} mark as done author key
-     */
-    public static final String MARKED_AS_DONE_BY_KEY = "marked_as_done_by";
-
-    /**
-     * {@code MARKED_AS_DONE_DATE_KEY} marked as done date key
-     */
-    public static final String MARKED_AS_DONE_DATE_KEY = "marked_as_done_date";
+@Table(name = NOTES_KEY)
+public class Note extends com.tecknobit.equinoxbackend.environment.models.EquinoxItem {
 
     /**
      * {@code NOTE_CONTENT_MAX_LENGTH} the max length of the content for a note
@@ -133,7 +96,7 @@ public class Note extends EquinoxItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final EquinoxUser markedAsDoneBy;
+    private final com.tecknobit.equinoxbackend.environment.models.EquinoxUser markedAsDoneBy;
 
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
@@ -171,11 +134,11 @@ public class Note extends EquinoxItem {
      */
     public Note(JSONObject jNote) {
         super(jNote);
-        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         content = hItem.getString(CONTENT_NOTE_KEY);
         creationDate = hItem.getLong(CREATION_DATE_KEY, -1);
         markedAsDone = hItem.getBoolean(MARKED_AS_DONE_KEY);
-        markedAsDoneBy = User.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
+        markedAsDoneBy = PandoroUser.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
         markAsDoneDate = hItem.getLong(MARKED_AS_DONE_DATE_KEY, -1);
     }
 
@@ -189,8 +152,8 @@ public class Note extends EquinoxItem {
      * @param markedAsDoneBy:   who marked the note as done
      * @param markAsDoneDate:{@code markedAsDoneDate} when the note has been marked as done
      */
-    public Note(String id, User author, String content, long creationDate, boolean markedAsDone,
-                User markedAsDoneBy, long markAsDoneDate) {
+    public Note(String id, PandoroUser author, String content, long creationDate, boolean markedAsDone,
+                PandoroUser markedAsDoneBy, long markAsDoneDate) {
         super(id);
         this.author = author;
         this.content = content;
@@ -204,7 +167,7 @@ public class Note extends EquinoxItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link User}
+     * @return {@link #author} instance as {@link PandoroUser}
      */
     public EquinoxUser getAuthor() {
         return author;
@@ -258,7 +221,7 @@ public class Note extends EquinoxItem {
      * Method to get {@link #markedAsDoneBy} instance <br>
      * No-any params required
      *
-     * @return {@link #markedAsDoneBy} instance as {@link User}
+     * @return {@link #markedAsDoneBy} instance as {@link PandoroUser}
      */
     @JsonGetter(MARKED_AS_DONE_BY_KEY)
     public EquinoxUser getMarkedAsDoneBy() {

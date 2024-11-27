@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.equinox.environment.records.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY;
 
 /**
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>
@@ -23,16 +23,6 @@ import static com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY;
 @Structure
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class PandoroItem extends EquinoxItem implements Serializable {
-
-    /**
-     * {@code AUTHOR_KEY} author key
-     */
-    public static final String AUTHOR_KEY = "author";
-
-    /**
-     * {@code CREATION_DATE_KEY} creation date key
-     */
-    public static final String CREATION_DATE_KEY = "creation_date";
 
     /**
      * {@code name} of the item

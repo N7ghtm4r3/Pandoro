@@ -1,15 +1,14 @@
 package com.tecknobit.pandoro.services.groups.controller;
 
+import com.tecknobit.apimanager.apis.APIRequest;
 import com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode;
 import com.tecknobit.apimanager.formatters.JsonHelper;
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.Project;
-import com.tecknobit.pandorocore.records.users.GroupMember;
-import com.tecknobit.pandorocore.records.users.User;
-import org.json.JSONArray;
+import com.tecknobit.pandoro.services.users.models.GroupMember;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,30 +17,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.FAILED;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
-import static com.tecknobit.equinox.Requester.RESPONSE_STATUS_KEY;
 import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
+import static com.tecknobit.equinoxbackend.Requester.RESPONSE_STATUS_KEY;
+import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.JOINED;
+import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOG_IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.Companion;
 import static com.tecknobit.pandorocore.records.Group.*;
-import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.users.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandorocore.records.users.GroupMember.Role.ADMIN;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxController
- * @see PandoroController
+ * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
+ * @see DefaultEquinoxController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + GROUPS_KEY)
-public class GroupsController extends PandoroController {
+public class GroupsController extends DefaultEquinoxController {
 
     /**
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
@@ -74,7 +74,7 @@ public class GroupsController extends PandoroController {
      *
      * @param id:    the identifier of the user
      * @param token: the token of the user
-     * @return the result of the request as {@link String} if fails or {@link JSONArray} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             headers = {
@@ -160,7 +160,7 @@ public class GroupsController extends PandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = APIRequest.RequestMethod.GET)
     public <T> T getGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -457,7 +457,7 @@ public class GroupsController extends PandoroController {
             @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token)) {
-            User me = super.me;
+            PandoroUser me = super.me;
             Group group = groupsHelper.getGroup(id, groupId);
             if (group != null && group.isUserAdmin(me)) {
                 loadJsonHelper(payload);

@@ -2,13 +2,12 @@ package com.tecknobit.pandoro.services.projects.controller;
 
 import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
+import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status;
 import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.ProjectUpdate.Status;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
-import static com.tecknobit.pandoro.services.groups.model.Group.GROUPS_KEY;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
-import static com.tecknobit.pandoro.services.projects.models.Project.*;
-import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
-import static com.tecknobit.pandorocore.records.Note.*;
-import static com.tecknobit.pandorocore.records.Project.*;
-import static com.tecknobit.pandorocore.records.ProjectUpdate.Status.*;
+import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
@@ -70,7 +63,7 @@ public class ProjectsController extends DefaultEquinoxController {
      * @param id: the identifier of the user
      * @param token: the token of the user
      *
-     * @return the result of the request as {@link String} if fails or {@link JSONArray} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             headers = {
@@ -193,7 +186,7 @@ public class ProjectsController extends DefaultEquinoxController {
             loadJsonHelper(payload);
             String name = jsonHelper.getString(NAME_KEY);
             boolean isAdding = projectId == null;
-            if (Companion.isValidProjectName(name)) {
+            if (INSTANCE.isValidProjectName(name)) {
                 if (!isAdding) {
                     Project currentEditingProject = projectsHelper.getProjectById(projectId);
                     if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
@@ -202,11 +195,11 @@ public class ProjectsController extends DefaultEquinoxController {
                 Project checkProject = projectsHelper.getProjectByName(id, name);
                 if (checkProject == null || (!isAdding && checkProject.getId().equals(projectId))) {
                     String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
-                    if (Companion.isValidProjectDescription(description)) {
+                    if (INSTANCE.isValidProjectDescription(description)) {
                         String shortDescription = jsonHelper.getString(PROJECT_SHORT_DESCRIPTION_KEY);
-                        if (Companion.isValidProjectShortDescription(shortDescription)) {
+                        if (INSTANCE.isValidProjectShortDescription(shortDescription)) {
                             String version = jsonHelper.getString(PROJECT_VERSION_KEY);
-                            if (Companion.isValidVersion(version)) {
+                            if (INSTANCE.isValidVersion(version)) {
                                 ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
                                 ArrayList<String> adminGroups = new ArrayList<>();
                                 for (Group group : me.getAdminGroups())
@@ -218,7 +211,7 @@ public class ProjectsController extends DefaultEquinoxController {
                                 }
                                 if (groups.isEmpty() || adminGroups.containsAll(groups)) {
                                     String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
-                                    if (Companion.isValidRepository(repository)) {
+                                    if (INSTANCE.isValidRepository(repository)) {
                                         if (isAdding)
                                             projectId = generateIdentifier();
                                         projectsHelper.workWithProject(id, projectId, name, description, shortDescription,
@@ -342,10 +335,10 @@ public class ProjectsController extends DefaultEquinoxController {
             if (projectsHelper.getProject(id, projectId) != null) {
                 loadJsonHelper(payload);
                 String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
-                if (Companion.isValidVersion(targetVersion)) {
+                if (INSTANCE.isValidVersion(targetVersion)) {
                     if (!projectsHelper.targetVersionExists(projectId, targetVersion)) {
                         ArrayList<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
-                        if (Companion.areNotesValid(changeNotes)) {
+                        if (INSTANCE.areNotesValid(changeNotes)) {
                             projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
                             return successResponse();
                         } else
@@ -474,7 +467,7 @@ public class ProjectsController extends DefaultEquinoxController {
             if (projectsHelper.getProject(id, projectId) != null && update != null && update.getStatus() != PUBLISHED) {
                 loadJsonHelper(payload);
                 String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
-                if (Companion.isContentNoteValid(contentNote)) {
+                if (INSTANCE.isContentNoteValid(contentNote)) {
                     projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
                     return successResponse();
                 } else

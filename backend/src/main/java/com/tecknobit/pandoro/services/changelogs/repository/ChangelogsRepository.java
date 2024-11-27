@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.changelogs.repository;
 
-import com.tecknobit.pandorocore.records.Changelog;
+import com.tecknobit.pandoro.services.changelogs.model.Changelog;
+import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandorocore.records.Changelog.*;
-import static com.tecknobit.pandorocore.records.Group.GROUP_IDENTIFIER_KEY;
-import static com.tecknobit.pandorocore.records.Project.PROJECT_IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code ChangelogsRepository} interface is useful to manage the queries for the changelogs

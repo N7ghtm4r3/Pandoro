@@ -1,30 +1,31 @@
 package com.tecknobit.pandoro.services.notes.controller;
 
-import com.tecknobit.equinox.environment.controllers.EquinoxController;
+import com.tecknobit.equinoxbackend.environment.services.DefaultEquinoxController;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.notes.service.NotesHelper;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.USERS_KEY;
-import static com.tecknobit.pandorocore.Endpoints.*;
-import static com.tecknobit.pandorocore.helpers.InputsValidator.Companion;
-import static com.tecknobit.pandorocore.records.Note.*;
+import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.Companion;
 
 /**
  * The {@code NotesController} class is useful to manage all the note operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see EquinoxController
+ * @see com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController
+ * @see DefaultEquinoxController
  */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + NOTES_KEY)
-public class NotesController extends EquinoxController {
+public class NotesController extends DefaultEquinoxController {
 
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
@@ -51,7 +52,7 @@ public class NotesController extends EquinoxController {
      *
      * @param id:    the identifier of the user
      * @param token: the token of the user
-     * @return the result of the request as {@link String} if fails or {@link JSONArray} if is successfully
+     * @return the result of the request as {@link String}
      */
     @GetMapping(
             headers = {

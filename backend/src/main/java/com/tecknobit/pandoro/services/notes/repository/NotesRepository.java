@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.notes.repository;
 
+import com.tecknobit.pandoro.services.notes.model.Note;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
-import com.tecknobit.pandorocore.records.Note;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandorocore.records.Note.*;
-import static com.tecknobit.pandorocore.records.Project.UPDATE_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.AUTHOR_KEY;
-import static com.tecknobit.pandorocore.records.structures.PandoroItem.CREATION_DATE_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code NotesRepository} interface is useful to manage the queries for the notes
@@ -247,7 +245,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
-     * Method to execute the query to remove the constraints between {@link User} deleted and {@link Note}
+     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and {@link Note}
      *
      * @param userId: the user identifier
      */
@@ -263,7 +261,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
-     * Method to execute the query to remove the constraints between {@link User} deleted and the author of the
+     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and the author of the
      * {@link Note}
      *
      * @param userId: the user identifier
@@ -282,7 +280,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
-     * Method to execute the query to remove the constraints between {@link User} deleted and the marker of the
+     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and the marker of the
      * {@link Note}
      *
      * @param userId: the user identifier

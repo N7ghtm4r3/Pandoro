@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
-import com.tecknobit.equinox.environment.records.EquinoxUser;
-import com.tecknobit.pandorocore.records.structures.PandoroItem;
-import com.tecknobit.pandorocore.records.users.GroupMember;
-import com.tecknobit.pandorocore.records.users.GroupMember.Role;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
+import com.tecknobit.pandoro.services.PandoroItem;
+import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandoro.services.users.models.GroupMember;
+import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,13 +21,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.PASSWORD_KEY;
-import static com.tecknobit.equinox.environment.records.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.pandorocore.records.Changelog.CHANGELOGS_KEY;
-import static com.tecknobit.pandorocore.records.Note.NOTES_KEY;
-import static com.tecknobit.pandorocore.records.Project.PROJECTS_KEY;
-import static com.tecknobit.pandorocore.records.users.User.GROUP_MEMBERS_TABLE;
-import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code Group} class is useful to create a <b>Pandoro's Group</b>
@@ -38,46 +34,6 @@ import static com.tecknobit.pandorocore.records.users.User.LANGUAGE_KEY;
 @Entity
 @Table(name = Group.GROUPS_KEY)
 public class Group extends PandoroItem {
-
-    /**
-     * {@code GROUPS_KEY} groups key
-     */
-    public static final String GROUPS_KEY = "groups";
-
-    /**
-     * {@code GROUP_IDENTIFIER_KEY} the group identifier key
-     */
-    public static final String GROUP_IDENTIFIER_KEY = "group_id";
-
-    /**
-     * {@code GROUP_KEY} the group key
-     */
-    public static final String GROUP_KEY = "group";
-
-    /**
-     * {@code GROUP_MEMBER_KEY} the group member key
-     */
-    public static final String GROUP_MEMBER_KEY = "group_member";
-
-    /**
-     * {@code GROUP_DESCRIPTION_KEY} the group member key
-     */
-    public static final String GROUP_DESCRIPTION_KEY = "group_description";
-
-    /**
-     * {@code GROUP_MEMBERS_KEY} the group members key
-     */
-    public static final String GROUP_MEMBERS_KEY = "members";
-
-    /**
-     * {@code MEMBER_ROLE_KEY} the role of a member key
-     */
-    public static final String MEMBER_ROLE_KEY = "role";
-
-    /**
-     * {@code INVITATION_STATUS_KEY} the invitation status key
-     */
-    public static final String INVITATION_STATUS_KEY = "invitation_status";
 
     /**
      * {@code GROUP_NAME_MAX_LENGTH} the max length of the name for a group
@@ -115,7 +71,7 @@ public class Group extends PandoroItem {
             "handler"
     })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final EquinoxUser author;
+    private final com.tecknobit.equinoxbackend.environment.models.EquinoxUser author;
 
     /**
      * {@code description} the description of the group
@@ -176,7 +132,7 @@ public class Group extends PandoroItem {
     public Group(JSONObject jGroup) {
         super(jGroup);
         creationDate = hItem.getLong(CREATION_DATE_KEY);
-        author = User.getInstance(hItem.getJSONObject(AUTHOR_KEY));
+        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
         description = hItem.getString(GROUP_DESCRIPTION_KEY);
         groupMembers = GroupMember.getInstances(hItem.getJSONArray(GROUP_MEMBERS_TABLE));
         totalMembers = groupMembers.size();
@@ -195,8 +151,8 @@ public class Group extends PandoroItem {
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */
-    public Group(String id, String name, long creationDate, EquinoxUser author, String description, ArrayList<GroupMember> groupMembers,
-                 ArrayList<Project> projects) {
+    public Group(String id, String name, long creationDate, EquinoxUser author, String description,
+                 ArrayList<GroupMember> groupMembers, ArrayList<Project> projects) {
         super(id, name);
         this.creationDate = creationDate;
         this.author = author;
@@ -239,7 +195,7 @@ public class Group extends PandoroItem {
      * Method to get {@link #author} instance <br>
      * No-any params required
      *
-     * @return {@link #author} instance as {@link User}
+     * @return {@link #author} instance as {@link PandoroUser}
      */
     public EquinoxUser getAuthor() {
         return author;
@@ -305,7 +261,7 @@ public class Group extends PandoroItem {
      * @param user: the user to check the role
      * @return whether the user is a {@link Role#MAINTAINER} as boolean
      */
-    public boolean isUserMaintainer(User user) {
+    public boolean isUserMaintainer(PandoroUser user) {
         for (GroupMember groupMember : groupMembers)
             if (user.getId().equals(groupMember.getId()))
                 return groupMember.isMaintainer();
@@ -318,7 +274,7 @@ public class Group extends PandoroItem {
      * @param user: the user to check the role
      * @return whether the user is an {@link Role#ADMIN} as boolean
      */
-    public boolean isUserAdmin(User user) {
+    public boolean isUserAdmin(PandoroUser user) {
         for (GroupMember groupMember : groupMembers)
             if (user.getId().equals(groupMember.getId()))
                 return groupMember.isAdmin();

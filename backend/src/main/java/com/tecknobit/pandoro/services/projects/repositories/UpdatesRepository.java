@@ -2,7 +2,7 @@ package com.tecknobit.pandoro.services.projects.repositories;
 
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status;
-import com.tecknobit.pandoro.services.users.models.User;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.pandoro.services.PandoroItem.AUTHOR_KEY;
-import static com.tecknobit.pandoro.services.projects.models.Project.*;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code UpdatesRepository} interface is useful to manage the queries for the updates of a project
@@ -167,7 +166,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     void deleteUpdate(@Param(IDENTIFIER_KEY) String updateId);
 
     /**
-     * Method to execute the query to remove the constraints between {@link User} deleted and {@link ProjectUpdate}
+     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and {@link ProjectUpdate}
      *
      * @param userId: the user identifier
      */

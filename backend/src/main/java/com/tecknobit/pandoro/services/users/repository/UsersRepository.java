@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.services.users.repository;
 
-import com.tecknobit.equinox.environment.records.EquinoxUser;
-import com.tecknobit.pandorocore.records.users.User;
+import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,83 +9,83 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import static com.tecknobit.equinox.environment.records.EquinoxUser.*;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 
 /**
  * The {@code UsersRepository} interface is useful to manage the queries for the users
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see JpaRepository
- * @see User
+ * @see PandoroUser
  */
 @Service
 @Repository
-public interface UsersRepository extends JpaRepository<User, String> {
+public interface UsersRepository extends JpaRepository<PandoroUser, String> {
 
     /**
-     * Method to execute the query to select a {@link User} by its email and its password
+     * Method to execute the query to select a {@link PandoroUser} by its email and its password
      *
      * @param email:    the user email
      * @param password: the user password
-     * @return the user, if exists, as {@link User}
+     * @return the user, if exists, as {@link PandoroUser}
      */
     @Query(
             value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY
                     + " AND " + PASSWORD_KEY + "=:" + PASSWORD_KEY,
             nativeQuery = true
     )
-    User getUserByEmailAndPassword(
+    PandoroUser getUserByEmailAndPassword(
             @Param(EMAIL_KEY) String email,
             @Param(PASSWORD_KEY) String password
     );
 
     /**
-     * Method to execute the query to select a {@link User} by its identifier and its token
+     * Method to execute the query to select a {@link PandoroUser} by its identifier and its token
      *
      * @param userId: the user identifier
      * @param token: the user token
-     * @return the user, if exists, as {@link User}
+     * @return the user, if exists, as {@link PandoroUser}
      */
     @Query(
             value = "SELECT * FROM " + USERS_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
                     + " AND " + TOKEN_KEY + "=:" + TOKEN_KEY,
             nativeQuery = true
     )
-    User getAuthorizedUser(
+    PandoroUser getAuthorizedUser(
             @Param(IDENTIFIER_KEY) String userId,
             @Param(TOKEN_KEY) String token
     );
 
     /**
-     * Method to execute the query to select a {@link User} by its email
+     * Method to execute the query to select a {@link PandoroUser} by its email
      *
      * @param email: the user email
-     * @return the user, if exists, as {@link User}
+     * @return the user, if exists, as {@link PandoroUser}
      */
     @Query(
             value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
             nativeQuery = true
     )
-    User getUserByEmail(
+    PandoroUser getUserByEmail(
             @Param(EMAIL_KEY) String email
     );
 
     /**
-     * Method to execute the query to find a {@link EquinoxUser} by email field
+     * Method to execute the query to find a {@link PandoroUser} by email field
      *
      * @param email: the email to find the user
-     * @return the user, if exists, as {@link EquinoxUser}
+     * @return the user, if exists, as {@link PandoroUser}
      */
     @Query(
             value = "SELECT * FROM " + USERS_KEY + " WHERE " + EMAIL_KEY + "=:" + EMAIL_KEY,
             nativeQuery = true
     )
-    User findUserByEmail(
+    PandoroUser findUserByEmail(
             @Param(EMAIL_KEY) String email
     );
 
     /**
-     * Method to execute the query to change the profile pic of the {@link EquinoxUser}
+     * Method to execute the query to change the profile pic of the {@link PandoroUser}
      *
      * @param profilePicUrl: the profile pic formatted as url
      * @param id:            the identifier of the user
@@ -104,7 +103,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
     );
 
     /**
-     * Method to execute the query to change the email of the {@link EquinoxUser}
+     * Method to execute the query to change the email of the {@link PandoroUser}
      *
      * @param newEmail: the new email of the user
      * @param id:       the identifier of the user
@@ -122,7 +121,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
     );
 
     /**
-     * Method to execute the query to change the password of the {@link EquinoxUser}
+     * Method to execute the query to change the password of the {@link PandoroUser}
      *
      * @param newPassword: the new password of the user
      * @param id:          the identifier of the user
@@ -140,7 +139,7 @@ public interface UsersRepository extends JpaRepository<User, String> {
     );
 
     /**
-     * Method to execute the query to change the language of the {@link EquinoxUser}
+     * Method to execute the query to change the language of the {@link PandoroUser}
      *
      * @param newLanguage: the new language of the user
      * @param id:          the identifier of the user

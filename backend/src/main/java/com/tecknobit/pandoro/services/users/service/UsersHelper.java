@@ -1,6 +1,5 @@
 package com.tecknobit.pandoro.services.users.service;
 
-import com.tecknobit.equinox.environment.helpers.services.EquinoxUsersHelper;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Primary
-public class UsersHelper extends EquinoxUsersHelper {
+public class UsersHelper extends com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersHelper {
 
     /**
      * {@code membersRepository} instance for the members of a group repository

@@ -1,16 +1,16 @@
 package com.tecknobit.pandoro.helpers;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
-import com.tecknobit.pandorocore.records.Changelog.ChangelogEvent;
-import com.tecknobit.pandorocore.records.Group;
-import com.tecknobit.pandorocore.records.Project;
-import com.tecknobit.pandorocore.records.users.GroupMember.Role;
+import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.tecknobit.equinox.environment.controllers.EquinoxController.generateIdentifier;
-import static com.tecknobit.pandorocore.records.Changelog.ChangelogEvent.*;
+import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
+import static com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent.*;
 import static java.lang.System.currentTimeMillis;
 
 /**
