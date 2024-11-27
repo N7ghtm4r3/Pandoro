@@ -3,18 +3,15 @@ package com.tecknobit.pandoro.services.users.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.formatters.JsonHelper;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandorocore.enums.InvitationStatus;
+import com.tecknobit.pandorocore.enums.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
@@ -31,56 +28,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 @Table(name = GROUP_MEMBERS_TABLE)
 @IdClass(GroupMemberCompositeKey.class)
 public class GroupMember {
-
-    /**
-     * {@code Role} list of available roles for a group's member
-     */
-    public enum Role {
-
-        /**
-         * {@code ADMIN} role
-         *
-         * @apiNote this role allows to manage the members of the group, so add or remove them, and also manage projects,
-         * so add or remove them
-         */
-        ADMIN,
-
-        /**
-         * {@code MAINTAINER} role
-         *
-         * @apiNote this role allows to manage the members of the group, so add or remove them
-         */
-        MAINTAINER,
-
-        /**
-         * {@code DEVELOPER} role
-         *
-         * @apiNote this role allows see the members of the group and the projects managed by the group
-         */
-        DEVELOPER
-
-    }
-
-    /**
-     * {@code InvitationStatus} list of available invitation statuses for a group's member
-     */
-    public enum InvitationStatus {
-
-        /**
-         * {@code PENDING} invitation status
-         *
-         * @apiNote this invitation status means that the member has been invited, and it is not joined yet
-         */
-        PENDING,
-
-        /**
-         * {@code JOINED} invitation status
-         *
-         * @apiNote this invitation status means that the member has joined in the group
-         */
-        JOINED
-
-    }
 
     /**
      * {@code id} identifier of the item
@@ -153,22 +100,6 @@ public class GroupMember {
      */
     public GroupMember() {
         this(null, null, null, null, null, null, null);
-    }
-
-    /**
-     * Constructor to init a {@link GroupMember} object
-     *
-     * @param jGroupMember: group member details as {@link JSONObject}
-     */
-    public GroupMember(JSONObject jGroupMember) {
-        JsonHelper hItem = new JsonHelper(jGroupMember);
-        id = hItem.getString(IDENTIFIER_KEY);
-        name = hItem.getString(NAME_KEY);
-        surname = hItem.getString(SURNAME_KEY);
-        profilePic = hItem.getString(PROFILE_PIC_KEY);
-        email = hItem.getString(EMAIL_KEY);
-        role = Role.valueOf(hItem.getString(MEMBER_ROLE_KEY, Role.DEVELOPER.name()));
-        invitationStatus = InvitationStatus.valueOf(hItem.getString(INVITATION_STATUS_KEY, InvitationStatus.PENDING.name()));
     }
 
     /**
@@ -307,36 +238,6 @@ public class GroupMember {
      */
     public boolean isLoggedUser(PandoroUser userLogged) {
         return userLogged.getId().equals(id);
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link GroupMember}
-     */
-    @Returner
-    public static ArrayList<GroupMember> getInstances(JSONArray jItems) {
-        ArrayList<GroupMember> groupMembers = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                groupMembers.add(new GroupMember(jItems.getJSONObject(j)));
-        }
-        return groupMembers;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link GroupMember}
-     */
-    @Returner
-    public static GroupMember getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new GroupMember(jItem);
     }
 
 }

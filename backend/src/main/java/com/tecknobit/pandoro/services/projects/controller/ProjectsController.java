@@ -6,8 +6,8 @@ import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
-import com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status;
 import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
+import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,8 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTI
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
-import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
@@ -420,7 +420,7 @@ public class ProjectsController extends DefaultPandoroController {
         if (isMe(id, token)) {
             ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
             if (projectsHelper.getProject(id, projectId) != null && update != null) {
-                Status status = update.getStatus();
+                UpdateStatus status = update.getStatus();
                 if (isPublishing) {
                     if (status != IN_DEVELOPMENT)
                         return failedResponse("wrong_publish_update_request_key");

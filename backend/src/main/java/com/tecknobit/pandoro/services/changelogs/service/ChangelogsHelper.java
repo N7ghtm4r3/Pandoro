@@ -1,15 +1,15 @@
 package com.tecknobit.pandoro.services.changelogs.service;
 
 import com.tecknobit.pandoro.services.changelogs.model.Changelog;
-import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
+import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent.INVITED_GROUP;
+import static com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP;
 
 /**
  * The {@code ChangelogsHelper} class is useful to manage all the changelogs database operations

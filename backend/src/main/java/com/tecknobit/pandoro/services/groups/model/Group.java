@@ -3,19 +3,15 @@ package com.tecknobit.pandoro.services.groups.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.annotations.Returner;
-import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
-import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandorocore.enums.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,18 +28,8 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  * @see Serializable
  */
 @Entity
-@Table(name = Group.GROUPS_KEY)
+@Table(name = GROUPS_KEY)
 public class Group extends PandoroItem {
-
-    /**
-     * {@code GROUP_NAME_MAX_LENGTH} the max length of the name for a group
-     */
-    public static final int GROUP_NAME_MAX_LENGTH = 15;
-
-    /**
-     * {@code GROUP_DESCRIPTION_MAX_LENGTH} the max description of the name for a group
-     */
-    public static final int GROUP_DESCRIPTION_MAX_LENGTH = 30;
 
     /**
      * {@code creationDate} when the group has been created
@@ -127,22 +113,6 @@ public class Group extends PandoroItem {
     /**
      * Constructor to init a {@link Group} object
      *
-     * @param jGroup: group details as {@link JSONObject}
-     */
-    public Group(JSONObject jGroup) {
-        super(jGroup);
-        creationDate = hItem.getLong(CREATION_DATE_KEY);
-        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
-        description = hItem.getString(GROUP_DESCRIPTION_KEY);
-        groupMembers = GroupMember.getInstances(hItem.getJSONArray(GROUP_MEMBERS_TABLE));
-        totalMembers = groupMembers.size();
-        projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
-        totalProjects = projects.size();
-    }
-
-    /**
-     * Constructor to init a {@link Group} object
-     *
      * @param id:          identifier of the group
      * @param name:        name of the group
      * @param creationDate: when the project has been created
@@ -178,17 +148,6 @@ public class Group extends PandoroItem {
     @JsonGetter(CREATION_DATE_KEY)
     public long getCreation() {
         return creationDate;
-    }
-
-    /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #creationDate} instance as {@link String}
-     */
-    @JsonIgnore
-    public String getCreationDate() {
-        return TimeFormatter.getStringDate(creationDate);
     }
 
     /**
@@ -279,36 +238,6 @@ public class Group extends PandoroItem {
             if (user.getId().equals(groupMember.getId()))
                 return groupMember.isAdmin();
         return false;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link Group}
-     */
-    @Returner
-    public static ArrayList<Group> getInstances(JSONArray jItems) {
-        ArrayList<Group> groups = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                groups.add(new Group(jItems.getJSONObject(j)));
-        }
-        return groups;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link Group}
-     */
-    @Returner
-    public static Group getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new Group(jItem);
     }
 
 }

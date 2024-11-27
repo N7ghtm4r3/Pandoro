@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.projects.repositories;
 
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
-import com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -63,7 +63,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
      * @param updateId: the update identifier
      * @param targetVersion: the target version of the new update
      * @param createDate: the creation date of the update
-     * @param updateStatus: the {@link Status#SCHEDULED} status
+     * @param updateStatus: the {@link UpdateStatus#SCHEDULED} status
      * @param projectId: the project identifier
      * @param author: the author of the update
      */
@@ -99,7 +99,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             @Param(IDENTIFIER_KEY) String updateId,
             @Param(UPDATE_TARGET_VERSION_KEY) String targetVersion,
             @Param(UPDATE_CREATE_DATE_KEY) long createDate,
-            @Param(UPDATE_STATUS_KEY) Status updateStatus,
+            @Param(UPDATE_STATUS_KEY) UpdateStatus updateStatus,
             @Param(PROJECT_KEY) String projectId,
             @Param(AUTHOR_KEY) String author
     );

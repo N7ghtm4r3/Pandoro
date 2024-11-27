@@ -3,24 +3,22 @@ package com.tecknobit.pandoro.services.projects.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.notes.model.Note;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
-import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -31,33 +29,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 @Entity
 @Table(name = UPDATES_KEY)
 public class ProjectUpdate extends EquinoxItem {
-
-    /**
-     * {@code TARGET_VERSION_MAX_LENGTH} the max length of the target version for an update
-     */
-    public static final int TARGET_VERSION_MAX_LENGTH = 10;
-
-    /**
-     * {@code Status} list of available statuses for an update
-     */
-    public enum Status {
-
-        /**
-         * {@code SCHEDULED} status for an update
-         */
-        SCHEDULED,
-
-        /**
-         * {@code IN_DEVELOPMENT} status for an update
-         */
-        IN_DEVELOPMENT,
-
-        /**
-         * {@code PUBLISHED} status for an update
-         */
-        PUBLISHED
-
-    }
 
     /**
      * {@code author} the author of the update
@@ -97,7 +68,7 @@ public class ProjectUpdate extends EquinoxItem {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = UPDATE_STATUS_KEY)
-    private final Status status;
+    private final UpdateStatus status;
 
     /**
      * {@code startedBy} who created the update
@@ -187,33 +158,6 @@ public class ProjectUpdate extends EquinoxItem {
      */
     public ProjectUpdate() {
         this(null, null, -1, null, null, -1, null, -1, null);
-    }
-
-    /**
-     * Constructor to init a {@link ProjectUpdate} object
-     *
-     * @param jProjectUpdate: project update details as {@link JSONObject}
-     */
-    public ProjectUpdate(JSONObject jProjectUpdate) {
-        super(jProjectUpdate);
-        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
-        createDate = hItem.getLong(UPDATE_CREATE_DATE_KEY, -1);
-        targetVersion = hItem.getString(UPDATE_TARGET_VERSION_KEY);
-        startedBy = PandoroUser.getInstance(hItem.getJSONObject(UPDATE_STARTED_BY_KEY));
-        startDate = hItem.getLong(UPDATE_START_DATE_KEY, -1);
-        publishedBy = PandoroUser.getInstance(hItem.getJSONObject(UPDATE_PUBLISHED_BY_KEY));
-        publishDate = hItem.getLong(UPDATE_PUBLISH_DATE_KEY, -1);
-        if (publishDate != -1) {
-            developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
-            status = PUBLISHED;
-        } else if (startDate == -1) {
-            status = SCHEDULED;
-            developmentDuration = -1;
-        } else {
-            developmentDuration = -1;
-            status = IN_DEVELOPMENT;
-        }
-        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
     /**
@@ -388,40 +332,10 @@ public class ProjectUpdate extends EquinoxItem {
      * Method to get {@link #status} instance <br>
      * No-any params required
      *
-     * @return {@link #status} instance as {@link Status}
+     * @return {@link #status} instance as {@link UpdateStatus}
      */
-    public Status getStatus() {
+    public UpdateStatus getStatus() {
         return status;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link ProjectUpdate}
-     */
-    @Returner
-    public static ArrayList<ProjectUpdate> getInstances(JSONArray jItems) {
-        ArrayList<ProjectUpdate> updates = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                updates.add(new ProjectUpdate(jItems.getJSONObject(j)));
-        }
-        return updates;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link ProjectUpdate}
-     */
-    @Returner
-    public static ProjectUpdate getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new ProjectUpdate(jItem);
     }
 
 }

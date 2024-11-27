@@ -1,8 +1,44 @@
 package com.tecknobit.pandorocore.helpers
 
 import com.tecknobit.equinoxcore.helpers.InputsValidator
+import com.tecknobit.pandorocore.enums.RepositoryPlatform.Companion.isValidPlatform
 
 object PandoroInputsValidator : InputsValidator() {
+
+    /**
+     * `PROJECT_NAME_MAX_LENGTH` the max length of the name for a project
+     */
+    const val PROJECT_NAME_MAX_LENGTH: Int = 15
+
+    /**
+     * `PROJECT_SHORT_DESCRIPTION_MAX_LENGTH` the max length of the short description for a project
+     */
+    const val PROJECT_SHORT_DESCRIPTION_MAX_LENGTH: Int = 15
+
+    /**
+     * `PROJECT_DESCRIPTION_MAX_LENGTH` the max length of the description for a project
+     */
+    const val PROJECT_DESCRIPTION_MAX_LENGTH: Int = 1500
+
+    /**
+     * `GROUP_NAME_MAX_LENGTH` the max length of the name for a group
+     */
+    const val GROUP_NAME_MAX_LENGTH: Int = 15
+
+    /**
+     * `GROUP_DESCRIPTION_MAX_LENGTH` the max description of the name for a group
+     */
+    const val GROUP_DESCRIPTION_MAX_LENGTH: Int = 30
+
+    /**
+     * `NOTE_CONTENT_MAX_LENGTH` the max length of the content for a note
+     */
+    const val NOTE_CONTENT_MAX_LENGTH: Int = 200
+
+    /**
+     * `TARGET_VERSION_MAX_LENGTH` the max length of the target version for an update
+     */
+    const val TARGET_VERSION_MAX_LENGTH: Int = 10
 
     /**
      * `EMAIL_REGEX` regular expression to validate the emails value

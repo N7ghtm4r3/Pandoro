@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
-import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.SCHEDULED;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
 /**
  * The {@code ProjectsHelper} class is useful to manage all the projects database operations

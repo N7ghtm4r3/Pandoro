@@ -3,24 +3,22 @@ package com.tecknobit.pandoro.services.projects.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandorocore.enums.RepositoryPlatform;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
-import static com.tecknobit.pandoro.services.projects.models.ProjectUpdate.Status.PUBLISHED;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED;
 
 /**
  * The {@code Project} class is useful to create a <b>Pandoro's project</b>
@@ -33,68 +31,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 @Entity
 @Table(name = PROJECTS_KEY)
 public class Project extends PandoroItem {
-
-
-    /**
-     * {@code RepositoryPlatform} list of available repository platforms
-     */
-    public enum RepositoryPlatform {
-
-        /**
-         * {@code Github} repository platform
-         */
-        Github,
-
-        /**
-         * {@code GitLab} repository platforms
-         */
-        GitLab;
-
-        /**
-         * Method to reach a platform value
-         *
-         * @param url: the url to fetch the platform
-         * @return repository platform as {@link RepositoryPlatform}
-         */
-        public static RepositoryPlatform reachPlatform(String url) {
-            if (isValidPlatform(url)) {
-                if (url.contains(Github.name().toLowerCase()))
-                    return Github;
-                else
-                    return GitLab;
-            }
-            return null;
-        }
-
-        /**
-         * Method to check a repository platform validity
-         *
-         * @param url: the url to check the platform
-         * @return whether the repository platform is valid as boolean
-         */
-        public static boolean isValidPlatform(String url) {
-            for (RepositoryPlatform platform : RepositoryPlatform.values())
-                if (url.contains(platform.name().toLowerCase()))
-                    return true;
-            return false;
-        }
-
-    }
-
-    /**
-     * {@code PROJECT_NAME_MAX_LENGTH} the max length of the name for a project
-     */
-    public static final int PROJECT_NAME_MAX_LENGTH = 15;
-
-    /**
-     * {@code PROJECT_SHORT_DESCRIPTION_MAX_LENGTH} the max length of the short description for a project
-     */
-    public static final int PROJECT_SHORT_DESCRIPTION_MAX_LENGTH = 15;
-
-    /**
-     * {@code PROJECT_DESCRIPTION_MAX_LENGTH} the max length of the description for a project
-     */
-    public static final int PROJECT_DESCRIPTION_MAX_LENGTH = 1500;
 
     /**
      * {@code creationDate} when the project has been created
@@ -161,7 +97,7 @@ public class Project extends PandoroItem {
     @JoinTable(
             name = PROJECTS_GROUPS_TABLE,
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
-            inverseJoinColumns = {@JoinColumn(name = Group.GROUP_IDENTIFIER_KEY)}
+            inverseJoinColumns = {@JoinColumn(name = GROUP_IDENTIFIER_KEY)}
     )
     @JsonIgnoreProperties({
             PROJECTS_KEY,
@@ -198,43 +134,8 @@ public class Project extends PandoroItem {
      * @apiNote empty constructor required
      */
     public Project() {
-        this(null, null, -1, null, null, null, null, null, new ArrayList<>(), "");
-    }
-
-    /**
-     * Constructor to init a {@link Project} object
-     *
-     * @param jProject: project details as {@link JSONObject}
-     */
-    public Project(JSONObject jProject) {
-        super(jProject);
-        creationDate = hItem.getLong(CREATION_DATE_KEY);
-        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
-        shortDescription = hItem.getString(PROJECT_SHORT_DESCRIPTION_KEY);
-        description = hItem.getString(PROJECT_DESCRIPTION_KEY);
-        version = hItem.getString(PROJECT_VERSION_KEY);
-        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
-        updates = ProjectUpdate.getInstances(hItem.getJSONArray(UPDATES_KEY));
-        updatesNumber = updates.size();
-        if (updatesNumber > 0) {
-            ArrayList<ProjectUpdate> publishedUpdates = getPublishedUpdates();
-            if (!publishedUpdates.isEmpty()) {
-                long lastUpdateTimestamp = 0L;
-                for (ProjectUpdate update : publishedUpdates) {
-                    long checkValueTimestamp = update.getPublishTimestamp();
-                    if (checkValueTimestamp > lastUpdateTimestamp)
-                        lastUpdateTimestamp = checkValueTimestamp;
-                }
-                lastUpdate = lastUpdateTimestamp;
-            } else
-                lastUpdate = -1;
-        } else
-            lastUpdate = -1;
-        projectRepo = hItem.getString(PROJECT_REPOSITORY_KEY, "");
-        if (!projectRepo.isEmpty())
-            repositoryPlatform = RepositoryPlatform.reachPlatform(projectRepo);
-        else
-            repositoryPlatform = null;
+        this(null, null, -1, null, null, null,
+                null, null, new ArrayList<>(), "");
     }
 
     /**
@@ -268,7 +169,7 @@ public class Project extends PandoroItem {
         this.updates = updates;
         this.projectRepo = projectRepo;
         if (!projectRepo.isEmpty())
-            repositoryPlatform = RepositoryPlatform.reachPlatform(projectRepo);
+            repositoryPlatform = RepositoryPlatform.Companion.reachPlatform(projectRepo);
         else
             repositoryPlatform = null;
     }
@@ -468,36 +369,6 @@ public class Project extends PandoroItem {
     @JsonIgnore
     public boolean hasGroups() {
         return !groups.isEmpty();
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link Project}
-     */
-    @Returner
-    public static ArrayList<Project> getInstances(JSONArray jItems) {
-        ArrayList<Project> projects = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                projects.add(new Project(jItems.getJSONObject(j)));
-        }
-        return projects;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link Project}
-     */
-    @Returner
-    public static Project getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new Project(jItem);
     }
 
 }

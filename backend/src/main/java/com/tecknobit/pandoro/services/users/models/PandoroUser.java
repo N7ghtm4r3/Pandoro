@@ -1,23 +1,23 @@
 package com.tecknobit.pandoro.services.users.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.changelogs.model.Changelog;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.notes.model.Note;
 import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandorocore.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
-import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.ConstantsKt.AUTHOR_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
 
 /**
  * The {@code PandoroUser} class is useful to create a <b>Pandoro's user</b>
@@ -75,19 +75,6 @@ public class PandoroUser extends EquinoxUser {
     public PandoroUser() {
         this(null, null, null, DEFAULT_PROFILE_PIC, null, null, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
-
-    /**
-     * Constructor to init a {@link PandoroUser} object
-     *
-     * @param jUser: user details as {@link JSONObject}
-     */
-    public PandoroUser(JSONObject jUser) {
-        super(jUser);
-        groups = Group.getInstances(hItem.getJSONArray(GROUPS_KEY));
-        changelogs = Changelog.getInstances(hItem.getJSONArray(CHANGELOGS_KEY));
-        projects = Project.getInstances(hItem.getJSONArray(PROJECTS_KEY));
-        notes = Note.getInstances(hItem.getJSONArray(NOTES_KEY));
     }
 
     /**
@@ -214,7 +201,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get the groups where the user is the {@link GroupMember.Role#ADMIN} <br>
+     * Method to get the groups where the user is the {@link Role#ADMIN} <br>
      * No-any params required
      *
      * @return groups as {@link ArrayList} of {@link Group}
@@ -226,29 +213,6 @@ public class PandoroUser extends EquinoxUser {
             if (group.isUserAdmin(this))
                 subGroups.add(group);
         return subGroups;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @JsonIgnore
-    public ApplicationTheme getTheme() {
-        return super.getTheme();
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link PandoroUser}
-     */
-    @Returner
-    public static PandoroUser getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new PandoroUser(jItem);
     }
 
 }

@@ -1,20 +1,29 @@
 package com.tecknobit.pandorocore.helpers
-
-import com.tecknobit.apimanager.annotations.Wrapper
-import com.tecknobit.apimanager.apis.APIRequest.Params
-import com.tecknobit.apimanager.apis.APIRequest.RequestMethod.*
-import com.tecknobit.equinox.environment.records.EquinoxUser.NAME_KEY
+/*
 import com.tecknobit.equinoxbackend.environment.helpers.EquinoxRequester
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY
+import com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY
 import com.tecknobit.equinoxcore.annotations.RequestPath
 import com.tecknobit.equinoxcore.annotations.Structure
+import com.tecknobit.equinoxcore.annotations.Wrapper
 import com.tecknobit.equinoxcore.network.RequestMethod.*
-import com.tecknobit.pandoro.services.PandoroItem.IDENTIFIER_KEY
 import com.tecknobit.pandorocore.*
-import com.tecknobit.pandorocore.Endpoints.*
-import com.tecknobit.pandorocore.records.Changelog.*
-import com.tecknobit.pandorocore.records.Group.*
-import com.tecknobit.pandorocore.records.Project.*
-import com.tecknobit.pandorocore.records.users.GroupMember.Role
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ACCEPT_GROUP_INVITATION_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_CHANGE_NOTE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.ADD_MEMBERS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_MEMBER_ROLE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.DECLINE_GROUP_INVITATION_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.LEAVE_GROUP_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_DONE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_CHANGE_NOTE_AS_TODO_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.PUBLISH_UPDATE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.REMOVE_MEMBER_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.SCHEDULE_UPDATE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.START_UPDATE_ENDPOINT
+import com.tecknobit.pandorocore.helpers.PandoroEndpoints.UPDATES_PATH
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -953,4 +962,4 @@ open class PandoroRequester(
         return endpoint
     }
 
-}
+}*/

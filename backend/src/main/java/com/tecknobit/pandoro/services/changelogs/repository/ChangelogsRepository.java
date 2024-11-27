@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.changelogs.repository;
 
 import com.tecknobit.pandoro.services.changelogs.model.Changelog;
-import com.tecknobit.pandoro.services.changelogs.model.Changelog.ChangelogEvent;
+import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

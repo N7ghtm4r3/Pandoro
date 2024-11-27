@@ -8,19 +8,18 @@ import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
-import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
-import com.tecknobit.pandoro.services.users.repository.UsersRepository;
+import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.PENDING;
-import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
-import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.DEVELOPER;
+import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
+import static com.tecknobit.pandorocore.enums.InvitationStatus.PENDING;
+import static com.tecknobit.pandorocore.enums.Role.ADMIN;
+import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 
 /**
  * The {@code GroupsHelper} class is useful to manage all the groups database operations
@@ -35,7 +34,7 @@ public class GroupsHelper extends ChangelogOperator {
      * {@code usersRepository} instance for the users repository
      */
     @Autowired
-    private UsersRepository usersRepository;
+    private PandoroUsersRepository usersRepository;
 
     /**
      * {@code groupsRepository} instance for the groups repository
@@ -212,7 +211,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param groupId: the group identifier
      * @param role: the new role for a member
      */
-    public void changeMemberRole(String memberId, String groupId, Role role) {
+    public void changeMemberRole(String memberId, String groupId, com.tecknobit.pandorocore.enums.Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
         changelogsCreator.yourGroupRoleChanged(groupId, memberId, role);
     }

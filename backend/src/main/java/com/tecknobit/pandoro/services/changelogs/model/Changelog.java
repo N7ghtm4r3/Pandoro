@@ -3,20 +3,17 @@ package com.tecknobit.pandoro.services.changelogs.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
@@ -30,92 +27,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 @Entity
 @Table(name = CHANGELOGS_KEY)
 public class Changelog extends EquinoxItem {
-
-    /**
-     * {@code ChangelogEvent} list of available event types
-     */
-    public enum ChangelogEvent {
-
-        /**
-         * {@code INVITED_GROUP} type of the changelog event when the user have been invited to join in a group
-         */
-        INVITED_GROUP("Invited into a group"),
-
-        /**
-         * {@code JOINED_GROUP} type of the changelog event when the user joins in a group
-         */
-        JOINED_GROUP("Joined in a group"),
-
-        /**
-         * {@code ROLE_CHANGED} type of the changelog event when the role of the user in a group has been changed
-         */
-        ROLE_CHANGED("Role changed"),
-
-        /**
-         * {@code LEFT_GROUP} type of the changelog event when the user left a group
-         */
-        LEFT_GROUP("Left a group"),
-
-        /**
-         * {@code GROUP_DELETED} type of the changelog event when a group has been deleted
-         */
-        GROUP_DELETED("Group deleted"),
-
-        /**
-         * {@code PROJECT_ADDED} type of the changelog event when a new project of a group has been added
-         */
-        PROJECT_ADDED("Project added"),
-
-        /**
-         * {@code PROJECT_REMOVED} type of the changelog event when a project of a group has been removed
-         */
-        PROJECT_REMOVED("Project removed"),
-
-        /**
-         * {@code UPDATE_SCHEDULED} type of the changelog event when a new update of project of a group has been scheduled
-         */
-        UPDATE_SCHEDULED("Update scheduled"),
-
-        /**
-         * {@code UPDATE_STARTED} type of the changelog event when an update of project of a group has been started
-         */
-        UPDATE_STARTED("Update started"),
-
-        /**
-         * {@code UPDATE_PUBLISHED} type of the changelog event when an update of project of a group has been published
-         */
-        UPDATE_PUBLISHED("Update published"),
-
-        /**
-         * {@code UPDATE_DELETED} type of the changelog event when an update of project of a group has been deleted
-         */
-        UPDATE_DELETED("Update deleted");
-
-        /**
-         * {@code changelogEvent} type
-         */
-        private final String event;
-
-        /**
-         * Constructor to init a {@link ChangelogEvent} object
-         *
-         * @param event:{@code changelogEvent} type
-         */
-        ChangelogEvent(String event) {
-            this.event = event;
-        }
-
-        /**
-         * Method to get {@link #event} instance <br>
-         * No-any params required
-         *
-         * @return {@link #event} instance as {@link String}
-         */
-        public String getEvent() {
-            return event;
-        }
-
-    }
 
     /**
      * {@code changelogEvent} the value of the changelog event
@@ -190,21 +101,6 @@ public class Changelog extends EquinoxItem {
      */
     public Changelog() {
         this(null, null, -1, null, null, false);
-    }
-
-    /**
-     * Constructor to init a {@link Changelog} object
-     *
-     * @param jChangelog: changelog details as {@link JSONObject}
-     */
-    public Changelog(JSONObject jChangelog) {
-        super(jChangelog);
-        changelogEvent = ChangelogEvent.valueOf(hItem.getString(CHANGELOG_EVENT_KEY));
-        timestamp = hItem.getLong(CHANGELOG_TIMESTAMP_KEY, -1);
-        project = Project.getInstance(hItem.getJSONObject(PROJECT_KEY));
-        extraContent = hItem.getString(CHANGELOG_EXTRA_CONTENT_KEY);
-        red = hItem.getBoolean(CHANGELOG_RED_KEY);
-        group = Group.getInstance(hItem.getJSONObject(GROUP_KEY));
     }
 
     /**
@@ -348,36 +244,6 @@ public class Changelog extends EquinoxItem {
      */
     public boolean isRed() {
         return red;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link Changelog}
-     */
-    @Returner
-    public static ArrayList<Changelog> getInstances(JSONArray jItems) {
-        ArrayList<Changelog> notes = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                notes.add(new Changelog(jItems.getJSONObject(j)));
-        }
-        return notes;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link Changelog}
-     */
-    @Returner
-    public static Changelog getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new Changelog(jItem);
     }
 
 }

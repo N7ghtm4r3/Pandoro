@@ -9,6 +9,7 @@ import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.models.Project;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandorocore.enums.Role;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,9 @@ import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpoi
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
-import static com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus.JOINED;
-import static com.tecknobit.pandoro.services.users.models.GroupMember.Role.ADMIN;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
+import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
@@ -337,7 +338,7 @@ public class GroupsController extends DefaultPandoroController {
                         boolean isHeAdmin = heMember.isAdmin();
                         boolean isHeMaintainer = heMember.isMaintainer();
                         try {
-                            GroupMember.Role role = GroupMember.Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
+                            Role role = Role.valueOf(hPayload.getString(MEMBER_ROLE_KEY));
                             if (isMeAdmin) {
                                 groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
                                 return successResponse();

@@ -3,18 +3,14 @@ package com.tecknobit.pandoro.services.notes.model;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.apimanager.annotations.Returner;
 import com.tecknobit.apimanager.formatters.TimeFormatter;
+import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -27,12 +23,7 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  */
 @Entity
 @Table(name = NOTES_KEY)
-public class Note extends com.tecknobit.equinoxbackend.environment.models.EquinoxItem {
-
-    /**
-     * {@code NOTE_CONTENT_MAX_LENGTH} the max length of the content for a note
-     */
-    public static final int NOTE_CONTENT_MAX_LENGTH = 200;
+public class Note extends EquinoxItem {
 
     /**
      * {@code author} the author of the note
@@ -125,21 +116,6 @@ public class Note extends com.tecknobit.equinoxbackend.environment.models.Equino
      */
     public Note() {
         this(null, null, null, -1, false, null, -1);
-    }
-
-    /**
-     * Constructor to init a {@link Note} object
-     *
-     * @param jNote: note details as {@link JSONObject}
-     */
-    public Note(JSONObject jNote) {
-        super(jNote);
-        author = PandoroUser.getInstance(hItem.getJSONObject(AUTHOR_KEY));
-        content = hItem.getString(CONTENT_NOTE_KEY);
-        creationDate = hItem.getLong(CREATION_DATE_KEY, -1);
-        markedAsDone = hItem.getBoolean(MARKED_AS_DONE_KEY);
-        markedAsDoneBy = PandoroUser.getInstance(hItem.getJSONObject(MARKED_AS_DONE_BY_KEY));
-        markAsDoneDate = hItem.getLong(MARKED_AS_DONE_DATE_KEY, -1);
     }
 
     /**
@@ -250,36 +226,6 @@ public class Note extends com.tecknobit.equinoxbackend.environment.models.Equino
         if (markAsDoneDate == -1)
             return "not marked as done yet";
         return TimeFormatter.getStringDate(markAsDoneDate);
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItems: items details as {@link JSONArray}
-     * @return instance as {@link ArrayList} of {@link Note}
-     */
-    @Returner
-    public static ArrayList<Note> getInstances(JSONArray jItems) {
-        ArrayList<Note> notes = new ArrayList<>();
-        if (jItems != null) {
-            for (int j = 0; j < jItems.length(); j++)
-                notes.add(new Note(jItems.getJSONObject(j)));
-        }
-        return notes;
-    }
-
-    /**
-     * Method to get an instance of this Telegram's type
-     *
-     * @param jItem: item details as {@link JSONObject}
-     * @return instance as {@link Note}
-     */
-    @Returner
-    public static Note getInstance(JSONObject jItem) {
-        if (jItem == null)
-            return null;
-        else
-            return new Note(jItem);
     }
 
 }

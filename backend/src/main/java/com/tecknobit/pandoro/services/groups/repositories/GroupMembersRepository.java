@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.groups.repositories;
 
 import com.tecknobit.pandoro.services.users.models.GroupMember;
-import com.tecknobit.pandoro.services.users.models.GroupMember.InvitationStatus;
-import com.tecknobit.pandoro.services.users.models.GroupMember.Role;
+import com.tecknobit.pandorocore.enums.InvitationStatus;
+import com.tecknobit.pandorocore.enums.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
