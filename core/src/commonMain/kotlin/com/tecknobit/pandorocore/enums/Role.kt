@@ -4,6 +4,7 @@ package com.tecknobit.pandorocore.enums
  * `Role` list of available roles for a group's member
  */
 enum class Role {
+
     /**
      * `ADMIN` role
      *
@@ -25,4 +26,5 @@ enum class Role {
      * @apiNote this role allows see the members of the group and the projects managed by the group
      */
     DEVELOPER
+
 }

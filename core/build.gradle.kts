@@ -59,7 +59,6 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
                 implementation("io.github.n7ghtm4r3:equinox-core:1.0.5")
                 implementation("io.github.n7ghtm4r3:equinox-backend:1.0.5")
             }

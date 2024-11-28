@@ -4,6 +4,7 @@ package com.tecknobit.pandorocore.enums
  * `UpdateStatus` list of available statuses for an update
  */
 enum class UpdateStatus {
+
     /**
      * `SCHEDULED` status for an update
      */
@@ -18,4 +19,5 @@ enum class UpdateStatus {
      * `PUBLISHED` status for an update
      */
     PUBLISHED
+
 }
