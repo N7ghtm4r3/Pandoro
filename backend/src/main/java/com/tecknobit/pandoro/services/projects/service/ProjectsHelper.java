@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.projects.service;
 
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.services.groups.model.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
@@ -11,6 +12,8 @@ import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
 import com.tecknobit.pandoro.services.users.models.GroupMember;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,11 +69,18 @@ public class ProjectsHelper extends ChangelogOperator {
      * Method to get the user's projects list
      *
      * @param userId The user identifier
-     * @return the projects list as {@link List} of {@link Project}
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
+     *
+     * @return the projects list as {@link PaginatedResponse} of {@link Project}
+     *
      * @apiNote also the projects of a group in which he is a member are returned
      */
-    public List<Project> getProjectsList(String userId) {
-        return projectsRepository.getProjectsList(userId);
+    public PaginatedResponse<Project> getProjects(String userId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<Project> projects = projectsRepository.getProjects(userId, pageable);
+        long projectsCount = projectsRepository.getCompleteProjectsList(userId).size();
+        return new PaginatedResponse<>(projects, page, pageSize, projectsCount);
     }
 
     /**

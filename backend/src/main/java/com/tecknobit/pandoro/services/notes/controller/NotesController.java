@@ -13,6 +13,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTI
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT;
@@ -37,23 +38,16 @@ public class NotesController extends DefaultPandoroController {
     /**
      * {@code notesHelper} instance to manage the notes database operations
      */
-    private final NotesHelper notesHelper;
-
-    /**
-     * Constructor to init a {@link NotesController} controller
-     *
-     * @param notesHelper: instance to manage the notes database operations
-     */
     @Autowired
-    public NotesController(NotesHelper notesHelper) {
-        this.notesHelper = notesHelper;
-    }
+    private NotesHelper notesHelper;
 
     /**
      * Method to get a notes list
      *
-     * @param id:    the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -62,12 +56,14 @@ public class NotesController extends DefaultPandoroController {
             }
     )
     @RequestPath(path = "/api/v1/users/{id}/notes", method = GET)
-    public <T> T getNotesList(
+    public <T> T getNotes(
             @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (isMe(id, token))
-            return (T) successResponse(notesHelper.getNotes(id));
+            return (T) successResponse(notesHelper.getNotes(id, page, pageSize));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -77,7 +73,7 @@ public class NotesController extends DefaultPandoroController {
      *
      * @param id:          the identifier of the user
      * @param token:       the token of the user
-     * @param payload: the payload with the content of the note
+     * @param payload The payload with the content of the note
      * @return the result of the request as {@link String}
      */
     @PostMapping(
@@ -106,9 +102,9 @@ public class NotesController extends DefaultPandoroController {
     /**
      * Method to mark as done an existing note
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */
@@ -134,9 +130,9 @@ public class NotesController extends DefaultPandoroController {
     /**
      * Method to mark as todo an existing note
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */
@@ -162,9 +158,9 @@ public class NotesController extends DefaultPandoroController {
     /**
      * Method to delete an existing note
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */

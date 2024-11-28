@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.groups.service;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.model.Group;
@@ -12,6 +13,8 @@ import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import kotlin.Deprecated;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -63,9 +66,24 @@ public class GroupsHelper extends ChangelogOperator {
      * Method to get the user's groups list
      *
      * @param userId: the user identifier
-     * @return the groups list as {@link List} of {@link Group}
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
+     * @return the changelogs list as {@link PaginatedResponse} of {@link Group}
      */
-    public List<Group> getGroups(String userId) {
+    public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<Group> groups = groupsRepository.getGroups(userId, pageable);
+        long groupsCount = groupsRepository.getGroupsCount(userId);
+        return new PaginatedResponse<>(groups, page, pageSize, groupsCount);
+    }
+
+    /**
+     * Method to get the user's groups list
+     *
+     * @param userId: the user identifier
+     * @return the changelogs list as {@link List} of {@link Group}
+     */
+    public List<Group> getCompleteGroupsList(String userId) {
         return groupsRepository.getGroups(userId);
     }
 

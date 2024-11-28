@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
 import com.tecknobit.pandoro.services.users.models.PandoroUser;
 import jakarta.persistence.*;
@@ -49,8 +48,10 @@ public class Note extends EquinoxItem {
     /**
      * {@code content} the content of the note
      */
+    @Lob
     @Column(
             name = CONTENT_NOTE_KEY,
+            columnDefinition = "MEDIUMTEXT",
             nullable = false
     )
     private final String content;
@@ -64,7 +65,11 @@ public class Note extends EquinoxItem {
     /**
      * {@code markedAsDone} whether the note is marked as done
      */
-    @Column(name = MARKED_AS_DONE_KEY)
+    @Column(
+            name = MARKED_AS_DONE_KEY,
+            columnDefinition = "BOOL DEFAULT 0",
+            insertable = false
+    )
     private final boolean markedAsDone;
 
     /**
@@ -91,7 +96,11 @@ public class Note extends EquinoxItem {
     /**
      * {@code markedAsDoneDate} when the note has been marked as done
      */
-    @Column(name = MARKED_AS_DONE_DATE_KEY)
+    @Column(
+            name = MARKED_AS_DONE_DATE_KEY,
+            columnDefinition = "BIGINT DEFAULT -1",
+            insertable = false
+    )
     private final long markAsDoneDate;
 
     /**
@@ -188,7 +197,7 @@ public class Note extends EquinoxItem {
      * @return {@link #markedAsDoneBy} instance as {@link PandoroUser}
      */
     @JsonGetter(MARKED_AS_DONE_BY_KEY)
-    public EquinoxUser getMarkedAsDoneBy() {
+    public PandoroUser getMarkedAsDoneBy() {
         return markedAsDoneBy;
     }
 

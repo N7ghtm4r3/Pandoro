@@ -21,6 +21,7 @@ import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpoi
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.enums.Role.ADMIN;
@@ -52,23 +53,16 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * {@code groupsHelper} instance to manage the groups database operations
      */
-    private final GroupsHelper groupsHelper;
-
-    /**
-     * Constructor to init a {@link GroupsController} controller
-     *
-     * @param groupsHelper: instance to manage the groups database operations
-     */
     @Autowired
-    public GroupsController(GroupsHelper groupsHelper) {
-        this.groupsHelper = groupsHelper;
-    }
+    private GroupsHelper groupsHelper;
 
     /**
      * Method to get a groups list
      *
-     * @param id:    the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -77,12 +71,14 @@ public class GroupsController extends DefaultPandoroController {
             }
     )
     @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
-    public <T> T getGroupsList(
+    public <T> T getGroups(
             @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (isMe(id, token))
-            return (T) successResponse(groupsHelper.getGroups(id));
+            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -90,8 +86,8 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to create a new group
      *
-     * @param id:      the identifier of the user
-     * @param token:   the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
      * @param payload: payload of the request
      *                 <pre>
      *                      {@code
@@ -143,9 +139,9 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to get a single group
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group to fetch
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group to fetch
      *
      * @return the result of the request as {@link String}
      */
@@ -174,10 +170,10 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to add members to a group
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group where add the members
-     * @param payload: the payload with the list of the member to add
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group where add the members
+     * @param payload The payload with the list of the member to add
      *
      * @return the result of the request as {@link String}
      */
@@ -213,10 +209,10 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to accept a group invitation
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group to accept the invitation
-     * @param payload: the payload with the changelog identifier to delete
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group to accept the invitation
+     * @param payload The payload with the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
@@ -252,10 +248,10 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to decline a group invitation
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group to decline the invitation
-     * @param payload: the payload with the changelog identifier to delete
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group to decline the invitation
+     * @param payload The payload with the changelog identifier to delete
      *
      * @return the result of the request as {@link String}
      */
@@ -291,9 +287,9 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to change the role of a group member
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group where change the role of a member
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group where change the role of a member
      * @param payload: payload of the request
      * <pre>
      *      {@code
@@ -362,9 +358,9 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to remove a group member
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group where remove the member
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group where remove the member
      * @param payload: payload with the member identifier to remove
      *
      * @return the result of the request as {@link String}
@@ -420,8 +416,8 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to check whether the member of the operation is not the author of the group
      *
-     * @param group: the group of the operation
-     * @param memberId: the identifier of the member to check
+     * @param group The group of the operation
+     * @param memberId The identifier of the member to check
      * @return whether the member of the operation is not the author of the group as boolean
      */
     private boolean isNotTheAuthor(Group group, String memberId) {
@@ -431,10 +427,10 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to edit the projects of a group
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group where edit the projects list
-     * @param payload: the payload with the list of projects for the group
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group where edit the projects list
+     * @param payload The payload with the list of projects for the group
      *
      * @return the result of the request as {@link String}
      */
@@ -474,10 +470,10 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to leave from a group
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group from leave
-     * @param payload: the payload with the identifier of the admin, if required
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group from leave
+     * @param payload The payload with the identifier of the admin, if required
      *
      * @return the result of the request as {@link String}
      */
@@ -535,7 +531,7 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to check if the role changed correctly
      *
-     * @param result: the response of the request
+     * @param result The response of the request
      * @return whether the request has been successful as boolean
      */
     private boolean roleChanged(String result) {
@@ -545,9 +541,9 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * Method to delete a group
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param groupId: the identifier of the group to delete
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param groupId The identifier of the group to delete
      *
      * @return the result of the request as {@link String}
      */

@@ -11,14 +11,9 @@ object PandoroInputsValidator : InputsValidator() {
     const val PROJECT_NAME_MAX_LENGTH: Int = 15
 
     /**
-     * `PROJECT_SHORT_DESCRIPTION_MAX_LENGTH` the max length of the short description for a project
-     */
-    const val PROJECT_SHORT_DESCRIPTION_MAX_LENGTH: Int = 15
-
-    /**
      * `PROJECT_DESCRIPTION_MAX_LENGTH` the max length of the description for a project
      */
-    const val PROJECT_DESCRIPTION_MAX_LENGTH: Int = 1500
+    const val PROJECT_DESCRIPTION_MAX_LENGTH: Int = 65535
 
     /**
      * `GROUP_NAME_MAX_LENGTH` the max length of the name for a group
@@ -28,12 +23,12 @@ object PandoroInputsValidator : InputsValidator() {
     /**
      * `GROUP_DESCRIPTION_MAX_LENGTH` the max description of the name for a group
      */
-    const val GROUP_DESCRIPTION_MAX_LENGTH: Int = 30
+    const val GROUP_DESCRIPTION_MAX_LENGTH: Int = 65535
 
     /**
      * `NOTE_CONTENT_MAX_LENGTH` the max length of the content for a note
      */
-    const val NOTE_CONTENT_MAX_LENGTH: Int = 200
+    const val NOTE_CONTENT_MAX_LENGTH: Int = 65535
 
     /**
      * `TARGET_VERSION_MAX_LENGTH` the max length of the target version for an update

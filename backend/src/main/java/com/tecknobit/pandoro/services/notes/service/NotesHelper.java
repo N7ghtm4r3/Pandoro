@@ -1,8 +1,11 @@
 package com.tecknobit.pandoro.services.notes.service;
 
+import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.services.notes.model.Note;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +29,16 @@ public class NotesHelper {
     /**
      * Method to get the user's notes list
      *
-     * @param userId: the user identifier
-     * @return the notes list as {@link List} of {@link Note}
+     * @param userId The user identifier
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
+     * @return the notes list as {@link PaginatedResponse} of {@link Note}
      */
-    public List<Note> getNotes(String userId) {
-        return notesRepository.getNotes(userId);
+    public PaginatedResponse<Note> getNotes(String userId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<Note> notes = notesRepository.getNotes(userId, pageable);
+        long notesCount = notesRepository.getNotesCount(userId);
+        return new PaginatedResponse<>(notes, page, pageSize, notesCount);
     }
 
     /**
@@ -38,7 +46,7 @@ public class NotesHelper {
      *
      * @param authorId:    the author of the note identifier
      * @param noteId:      the note identifier
-     * @param contentNote: the content of the note
+     * @param contentNote The content of the note
      */
     public void createNote(String authorId, String noteId, String contentNote) {
         notesRepository.createNote(authorId, noteId, contentNote, currentTimeMillis());
@@ -47,8 +55,8 @@ public class NotesHelper {
     /**
      * Method to check whether a note exists
      *
-     * @param authorId: the author of the note identifier
-     * @param noteId: the note identifier
+     * @param authorId The author of the note identifier
+     * @param noteId The note identifier
      * @return whether a note exists as boolean
      */
     public boolean noteExists(String authorId, String noteId) {
@@ -58,8 +66,8 @@ public class NotesHelper {
     /**
      * Method to mark a note as done
      *
-     * @param authorId: the author of the note identifier
-     * @param noteId: the note identifier
+     * @param authorId The author of the note identifier
+     * @param noteId The note identifier
      */
     public void markAsDone(String authorId, String noteId) {
         notesRepository.manageNoteStatus(authorId, noteId, true, currentTimeMillis());
@@ -68,8 +76,8 @@ public class NotesHelper {
     /**
      * Method to mark a note as todo
      *
-     * @param authorId: the author of the note identifier
-     * @param noteId: the note identifier
+     * @param authorId The author of the note identifier
+     * @param noteId The note identifier
      */
     public void markAsToDo(String authorId, String noteId) {
         notesRepository.manageNoteStatus(authorId, noteId, false, -1);
@@ -78,8 +86,8 @@ public class NotesHelper {
     /**
      * Method to delete a note
      *
-     * @param authorId: the author of the note identifier
-     * @param noteId: the note identifier
+     * @param authorId The author of the note identifier
+     * @param noteId The note identifier
      */
     public void deleteNote(String authorId, String noteId) {
         notesRepository.deleteNote(authorId, noteId);

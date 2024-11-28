@@ -14,6 +14,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTI
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
@@ -30,23 +31,16 @@ public class ChangelogsController extends DefaultPandoroController {
     /**
      * {@code changelogsHelper} instance to manage the changelogs database operations
      */
-    private final ChangelogsHelper changelogsHelper;
-
-    /**
-     * Constructor to init a {@link ChangelogsController} controller
-     *
-     * @param changelogsHelper: instance to manage the changelogs database operations
-     */
     @Autowired
-    public ChangelogsController(ChangelogsHelper changelogsHelper) {
-        this.changelogsHelper = changelogsHelper;
-    }
+    private ChangelogsHelper changelogsHelper;
 
     /**
      * Method to get a changelogs list
      *
-     * @param id:    the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -57,10 +51,12 @@ public class ChangelogsController extends DefaultPandoroController {
     @RequestPath(path = "/api/v1/users/{id}/changelogs", method = GET)
     public <T> T getChangelogs(
             @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (isMe(id, token))
-            return (T) successResponse(changelogsHelper.getChangelogs(id));
+            return (T) successResponse(changelogsHelper.getChangelogs(id, page, pageSize));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -68,9 +64,9 @@ public class ChangelogsController extends DefaultPandoroController {
     /**
      * Method to read a changelog
      *
-     * @param id:          the identifier of the user
-     * @param token:       the token of the user
-     * @param changelogId: the changelog identifier
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param changelogId The changelog identifier
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
@@ -95,10 +91,10 @@ public class ChangelogsController extends DefaultPandoroController {
     /**
      * Method to delete a changelog
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param changelogId: the changelog identifier
-     * @param payload: the payload with group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param changelogId The changelog identifier
+     * @param payload The payload with group identifier where leave if is a {@link ChangelogEvent#INVITED_GROUP}
      *
      * @return the result of the request as {@link String}
      */

@@ -66,7 +66,12 @@ public class Project extends PandoroItem {
     /**
      * {@code description} description of the project
      */
-    @Column(name = PROJECT_DESCRIPTION_KEY)
+    @Lob
+    @Column(
+            name = PROJECT_DESCRIPTION_KEY,
+            columnDefinition = "MEDIUMTEXT",
+            nullable = false
+    )
     private final String description;
 
     /**

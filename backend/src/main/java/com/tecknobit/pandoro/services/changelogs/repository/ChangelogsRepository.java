@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.changelogs.repository;
 import com.tecknobit.pandoro.services.changelogs.model.Changelog;
 import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,9 +26,25 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
 
     /**
+     * Method to execute the query to get the total number of the changelogs owned by the user
+     *
+     * @param owner The owner of the changelogs
+     * @return the total number of the changelogs owned by the user
+     */
+    @Query(
+            value = "SELECT COUNT(*) FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
+            nativeQuery = true
+    )
+    long getChangelogsCount(
+            @Param(CHANGELOG_OWNER_KEY) String owner
+    );
+
+    /**
      * Method to execute the query to select the list of a {@link Changelog}
      *
-     * @param owner: the owner of the changelogs
+     * @param owner The owner of the changelogs
+     * @param pageable  The parameters to paginate the query
+     *
      * @return the list of changelogs as {@link List} of {@link Changelog}
      */
     @Query(
@@ -35,13 +52,16 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + " ORDER BY " + CHANGELOG_TIMESTAMP_KEY + " DESC ",
             nativeQuery = true
     )
-    List<Changelog> getChangelogs(@Param(CHANGELOG_OWNER_KEY) String owner);
+    List<Changelog> getChangelogs(
+            @Param(CHANGELOG_OWNER_KEY) String owner,
+            Pageable pageable
+    );
 
     /**
      * Method to execute the query to select the a {@link Changelog}
      *
-     * @param changelogId: the identifier of the changelog
-     * @param owner:       the owner of the changelogs
+     * @param changelogId The identifier of the changelog
+     * @param owner The owner of the changelogs
      * @return the changelog as {@link Changelog}
      */
     @Query(
@@ -121,8 +141,8 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     /**
      * Method to execute the query to mark as red a {@link Changelog}
      *
-     * @param owner:       the owner of the changelog
-     * @param changelogId: the changelog identifier
+     * @param owner The owner of the changelog
+     * @param changelogId The changelog identifier
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -140,8 +160,8 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     /**
      * Method to execute the query to delete a {@link Changelog}
      *
-     * @param owner: the owner of the changelog
-     * @param changelogId: the changelog identifier
+     * @param owner The owner of the changelog
+     * @param changelogId The changelog identifier
      */
     @Modifying(clearAutomatically = true)
     @Transactional

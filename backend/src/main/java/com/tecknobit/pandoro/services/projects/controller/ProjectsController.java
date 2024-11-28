@@ -18,6 +18,7 @@ import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpoi
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
+import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
@@ -38,30 +39,22 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * {@code projectsHelper} instance to manage the projects database operations
      */
-    private final ProjectsHelper projectsHelper;
+    @Autowired
+    private ProjectsHelper projectsHelper;
 
     /**
      * {@code groupsHelper} instance to manage the groups database operations
      */
-    private final GroupsHelper groupsHelper;
-
-    /**
-     * Constructor to init the {@link ProjectsController} controller
-     *
-     * @param projectsHelper: instance to manage the projects database operations
-     * @param groupsHelper: instance to manage the groups database operations
-     */
     @Autowired
-    public ProjectsController(ProjectsHelper projectsHelper, GroupsHelper groupsHelper) {
-        this.projectsHelper = projectsHelper;
-        this.groupsHelper = groupsHelper;
-    }
+    private GroupsHelper groupsHelper;
 
     /**
      * Method to get a projects list
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param page      The page requested
+     * @param pageSize  The size of the items to insert in the page
      *
      * @return the result of the request as {@link String}
      */
@@ -71,12 +64,14 @@ public class ProjectsController extends DefaultPandoroController {
             }
     )
     @RequestPath(path = "/api/v1/users/{id}/projects", method = GET)
-    public <T> T getProjectsList(
+    public <T> T getProjects(
             @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getProjectsList(id));
+            return (T) successResponse(projectsHelper.getProjects(id, page, pageSize));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -84,8 +79,8 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to add a new project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
      * @param payload: payload of the request
      * <pre>
      *      {@code
@@ -121,8 +116,8 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to edit an existing project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
      * @param payload: payload of the request
      * <pre>
      *      {@code
@@ -160,8 +155,8 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to add or edit a project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
      * @param payload: payload of the request
      * <pre>
      *      {@code
@@ -177,7 +172,7 @@ public class ProjectsController extends DefaultPandoroController {
      *              }
      *      }
      * </pre>
-     * @param projectId: the identifier of the project if exists
+     * @param projectId The identifier of the project if exists
      *
      * @return the result of the request as {@link String}
      */
@@ -205,7 +200,7 @@ public class ProjectsController extends DefaultPandoroController {
         for (Group group : me.getAdminGroups())
             adminGroups.add(group.getId());
         if (adminGroups.isEmpty()) {
-            me.setGroups(groupsHelper.getGroups(id));
+            me.setGroups(groupsHelper.getCompleteGroupsList(id));
             for (Group group : me.getAdminGroups())
                 adminGroups.add(group.getId());
         }
@@ -227,9 +222,9 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to get a single project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project to fetch
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project to fetch
      *
      * @return the result of the request as {@link String}
      */
@@ -258,9 +253,9 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to delete a project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project to delete
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project to delete
      *
      * @return the result of the request as {@link String}
      */
@@ -290,9 +285,9 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to schedule an update for a project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where add the new update
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where add the new update
      * @param payload: payload of the request
      * <pre>
      *      {@code
@@ -345,10 +340,10 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to start an update of a project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where start the update
-     * @param updateId: the identifier of the update to start
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where start the update
+     * @param updateId The identifier of the update to start
      *
      * @return the result of the request as {@link String}
      */
@@ -371,10 +366,10 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to publish an update of a project
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where publish the update
-     * @param updateId: the identifier of the update to publish
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where publish the update
+     * @param updateId The identifier of the update to publish
      *
      * @return the result of the request as {@link String}
      */
@@ -397,10 +392,10 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to manage the status of an update
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where manage the update status
-     * @param updateId: the identifier of the update to manage its status
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where manage the update status
+     * @param updateId The identifier of the update to manage its status
      * @param isPublishing: whether is publishing or starting operation
      *
      * @return the result of the request as {@link String}
@@ -429,11 +424,11 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to add a change note to an update
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where add the new change note
-     * @param updateId: the identifier of the update where add the new change note
-     * @param payload: the payload with the content of the change note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where add the new change note
+     * @param updateId The identifier of the update where add the new change note
+     * @param payload The payload with the content of the change note
      *
      * @return the result of the request as {@link String}
      */
@@ -470,11 +465,11 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to mark a change note as done
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where mark as done the change note of an update
-     * @param updateId: the identifier of the update where mark as done the change note
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where mark as done the change note of an update
+     * @param updateId The identifier of the update where mark as done the change note
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */
@@ -502,11 +497,11 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to mark a change note as todo
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where mark as todo the change note of an update
-     * @param updateId: the identifier of the update where mark as todo the change note
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where mark as todo the change note of an update
+     * @param updateId The identifier of the update where mark as todo the change note
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */
@@ -534,11 +529,11 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to delete a change note
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where delete the change note of an update
-     * @param updateId: the identifier of the update to where delete the change note
-     * @param noteId: the identifier of the note
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where delete the change note of an update
+     * @param updateId The identifier of the update to where delete the change note
+     * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
      */
@@ -566,12 +561,12 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to manage a change note
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where manage the change note
-     * @param updateId: the identifier of the update where manage the change note
-     * @param noteId: the identifier of the note
-     * @param ope: the operation to execute
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where manage the change note
+     * @param updateId The identifier of the update where manage the change note
+     * @param noteId The identifier of the note
+     * @param ope The operation to execute
      *
      * @return the result of the request as {@link String}
      */
@@ -612,10 +607,10 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * Method to delete an update
      *
-     * @param id: the identifier of the user
-     * @param token: the token of the user
-     * @param projectId: the identifier of the project where delete the update
-     * @param updateId: the identifier of the update to delete
+     * @param id The identifier of the user
+     * @param token The token of the user
+     * @param projectId The identifier of the project where delete the update
+     * @param updateId The identifier of the update to delete
      *
      * @return the result of the request as {@link String}
      */

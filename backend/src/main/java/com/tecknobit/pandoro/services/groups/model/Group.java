@@ -60,7 +60,12 @@ public class Group extends PandoroItem {
     /**
      * {@code description} the description of the group
      */
-    @Column(name = GROUP_DESCRIPTION_KEY)
+    @Lob
+    @Column(
+            name = GROUP_DESCRIPTION_KEY,
+            columnDefinition = "MEDIUMTEXT",
+            nullable = false
+    )
     private final String description;
 
     /**
