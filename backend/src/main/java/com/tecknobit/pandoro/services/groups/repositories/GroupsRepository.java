@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.groups.repositories;
 
-import com.tecknobit.pandoro.services.groups.model.Group;
-import com.tecknobit.pandoro.services.projects.models.Project;
-import com.tecknobit.pandoro.services.users.models.GroupMember;
+import com.tecknobit.pandoro.services.groups.entity.Group;
+import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

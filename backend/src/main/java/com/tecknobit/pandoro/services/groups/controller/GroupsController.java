@@ -2,11 +2,11 @@ package com.tecknobit.pandoro.services.groups.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
-import com.tecknobit.pandoro.services.projects.models.Project;
-import com.tecknobit.pandoro.services.users.models.GroupMember;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.users.entities.GroupMember;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

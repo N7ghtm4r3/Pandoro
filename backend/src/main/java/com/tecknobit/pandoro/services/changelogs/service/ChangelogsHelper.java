@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.changelogs.service;
 
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
-import com.tecknobit.pandoro.services.changelogs.model.Changelog;
+import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandorocore.enums.ChangelogEvent;

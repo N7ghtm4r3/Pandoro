@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.projects.repositories;
 
-import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -128,7 +128,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     );
 
     /**
-     * Method to execute the query to publish an existing {@link com.tecknobit.pandoro.services.projects.models.ProjectUpdate}
+     * Method to execute the query to publish an existing {@link com.tecknobit.pandoro.services.projects.entities.ProjectUpdate}
      *
      * @param updateId: the update identifier
      * @param publishDate: the publishing date of the update

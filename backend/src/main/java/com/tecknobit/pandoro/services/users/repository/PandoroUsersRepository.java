@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.users.repository;
 
 import com.tecknobit.equinoxbackend.environment.services.users.repository.EquinoxUsersRepository;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

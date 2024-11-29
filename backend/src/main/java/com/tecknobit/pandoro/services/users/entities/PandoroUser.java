@@ -1,11 +1,11 @@
-package com.tecknobit.pandoro.services.users.models;
+package com.tecknobit.pandoro.services.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
-import com.tecknobit.pandoro.services.changelogs.model.Changelog;
-import com.tecknobit.pandoro.services.groups.model.Group;
-import com.tecknobit.pandoro.services.notes.model.Note;
-import com.tecknobit.pandoro.services.projects.models.Project;
+import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
+import com.tecknobit.pandoro.services.groups.entity.Group;
+import com.tecknobit.pandoro.services.notes.entity.Note;
+import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandorocore.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

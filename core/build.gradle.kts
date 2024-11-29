@@ -3,8 +3,9 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("multiplatform")
+    id("maven-publish")
     id("com.android.library") version "8.2.2"
+    kotlin("multiplatform")
     kotlin("plugin.serialization") version "2.0.20"
 }
 
@@ -74,5 +75,18 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "com.tecknobit.pandorocore"
+                artifactId = "pandorocore"
+                version = "1.0.5"
+                from(components["kotlin"])
+            }
+        }
     }
 }

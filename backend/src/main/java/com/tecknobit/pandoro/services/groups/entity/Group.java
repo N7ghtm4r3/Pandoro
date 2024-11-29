@@ -1,11 +1,11 @@
-package com.tecknobit.pandoro.services.groups.model;
+package com.tecknobit.pandoro.services.groups.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.pandoro.services.PandoroItem;
-import com.tecknobit.pandoro.services.projects.models.Project;
-import com.tecknobit.pandoro.services.users.models.GroupMember;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.users.entities.GroupMember;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;

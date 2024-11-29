@@ -5,7 +5,7 @@ import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

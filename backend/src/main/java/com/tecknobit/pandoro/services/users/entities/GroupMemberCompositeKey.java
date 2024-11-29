@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.services.users.models;
+package com.tecknobit.pandoro.services.users.entities;
 
 /**
  * The {@code GroupMemberCompositeKey} is useful for the {@link GroupMember} class to specify its ids

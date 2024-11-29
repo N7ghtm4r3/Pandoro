@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.notes.repository;
 
-import com.tecknobit.pandoro.services.notes.model.Note;
-import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.notes.entity.Note;
+import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

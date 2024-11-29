@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services.changelogs.repository;
 
-import com.tecknobit.pandoro.services.changelogs.model.Changelog;
+import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;

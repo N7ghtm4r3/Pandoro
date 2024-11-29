@@ -1,12 +1,12 @@
-package com.tecknobit.pandoro.services.projects.models;
+package com.tecknobit.pandoro.services.projects.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
-import com.tecknobit.pandoro.services.notes.model.Note;
-import com.tecknobit.pandoro.services.users.models.PandoroUser;
+import com.tecknobit.pandoro.services.notes.entity.Note;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;

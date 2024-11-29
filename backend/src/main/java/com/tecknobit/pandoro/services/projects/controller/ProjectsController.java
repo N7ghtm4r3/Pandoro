@@ -2,10 +2,10 @@ package com.tecknobit.pandoro.services.projects.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.groups.model.Group;
+import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
-import com.tecknobit.pandoro.services.projects.models.Project;
-import com.tecknobit.pandoro.services.projects.models.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;

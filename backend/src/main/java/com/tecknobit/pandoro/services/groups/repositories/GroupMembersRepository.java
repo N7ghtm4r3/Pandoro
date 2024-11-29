@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services.groups.repositories;
 
-import com.tecknobit.pandoro.services.users.models.GroupMember;
+import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandorocore.enums.InvitationStatus;
 import com.tecknobit.pandorocore.enums.Role;
 import jakarta.transaction.Transactional;
@@ -27,7 +27,7 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface GroupMembersRepository extends JpaRepository<GroupMember, String> {
 
     /**
-     * Method to execute the query to add a member in a {@link com.tecknobit.pandoro.services.groups.model.Group}
+     * Method to execute the query to add a member in a {@link com.tecknobit.pandoro.services.groups.entity.Group}
      *
      * @param memberId:         the identifier of the member to add
      * @param name:             the name of the member
