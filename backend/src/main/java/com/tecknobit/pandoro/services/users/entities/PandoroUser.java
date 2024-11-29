@@ -30,7 +30,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
 @Table(name = USERS_KEY)
 public class PandoroUser extends EquinoxUser {
 
-
     /**
      * {@code changelogs} list of action messages for the user
      */

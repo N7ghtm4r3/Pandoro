@@ -81,18 +81,6 @@ public class Project extends PandoroItem {
     private final String version;
 
     /**
-     * {@code lastUpdate} timestamp of the last update publish
-     */
-    @Transient
-    private final long lastUpdate;
-
-    /**
-     * {@code updatesNumber} number of the updates of this project
-     */
-    @Transient
-    private final int updatesNumber;
-
-    /**
      * {@code groups} groups where the project has been assigned
      */
     @ManyToMany(cascade = CascadeType.REMOVE)
@@ -160,11 +148,6 @@ public class Project extends PandoroItem {
         this.author = author;
         this.description = description;
         this.version = version;
-        updatesNumber = updates.size();
-        if (updatesNumber > 0)
-            lastUpdate = updates.get(updatesNumber - 1).getPublishTimestamp();
-        else
-            lastUpdate = -1;
         this.groups = groups;
         this.updates = updates;
         this.projectRepo = projectRepo;
@@ -215,28 +198,6 @@ public class Project extends PandoroItem {
     @JsonGetter(PROJECT_VERSION_KEY)
     public String getVersion() {
         return version;
-    }
-
-    /**
-     * Method to get {@link #lastUpdate} instance <br>
-     * No-any params required
-     *
-     * @return {@link #lastUpdate} instance as long
-     */
-    @JsonIgnore
-    public long getLastUpdate() {
-        return lastUpdate;
-    }
-
-    /**
-     * Method to get {@link #updatesNumber} instance <br>
-     * No-any params required
-     *
-     * @return {@link #updatesNumber} instance as int
-     */
-    @JsonIgnore
-    public int getUpdatesNumber() {
-        return updatesNumber;
     }
 
     /**
