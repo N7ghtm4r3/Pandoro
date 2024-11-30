@@ -30,6 +30,16 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public class Group extends PandoroItem {
 
     /**
+     * {@code logo} the logo of the group
+     */
+    @Column(
+            name = PROJECT_ICON_KEY,
+            columnDefinition = "TEXT DEFAULT '" + DEFAULT_PROFILE_PIC + "'",
+            insertable = false
+    )
+    protected final String logo;
+
+    /**
      * {@code creationDate} when the group has been created
      */
     @Column(name = CREATION_DATE_KEY)
@@ -58,7 +68,7 @@ public class Group extends PandoroItem {
     private final PandoroUser author;
 
     /**
-     * {@code project_description} the project_description of the group
+     * {@code description} the description of the group
      */
     @Lob
     @Column(
@@ -78,12 +88,6 @@ public class Group extends PandoroItem {
     private final List<GroupMember> groupMembers;
 
     /**
-     * {@code totalMembers} how many groupMembers the group has
-     */
-    @Transient
-    private final int totalMembers;
-
-    /**
      * {@code projects} the list of the projects managed by the group
      */
     @ManyToMany(
@@ -99,47 +103,45 @@ public class Group extends PandoroItem {
     private final List<Project> projects;
 
     /**
-     * {@code totalProjects} the number of the projects managed by the group
-     */
-    @Transient
-    private final int totalProjects;
-
-    /**
      * Default constructor
      *
      * @apiNote empty constructor required
      */
     public Group() {
-        this(null, null, -1, null, null, new ArrayList<>(), new ArrayList<>());
+        this(null, null, null, -1, null, null, new ArrayList<>(), new ArrayList<>());
     }
 
     /**
      * Constructor to init a {@link Group} object
      *
-     * @param id:          identifier of the group
-     * @param name:        name of the group
-     * @param creationDate: when the project has been created
-     * @param author:      the author of the group
-     * @param description:{@code project_description} the project_description of the group
-     * @param groupMembers:     the list of the groupMembers of the group
-     * @param projects:    the list of the projects managed by the group
+     * @param id         identifier of the group
+     * @param name      name of the group
+     * @param logo the logo of the group
+     * @param creationDate when the project has been created
+     * @param author    the author of the group
+     * @param description the description of the group
+     * @param groupMembers    the list of the groupMembers of the group
+     * @param projects  the list of the projects managed by the group
      */
-    public Group(String id, String name, long creationDate, PandoroUser author, String description,
+    public Group(String id, String name, String logo, long creationDate, PandoroUser author, String description,
                  ArrayList<GroupMember> groupMembers, ArrayList<Project> projects) {
         super(id, name);
+        this.logo = logo;
         this.creationDate = creationDate;
         this.author = author;
         this.description = description;
         this.groupMembers = groupMembers;
-        if (groupMembers != null)
-            totalMembers = groupMembers.size();
-        else
-            totalMembers = 0;
         this.projects = projects;
-        if (projects != null)
-            totalProjects = projects.size();
-        else
-            totalProjects = 0;
+    }
+
+    /**
+     * Method to get {@link #logo} instance <br>
+     * No-any params required
+     *
+     * @return {@link #logo} instance as {@link String}
+     */
+    public String getLogo() {
+        return logo;
     }
 
     /**

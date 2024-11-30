@@ -73,7 +73,7 @@ public class Project extends PandoroItem {
     private final PandoroUser author;
 
     /**
-     * {@code project_description} project_description of the project
+     * {@code description} description of the project
      */
     @Lob
     @Column(
@@ -139,7 +139,7 @@ public class Project extends PandoroItem {
      * @param icon the icon of the project
      * @param creationDate when the project has been created
      * @param author       author of the project
-     * @param description     project_description of the project
+     * @param description     description of the project
      * @param version          last update project_version
      * @param groups           projects_groups where the project has been assigned
      * @param updates          updates of the project

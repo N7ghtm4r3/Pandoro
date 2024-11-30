@@ -3,7 +3,9 @@ package com.tecknobit.pandoro.services.groups.service;
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
+import com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
+import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
@@ -16,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +40,7 @@ import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
  * @see ChangelogOperator
  */
 @Service
-public class GroupsHelper extends ChangelogOperator {
+public class GroupsHelper extends ChangelogOperator implements PandoroResourcesManager {
 
     /**
      * {@code usersRepository} instance for the users project_repository
@@ -65,7 +69,7 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to get the user's projects_groups list
      *
-     * @param userId: the user identifier
+     * @param userId The user identifier
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
      * @return the changelogs list as {@link PaginatedResponse} of {@link Group}
@@ -80,7 +84,7 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to get the user's projects_groups list
      *
-     * @param userId: the user identifier
+     * @param userId The user identifier
      * @return the changelogs list as {@link List} of {@link Group}
      */
     public List<Group> getCompleteGroupsList(String userId) {
@@ -90,8 +94,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to check whether the user's group exists
      *
-     * @param userId:    the user identifier
-     * @param groupName: the name of the group
+     * @param userId The user identifier
+     * @param groupName The name of the group
      * @return whether the user's group exists as boolean
      */
     public boolean groupExists(String userId, String groupName) {
@@ -101,21 +105,22 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to create a group
      *
-     * @param author:           the author of the group
-     * @param groupId:          the identifier of the new group
-     * @param groupName:        the name of the group
-     * @param groupDescription: the project_description of the group
-     * @param members:          the list of the group members
+     * @param author The author of the group
+     * @param groupId The identifier of the new group
+     * @param group The payload with the group details
      */
-    public void createGroup(PandoroUser author, String groupId, String groupName, String groupDescription,
-                            ArrayList<String> members) {
+    public void createGroup(PandoroUser author, String groupId, GroupDTO group) throws IOException {
         String authorId = author.getId();
+        String groupName = group.name();
+        MultipartFile logo = group.logo();
+        long operationDate = System.currentTimeMillis();
+        String logoPath = createGroupLogoResource(logo, groupId + operationDate);
         groupsRepository.createGroup(
                 authorId,
                 groupId,
                 groupName,
-                System.currentTimeMillis(),
-                groupDescription
+                operationDate,
+                group.group_description()
         );
         membersRepository.insertMember(
                 authorId,
@@ -127,14 +132,15 @@ public class GroupsHelper extends ChangelogOperator {
                 JOINED,
                 groupId
         );
-        addMembers(groupName, members, groupId);
+        addMembers(groupName, group.members(), groupId);
+        saveResource(logo, logoPath);
     }
 
     /**
      * Method to get the user's group by its id
      *
-     * @param userId: the user identifier
-     * @param groupId: the group identifier
+     * @param userId The user identifier
+     * @param groupId The group identifier
      * @return the group as {@link Group}
      */
     public Group getGroup(String userId, String groupId) {
@@ -144,9 +150,9 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to add a list of members to a group
      *
-     * @param groupName: the name of the group
-     * @param members: the list of members to add
-     * @param groupId: the group identifier where add the members
+     * @param groupName The name of the group
+     * @param members The list of members to add
+     * @param groupId The group identifier where add the members
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         List<PandoroUser> filteredMembers = filterMembers(members);
@@ -186,8 +192,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to accept a group invitation
      *
-     * @param groupId: the group identifier
-     * @param user: the user who accepts the invitation
+     * @param groupId The group identifier
+     * @param user The user who accepts the invitation
      */
     public void acceptGroupInvitation(String groupId, String changelogId, PandoroUser user) throws IllegalAccessException {
         String userId = user.getId();
@@ -203,8 +209,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to decline a group invitation
      *
-     * @param groupId: the group identifier
-     * @param user: the user who declines the invitation
+     * @param groupId The group identifier
+     * @param user The user who declines the invitation
      */
     public void declineGroupInvitation(String groupId, String changelogId, PandoroUser user) throws IllegalAccessException {
         String userId = user.getId();
@@ -220,8 +226,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to get a group member
      *
-     * @param groupId: the group identifier
-     * @param user: the user to fetch
+     * @param groupId The group identifier
+     * @param user The user to fetch
      * @return the member of a group as {@link GroupMember}
      */
     public GroupMember getGroupMember(String groupId, PandoroUser user) {
@@ -231,8 +237,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to get a group member
      *
-     * @param groupId: the group identifier
-     * @param userId: the user identifier
+     * @param groupId The group identifier
+     * @param userId The user identifier
      * @return the member of a group as {@link GroupMember}
      */
     public GroupMember getGroupMember(String groupId, String userId) {
@@ -242,9 +248,9 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to change the role of a member
      *
-     * @param memberId: the member identifier
-     * @param groupId: the group identifier
-     * @param role: the new role for a member
+     * @param memberId The member identifier
+     * @param groupId The group identifier
+     * @param role The new role for a member
      */
     public void changeMemberRole(String memberId, String groupId, com.tecknobit.pandorocore.enums.Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
@@ -254,8 +260,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to remove a member from a group
      *
-     * @param memberId: the member identifier
-     * @param groupId: the group identifier
+     * @param memberId The member identifier
+     * @param groupId The group identifier
      */
     public void removeMember(String memberId, String groupId) {
         membersRepository.leaveGroup(memberId, groupId);
@@ -264,8 +270,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to edit the projects list of a group
      *
-     * @param groupId: the group identifier
-     * @param projects: the projects list of a group to edit
+     * @param groupId The group identifier
+     * @param projects The projects list of a group to edit
      */
     @Deprecated(
             message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
@@ -305,8 +311,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to check if the group has other admins
      *
-     * @param memberId: the member identifier
-     * @param groupId: the group identifier
+     * @param memberId The member identifier
+     * @param groupId The group identifier
      * @return whether the group has other admin
      */
     public boolean hasGroupAdmins(String memberId, String groupId) {
@@ -316,7 +322,7 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to check if the group has other members
      *
-     * @param groupId: the group identifier
+     * @param groupId The group identifier
      * @return whether the group has other members
      */
     public boolean hasOtherMembers(String groupId) {
@@ -326,8 +332,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to leave from a group
      *
-     * @param memberId: the identifier of the member
-     * @param groupId: the group identifier
+     * @param memberId The identifier of the member
+     * @param groupId The group identifier
      */
     @Wrapper
     public void leaveGroup(String memberId, String groupId) {
@@ -337,8 +343,8 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to leave from a group
      *
-     * @param memberId: the identifier of the member
-     * @param groupId: the group identifier
+     * @param memberId The identifier of the member
+     * @param groupId The group identifier
      * @param deleteGroup: whether delete the group after the member left
      */
     public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
@@ -357,13 +363,14 @@ public class GroupsHelper extends ChangelogOperator {
     /**
      * Method to delete a group
      *
-     * @param memberId: the identifier of the member
+     * @param memberId The identifier of the member
      * @param groupId:  the group identifier
      */
     public void deleteGroup(String memberId, String groupId) {
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         String groupName = groupsRepository.getGroup(memberId, groupId).getName();
         groupsRepository.deleteGroup(groupId);
+        deleteGroupLogoResource(groupId);
         for (GroupMember member : members)
             changelogsCreator.groupDeleted(groupName, member.getId());
     }

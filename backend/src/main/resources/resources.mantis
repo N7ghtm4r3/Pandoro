@@ -1,5 +1,6 @@
 {
     "en": {
+        "wrong_group_logo_key": "Wrong group logo",
         "wrong_project_icon_key": "Wrong project icon",
         "wrong_project_name_key": "Wrong project name",
         "wrong_project_repository_key": "Wrong project repository",
@@ -32,6 +33,7 @@
     },
     "ignored_resources": {},
     "it": {
+        "wrong_group_logo_key": "Logo del gruppo sbagliata",
         "wrong_project_icon_key": "Icona del progetto sbagliata",
         "wrong_project_name_key": "Nome del progetto sbagliato",
         "wrong_project_repository_key": "Repository progetto errata",
@@ -63,6 +65,7 @@
         "wrong_content_note_key": "Contenuto della nota sbagliato"
     },
     "fr": {
+        "wrong_group_logo_key": "Mauvais logo de groupe",
         "wrong_project_icon_key": "Mauvaise icône de projet",
         "wrong_project_name_key": "Mauvais nom de projet",
         "wrong_project_repository_key": "Présentation incorrecte du projet",
@@ -94,6 +97,7 @@
         "wrong_content_note_key": "Mauvaise note de contenu"
     },
     "es": {
+        "wrong_group_logo_key": "Logotipo de grupo equivocado",
         "wrong_project_icon_key": "Icono de proyecto incorrecto",
         "wrong_project_name_key": "Nombre del proyecto equivocado",
         "wrong_project_repository_key": "Repositorio del proyecto equivocado",

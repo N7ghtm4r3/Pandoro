@@ -97,7 +97,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param name The name of the project
      * @param icon The icon of the project
      * @param creationDate The date when the project has been created
-     * @param description The project_description of the project
+     * @param description The description of the project
      * @param version The project_version of the project
      * @param repository The GitHub or Gitlab project_repository url of the project
      */
@@ -175,7 +175,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param author The author of the project
      * @param projectId The project identifier
      * @param name The name of the project
-     * @param description The project_description of the project
+     * @param description The description of the project
      * @param version The project_version of the project
      * @param repository The GitHub or Gitlab project_repository url of the project
      */
@@ -207,7 +207,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param projectId The project identifier
      * @param name The name of the project
      * @param icon The icon of the project
-     * @param description The project_description of the project
+     * @param description The description of the project
      * @param version The project_version of the project
      * @param repository The GitHub or Gitlab project_repository url of the project
      */

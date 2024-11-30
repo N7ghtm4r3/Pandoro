@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.groups.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
+import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.entities.Project;
@@ -10,7 +11,9 @@ import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +22,8 @@ import java.util.Map;
 import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -27,6 +31,7 @@ import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_GROUP_LOGO_MESSAGE;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations
@@ -93,7 +98,7 @@ public class GroupsController extends DefaultPandoroController {
      *                      {@code
      *                              {
      *                                  "name" : "name of the group", -> [String]
-     *                                  "group_description": "project_description of the group", -> [String]
+     *                                  "group_description": "description of the group", -> [String]
      *                                  "members" : [ -> [List of Strings or empty]
      *                                      // id of the group member -> [String]
      *                                  ]
@@ -111,29 +116,30 @@ public class GroupsController extends DefaultPandoroController {
     public String createGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody Map<String, Object> payload
+            @ModelAttribute GroupDTO payload
     ) {
-        if (isMe(id, token)) {
-            loadJsonHelper(payload);
-            String groupName = jsonHelper.getString(NAME_KEY);
-            if (INSTANCE.isGroupNameValid(groupName)) {
-                if (!groupsHelper.groupExists(id, groupName)) {
-                    String groupDescription = jsonHelper.getString(GROUP_DESCRIPTION_KEY);
-                    if (INSTANCE.isGroupDescriptionValid(groupDescription)) {
-                        ArrayList<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
-                        if (INSTANCE.checkMembersValidity(members)) {
-                            groupsHelper.createGroup(me, generateIdentifier(), groupName, groupDescription, members);
-                            return successResponse();
-                        } else
-                            return failedResponse("wrong_members_list_key");
-                    } else
-                        return failedResponse("wrong_group_description_key");
-                } else
-                    return failedResponse("group_name_already_exists_key");
-            } else
-                return failedResponse("wrong_group_name_key");
-        } else
+        if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        String groupName = payload.name();
+        MultipartFile logo = payload.logo();
+        if (logo == null || logo.isEmpty())
+            return failedResponse(WRONG_GROUP_LOGO_MESSAGE);
+        if (!INSTANCE.isGroupNameValid(groupName))
+            return failedResponse("wrong_group_name_key");
+        if (groupsHelper.groupExists(id, groupName))
+            return failedResponse("group_name_already_exists_key");
+        String groupDescription = payload.group_description();
+        if (!INSTANCE.isGroupDescriptionValid(groupDescription))
+            return failedResponse("wrong_group_description_key");
+        List<String> members = payload.members();
+        if (!INSTANCE.checkMembersValidity(members))
+            return failedResponse("wrong_members_list_key");
+        try {
+            groupsHelper.createGroup(me, generateIdentifier(), payload);
+        } catch (IOException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+        return successResponse();
     }
 
     /**

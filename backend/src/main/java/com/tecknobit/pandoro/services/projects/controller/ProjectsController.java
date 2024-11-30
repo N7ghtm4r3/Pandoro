@@ -94,7 +94,7 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "project_description of the project", -> [String]
+     *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
      *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
@@ -130,8 +130,7 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "project_description of the project", -> [String]
-     *                  "project_short_description": "short project_description of the project", -> [String]
+     *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
      *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
@@ -169,8 +168,7 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "project_description of the project", -> [String]
-     *                  "project_short_description": "short project_description of the project", -> [String]
+     *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
      *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]

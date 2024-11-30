@@ -126,6 +126,11 @@ const val GROUP_IDENTIFIER_KEY = "group_id"
 const val GROUP_KEY = "group"
 
 /**
+ * `GROUP_LOGO_KEY` the group logo key
+ */
+const val GROUP_LOGO_KEY = "logo"
+
+/**
  * `GROUP_MEMBER_KEY` the group member key
  */
 const val GROUP_MEMBER_KEY = "group_member"

@@ -106,7 +106,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @param groupId The identifier of the new group
      * @param groupName The name of the group
      * @param creationDate The date when the group has been created
-     * @param groupDescription The project_description of the group
+     * @param groupDescription The description of the group
      */
     @Modifying(clearAutomatically = true)
     @Transactional

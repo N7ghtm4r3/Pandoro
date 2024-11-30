@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
+import static com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager.GROUP_LOGOS_DIRECTORY;
 import static com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager.PROJECT_ICONS_DIRECTORY;
 
 /**
@@ -65,7 +66,7 @@ public class Launcher {
                 " to correctly register a new user in the Pandoro system ",
                 Launcher.class,
                 args,
-                PROJECT_ICONS_DIRECTORY
+                PROJECT_ICONS_DIRECTORY, GROUP_LOGOS_DIRECTORY
         );
         SpringApplication.run(Launcher.class, args);
     }
