@@ -2,10 +2,12 @@ package com.tecknobit.pandoro.services.projects.service;
 
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
+import com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
+import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
@@ -15,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,34 +37,34 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
  * @see ChangelogOperator
  */
 @Service
-public class ProjectsHelper extends ChangelogOperator {
+public class ProjectsHelper extends ChangelogOperator implements PandoroResourcesManager {
 
     /**
-     * {@code projectsRepository} instance for the projects repository
+     * {@code projectsRepository} instance for the projects project_repository
      */
     @Autowired
     private ProjectsRepository projectsRepository;
 
     /**
-     * {@code updatesRepository} instance for the updates repository
+     * {@code updatesRepository} instance for the updates project_repository
      */
     @Autowired
     private UpdatesRepository updatesRepository;
 
     /**
-     * {@code notesRepository} instance for the notes repository
+     * {@code notesRepository} instance for the notes project_repository
      */
     @Autowired
     private NotesRepository notesRepository;
 
     /**
-     * {@code groupsRepository} instance for the groups repository
+     * {@code groupsRepository} instance for the projects_groups project_repository
      */
     @Autowired
     private GroupsRepository groupsRepository;
 
     /**
-     * {@code groupMembersRepository} instance for the group members repository
+     * {@code groupMembersRepository} instance for the group members project_repository
      */
     @Autowired
     private GroupMembersRepository groupMembersRepository;
@@ -110,28 +114,42 @@ public class ProjectsHelper extends ChangelogOperator {
      *
      * @param userId The user identifier
      * @param projectId The project identifier
-     * @param name The name of the project
-     * @param description The description of the project
-     * @param version The version of the project
-     * @param repository The GitHub or Gitlab repository url of the project
-     * @param groups The groups of the project
-     * @param isAdding: whether is the adding operation that need to be executed
+     * @param project The payload with the project details
+     * @param isAdding Whether is the adding operation that need to be executed
      */
-    public void workWithProject(String userId, String projectId, String name, String description, String version,
-                                String repository, ArrayList<String> groups, boolean isAdding) {
+    public void workWithProject(String userId, String projectId, ProjectDTO project, boolean isAdding) throws IOException {
+        MultipartFile icon = project.icon();
+        String iconPath = null;
+        String name = project.name();
+        String description = project.project_description();
+        String version = project.project_version();
+        String repository = project.project_repository();
+        List<String> groups = project.projects_groups();
+        long operationDate = System.currentTimeMillis();
+        if (icon != null) {
+            if (!isAdding)
+                deleteProjectIconResource(projectId);
+            iconPath = createProjectIconResource(icon, projectId + operationDate);
+        }
         if (isAdding) {
             projectsRepository.insertProject(
                     userId,
                     projectId,
                     name,
-                    System.currentTimeMillis(),
+                    iconPath,
+                    operationDate,
                     description,
                     version,
                     repository
             );
             addGroupsToAProject(groups, projectId);
+            saveResource(icon, iconPath);
         } else {
-            projectsRepository.editProject(userId, projectId, name, description, version, repository);
+            if (iconPath != null) {
+                projectsRepository.editProject(userId, projectId, name, iconPath, description, version, repository);
+                saveResource(icon, iconPath);
+            } else
+                projectsRepository.editProject(userId, projectId, projectId, description, version, repository);
             List<String> currentGroups = projectsRepository.getProjectGroupsIds(projectId);
             currentGroups.removeAll(groups);
             for (String group : currentGroups) {
@@ -146,12 +164,12 @@ public class ProjectsHelper extends ChangelogOperator {
     }
 
     /**
-     * Method to add groups list to a project
+     * Method to add projects_groups list to a project
      *
-     * @param groups:    the groups list to add
+     * @param groups:    the projects_groups list to add
      * @param projectId The project identifier
      */
-    private void addGroupsToAProject(ArrayList<String> groups, String projectId) {
+    private void addGroupsToAProject(List<String> groups, String projectId) {
         batchInsert(INSERT_INTO, PROJECTS_GROUPS_TABLE, groups, query -> {
             int index = 1;
             for (String group : groups) {
@@ -178,14 +196,15 @@ public class ProjectsHelper extends ChangelogOperator {
             for (Group group : project.getGroups())
                 groupsRepository.removeGroupProject(projectId, group.getId());
         projectsRepository.deleteProject(userId, projectId);
+        deleteProjectIconResource(projectId);
     }
 
     /**
-     * Method to check whether an update with the target version inserted already exists
+     * Method to check whether an update with the target project_version inserted already exists
      *
      * @param projectId The project identifier
-     * @param targetVersion The target version to check
-     * @return whether an update with the target version inserted already exists as boolean
+     * @param targetVersion The target project_version to check
+     * @return whether an update with the target project_version inserted already exists as boolean
      */
     public boolean targetVersionExists(String projectId, String targetVersion) {
         return updatesRepository.getUpdateByVersion(projectId, targetVersion) != null;
@@ -206,7 +225,7 @@ public class ProjectsHelper extends ChangelogOperator {
      * Method to schedule a new update
      *
      * @param updateId The update identifier
-     * @param targetVersion The target version of the new update
+     * @param targetVersion The target project_version of the new update
      * @param changeNotes The change notes of the new update
      * @param userId The user identifier
      * @param projectId The project identifier
@@ -250,7 +269,7 @@ public class ProjectsHelper extends ChangelogOperator {
      * @param projectId The project identifier
      * @param updateId The update identifier
      * @param userId The user identifier who publish the update
-     * @param updateVersion The version of the update to set as last version of the project
+     * @param updateVersion The project_version of the update to set as last project_version of the project
      */
     public void publishUpdate(String projectId, String updateId, String userId, String updateVersion) {
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);

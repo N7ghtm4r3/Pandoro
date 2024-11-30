@@ -30,7 +30,7 @@ import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 
 /**
- * The {@code GroupsHelper} class is useful to manage all the groups database operations
+ * The {@code GroupsHelper} class is useful to manage all the projects_groups database operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see ChangelogOperator
@@ -39,31 +39,31 @@ import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 public class GroupsHelper extends ChangelogOperator {
 
     /**
-     * {@code usersRepository} instance for the users repository
+     * {@code usersRepository} instance for the users project_repository
      */
     @Autowired
     private PandoroUsersRepository usersRepository;
 
     /**
-     * {@code groupsRepository} instance for the groups repository
+     * {@code groupsRepository} instance for the projects_groups project_repository
      */
     @Autowired
     private GroupsRepository groupsRepository;
 
     /**
-     * {@code membersRepository} instance for the members of a group repository
+     * {@code membersRepository} instance for the members of a group project_repository
      */
     @Autowired
     private GroupMembersRepository membersRepository;
 
     /**
-     * {@code changelogsRepository} instance for the changelogs repository
+     * {@code changelogsRepository} instance for the changelogs project_repository
      */
     @Autowired
     private ChangelogsRepository changelogsRepository;
 
     /**
-     * Method to get the user's groups list
+     * Method to get the user's projects_groups list
      *
      * @param userId: the user identifier
      * @param page      The page requested
@@ -78,7 +78,7 @@ public class GroupsHelper extends ChangelogOperator {
     }
 
     /**
-     * Method to get the user's groups list
+     * Method to get the user's projects_groups list
      *
      * @param userId: the user identifier
      * @return the changelogs list as {@link List} of {@link Group}
@@ -104,7 +104,7 @@ public class GroupsHelper extends ChangelogOperator {
      * @param author:           the author of the group
      * @param groupId:          the identifier of the new group
      * @param groupName:        the name of the group
-     * @param groupDescription: the description of the group
+     * @param groupDescription: the project_description of the group
      * @param members:          the list of the group members
      */
     public void createGroup(PandoroUser author, String groupId, String groupName, String groupDescription,

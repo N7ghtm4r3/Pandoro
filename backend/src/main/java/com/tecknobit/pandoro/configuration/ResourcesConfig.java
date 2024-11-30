@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.helpers.resources;
+package com.tecknobit.pandoro.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.helpers.resources;
+package com.tecknobit.pandoro.configuration;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * The {@code com.tecknobit.pandoro.helpers.resources.CORSAdvice} class is useful to set the CORS policy
+ * The {@code com.tecknobit.pandoro.configuration.CORSAdvice} class is useful to set the CORS policy
  *
  * @author N7ghtm4r3 - Tecknobit
  */

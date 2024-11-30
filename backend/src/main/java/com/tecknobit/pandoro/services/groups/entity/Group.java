@@ -58,7 +58,7 @@ public class Group extends PandoroItem {
     private final PandoroUser author;
 
     /**
-     * {@code description} the description of the group
+     * {@code project_description} the project_description of the group
      */
     @Lob
     @Column(
@@ -120,7 +120,7 @@ public class Group extends PandoroItem {
      * @param name:        name of the group
      * @param creationDate: when the project has been created
      * @param author:      the author of the group
-     * @param description:{@code description} the description of the group
+     * @param description:{@code project_description} the project_description of the group
      * @param groupMembers:     the list of the groupMembers of the group
      * @param projects:    the list of the projects managed by the group
      */

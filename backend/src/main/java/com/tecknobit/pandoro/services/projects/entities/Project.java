@@ -7,7 +7,6 @@ import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
-import com.tecknobit.pandorocore.enums.RepositoryPlatform;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -34,6 +33,16 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED;
         uniqueConstraints = @UniqueConstraint(columnNames = NAME_KEY)
 )
 public class Project extends PandoroItem {
+
+    /**
+     * {@code icon} the icon of the project
+     */
+    @Column(
+            name = PROJECT_ICON_KEY,
+            columnDefinition = "TEXT DEFAULT '" + DEFAULT_PROFILE_PIC + "'",
+            insertable = false
+    )
+    protected final String icon;
 
     /**
      * {@code creationDate} when the project has been created
@@ -64,7 +73,7 @@ public class Project extends PandoroItem {
     private final PandoroUser author;
 
     /**
-     * {@code description} description of the project
+     * {@code project_description} project_description of the project
      */
     @Lob
     @Column(
@@ -75,13 +84,13 @@ public class Project extends PandoroItem {
     private final String description;
 
     /**
-     * {@code version} last update version
+     * {@code project_version} last update project_version
      */
     @Column(name = PROJECT_VERSION_KEY)
     private final String version;
 
     /**
-     * {@code groups} groups where the project has been assigned
+     * {@code projects_groups} projects_groups where the project has been assigned
      */
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
@@ -107,16 +116,10 @@ public class Project extends PandoroItem {
     private final List<ProjectUpdate> updates;
 
     /**
-     * {@code projectRepo} the repository of the project
+     * {@code projectRepo} the project_repository of the project
      */
     @Column(name = PROJECT_REPOSITORY_KEY)
     private final String projectRepo;
-
-    /**
-     * {@code repositoryPlatform} the platform of the repository of the project
-     */
-    @Transient
-    private final RepositoryPlatform repositoryPlatform;
 
     /**
      * Default constructor
@@ -124,8 +127,8 @@ public class Project extends PandoroItem {
      * @apiNote empty constructor required
      */
     public Project() {
-        this(null, null, -1, null, null,
-                null, null, new ArrayList<>(), "");
+        this(null, null, null, -1, null, null, null, null,
+                new ArrayList<>(), "");
     }
 
     /**
@@ -133,17 +136,19 @@ public class Project extends PandoroItem {
      *
      * @param id              identifier of the project
      * @param name             name of the project
+     * @param icon the icon of the project
      * @param creationDate when the project has been created
      * @param author       author of the project
-     * @param description     description of the project
-     * @param version          last update version
-     * @param groups           groups where the project has been assigned
+     * @param description     project_description of the project
+     * @param version          last update project_version
+     * @param groups           projects_groups where the project has been assigned
      * @param updates          updates of the project
-     * @param projectRepo      the repository of the project
+     * @param projectRepo      the project_repository of the project
      */
-    public Project(String id, String name, long creationDate, PandoroUser author, String description, String version,
+    public Project(String id, String name, String icon, long creationDate, PandoroUser author, String description, String version,
                    ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
         super(id, name);
+        this.icon = icon;
         this.creationDate = creationDate;
         this.author = author;
         this.description = description;
@@ -151,10 +156,16 @@ public class Project extends PandoroItem {
         this.groups = groups;
         this.updates = updates;
         this.projectRepo = projectRepo;
-        if (!projectRepo.isEmpty())
-            repositoryPlatform = RepositoryPlatform.Companion.reachPlatform(projectRepo);
-        else
-            repositoryPlatform = null;
+    }
+
+    /**
+     * Method to get {@link #icon} instance <br>
+     * No-any params required
+     *
+     * @return {@link #icon} instance as {@link String}
+     */
+    public String getIcon() {
+        return icon;
     }
 
     /**
@@ -273,17 +284,6 @@ public class Project extends PandoroItem {
     @JsonGetter(PROJECT_REPOSITORY_KEY)
     public String getProjectRepo() {
         return projectRepo;
-    }
-
-    /**
-     * Method to get {@link #repositoryPlatform} instance <br>
-     * No-any params required
-     *
-     * @return {@link #repositoryPlatform} instance as {@link RepositoryPlatform}
-     */
-    @JsonIgnore
-    public RepositoryPlatform getRepositoryPlatform() {
-        return repositoryPlatform;
     }
 
     /**

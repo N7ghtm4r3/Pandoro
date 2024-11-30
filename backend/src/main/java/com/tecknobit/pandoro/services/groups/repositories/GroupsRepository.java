@@ -18,7 +18,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_K
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
- * The {@code GroupsRepository} interface is useful to manage the queries for the groups
+ * The {@code GroupsRepository} interface is useful to manage the queries for the projects_groups
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see JpaRepository
@@ -28,14 +28,14 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface GroupsRepository extends JpaRepository<Group, String> {
 
     /**
-     * Method to execute the query to count the total groups where the user is a {@link GroupMember}
+     * Method to execute the query to count the total projects_groups where the user is a {@link GroupMember}
      *
      * @param userId The user identifier
-     * @return the total numbers of the groups
+     * @return the total numbers of the projects_groups
      */
     @Query(
-            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
                     + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'",
             nativeQuery = true
@@ -49,11 +49,11 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      *
      * @param userId   The user identifier
      * @param pageable The parameters to paginate the query
-     * @return the list of groups as {@link List} of {@link Group}
+     * @return the list of projects_groups as {@link List} of {@link Group}
      */
     @Query(
-            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
                     + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'"
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
@@ -68,11 +68,11 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * Method to execute the query to select the list of a {@link Group}
      *
      * @param userId The user identifier
-     * @return the list of groups as {@link List} of {@link Group}
+     * @return the list of projects_groups as {@link List} of {@link Group}
      */
     @Query(
-            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
                     + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'"
                     + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
@@ -106,7 +106,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @param groupId The identifier of the new group
      * @param groupName The name of the group
      * @param creationDate The date when the group has been created
-     * @param groupDescription The description of the group
+     * @param groupDescription The project_description of the group
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -142,8 +142,8 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @return the group as {@link Group}
      */
     @Query(
-            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " =:" + GROUP_IDENTIFIER_KEY
                     + " AND " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true

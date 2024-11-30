@@ -16,25 +16,25 @@ import org.springframework.stereotype.Service;
 public class PandoroUsersHelper extends EquinoxUsersHelper<PandoroUser, PandoroUsersRepository> {
 
     /**
-     * {@code membersRepository} instance for the members of a group repository
+     * {@code membersRepository} instance for the members of a group project_repository
      */
     @Autowired
     private GroupMembersRepository membersRepository;
 
     /**
-     * {@code projectsRepository} instance for the projects repository
+     * {@code projectsRepository} instance for the projects project_repository
      */
     @Autowired
     private ProjectsRepository projectsRepository;
 
     /**
-     * {@code updatesRepository} instance for the updates repository
+     * {@code updatesRepository} instance for the updates project_repository
      */
     @Autowired
     private UpdatesRepository updatesRepository;
 
     /**
-     * {@code notesRepository} instance for the notes repository
+     * {@code notesRepository} instance for the notes project_repository
      */
     @Autowired
     private NotesRepository notesRepository;

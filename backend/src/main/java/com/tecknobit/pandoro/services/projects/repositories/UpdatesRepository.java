@@ -24,10 +24,10 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> {
 
     /**
-     * Method to execute the query to select a {@link ProjectUpdate} by its target version
+     * Method to execute the query to select a {@link ProjectUpdate} by its target project_version
      *
      * @param projectId:     the project identifier
-     * @param targetVersion: the target version of the update to fetch
+     * @param targetVersion: the target project_version of the update to fetch
      * @return the project update as {@link ProjectUpdate}
      */
     @Query(
@@ -61,7 +61,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
      * Method to execute the query to schedule a new {@link ProjectUpdate}
      *
      * @param updateId: the update identifier
-     * @param targetVersion: the target version of the new update
+     * @param targetVersion: the target project_version of the new update
      * @param createDate: the creation date of the update
      * @param updateStatus: the {@link UpdateStatus#SCHEDULED} status
      * @param projectId: the project identifier

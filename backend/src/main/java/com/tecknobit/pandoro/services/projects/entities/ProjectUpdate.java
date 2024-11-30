@@ -57,7 +57,7 @@ public class ProjectUpdate extends EquinoxItem {
     private final long createDate;
 
     /**
-     * {@code targetVersion} the target version of the update
+     * {@code targetVersion} the target project_version of the update
      */
     @Column(name = UPDATE_TARGET_VERSION_KEY)
     private final String targetVersion;
@@ -165,7 +165,7 @@ public class ProjectUpdate extends EquinoxItem {
      * @param id:            identifier of the update
      * @param author:        the author of the update
      * @param createDate:    when the update has been created
-     * @param targetVersion:{@code targetVersion} the target version of the update
+     * @param targetVersion:{@code targetVersion} the target project_version of the update
      * @param startedBy:     who created the update
      * @param startDate:     when the update has been started
      * @param publishedBy:   who published the update

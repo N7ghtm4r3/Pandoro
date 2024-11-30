@@ -23,7 +23,7 @@ import static java.lang.System.currentTimeMillis;
 public class ChangelogsCreator {
 
     /**
-     * {@code changelogsRepository} instance for the changelog repository
+     * {@code changelogsRepository} instance for the changelog project_repository
      */
     @Autowired
     private ChangelogsRepository changelogRepository;
@@ -123,7 +123,7 @@ public class ChangelogsCreator {
     /**
      * Method to create a changelog when an update of project has been scheduled
      *
-     * @param targetVersion: the target version of the project's update
+     * @param targetVersion: the target project_version of the project's update
      * @param projectId: the project identifier
      * @param userId: the user id, the changelog owner
      */
@@ -135,7 +135,7 @@ public class ChangelogsCreator {
     /**
      * Method to create a changelog when an update of project has been started
      *
-     * @param targetVersion: the target version of the project's update
+     * @param targetVersion: the target project_version of the project's update
      * @param projectId: the project identifier
      * @param userId: the user id, the changelog owner
      */
@@ -147,7 +147,7 @@ public class ChangelogsCreator {
     /**
      * Method to create a changelog when an update of project has been published
      *
-     * @param targetVersion: the target version of the project's update
+     * @param targetVersion: the target project_version of the project's update
      * @param projectId: the project identifier
      * @param userId: the user id, the changelog owner
      */
@@ -159,7 +159,7 @@ public class ChangelogsCreator {
     /**
      * Method to create a changelog when an update of project has been deleted
      *
-     * @param targetVersion: the target version of the project's update
+     * @param targetVersion: the target project_version of the project's update
      * @param projectId: the project identifier
      * @param userId: the user id, the changelog owner
      */
@@ -172,7 +172,7 @@ public class ChangelogsCreator {
      * Method to create a changelog for a {@link Project}
      *
      * @param event: the event of the changelog
-     * @param targetVersion: the target version of the project's update
+     * @param targetVersion: the target project_version of the project's update
      * @param projectId: the project identifier
      * @param userId: the user id, the changelog owner
      */

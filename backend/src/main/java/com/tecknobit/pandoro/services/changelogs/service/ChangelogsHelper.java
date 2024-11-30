@@ -23,13 +23,13 @@ import static com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP;
 public class ChangelogsHelper {
 
     /**
-     * {@code changelogsRepository} instance for the changelog repository
+     * {@code changelogsRepository} instance for the changelog project_repository
      */
     @Autowired
     private ChangelogsRepository changelogsRepository;
 
     /**
-     * {@code membersRepository} instance for the members of a group repository
+     * {@code membersRepository} instance for the members of a group project_repository
      */
     @Autowired
     private GroupMembersRepository membersRepository;

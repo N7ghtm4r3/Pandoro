@@ -26,6 +26,11 @@ const val PROJECTS_KEY = "projects"
 const val PROJECT_IDENTIFIER_KEY = "project_id"
 
 /**
+ * `PROJECT_ICON_KEY` project icon key
+ */
+const val PROJECT_ICON_KEY = "icon"
+
+/**
  * `PROJECTS_GROUPS_TABLE` projects groups table
  */
 const val PROJECTS_GROUPS_TABLE = "projects_groups"

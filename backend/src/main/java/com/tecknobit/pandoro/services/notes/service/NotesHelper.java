@@ -21,7 +21,7 @@ import static java.lang.System.currentTimeMillis;
 public class NotesHelper {
 
     /**
-     * {@code notesRepository} instance for the notes repository
+     * {@code notesRepository} instance for the notes project_repository
      */
     @Autowired
     private NotesRepository notesRepository;

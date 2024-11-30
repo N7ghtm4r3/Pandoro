@@ -95,10 +95,11 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param author The author of the project
      * @param projectId The project identifier
      * @param name The name of the project
+     * @param icon The icon of the project
      * @param creationDate The date when the project has been created
-     * @param description The description of the project
-     * @param version The version of the project
-     * @param repository The GitHub or Gitlab repository url of the project
+     * @param description The project_description of the project
+     * @param version The project_version of the project
+     * @param repository The GitHub or Gitlab project_repository url of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -108,6 +109,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + AUTHOR_KEY + ","
                     + IDENTIFIER_KEY + ","
                     + NAME_KEY + ","
+                    + PROJECT_ICON_KEY + ","
                     + CREATION_DATE_KEY + ","
                     + PROJECT_DESCRIPTION_KEY + ","
                     + PROJECT_VERSION_KEY + ","
@@ -116,6 +118,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     + ":" + AUTHOR_KEY + ","
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + NAME_KEY + ","
+                    + ":" + PROJECT_ICON_KEY + ","
                     + ":" + CREATION_DATE_KEY + ","
                     + ":" + PROJECT_DESCRIPTION_KEY + ","
                     + ":" + PROJECT_VERSION_KEY + ","
@@ -126,6 +129,7 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
             @Param(AUTHOR_KEY) String author,
             @Param(IDENTIFIER_KEY) String projectId,
             @Param(NAME_KEY) String name,
+            @Param(PROJECT_ICON_KEY) String icon,
             @Param(CREATION_DATE_KEY) long creationDate,
             @Param(PROJECT_DESCRIPTION_KEY) String description,
             @Param(PROJECT_VERSION_KEY) String version,
@@ -171,9 +175,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * @param author The author of the project
      * @param projectId The project identifier
      * @param name The name of the project
-     * @param description The description of the project
-     * @param version The version of the project
-     * @param repository The GitHub or Gitlab repository url of the project
+     * @param description The project_description of the project
+     * @param version The project_version of the project
+     * @param repository The GitHub or Gitlab project_repository url of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -197,12 +201,46 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
     );
 
     /**
-     * Method to execute the query to update to the last published update version
-     * the version of the {@link Project}
+     * Method to execute the query to edit an existing {@link Project}
+     *
+     * @param author The author of the project
+     * @param projectId The project identifier
+     * @param name The name of the project
+     * @param icon The icon of the project
+     * @param description The project_description of the project
+     * @param version The project_version of the project
+     * @param repository The GitHub or Gitlab project_repository url of the project
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + PROJECTS_KEY + " SET "
+                    + NAME_KEY + "=:" + NAME_KEY + ","
+                    + PROJECT_ICON_KEY + "=:" + PROJECT_ICON_KEY + ","
+                    + PROJECT_DESCRIPTION_KEY + "=:" + PROJECT_DESCRIPTION_KEY + ","
+                    + PROJECT_VERSION_KEY + "=:" + PROJECT_VERSION_KEY + ","
+                    + PROJECT_REPOSITORY_KEY + "=:" + PROJECT_REPOSITORY_KEY
+                    + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY + " AND "
+                    + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void editProject(
+            @Param(AUTHOR_KEY) String author,
+            @Param(IDENTIFIER_KEY) String projectId,
+            @Param(NAME_KEY) String name,
+            @Param(PROJECT_ICON_KEY) String icon,
+            @Param(PROJECT_DESCRIPTION_KEY) String description,
+            @Param(PROJECT_VERSION_KEY) String version,
+            @Param(PROJECT_REPOSITORY_KEY) String repository
+    );
+
+    /**
+     * Method to execute the query to update to the last published update project_version
+     * the project_version of the {@link Project}
      *
      * @param author:    the author of the project
      * @param projectId The project identifier
-     * @param version The last version of the project
+     * @param version The last project_version of the project
      */
     @Modifying(clearAutomatically = true)
     @Transactional

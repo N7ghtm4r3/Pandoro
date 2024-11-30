@@ -6,6 +6,11 @@ import com.tecknobit.pandorocore.enums.RepositoryPlatform.Companion.isValidPlatf
 object PandoroInputsValidator : InputsValidator() {
 
     /**
+     * `WRONG_PROJECT_ICON_MESSAGE` the message to warn the user about an invalid icon for a project
+     */
+    const val WRONG_PROJECT_ICON_MESSAGE = "wrong_project_icon_key"
+
+    /**
      * `PROJECT_NAME_MAX_LENGTH` the max length of the name for a project
      */
     const val PROJECT_NAME_MAX_LENGTH: Int = 15

@@ -4,19 +4,23 @@ import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
+import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
@@ -24,6 +28,10 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
+import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_PROJECT_ICON_MESSAGE;
+
+
+// TODO: 30/11/2024 TO MAP THE ERROR KEYS HARDCODED AS CONSTANT IN PandoroInputsValidator
 
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
@@ -43,7 +51,7 @@ public class ProjectsController extends DefaultPandoroController {
     private ProjectsHelper projectsHelper;
 
     /**
-     * {@code groupsHelper} instance to manage the groups database operations
+     * {@code groupsHelper} instance to manage the projects_groups database operations
      */
     @Autowired
     private GroupsHelper groupsHelper;
@@ -86,13 +94,12 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "description of the project", -> [String]
-     *                  "project_short_description": "short description of the project", -> [String]
-     *                  "project_version": "current project version", -> [String]
-     *                  "groups" : [ -> [List of Strings or empty]
+     *                  "project_description": "project_description of the project", -> [String]
+     *                  "project_version": "current project project_version", -> [String]
+     *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
-     *                  "project_repository": "the GitHub or Gitlab project's repository" -> [String]
+     *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
      *              }
      *      }
      * </pre>
@@ -108,7 +115,7 @@ public class ProjectsController extends DefaultPandoroController {
     public String addProject(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @RequestBody Map<String, Object> payload
+            @ModelAttribute ProjectDTO payload
     ) {
         return workWithProject(id, token, payload, null);
     }
@@ -123,20 +130,20 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "description of the project", -> [String]
-     *                  "project_short_description": "short description of the project", -> [String]
-     *                  "project_version": "current project version", -> [String]
-     *                  "groups" : [ -> [List of Strings or empty]
+     *                  "project_description": "project_description of the project", -> [String]
+     *                  "project_short_description": "short project_description of the project", -> [String]
+     *                  "project_version": "current project project_version", -> [String]
+     *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
-     *                  "project_repository": "the GitHub or Gitlab project's repository" -> [String]
+     *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
      *              }
      *      }
      * </pre>
      *
      * @return the result of the request as {@link String}
      */
-    @PatchMapping(
+    @PostMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}",
             headers = {
                     TOKEN_KEY
@@ -147,7 +154,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @RequestBody Map<String, Object> payload
+            @ModelAttribute ProjectDTO payload
     ) {
         return workWithProject(id, token, payload, projectId);
     }
@@ -162,13 +169,13 @@ public class ProjectsController extends DefaultPandoroController {
      *      {@code
      *              {
      *                  "name" : "name of the project", -> [String]
-     *                  "project_description": "description of the project", -> [String]
-     *                  "project_short_description": "short description of the project", -> [String]
-     *                  "project_version": "current project version", -> [String]
-     *                  "groups" : [ -> [List of Strings or empty]
+     *                  "project_description": "project_description of the project", -> [String]
+     *                  "project_short_description": "short project_description of the project", -> [String]
+     *                  "project_version": "current project project_version", -> [String]
+     *                  "projects_groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
-     *                  "project_repository": "the GitHub or Gitlab project's repository" -> [String]
+     *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
      *              }
      *      }
      * </pre>
@@ -176,26 +183,29 @@ public class ProjectsController extends DefaultPandoroController {
      *
      * @return the result of the request as {@link String}
      */
-    private String workWithProject(String id, String token, Map<String, Object> payload, String projectId) {
+    private String workWithProject(String id, String token, ProjectDTO payload, String projectId) {
         if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        loadJsonHelper(payload);
-        String name = jsonHelper.getString(NAME_KEY);
+        String name = payload.name();
         if (!INSTANCE.isValidProjectName(name))
             return failedResponse("wrong_project_name_key");
         boolean isAdding = projectId == null;
+        MultipartFile icon = payload.icon();
         if (!isAdding) {
             Project currentEditingProject = projectsHelper.getProjectById(projectId);
             if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        } else {
+            if (icon == null || icon.isEmpty())
+                return failedResponse(WRONG_PROJECT_ICON_MESSAGE);
         }
-        String description = jsonHelper.getString(PROJECT_DESCRIPTION_KEY);
+        String description = payload.project_description();
         if (!INSTANCE.isValidProjectDescription(description))
             return failedResponse("wrong_project_description_key");
-        String version = jsonHelper.getString(PROJECT_VERSION_KEY);
+        String version = payload.project_version();
         if (!INSTANCE.isValidVersion(version))
             return failedResponse("wrong_project_version_key");
-        ArrayList<String> groups = jsonHelper.fetchList(GROUPS_KEY, new ArrayList<>());
+        List<String> groups = payload.projects_groups();
         ArrayList<String> adminGroups = new ArrayList<>();
         for (Group group : me.getAdminGroups())
             adminGroups.add(group.getId());
@@ -206,13 +216,13 @@ public class ProjectsController extends DefaultPandoroController {
         }
         if (!groups.isEmpty() && !adminGroups.containsAll(groups))
             return failedResponse("wrong_groups_list_key");
-        String repository = jsonHelper.getString(PROJECT_REPOSITORY_KEY);
+        String repository = payload.project_repository();
         if (!INSTANCE.isValidRepository(repository))
             return failedResponse("wrong_project_repository_key");
         if (isAdding)
             projectId = generateIdentifier();
         try {
-            projectsHelper.workWithProject(id, projectId, name, description, version, repository, groups, isAdding);
+            projectsHelper.workWithProject(id, projectId, payload, isAdding);
         } catch (Exception e) {
             return failedResponse("project_name_already_exists_key");
         }
@@ -292,7 +302,7 @@ public class ProjectsController extends DefaultPandoroController {
      * <pre>
      *      {@code
      *              {
-     *                  "target_version": "the target version of the update", -> [String]
+     *                  "target_version": "the target project_version of the update", -> [String]
      *                  "update_change_notes": [ -> [List of Strings or empty]
      *                      // the change note of the update -> [String]
      *                  ]
