@@ -118,8 +118,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get {@link #groups} instance <br>
-     * No-any params required
+     * Method to get {@link #groups} instance
      *
      * @return {@link #groups} instance as {@link ArrayList} of {@link Group}
      */
@@ -137,8 +136,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get {@link #changelogs} instance <br>
-     * No-any params required
+     * Method to get {@link #changelogs} instance
      *
      * @return {@link #changelogs} instance as {@link ArrayList} of {@link Changelog}
      */
@@ -147,8 +145,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get the number of {@link #changelogs} unread <br>
-     * No-any params required
+     * Method to get the number of {@link #changelogs} unread
      *
      * @return the number of {@link #changelogs} unread as int
      */
@@ -162,8 +159,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get {@link #projects} instance <br>
-     * No-any params required
+     * Method to get {@link #projects} instance
      *
      * @return {@link #projects} instance as {@link ArrayList} of {@link Project}
      */
@@ -181,8 +177,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get {@link #notes} instance <br>
-     * No-any params required
+     * Method to get {@link #notes} instance
      *
      * @return {@link #notes} instance as {@link ArrayList} of {@link Note}
      */
@@ -200,8 +195,7 @@ public class PandoroUser extends EquinoxUser {
     }
 
     /**
-     * Method to get the projects_groups where the user is the {@link Role#ADMIN} <br>
-     * No-any params required
+     * Method to get the projects_groups where the user is the {@link Role#ADMIN}
      *
      * @return projects_groups as {@link ArrayList} of {@link Group}
      */

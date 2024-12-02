@@ -113,7 +113,7 @@ public class Project extends PandoroItem {
             cascade = CascadeType.ALL
     )
     @OrderBy(UPDATE_CREATE_DATE_KEY + " DESC")
-    private final List<ProjectUpdate> updates;
+    private List<ProjectUpdate> updates;
 
     /**
      * {@code projectRepo} the project_repository of the project
@@ -159,8 +159,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #icon} instance <br>
-     * No-any params required
+     * Method to get {@link #icon} instance
      *
      * @return {@link #icon} instance as {@link String}
      */
@@ -169,8 +168,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
+     * Method to get {@link #creationDate} instance
      *
      * @return {@link #creationDate} instance as long
      */
@@ -180,8 +178,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #author} instance <br>
-     * No-any params required
+     * Method to get {@link #author} instance
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
@@ -190,8 +187,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #description} instance <br>
-     * No-any params required
+     * Method to get {@link #description} instance
      *
      * @return {@link #description} instance as {@link String}
      */
@@ -201,8 +197,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #version} instance <br>
-     * No-any params required
+     * Method to get {@link #version} instance
      *
      * @return {@link #version} instance as {@link String}
      */
@@ -212,8 +207,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #groups} instance <br>
-     * No-any params required
+     * Method to get {@link #groups} instance
      *
      * @return {@link #groups} instance as {@link ArrayList} of {@link Group}
      */
@@ -222,8 +216,16 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #updates} instance <br>
-     * No-any params required
+     * Method to set the {@link #updates} instance
+     *
+     * @param updates The updates list to set
+     */
+    public void setUpdates(List<ProjectUpdate> updates) {
+        this.updates = updates;
+    }
+
+    /**
+     * Method to get {@link #updates} instance
      *
      * @return {@link #updates} instance as {@link ArrayList} of {@link ProjectUpdate}
      */
@@ -232,8 +234,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get the published updates <br>
-     * No-any params required
+     * Method to get the published updates
      *
      * @return published updates as {@link ArrayList} of {@link ProjectUpdate}
      */
@@ -247,8 +248,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get the total development days for the project <br>
-     * No-any params required
+     * Method to get the total development days for the project
      *
      * @return the total development days for the project as int
      */
@@ -261,8 +261,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get the average time for an update of the project <br>
-     * No-any params required
+     * Method to get the average time for an update of the project
      *
      * @return average time for an update of the project as int
      */
@@ -276,8 +275,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #projectRepo} instance <br>
-     * No-any params required
+     * Method to get {@link #projectRepo} instance
      *
      * @return {@link #projectRepo} instance as {@link String}
      */
@@ -287,8 +285,7 @@ public class Project extends PandoroItem {
     }
 
     /**
-     * Method to whether the project is in any {@link Group} <br>
-     * No-any params required
+     * Method to whether the project is in any {@link Group}
      *
      * @return whether the project is in any {@link Group} as boolean
      */

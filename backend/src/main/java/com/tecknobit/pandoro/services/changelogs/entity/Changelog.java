@@ -125,8 +125,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #changelogEvent} instance <br>
-     * No-any params required
+     * Method to get {@link #changelogEvent} instance
      *
      * @return {@link #changelogEvent} instance as {@link ChangelogEvent}
      */
@@ -137,8 +136,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #timestamp} instance <br>
-     * No-any params required
+     * Method to get {@link #timestamp} instance
      *
      * @return {@link #timestamp} instance as long
      */
@@ -186,8 +184,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #project} instance <br>
-     * No-any params required
+     * Method to get {@link #project} instance
      *
      * @return {@link #project} instance as {@link Project}
      */
@@ -196,8 +193,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #group} instance <br>
-     * No-any params required
+     * Method to get {@link #group} instance
      *
      * @return {@link #group} instance as {@link Group}
      */
@@ -206,8 +202,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #extraContent} instance <br>
-     * No-any params required
+     * Method to get {@link #extraContent} instance
      *
      * @return {@link #extraContent} instance as {@link String}
      */
@@ -217,8 +212,7 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #red} instance <br>
-     * No-any params required
+     * Method to get {@link #red} instance
      *
      * @return {@link #red} instance as boolean
      */

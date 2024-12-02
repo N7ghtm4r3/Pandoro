@@ -33,7 +33,7 @@ public class Group extends PandoroItem {
      * {@code logo} the logo of the group
      */
     @Column(
-            name = PROJECT_ICON_KEY,
+            name = GROUP_LOGO_KEY,
             columnDefinition = "TEXT DEFAULT '" + DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
@@ -135,8 +135,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #logo} instance <br>
-     * No-any params required
+     * Method to get {@link #logo} instance
      *
      * @return {@link #logo} instance as {@link String}
      */
@@ -145,8 +144,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
+     * Method to get {@link #creationDate} instance
      *
      * @return {@link #creationDate} instance as long
      */
@@ -156,8 +154,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #author} instance <br>
-     * No-any params required
+     * Method to get {@link #author} instance
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
@@ -166,8 +163,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #description} instance <br>
-     * No-any params required
+     * Method to get {@link #description} instance
      *
      * @return {@link #description} instance as {@link String}
      */
@@ -177,8 +173,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #groupMembers} instance <br>
-     * No-any params required
+     * Method to get {@link #groupMembers} instance
      *
      * @return {@link #groupMembers} instance as {@link ArrayList} of {@link GroupMember}
      */
@@ -188,8 +183,7 @@ public class Group extends PandoroItem {
     }
 
     /**
-     * Method to get {@link #projects} instance <br>
-     * No-any params required
+     * Method to get {@link #projects} instance
      *
      * @return {@link #projects} instance as {@link ArrayList} of {@link Project}
      */

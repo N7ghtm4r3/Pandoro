@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.projects.repositories;
 
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +26,74 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  */
 @Repository
 public interface ProjectsRepository extends JpaRepository<Project, String> {
+
+    /**
+     * Method to execute the query to select the list of a {@link Project} currently {@link UpdateStatus#IN_DEVELOPMENT}
+     *
+     * @param userId The user identifier
+     * @return the list of projects as {@link List} of {@link Project}
+     * @apiNote also the projects of a group in which he is a member are returned
+     */
+    @Query(
+            value = "SELECT " + PROJECTS_KEY + ".*" + " FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
+                    PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
+                    PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
+                    GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
+                    IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
+                    " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " WHERE " + GROUP_MEMBERS_TABLE + "." +
+                    IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
+                    " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
+                    " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            nativeQuery = true
+    )
+    List<Project> getCompleteInDevelopmentProjectsList(
+            @Param(AUTHOR_KEY) String userId
+    );
+
+    /**
+     * Method to execute the query to select the list of a {@link Project} currently {@link UpdateStatus#IN_DEVELOPMENT}
+     *
+     * @param userId   The user identifier
+     * @param pageable The parameters to paginate the query
+     * @return the list of projects as {@link List} of {@link Project}
+     * @apiNote also the projects of a group in which he is a member are returned
+     */
+    @Query(
+            value = "SELECT " + PROJECTS_KEY + ".*" + " FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
+                    PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
+                    PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
+                    GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
+                    IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
+                    " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " WHERE " + GROUP_MEMBERS_TABLE + "." +
+                    IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
+                    " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
+                    " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            nativeQuery = true
+    )
+    List<Project> getInDevelopmentProjects(
+            @Param(AUTHOR_KEY) String userId,
+            Pageable pageable
+    );
 
     /**
      * Method to execute the query to select the list of a {@link Project}

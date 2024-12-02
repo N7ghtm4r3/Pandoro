@@ -196,8 +196,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #author} instance <br>
-     * No-any params required
+     * Method to get {@link #author} instance
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
@@ -206,8 +205,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #createDate} instance <br>
-     * No-any params required
+     * Method to get {@link #createDate} instance
      *
      * @return {@link #createDate} instance as long
      */
@@ -217,8 +215,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #targetVersion} instance <br>
-     * No-any params required
+     * Method to get {@link #targetVersion} instance
      *
      * @return {@link #targetVersion} instance as {@link String}
      */
@@ -228,8 +225,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #startedBy} instance <br>
-     * No-any params required
+     * Method to get {@link #startedBy} instance
      *
      * @return {@link #startedBy} instance as {@link PandoroUser}
      */
@@ -239,8 +235,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #startDate} instance <br>
-     * No-any params required
+     * Method to get {@link #startDate} instance
      *
      * @return {@link #startDate} instance as long
      */
@@ -250,8 +245,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #publishedBy} instance <br>
-     * No-any params required
+     * Method to get {@link #publishedBy} instance
      *
      * @return {@link #publishedBy} instance as {@link PandoroUser}
      */
@@ -261,8 +255,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #publishDate} instance <br>
-     * No-any params required
+     * Method to get {@link #publishDate} instance
      *
      * @return {@link #publishDate} instance as long
      */
@@ -272,8 +265,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #developmentDuration} instance <br>
-     * No-any params required
+     * Method to get {@link #developmentDuration} instance
      *
      * @return {@link #developmentDuration} instance as int
      */
@@ -283,8 +275,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #notes} instance <br>
-     * No-any params required
+     * Method to get {@link #notes} instance
      *
      * @return {@link #notes} instance as {@link ArrayList} of {@link Note}
      */
@@ -293,8 +284,7 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #status} instance <br>
-     * No-any params required
+     * Method to get {@link #status} instance
      *
      * @return {@link #status} instance as {@link UpdateStatus}
      */

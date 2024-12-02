@@ -57,6 +57,34 @@ public class ProjectsController extends DefaultPandoroController {
     private GroupsHelper groupsHelper;
 
     /**
+     * Method to get a {@link UpdateStatus#IN_DEVELOPMENT} projects list
+     *
+     * @param id       The identifier of the user
+     * @param token    The token of the user
+     * @param page     The page requested
+     * @param pageSize The size of the items to insert in the page
+     * @return the result of the request as {@link String}
+     */
+    @GetMapping(
+            path = IN_DEVELOPMENT_PROJECTS_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/projects/in_development", method = GET)
+    public <T> T getInDevelopmentProjects(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+    ) {
+        if (isMe(id, token))
+            return (T) successResponse(projectsHelper.getInDevelopmentProjects(id, page, pageSize));
+        else
+            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    /**
      * Method to get a projects list
      *
      * @param id The identifier of the user

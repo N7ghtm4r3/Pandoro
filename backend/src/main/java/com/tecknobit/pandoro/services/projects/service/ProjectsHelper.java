@@ -28,6 +28,7 @@ import static com.tecknobit.equinoxbackend.environment.services.builtin.controll
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_IGNORE_INTO;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
 /**
@@ -68,6 +69,27 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
      */
     @Autowired
     private GroupMembersRepository groupMembersRepository;
+
+    /**
+     * Method to get the user's {@link com.tecknobit.pandorocore.enums.UpdateStatus#IN_DEVELOPMENT} projects list
+     *
+     * @param userId   The user identifier
+     * @param page     The page requested
+     * @param pageSize The size of the items to insert in the page
+     * @return the projects list as {@link PaginatedResponse} of {@link Project}
+     * @apiNote also the projects of a group in which he is a member are returned
+     */
+    public PaginatedResponse<Project> getInDevelopmentProjects(String userId, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        List<Project> projects = projectsRepository.getInDevelopmentProjects(userId, pageable);
+        for (Project project : projects) {
+            ArrayList<ProjectUpdate> updates = project.getUpdates();
+            updates.removeIf(update -> update.getStatus() != IN_DEVELOPMENT);
+            project.setUpdates(updates);
+        }
+        long projectsCount = projectsRepository.getCompleteInDevelopmentProjectsList(userId).size();
+        return new PaginatedResponse<>(projects, page, pageSize, projectsCount);
+    }
 
     /**
      * Method to get the user's projects list

@@ -40,8 +40,7 @@ public abstract class PandoroItem extends EquinoxItem implements Serializable {
         this.name = name;
     }
     /**
-     * Method to get {@link #name} instance <br>
-     * No-any params required
+     * Method to get {@link #name} instance
      *
      * @return {@link #name} instance as {@link String}
      */

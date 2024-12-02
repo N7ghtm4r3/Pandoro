@@ -125,8 +125,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #id} instance <br>
-     * No-any params required
+     * Method to get {@link #id} instance
      *
      * @return {@link #id} instance as {@link String}
      */
@@ -135,8 +134,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #name} instance <br>
-     * No-any params required
+     * Method to get {@link #name} instance
      *
      * @return {@link #name} instance as {@link String}
      */
@@ -145,8 +143,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #profilePic} instance <br>
-     * No-any params required
+     * Method to get {@link #profilePic} instance
      *
      * @return {@link #profilePic} instance as {@link String}
      */
@@ -156,8 +153,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #surname} instance <br>
-     * No-any params required
+     * Method to get {@link #surname} instance
      *
      * @return {@link #surname} instance as {@link String}
      */
@@ -166,8 +162,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get the complete name of the user <br>
-     * No-any params required
+     * Method to get the complete name of the user
      *
      * @return complete name of the user as {@link String}
      * @apiNote {@link #name} (and) {@link #surname}
@@ -178,8 +173,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #email} instance <br>
-     * No-any params required
+     * Method to get {@link #email} instance
      *
      * @return {@link #email} instance as {@link String}
      */
@@ -188,8 +182,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #role} instance <br>
-     * No-any params required
+     * Method to get {@link #role} instance
      *
      * @return {@link #role} instance as {@link Role}
      */
@@ -198,8 +191,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to get {@link #invitationStatus} instance <br>
-     * No-any params required
+     * Method to get {@link #invitationStatus} instance
      *
      * @return {@link #invitationStatus} instance as {@link InvitationStatus}
      */
@@ -209,8 +201,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to check if the member is a {@link Role#MAINTAINER} <br>
-     * No-any params required
+     * Method to check if the member is a {@link Role#MAINTAINER}
      *
      * @return whether the member is a {@link Role#MAINTAINER} as boolean
      */
@@ -220,8 +211,7 @@ public class GroupMember {
     }
 
     /**
-     * Method to check if the member is a {@link Role#ADMIN} <br>
-     * No-any params required
+     * Method to check if the member is a {@link Role#ADMIN}
      *
      * @return whether the member is a {@link Role#ADMIN} as boolean
      */

@@ -148,8 +148,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #author} instance <br>
-     * No-any params required
+     * Method to get {@link #author} instance
      *
      * @return {@link #author} instance as {@link PandoroUser}
      */
@@ -158,8 +157,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #content} instance <br>
-     * No-any params required
+     * Method to get {@link #content} instance
      *
      * @return {@link #content} instance as {@link String}
      */
@@ -169,8 +167,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #creationDate} instance <br>
-     * No-any params required
+     * Method to get {@link #creationDate} instance
      *
      * @return {@link #creationDate} instance as long
      */
@@ -180,8 +177,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #markedAsDone} instance <br>
-     * No-any params required
+     * Method to get {@link #markedAsDone} instance
      *
      * @return {@link #markedAsDone} instance as boolean
      */
@@ -191,8 +187,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #markedAsDoneBy} instance <br>
-     * No-any params required
+     * Method to get {@link #markedAsDoneBy} instance
      *
      * @return {@link #markedAsDoneBy} instance as {@link PandoroUser}
      */
@@ -202,8 +197,7 @@ public class Note extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #markAsDoneDate} instance <br>
-     * No-any params required
+     * Method to get {@link #markAsDoneDate} instance
      *
      * @return {@link #markAsDoneDate} instance as long
      */
