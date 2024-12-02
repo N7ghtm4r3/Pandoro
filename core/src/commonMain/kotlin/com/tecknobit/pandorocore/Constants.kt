@@ -21,6 +21,11 @@ const val GROUP_MEMBERS_TABLE = "group_members"
 const val PROJECTS_KEY = "projects"
 
 /**
+ * `FILTERS_KEY` filters key
+ */
+const val FILTERS_KEY = "filters"
+
+/**
  * `PROJECT_IDENTIFIER_KEY` project identifier key
  */
 const val PROJECT_IDENTIFIER_KEY = "project_id"

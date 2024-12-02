@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY;
@@ -31,6 +32,8 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * Method to execute the query to select the list of a {@link Project} currently {@link UpdateStatus#IN_DEVELOPMENT}
      *
      * @param userId The user identifier
+     * @param name The project name to use as filter
+     * @param versions The version to use as filters
      * @return the list of projects as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
@@ -40,6 +43,11 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
                     " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+
                     " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
                     PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
                     PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
@@ -53,17 +61,26 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
                     " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Project> getCompleteInDevelopmentProjectsList(
-            @Param(AUTHOR_KEY) String userId
+            @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(FILTERS_KEY) Set<String> versions
     );
 
     /**
      * Method to execute the query to select the list of a {@link Project} currently {@link UpdateStatus#IN_DEVELOPMENT}
      *
      * @param userId   The user identifier
+     * @param name The project name to use as filter
+     * @param versions The version to use as filters
      * @param pageable The parameters to paginate the query
      * @return the list of projects as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
@@ -74,6 +91,11 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
                     " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+
                     " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
                     PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
                     PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
@@ -87,11 +109,18 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
                     " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Project> getInDevelopmentProjects(
             @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(FILTERS_KEY) Set<String> versions,
             Pageable pageable
     );
 
@@ -99,50 +128,72 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      * Method to execute the query to select the list of a {@link Project}
      *
      * @param userId The user identifier
+     * @param name The project name to use as filter
+     * @param versions The version to use as filters
      *
      * @return the list of projects as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
     @Query(
-            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN "
-                    + PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = "
-                    + PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN "
-                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
-                    + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "."
-                    + IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY
-                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY
-                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE "
+                    + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+                    " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
+                    PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
+                    PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
+                    GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
+                    IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
+                    " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "." +
+                    IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY +
+                    " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Project> getCompleteProjectsList(
-            @Param(AUTHOR_KEY) String userId
+            @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(FILTERS_KEY) Set<String> versions
     );
 
     /**
      * Method to execute the query to select the list of a {@link Project}
      *
      * @param userId   The user identifier
+     * @param name The project name to use as filter
+     * @param versions The version to use as filters
      * @param pageable The parameters to paginate the query
      * @return the list of projects as {@link List} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
     @Query(
-            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN "
-                    + PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = "
-                    + PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN "
-                    + GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "."
-                    + IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY
-                    + " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "."
-                    + IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY
-                    + " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY
-                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            value = "SELECT * FROM " + PROJECTS_KEY + " WHERE "
+                    + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+                    " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
+                    PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
+                    PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
+                    GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
+                    IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
+                    " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " WHERE " + GROUP_MEMBERS_TABLE + "." +
+                    IDENTIFIER_KEY + " =:" + AUTHOR_KEY + " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY +
+                    " = 'JOINED' AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
+                    " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
+                    " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Project> getProjects(
             @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(FILTERS_KEY) Set<String> versions,
             Pageable pageable
     );
 

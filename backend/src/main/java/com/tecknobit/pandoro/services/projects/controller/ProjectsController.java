@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -63,6 +64,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @param token    The token of the user
      * @param page     The page requested
      * @param pageSize The size of the items to insert in the page
+     * @param filters The filter to apply to the query to select the project
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -76,10 +78,11 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
+            @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getInDevelopmentProjects(id, page, pageSize));
+            return (T) successResponse(projectsHelper.getInDevelopmentProjects(id, page, pageSize, filters));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -91,6 +94,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @param token The token of the user
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param filters The filter to apply to the query to select the project
      *
      * @return the result of the request as {@link String}
      */
@@ -104,10 +108,11 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
+            @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getProjects(id, page, pageSize));
+            return (T) successResponse(projectsHelper.getProjects(id, page, pageSize, filters));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

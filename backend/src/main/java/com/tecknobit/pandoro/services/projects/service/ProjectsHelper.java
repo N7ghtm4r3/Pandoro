@@ -13,6 +13,8 @@ import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
+import com.tecknobit.pandorocore.enums.UpdateStatus;
+import kotlin.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
@@ -39,6 +44,26 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
  */
 @Service
 public class ProjectsHelper extends ChangelogOperator implements PandoroResourcesManager {
+
+    /**
+     * {@code PROJECT_NAME_REGEX} regex to validate the project name
+     */
+    private static final String PROJECT_NAME_REGEX = "^[a-zA-Z0-9_-]{1,15}$";
+
+    /**
+     * {@code PROJECT_NAME_PATTERN} the pattern to validate the project names values
+     */
+    private static final Pattern PROJECT_NAME_PATTERN = Pattern.compile(PROJECT_NAME_REGEX);
+
+    /**
+     * {@code PROJECT_VERSION_REGEX} regex to validate the project version
+     */
+    private static final String PROJECT_VERSION_REGEX = "^v?(?:\\d+[-.]?)+(-[a-zA-Z]+\\d*)?$";
+
+    /**
+     * {@code PROJECT_VERSION_PATTERN} the pattern to validate the project version
+     */
+    private static final Pattern PROJECT_VERSION_PATTERN = Pattern.compile(PROJECT_VERSION_REGEX);
 
     /**
      * {@code projectsRepository} instance for the projects project_repository
@@ -71,23 +96,37 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     private GroupMembersRepository groupMembersRepository;
 
     /**
-     * Method to get the user's {@link com.tecknobit.pandorocore.enums.UpdateStatus#IN_DEVELOPMENT} projects list
+     * Method to get the user's {@link UpdateStatus#IN_DEVELOPMENT} projects list
      *
      * @param userId   The user identifier
      * @param page     The page requested
      * @param pageSize The size of the items to insert in the page
+     * @param filters The filter to apply to the query to select the project
      * @return the projects list as {@link PaginatedResponse} of {@link Project}
      * @apiNote also the projects of a group in which he is a member are returned
      */
-    public PaginatedResponse<Project> getInDevelopmentProjects(String userId, int page, int pageSize) {
+    public PaginatedResponse<Project> getInDevelopmentProjects(String userId, int page, int pageSize,
+                                                               Set<String> filters) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<Project> projects = projectsRepository.getInDevelopmentProjects(userId, pageable);
+        Pair<String, Set<String>> filtersSet = extractProjectFilters(filters);
+        String projectNameFilter = filtersSet.getFirst();
+        Set<String> versionsFilter = filtersSet.getSecond();
+        List<Project> projects = projectsRepository.getInDevelopmentProjects(
+                userId,
+                projectNameFilter,
+                versionsFilter,
+                pageable
+        );
         for (Project project : projects) {
             ArrayList<ProjectUpdate> updates = project.getUpdates();
             updates.removeIf(update -> update.getStatus() != IN_DEVELOPMENT);
             project.setUpdates(updates);
         }
-        long projectsCount = projectsRepository.getCompleteInDevelopmentProjectsList(userId).size();
+        long projectsCount = projectsRepository.getCompleteInDevelopmentProjectsList(
+                userId,
+                projectNameFilter,
+                versionsFilter
+        ).size();
         return new PaginatedResponse<>(projects, page, pageSize, projectsCount);
     }
 
@@ -97,16 +136,38 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
      * @param userId The user identifier
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param filters The filter to apply to the query to select the project
      *
      * @return the projects list as {@link PaginatedResponse} of {@link Project}
      *
      * @apiNote also the projects of a group in which he is a member are returned
      */
-    public PaginatedResponse<Project> getProjects(String userId, int page, int pageSize) {
+    public PaginatedResponse<Project> getProjects(String userId, int page, int pageSize, Set<String> filters) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<Project> projects = projectsRepository.getProjects(userId, pageable);
-        long projectsCount = projectsRepository.getCompleteProjectsList(userId).size();
+        Pair<String, Set<String>> filtersSet = extractProjectFilters(filters);
+        String projectNameFilter = filtersSet.getFirst();
+        Set<String> versionsFilter = filtersSet.getSecond();
+        List<Project> projects = projectsRepository.getProjects(userId, projectNameFilter, versionsFilter, pageable);
+        long projectsCount = projectsRepository.getCompleteProjectsList(userId, projectNameFilter, versionsFilter).size();
         return new PaginatedResponse<>(projects, page, pageSize, projectsCount);
+    }
+
+    /**
+     * Method to select from the raw filter the specific values of the different filters
+     *
+     * @param rawFilters The raw filters
+     * @return the specific filters as {@link Pair} of {@link String} and {@link HashSet} of {@link String}
+     */
+    private Pair<String, Set<String>> extractProjectFilters(Set<String> rawFilters) {
+        String projectName = "";
+        HashSet<String> filters = new HashSet<>();
+        for (String filter : rawFilters) {
+            if (projectName.isEmpty() && PROJECT_NAME_PATTERN.matcher(filter).matches())
+                projectName = filter;
+            else if (PROJECT_VERSION_PATTERN.matcher(filter).matches())
+                filters.add(filter);
+        }
+        return new Pair<>(projectName, filters);
     }
 
     /**
