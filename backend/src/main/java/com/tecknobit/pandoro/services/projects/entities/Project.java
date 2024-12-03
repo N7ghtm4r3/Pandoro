@@ -39,7 +39,7 @@ public class Project extends PandoroItem {
      */
     @Column(
             name = PROJECT_ICON_KEY,
-            columnDefinition = "TEXT DEFAULT '" + DEFAULT_PROFILE_PIC + "'",
+            columnDefinition = "TEXT DEFAULT NULL",
             insertable = false
     )
     protected final String icon;

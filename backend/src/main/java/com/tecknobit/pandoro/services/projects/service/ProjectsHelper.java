@@ -226,7 +226,8 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
                     repository
             );
             addGroupsToAProject(groups, projectId);
-            saveResource(icon, iconPath);
+            if (icon != null)
+                saveResource(icon, iconPath);
         } else {
             if (iconPath != null) {
                 projectsRepository.editProject(userId, projectId, name, iconPath, description, version, repository);

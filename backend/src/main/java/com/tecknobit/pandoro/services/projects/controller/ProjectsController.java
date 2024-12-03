@@ -11,7 +11,6 @@ import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
-import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_PROJECT_ICON_MESSAGE;
 
 
 // TODO: 30/11/2024 TO MAP THE ERROR KEYS HARDCODED AS CONSTANT IN PandoroInputsValidator
@@ -221,14 +219,10 @@ public class ProjectsController extends DefaultPandoroController {
         if (!INSTANCE.isValidProjectName(name))
             return failedResponse("wrong_project_name_key");
         boolean isAdding = projectId == null;
-        MultipartFile icon = payload.icon();
         if (!isAdding) {
             Project currentEditingProject = projectsHelper.getProjectById(projectId);
             if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else {
-            if (icon == null || icon.isEmpty())
-                return failedResponse(WRONG_PROJECT_ICON_MESSAGE);
         }
         String description = payload.project_description();
         if (!INSTANCE.isValidProjectDescription(description))
