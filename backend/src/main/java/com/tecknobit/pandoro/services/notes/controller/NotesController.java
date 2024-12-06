@@ -71,8 +71,8 @@ public class NotesController extends DefaultPandoroController {
     /**
      * Method to create a new note
      *
-     * @param id:          the identifier of the user
-     * @param token:       the token of the user
+     * @param id The identifier of the user
+     * @param token The token of the user
      * @param payload The payload with the content of the note
      * @return the result of the request as {@link String}
      */
@@ -87,16 +87,45 @@ public class NotesController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody Map<String, String> payload
     ) {
-        if (isMe(id, token)) {
-            loadJsonHelper(payload);
-            String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
-            if (INSTANCE.isContentNoteValid(contentNote)) {
-                notesHelper.createNote(id, generateIdentifier(), contentNote);
-                return successResponse();
-            } else
-                return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        } else
+        if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+        if (!INSTANCE.isContentNoteValid(contentNote))
+            return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+        notesHelper.createNote(id, generateIdentifier(), contentNote);
+        return successResponse();
+    }
+
+    /**
+     * Method to edit an existing note
+     *
+     * @param id      The identifier of the user
+     * @param token   The token of the user
+     * @param payload The payload with the content of the note
+     * @return the result of the request as {@link String}
+     */
+    @PatchMapping(
+            path = "{" + NOTE_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = PATCH)
+    public String editNote(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestBody Map<String, String> payload
+    ) {
+        if (!isMe(id, token) || !notesHelper.noteExists(id, noteId))
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+        if (!INSTANCE.isContentNoteValid(contentNote))
+            return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+        notesHelper.editNote(id, noteId, contentNote);
+        return successResponse();
     }
 
     /**

@@ -43,7 +43,7 @@ object PandoroInputsValidator : InputsValidator() {
     /**
      * `TARGET_VERSION_MAX_LENGTH` the max length of the target version for an update
      */
-    const val TARGET_VERSION_MAX_LENGTH: Int = 10
+    const val TARGET_VERSION_MAX_LENGTH: Int = 20
 
     /**
      * `EMAIL_REGEX` regular expression to validate the emails value

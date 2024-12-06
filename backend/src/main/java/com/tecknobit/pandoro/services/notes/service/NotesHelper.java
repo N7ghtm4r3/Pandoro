@@ -44,12 +44,23 @@ public class NotesHelper {
     /**
      * Method to create a new note
      *
-     * @param authorId:    the author of the note identifier
-     * @param noteId:      the note identifier
+     * @param authorId The author of the note identifier
+     * @param noteId The note identifier
      * @param contentNote The content of the note
      */
     public void createNote(String authorId, String noteId, String contentNote) {
         notesRepository.createNote(authorId, noteId, contentNote, currentTimeMillis());
+    }
+
+    /**
+     * Method to edit an existing note
+     *
+     * @param authorId    The author of the note identifier
+     * @param noteId      The note identifier
+     * @param contentNote The content of the note
+     */
+    public void editNote(String authorId, String noteId, String contentNote) {
+        notesRepository.editNote(authorId, noteId, contentNote);
     }
 
     /**

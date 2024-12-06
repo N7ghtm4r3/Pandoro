@@ -130,6 +130,28 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
+     * Method to execute the query to edit an existing {@link Note}
+     *
+     * @param authorId    The author of the note identifier
+     * @param noteId      The note identifier
+     * @param contentNote The content of the note
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + NOTES_KEY + " SET " +
+                    CONTENT_NOTE_KEY + "=:" + CONTENT_NOTE_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
+            nativeQuery = true
+    )
+    void editNote(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(IDENTIFIER_KEY) String noteId,
+            @Param(CONTENT_NOTE_KEY) String contentNote
+    );
+
+    /**
      * Method to execute the query to add a new change note
      *
      * @param authorId The author of the note identifier
