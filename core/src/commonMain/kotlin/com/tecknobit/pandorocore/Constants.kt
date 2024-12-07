@@ -121,6 +121,11 @@ const val UPDATE_PUBLISH_DATE_KEY = "publish_date"
 const val GROUPS_KEY = "groups"
 
 /**
+ * `ONLY_AUTHORED_GROUPS` authored groups key
+ */
+const val ONLY_AUTHORED_GROUPS = "authored_groups"
+
+/**
  * `GROUP_IDENTIFIER_KEY` the group identifier key
  */
 const val GROUP_IDENTIFIER_KEY = "group_id"

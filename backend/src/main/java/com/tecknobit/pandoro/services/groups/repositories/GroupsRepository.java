@@ -65,6 +65,38 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     );
 
     /**
+     * Method to execute the query to count the total groups where the user is the author of the group
+     *
+     * @param userId The user identifier
+     * @return the total numbers of the projects_groups
+     */
+    @Query(
+            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
+            nativeQuery = true
+    )
+    long getAuthoredGroupsCount(
+            @Param(AUTHOR_KEY) String userId
+    );
+
+    /**
+     * Method to execute the query to select the list of a {@link Group} where the user is the author of the group
+     *
+     * @param userId   The user identifier
+     * @param pageable The parameters to paginate the query
+     * @return the list of projects_groups as {@link List} of {@link Group}
+     */
+    @Query(
+            value = "SELECT * FROM " + GROUPS_KEY +
+                    " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            nativeQuery = true
+    )
+    List<Group> getAuthoredGroups(
+            @Param(AUTHOR_KEY) String userId,
+            Pageable pageable
+    );
+
+    /**
      * Method to execute the query to select the list of a {@link Group}
      *
      * @param userId The user identifier

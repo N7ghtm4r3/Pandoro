@@ -72,12 +72,20 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      * @param userId The user identifier
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param authoredGroups Whether retrieve only the groups authored by the requesting user
      * @return the changelogs list as {@link PaginatedResponse} of {@link Group}
      */
-    public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize) {
+    public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize, boolean authoredGroups) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<Group> groups = groupsRepository.getGroups(userId, pageable);
-        long groupsCount = groupsRepository.getGroupsCount(userId);
+        List<Group> groups;
+        long groupsCount;
+        if (authoredGroups) {
+            groups = groupsRepository.getAuthoredGroups(userId, pageable);
+            groupsCount = groupsRepository.getAuthoredGroupsCount(userId);
+        } else {
+            groups = groupsRepository.getGroups(userId, pageable);
+            groupsCount = groupsRepository.getGroupsCount(userId);
+        }
         return new PaginatedResponse<>(groups, page, pageSize, groupsCount);
     }
 

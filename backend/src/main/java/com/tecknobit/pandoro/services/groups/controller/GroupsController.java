@@ -68,6 +68,7 @@ public class GroupsController extends DefaultPandoroController {
      * @param token The token of the user
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param authoredGroups Whether retrieve only the groups authored by the requesting user
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -80,10 +81,11 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
+            @RequestParam(name = ONLY_AUTHORED_GROUPS, defaultValue = "false", required = false) boolean authoredGroups
     ) {
         if (isMe(id, token))
-            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize));
+            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize, authoredGroups));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
