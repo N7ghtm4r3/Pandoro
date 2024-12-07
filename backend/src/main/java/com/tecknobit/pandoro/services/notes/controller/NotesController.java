@@ -14,6 +14,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
+import static com.tecknobit.pandoro.services.notes.service.NotesHelper.ALL_FILTER_VALUE;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT;
@@ -48,6 +49,7 @@ public class NotesController extends DefaultPandoroController {
      * @param token The token of the user
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param statusFilter The status of the note to use as filter
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -60,10 +62,11 @@ public class NotesController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
+            @RequestParam(name = MARKED_AS_DONE_KEY, defaultValue = ALL_FILTER_VALUE, required = false) String statusFilter
     ) {
         if (isMe(id, token))
-            return (T) successResponse(notesHelper.getNotes(id, page, pageSize));
+            return (T) successResponse(notesHelper.getNotes(id, page, pageSize, statusFilter));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }

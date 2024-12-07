@@ -59,6 +59,47 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
+     * Method to execute the query to select the number of the notes
+     *
+     * @param authorId     The author identifier
+     * @param markedAsDone Whether retrieve the notes marked as done or the not ones
+     * @return the number of the notes
+     */
+    @Query(
+            value = "SELECT COUNT(*) FROM " + NOTES_KEY +
+                    " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
+                    " AND " + UPDATE_KEY + " IS NULL",
+            nativeQuery = true
+    )
+    long getNotesCount(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(MARKED_AS_DONE_KEY) boolean markedAsDone
+    );
+
+    /**
+     * Method to execute the query to select the list of a {@link Note}
+     *
+     * @param authorId     The author identifier
+     * @param pageable     The parameters to paginate the query
+     * @param markedAsDone Whether retrieve the notes marked as done or the not ones
+     * @return the list of notes as {@link List} of {@link Note}
+     */
+    @Query(
+            value = "SELECT * FROM " + NOTES_KEY +
+                    " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + UPDATE_KEY + " IS NULL" +
+                    " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            nativeQuery = true
+    )
+    List<Note> getNotes(
+            @Param(AUTHOR_KEY) String authorId,
+            @Param(MARKED_AS_DONE_KEY) boolean markedAsDone,
+            Pageable pageable
+    );
+
+    /**
      * Method to execute the query to select a {@link Note} by its id
      *
      * @param authorId The author identifier

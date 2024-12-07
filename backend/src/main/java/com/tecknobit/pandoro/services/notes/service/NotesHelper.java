@@ -21,6 +21,11 @@ import static java.lang.System.currentTimeMillis;
 public class NotesHelper {
 
     /**
+     * {@code ALL_FILTER_VALUE} the default value of the filter to retrieve the notes list
+     */
+    public static final String ALL_FILTER_VALUE = "all";
+
+    /**
      * {@code notesRepository} instance for the notes project_repository
      */
     @Autowired
@@ -32,12 +37,21 @@ public class NotesHelper {
      * @param userId The user identifier
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
+     * @param statusFilter The status of the note to use as filter
      * @return the notes list as {@link PaginatedResponse} of {@link Note}
      */
-    public PaginatedResponse<Note> getNotes(String userId, int page, int pageSize) {
+    public PaginatedResponse<Note> getNotes(String userId, int page, int pageSize, String statusFilter) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<Note> notes = notesRepository.getNotes(userId, pageable);
-        long notesCount = notesRepository.getNotesCount(userId);
+        List<Note> notes;
+        long notesCount;
+        if (statusFilter.equals(ALL_FILTER_VALUE)) {
+            notes = notesRepository.getNotes(userId, pageable);
+            notesCount = notesRepository.getNotesCount(userId);
+        } else {
+            boolean markedAsDone = Boolean.parseBoolean(statusFilter);
+            notes = notesRepository.getNotes(userId, markedAsDone, pageable);
+            notesCount = notesRepository.getNotesCount(userId, markedAsDone);
+        }
         return new PaginatedResponse<>(notes, page, pageSize, notesCount);
     }
 
