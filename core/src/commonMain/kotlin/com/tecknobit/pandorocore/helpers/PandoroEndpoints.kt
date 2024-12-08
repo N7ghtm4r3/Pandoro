@@ -10,6 +10,11 @@ import com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet
 object PandoroEndpoints : EquinoxBaseEndpointsSet() {
 
     /**
+     * `AUTHORED_PROJECTS` endpoint to get the projects authored by an user
+     */
+    const val AUTHORED_PROJECTS_ENDPOINT: String = "/authored"
+
+    /**
      * `IN_DEVELOPMENT_PROJECTS_ENDPOINT` endpoint to get the projects currently in [com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT] status
      */
     const val IN_DEVELOPMENT_PROJECTS_ENDPOINT: String = "/in_development"

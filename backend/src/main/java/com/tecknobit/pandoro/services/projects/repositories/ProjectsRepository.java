@@ -29,6 +29,22 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface ProjectsRepository extends JpaRepository<Project, String> {
 
     /**
+     * Method to execute the query to select the list of a {@link Project} authored by the user id
+     *
+     * @param userId The user identifier
+     * @return the list of projects as {@link List} of {@link Project}
+     */
+    @Query(
+            value = "SELECT * FROM " + PROJECTS_KEY +
+                    " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            nativeQuery = true
+    )
+    List<Project> getAuthoredProjects(
+            @Param(AUTHOR_KEY) String userId
+    );
+
+    /**
      * Method to execute the query to select the list of a {@link Project} currently {@link UpdateStatus#IN_DEVELOPMENT}
      *
      * @param userId The user identifier

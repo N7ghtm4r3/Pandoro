@@ -56,6 +56,30 @@ public class ProjectsController extends DefaultPandoroController {
     private GroupsHelper groupsHelper;
 
     /**
+     * Method to get the authored projects list
+     *
+     * @param id    The identifier of the user
+     * @param token The token of the user
+     * @return the result of the request as {@link String}
+     */
+    @GetMapping(
+            path = AUTHORED_PROJECTS_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/projects/authored", method = GET)
+    public <T> T getAuthoredProjects(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token
+    ) {
+        if (isMe(id, token))
+            return (T) successResponse(projectsHelper.getAuthoredProjects(id));
+        else
+            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+    }
+
+    /**
      * Method to get a {@link UpdateStatus#IN_DEVELOPMENT} projects list
      *
      * @param id       The identifier of the user

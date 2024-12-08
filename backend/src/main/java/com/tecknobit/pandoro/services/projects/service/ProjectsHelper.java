@@ -96,6 +96,16 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     private GroupMembersRepository groupMembersRepository;
 
     /**
+     * Method to get the user's authored projects list
+     *
+     * @param userId The user identifier
+     * @return the projects list as {@link PaginatedResponse} of {@link Project}
+     */
+    public List<Project> getAuthoredProjects(String userId) {
+        return projectsRepository.getAuthoredProjects(userId);
+    }
+
+    /**
      * Method to get the user's {@link UpdateStatus#IN_DEVELOPMENT} projects list
      *
      * @param userId   The user identifier
