@@ -101,6 +101,9 @@ public class GroupsController extends DefaultPandoroController {
      *                                  "group_description": "description of the group", -> [String]
      *                                  "members" : [ -> [List of Strings or empty]
      *                                      // id of the group member -> [String]
+     *                                  ],
+     *                                  "projects" : [ -> [List of Strings or empty]
+     *                                      // id of the projects -> [String]
      *                                  ]
      *                              }
      *                      }
@@ -118,27 +121,107 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @ModelAttribute GroupDTO payload
     ) {
-        if (!isMe(id, token))
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        String groupName = payload.name();
-        MultipartFile logo = payload.logo();
-        if (logo == null || logo.isEmpty())
-            return failedResponse(WRONG_GROUP_LOGO_MESSAGE);
-        if (!INSTANCE.isGroupNameValid(groupName))
-            return failedResponse("wrong_group_name_key");
-        if (groupsHelper.groupExists(id, groupName))
-            return failedResponse("group_name_already_exists_key");
-        String groupDescription = payload.group_description();
-        if (!INSTANCE.isGroupDescriptionValid(groupDescription))
-            return failedResponse("wrong_group_description_key");
-        if (!me.getProjectsIds().containsAll(payload.projects()))
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        String isValidRequest = isValidRequest(id, token, payload);
+        if (isValidRequest != null)
+            return failedResponse(isValidRequest);
         try {
             groupsHelper.createGroup(me, generateIdentifier(), payload);
         } catch (IOException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
         return successResponse();
+    }
+
+    /**
+     * Method to create edit an existing group
+     *
+     * @param id       The identifier of the user
+     * @param token    The token of the user
+     * @param payload: payload of the request
+     *                 <pre>
+     *                                      {@code
+     *                                              {
+     *                                                  "logo" : "logo of the group", -> [String]
+     *                                                  "name" : "name of the group", -> [String]
+     *                                                  "group_description": "description of the group", -> [String]
+     *                                                  "members" : [ -> [List of Strings or empty]
+     *                                                      // id of the group member -> [String]
+     *                                                  ],
+     *                                                  "projects" : [ -> [List of Strings or empty]
+     *                                                      // id of the projects -> [String]
+     *                                                  ]
+     *                                              }
+     *                                      }
+     *                                 </pre>
+     * @return the result of the request as {@link String}
+     */
+    @PostMapping(
+            path = "/{" + GROUP_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = POST)
+    public String editGroup(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
+            @RequestHeader(TOKEN_KEY) String token,
+            @ModelAttribute GroupDTO payload
+    ) {
+        String isValidRequest = isValidRequest(id, token, payload);
+        if (isValidRequest != null)
+            return failedResponse(isValidRequest);
+        if (groupsHelper.getGroup(id, groupId) == null)
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        try {
+            groupsHelper.editGroup(me, groupId, payload);
+        } catch (IOException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+        return successResponse();
+    }
+
+    /**
+     * Method to check the validity of a request between {@link #createGroup(String, String, GroupDTO)} and
+     * {@link #editGroup(String, String, String, GroupDTO)}
+     *
+     * @param id       The identifier of the user
+     * @param token    The token of the user
+     * @param payload: payload of the request
+     *                 <pre>
+     *                                      {@code
+     *                                              {
+     *                                                  "logo" : "logo of the group", -> [String]
+     *                                                  "name" : "name of the group", -> [String]
+     *                                                  "group_description": "description of the group", -> [String]
+     *                                                  "members" : [ -> [List of Strings or empty]
+     *                                                      // id of the group member -> [String]
+     *                                                  ],
+     *                                                  "projects" : [ -> [List of Strings or empty]
+     *                                                      // id of the projects -> [String]
+     *                                                  ]
+     *                                              }
+     *                                      }
+     *                                 </pre>
+     * @return the result of the validation as {@link String}
+     */
+    private String isValidRequest(String id, String token, GroupDTO payload) {
+        if (!isMe(id, token))
+            return WRONG_PROCEDURE_MESSAGE;
+        String groupName = payload.name();
+        MultipartFile logo = payload.logo();
+        if (logo == null || logo.isEmpty())
+            return WRONG_GROUP_LOGO_MESSAGE;
+        if (!INSTANCE.isGroupNameValid(groupName))
+            return "wrong_group_name_key";
+        if (groupsHelper.groupExists(id, groupName))
+            return "group_name_already_exists_key";
+        String groupDescription = payload.group_description();
+        if (!INSTANCE.isGroupDescriptionValid(groupDescription))
+            return "wrong_group_description_key";
+        if (!me.getProjectsIds().containsAll(payload.projects()))
+            return WRONG_PROCEDURE_MESSAGE;
+        return null;
     }
 
     /**

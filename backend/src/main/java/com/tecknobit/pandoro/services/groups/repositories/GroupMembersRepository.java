@@ -41,7 +41,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "INSERT INTO " + GROUP_MEMBERS_TABLE
+            value = "INSERT IGNORE INTO " + GROUP_MEMBERS_TABLE
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + NAME_KEY + ","
@@ -199,8 +199,23 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
                     + " AND " + INVITATION_STATUS_KEY + " = 'JOINED'",
             nativeQuery = true
     )
-    List<GroupMember> getGroupMembers(@Param(GROUP_MEMBER_KEY) String groupId);
+    List<GroupMember> getGroupMembers(
+            @Param(GROUP_MEMBER_KEY) String groupId
+    );
 
+    /**
+     * Method to execute the query to select the members of a group
+     *
+     * @param groupId: the group identifier
+     * @return the list the of members of a group as {@link List} of {@link GroupMember}
+     */
+    @Query(
+            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + GROUP_MEMBER_KEY + "=:" + GROUP_MEMBER_KEY,
+            nativeQuery = true
+    )
+    List<GroupMember> getAllGroupMembers(
+            @Param(GROUP_MEMBER_KEY) String groupId
+    );
 
     /**
      * Method to execute the query to leave from a group

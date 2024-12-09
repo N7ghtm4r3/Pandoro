@@ -126,6 +126,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
                 authorId,
                 groupId,
                 groupName,
+                logoPath,
                 operationDate,
                 group.group_description()
         );
@@ -184,23 +185,60 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     }
 
     /**
+     * Method to create a group
+     *
+     * @param author  The author of the group
+     * @param groupId The identifier of the new group
+     * @param group   The payload with the group details
+     */
+    public void editGroup(PandoroUser author, String groupId, GroupDTO group) throws IOException {
+        String requester = author.getId();
+        String groupName = group.name();
+        String groupDescription = group.group_description();
+        MultipartFile logo = group.logo();
+        if (logo != null && !logo.isEmpty()) {
+            deleteGroupLogoResource(groupId);
+            String logoPath = createGroupLogoResource(logo, groupId + System.currentTimeMillis());
+            groupsRepository.editGroup(
+                    groupId,
+                    logoPath,
+                    groupName,
+                    groupDescription
+            );
+            saveResource(logo, logoPath);
+        } else {
+            groupsRepository.editGroup(
+                    groupId,
+                    groupName,
+                    groupDescription
+            );
+        }
+        editMembers(requester, groupId, group.members());
+        editProjects(groupId, group.projects());
+    }
+
+    /**
      * Method to edit the members list of a group
      *
+     * @param requester The user who request the operation
      * @param groupId The group identifier
      * @param members The members list of a group to edit
      */
     @Deprecated(
             message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
     )
-    public void editMembers(String groupId, List<String> members) {
-        List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
+    public void editMembers(String requester, String groupId, List<String> members) {
+        List<GroupMember> groupMembers = membersRepository.getAllGroupMembers(groupId);
         List<String> currentMembers = new ArrayList<>();
         for (GroupMember member : groupMembers)
             currentMembers.add(member.getId());
         currentMembers.removeAll(members);
-        for (String memberId : currentMembers)
-            removeMember(memberId, groupId);
+        for (String memberId : currentMembers) {
+            if (!requester.equals(memberId))
+                removeMember(memberId, groupId);
+        }
         members.removeAll(currentMembers);
+        members.remove(requester);
         for (String memberId : members) {
             usersRepository.findById(memberId).ifPresent(pandoroUser ->
                     membersRepository.insertMember(

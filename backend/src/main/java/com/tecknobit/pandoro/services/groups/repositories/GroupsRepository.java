@@ -137,6 +137,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @param author The author of the group
      * @param groupId The identifier of the new group
      * @param groupName The name of the group
+     * @param logo The logo of the group
      * @param creationDate The date when the group has been created
      * @param groupDescription The description of the group
      */
@@ -147,12 +148,14 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + NAME_KEY + ","
+                    + GROUP_LOGO_KEY + ","
                     + CREATION_DATE_KEY + ","
                     + GROUP_DESCRIPTION_KEY + ","
                     + AUTHOR_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + NAME_KEY + ","
+                    + ":" + GROUP_LOGO_KEY + ","
                     + ":" + CREATION_DATE_KEY + ","
                     + ":" + GROUP_DESCRIPTION_KEY + ","
                     + ":" + AUTHOR_KEY + ")",
@@ -162,7 +165,55 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
             @Param(AUTHOR_KEY) String author,
             @Param(IDENTIFIER_KEY) String groupId,
             @Param(NAME_KEY) String groupName,
+            @Param(GROUP_LOGO_KEY) String logo,
             @Param(CREATION_DATE_KEY) long creationDate,
+            @Param(GROUP_DESCRIPTION_KEY) String groupDescription
+    );
+
+    /**
+     * Method to execute the query to edit an existing {@link Group}
+     *
+     * @param logo             The logo of the group
+     * @param groupId          The identifier of the new group
+     * @param groupName        The name of the group
+     * @param groupDescription The description of the group
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUPS_KEY + " SET " +
+                    GROUP_LOGO_KEY + "=:" + GROUP_LOGO_KEY + "," +
+                    NAME_KEY + "=:" + NAME_KEY + "," +
+                    GROUP_DESCRIPTION_KEY + "=:" + GROUP_DESCRIPTION_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void editGroup(
+            @Param(IDENTIFIER_KEY) String groupId,
+            @Param(GROUP_LOGO_KEY) String logo,
+            @Param(NAME_KEY) String groupName,
+            @Param(GROUP_DESCRIPTION_KEY) String groupDescription
+    );
+
+    /**
+     * Method to execute the query to edit an existing {@link Group}
+     *
+     * @param groupId          The identifier of the new group
+     * @param groupName        The name of the group
+     * @param groupDescription The description of the group
+     */
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + GROUPS_KEY + " SET " +
+                    NAME_KEY + "=:" + NAME_KEY + "," +
+                    GROUP_DESCRIPTION_KEY + "=:" + GROUP_DESCRIPTION_KEY +
+                    " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void editGroup(
+            @Param(IDENTIFIER_KEY) String groupId,
+            @Param(NAME_KEY) String groupName,
             @Param(GROUP_DESCRIPTION_KEY) String groupDescription
     );
 
