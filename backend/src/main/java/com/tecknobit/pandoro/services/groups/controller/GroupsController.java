@@ -48,18 +48,13 @@ public class GroupsController extends DefaultPandoroController {
     public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "action_executed_on_own_account_error_key";
 
     /**
-     * {@code WRONG_ADMIN_MESSAGE} message to use when a wrong admin has been inserted
-     */
-    public static final String WRONG_ADMIN_MESSAGE = "wrong_admin_inserted_key";
-
-    /**
-     * {@code groupsHelper} instance to manage the projects_groups database operations
+     * {@code groupsHelper} instance to manage the groups database operations
      */
     @Autowired
     private GroupsHelper groupsHelper;
 
     /**
-     * Method to get a projects_groups list
+     * Method to get a groups list
      *
      * @param id The identifier of the user
      * @param token The token of the user

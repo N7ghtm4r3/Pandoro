@@ -34,7 +34,7 @@ import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 
 /**
- * The {@code GroupsHelper} class is useful to manage all the projects_groups database operations
+ * The {@code GroupsHelper} class is useful to manage all the groups database operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see ChangelogOperator
@@ -49,7 +49,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     private PandoroUsersRepository usersRepository;
 
     /**
-     * {@code groupsRepository} instance for the projects_groups project_repository
+     * {@code groupsRepository} instance for the groups project_repository
      */
     @Autowired
     private GroupsRepository groupsRepository;
@@ -67,7 +67,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     private ChangelogsRepository changelogsRepository;
 
     /**
-     * Method to get the user's projects_groups list
+     * Method to get the user's groups list
      *
      * @param userId The user identifier
      * @param page      The page requested
@@ -75,11 +75,10 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      * @param authoredGroups Whether retrieve only the groups authored by the requesting user
      * @param groupName The name of the group to use as filter
      * @param roles The role values to use as filter
-     * @return the changelogs list as {@link PaginatedResponse} of {@link Group}
+     * @return the groups list as {@link PaginatedResponse} of {@link Group}
      */
     public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize, boolean authoredGroups,
                                               String groupName, HashSet<String> roles) {
-        System.out.println(roles);
         Pageable pageable = PageRequest.of(page, pageSize);
         List<Group> groups;
         long groupsCount;
@@ -94,7 +93,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     }
 
     /**
-     * Method to get the user's projects_groups list
+     * Method to get the user's groups list
      *
      * @param userId The user identifier
      * @return the changelogs list as {@link List} of {@link Group}

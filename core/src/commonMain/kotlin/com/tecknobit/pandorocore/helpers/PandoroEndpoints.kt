@@ -20,6 +20,11 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
     const val IN_DEVELOPMENT_PROJECTS_ENDPOINT: String = "/in_development"
 
     /**
+     * `CANDIDATE_GROUP_MEMBERS` endpoint to get the candidate user to be members of a group
+     */
+    const val CANDIDATE_GROUP_MEMBERS_ENDPOINT: String = "/candidates"
+
+    /**
      * `ADD_MEMBERS_ENDPOINT` endpoint to add member to group
      */
     const val ADD_MEMBERS_ENDPOINT: String = "/addMembers"
