@@ -123,26 +123,6 @@ object PandoroInputsValidator : InputsValidator() {
     }
 
     /**
-     * Function to check the validity of a members list
-     *
-     * @param members: members list to check
-     * @return whether the members list is valid as [Boolean]
-     */
-    fun checkMembersValidity(
-        members: List<String?>?,
-    ): Boolean {
-        if (members.isNullOrEmpty())
-            return false
-        var membersCorrect = true
-        for (member in members) {
-            membersCorrect = isEmailValid(member)
-            if (!membersCorrect)
-                break
-        }
-        return membersCorrect
-    }
-
-    /**
      * Function to check the validity of a group name
      *
      * @param groupName: group name to check

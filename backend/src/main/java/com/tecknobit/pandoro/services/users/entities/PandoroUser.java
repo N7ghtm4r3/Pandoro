@@ -13,7 +13,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.AUTHOR_KEY;
@@ -165,6 +167,18 @@ public class PandoroUser extends EquinoxUser {
      */
     public ArrayList<Project> getProjects() {
         return new ArrayList<>(projects);
+    }
+
+    /**
+     * Method to get {@link #projects} instance
+     *
+     * @return {@link #projects} instance as {@link Set} of {@link String}
+     */
+    public Set<String> getProjectsIds() {
+        HashSet<String> ids = new HashSet<>();
+        for (Project project : projects)
+            ids.add(project.getId());
+        return ids;
     }
 
     /**

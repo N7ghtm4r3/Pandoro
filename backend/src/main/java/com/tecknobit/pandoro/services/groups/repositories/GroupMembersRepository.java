@@ -188,25 +188,6 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
     );
 
     /**
-     * Method to execute the query to select the admins of a group
-     *
-     * @param memberId: the member identifier
-     * @param groupId: the group identifier
-     *
-     * @return the list of the admin of a group as {@link List} of {@link GroupMember}
-     */
-    @Query(
-            value = "SELECT * FROM " + GROUP_MEMBERS_TABLE + " WHERE " + MEMBER_ROLE_KEY + "= 'ADMIN'"
-                    + " AND " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY + " AND " + GROUP_MEMBER_KEY + "=:"
-                    + GROUP_MEMBER_KEY,
-            nativeQuery = true
-    )
-    List<GroupMember> getGroupAdmins(
-            @Param(IDENTIFIER_KEY) String memberId,
-            @Param(GROUP_MEMBER_KEY) String groupId
-    );
-
-    /**
      * Method to execute the query to select the members of a group
      *
      * @param groupId: the group identifier
@@ -219,6 +200,7 @@ public interface GroupMembersRepository extends JpaRepository<GroupMember, Strin
             nativeQuery = true
     )
     List<GroupMember> getGroupMembers(@Param(GROUP_MEMBER_KEY) String groupId);
+
 
     /**
      * Method to execute the query to leave from a group

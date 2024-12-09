@@ -1,6 +1,5 @@
 package com.tecknobit.pandoro.services.groups.service;
 
-import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager;
@@ -141,26 +140,16 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
                 groupId
         );
         addMembers(groupName, group.members(), groupId);
+        editProjects(groupId, group.projects());
         saveResource(logo, logoPath);
-    }
-
-    /**
-     * Method to get the user's group by its id
-     *
-     * @param userId The user identifier
-     * @param groupId The group identifier
-     * @return the group as {@link Group}
-     */
-    public Group getGroup(String userId, String groupId) {
-        return groupsRepository.getGroup(userId, groupId);
     }
 
     /**
      * Method to add a list of members to a group
      *
      * @param groupName The name of the group
-     * @param members The list of members to add
-     * @param groupId The group identifier where add the members
+     * @param members   The list of members to add
+     * @param groupId   The group identifier where add the members
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         List<PandoroUser> filteredMembers = filterMembers(members);
@@ -189,12 +178,56 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     )
     private List<PandoroUser> filterMembers(List<String> members) {
         ArrayList<PandoroUser> filteredMembers = new ArrayList<>();
-        for (String memberEmail : members) {
-            PandoroUser member = usersRepository.getUserByEmail(memberEmail.toLowerCase());
-            if (member != null)
-                filteredMembers.add(member);
-        }
+        for (String member : members)
+            usersRepository.findById(member).ifPresent(filteredMembers::add);
         return filteredMembers;
+    }
+
+    /**
+     * Method to edit the members list of a group
+     *
+     * @param groupId The group identifier
+     * @param members The members list of a group to edit
+     */
+    @Deprecated(
+            message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
+    )
+    public void editMembers(String groupId, List<String> members) {
+        List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
+        List<String> currentMembers = new ArrayList<>();
+        for (GroupMember member : groupMembers)
+            currentMembers.add(member.getId());
+        currentMembers.removeAll(members);
+        for (String memberId : currentMembers)
+            removeMember(memberId, groupId);
+        members.removeAll(currentMembers);
+        for (String memberId : members) {
+            usersRepository.findById(memberId).ifPresent(pandoroUser ->
+                    membersRepository.insertMember(
+                            memberId,
+                            pandoroUser.getName(),
+                            pandoroUser.getEmail(),
+                            pandoroUser.getProfilePic(),
+                            pandoroUser.getSurname(),
+                            DEVELOPER,
+                            PENDING,
+                            groupId
+                    )
+            );
+            for (GroupMember member : groupMembers)
+                changelogsCreator.newMemberJoined(groupId, member.getId());
+        }
+    }
+
+    /**
+     * Method to get the user's group by its id
+     *
+     * @param userId The user identifier
+     * @param groupId The group identifier
+     * @return the group as {@link Group}
+     */
+    public Group getGroup(String userId, String groupId) {
+        return groupsRepository.getGroup(userId, groupId);
     }
 
     /**
@@ -317,49 +350,16 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
     }
 
     /**
-     * Method to check if the group has other admins
-     *
-     * @param memberId The member identifier
-     * @param groupId The group identifier
-     * @return whether the group has other admin
-     */
-    public boolean hasGroupAdmins(String memberId, String groupId) {
-        return !membersRepository.getGroupAdmins(memberId, groupId).isEmpty();
-    }
-
-    /**
-     * Method to check if the group has other members
-     *
-     * @param groupId The group identifier
-     * @return whether the group has other members
-     */
-    public boolean hasOtherMembers(String groupId) {
-        return membersRepository.getGroupMembers(groupId).size() > 1;
-    }
-
-    /**
      * Method to leave from a group
      *
      * @param memberId The identifier of the member
-     * @param groupId The group identifier
+     * @param group The group from leave
      */
-    @Wrapper
-    public void leaveGroup(String memberId, String groupId) {
-        leaveGroup(memberId, groupId, false);
-    }
-
-    /**
-     * Method to leave from a group
-     *
-     * @param memberId The identifier of the member
-     * @param groupId The group identifier
-     * @param deleteGroup: whether delete the group after the member left
-     */
-    public void leaveGroup(String memberId, String groupId, boolean deleteGroup) {
-        if (deleteGroup)
+    public void leaveGroup(String memberId, Group group) {
+        String groupId = group.getId();
+        if (group.getMembers().size() - 1 == 0)
             deleteGroup(memberId, groupId);
         else {
-            Group group = getGroup(memberId, groupId);
             membersRepository.leaveGroup(memberId, groupId);
             for (Project project : group.getProjects())
                 if (project.getAuthor().getId().equals(memberId))

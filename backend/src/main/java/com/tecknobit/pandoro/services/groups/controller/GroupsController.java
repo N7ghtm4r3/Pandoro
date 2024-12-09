@@ -15,11 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.tecknobit.apimanager.apis.sockets.SocketManager.StandardResponseCode.SUCCESSFUL;
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
@@ -28,7 +26,6 @@ import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
-import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_GROUP_LOGO_MESSAGE;
@@ -76,7 +73,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = GET)
     public <T> T getGroups(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -99,6 +96,7 @@ public class GroupsController extends DefaultPandoroController {
      *                 <pre>
      *                      {@code
      *                              {
+     *                                  "logo" : "logo of the group", -> [String]
      *                                  "name" : "name of the group", -> [String]
      *                                  "group_description": "description of the group", -> [String]
      *                                  "members" : [ -> [List of Strings or empty]
@@ -114,7 +112,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups", method = POST)
+    @RequestPath(path = "/api/v1/users/{id}/groups", method = POST)
     public String createGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -133,9 +131,8 @@ public class GroupsController extends DefaultPandoroController {
         String groupDescription = payload.group_description();
         if (!INSTANCE.isGroupDescriptionValid(groupDescription))
             return failedResponse("wrong_group_description_key");
-        List<String> members = payload.members();
-        if (!INSTANCE.checkMembersValidity(members))
-            return failedResponse("wrong_members_list_key");
+        if (!me.getProjectsIds().containsAll(payload.projects()))
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
         try {
             groupsHelper.createGroup(me, generateIdentifier(), payload);
         } catch (IOException e) {
@@ -159,7 +156,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}", method = GET)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = GET)
     public <T> T getGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -191,7 +188,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/addMembers", method = PUT)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/addMembers", method = PUT)
     public String addMembers(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -203,11 +200,8 @@ public class GroupsController extends DefaultPandoroController {
             if (group != null && group.isUserMaintainer(me)) {
                 loadJsonHelper(payload);
                 List<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
-                if (INSTANCE.checkMembersValidity(members)) {
-                    groupsHelper.addMembers(group.getName(), members, groupId);
-                    return successResponse();
-                } else
-                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                groupsHelper.addMembers(group.getName(), members, groupId);
+                return successResponse();
             } else
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         } else
@@ -230,7 +224,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/acceptGroupInvitation", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/acceptGroupInvitation", method = PATCH)
     public String acceptInvitation(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -269,7 +263,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/declineGroupInvitation", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/declineGroupInvitation", method = DELETE)
     public String declineInvitation(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -316,7 +310,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/changeMemberRole", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/changeMemberRole", method = PATCH)
     public String changeMemberRole(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -379,7 +373,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/removeMember", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/removeMember", method = DELETE)
     public String removeMember(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -448,7 +442,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/editProjects", method = PATCH)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/editProjects", method = PATCH)
     public String editProjects(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -491,7 +485,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}/leaveGroup", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}/leaveGroup", method = DELETE)
     public String leaveGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
@@ -501,49 +495,13 @@ public class GroupsController extends DefaultPandoroController {
         if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         Group group = groupsHelper.getGroup(id, groupId);
-        if (group == null)
+        if (group == null || group.getAuthor().getId().equals(id))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
         if (meMember == null)
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        if (meMember.isAdmin()) {
-            if (groupsHelper.hasOtherMembers(groupId)) {
-                if (!groupsHelper.hasGroupAdmins(id, groupId)) {
-                    loadJsonHelper(payload);
-                    String nextAdminId = jsonHelper.getString(IDENTIFIER_KEY);
-                    if (nextAdminId == null || groupsHelper.getGroup(nextAdminId, groupId) == null)
-                        return failedResponse(WRONG_ADMIN_MESSAGE);
-                    HashMap<String, String> changeRolePayload = new HashMap<>();
-                    changeRolePayload.put(IDENTIFIER_KEY, nextAdminId);
-                    changeRolePayload.put(MEMBER_ROLE_KEY, ADMIN.name());
-                    String result = changeMemberRole(id, token, groupId, changeRolePayload);
-                    if (roleChanged(result)) {
-                        groupsHelper.leaveGroup(id, groupId);
-                        return successResponse();
-                    } else
-                        return failedResponse(WRONG_ADMIN_MESSAGE);
-                } else {
-                    groupsHelper.leaveGroup(id, groupId, false);
-                    return successResponse();
-                }
-            } else {
-                groupsHelper.leaveGroup(id, groupId, true);
-                return successResponse();
-            }
-        } else {
-            groupsHelper.leaveGroup(id, groupId);
-            return successResponse();
-        }
-    }
-
-    /**
-     * Method to check if the role changed correctly
-     *
-     * @param result The response of the request
-     * @return whether the request has been successful as boolean
-     */
-    private boolean roleChanged(String result) {
-        return result.contains(SUCCESSFUL.name());
+        groupsHelper.leaveGroup(id, group);
+        return successResponse();
     }
 
     /**
@@ -561,7 +519,7 @@ public class GroupsController extends DefaultPandoroController {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/projects_groups/{group_id}", method = DELETE)
+    @RequestPath(path = "/api/v1/users/{id}/groups/{group_id}", method = DELETE)
     public String deleteGroup(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
