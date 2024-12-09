@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -18,7 +19,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_K
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
- * The {@code GroupsRepository} interface is useful to manage the queries for the projects_groups
+ * The {@code GroupsRepository} interface is useful to manage the queries for the groups
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see JpaRepository
@@ -28,20 +29,30 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface GroupsRepository extends JpaRepository<Group, String> {
 
     /**
-     * Method to execute the query to count the total projects_groups where the user is a {@link GroupMember}
+     * Method to execute the query to count the total groups where the user is a {@link GroupMember}
      *
      * @param userId The user identifier
-     * @return the total numbers of the projects_groups
+     * @param name The name of the group to use as filter
+     * @param roles The role values to use as filter
+     * @return the total numbers of the groups
      */
     @Query(
-            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
-                    + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
-                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'",
+            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE +
+                    " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " +
+                    GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND " +
+                    "groups." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND (" +
+                    "COALESCE(:" + ROLES_FILTER_KEY + ") IS NULL" +
+                    " OR " + GROUP_MEMBERS_TABLE + "." + MEMBER_ROLE_KEY + " IN (:" + ROLES_FILTER_KEY + ")" +
+                    ") AND " +
+                    GROUP_MEMBERS_TABLE + "." + MEMBER_ROLE_KEY + " IN (:" + ROLES_FILTER_KEY + ")" + " AND " +
+                    GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'",
             nativeQuery = true
     )
     long getGroupsCount(
-            @Param(AUTHOR_KEY) String userId
+            @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(ROLES_FILTER_KEY) HashSet<String> roles
     );
 
     /**
@@ -49,18 +60,27 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      *
      * @param userId   The user identifier
      * @param pageable The parameters to paginate the query
-     * @return the list of projects_groups as {@link List} of {@link Group}
+     * @param name The name of the group to use as filter
+     * @param roles The role values to use as filter
+     * @return the list of groups as {@link List} of {@link Group}
      */
     @Query(
-            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
-                    + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
-                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'"
-                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE +
+                    " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " +
+                    GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND " +
+                    "groups." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
+                    " AND (" +
+                    "COALESCE(:" + ROLES_FILTER_KEY + ") IS NULL" +
+                    " OR " + GROUP_MEMBERS_TABLE + "." + MEMBER_ROLE_KEY + " IN (:" + ROLES_FILTER_KEY + ")" +
+                    ") AND " +
+                    GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'" +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Group> getGroups(
             @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
+            @Param(ROLES_FILTER_KEY) HashSet<String> roles,
             Pageable pageable
     );
 
@@ -68,14 +88,18 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * Method to execute the query to count the total groups where the user is the author of the group
      *
      * @param userId The user identifier
-     * @return the total numbers of the projects_groups
+     * @param name The name of the group to use as filter
+     * @return the total numbers of the groups
      */
     @Query(
-            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
+            value = "SELECT COUNT(*) FROM " + GROUPS_KEY + " WHERE " +
+                    AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + NAME_KEY + " LIKE %:" + NAME_KEY + "%",
             nativeQuery = true
     )
     long getAuthoredGroupsCount(
-            @Param(AUTHOR_KEY) String userId
+            @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name
     );
 
     /**
@@ -83,16 +107,19 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      *
      * @param userId   The user identifier
      * @param pageable The parameters to paginate the query
-     * @return the list of projects_groups as {@link List} of {@link Group}
+     * @param name The name of the group to use as filter
+     * @return the list of groups as {@link List} of {@link Group}
      */
     @Query(
             value = "SELECT * FROM " + GROUPS_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Group> getAuthoredGroups(
             @Param(AUTHOR_KEY) String userId,
+            @Param(NAME_KEY) String name,
             Pageable pageable
     );
 
@@ -100,14 +127,14 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * Method to execute the query to select the list of a {@link Group}
      *
      * @param userId The user identifier
-     * @return the list of projects_groups as {@link List} of {@link Group}
+     * @return the list of groups as {@link List} of {@link Group}
      */
     @Query(
-            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
-                    + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND "
-                    + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'"
-                    + " ORDER BY " + CREATION_DATE_KEY + " DESC ",
+            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE +
+                    " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE " +
+                    GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY + " AND " +
+                    GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = " + "'JOINED'" +
+                    " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Group> getGroups(
@@ -225,8 +252,8 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @return the group as {@link Group}
      */
     @Query(
-            value = "SELECT projects_groups.* FROM " + GROUPS_KEY + " AS projects_groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON projects_groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
+            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
+                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
                     + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " =:" + GROUP_IDENTIFIER_KEY
                     + " AND " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true

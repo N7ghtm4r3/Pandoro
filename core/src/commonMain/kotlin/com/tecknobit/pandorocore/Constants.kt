@@ -126,6 +126,16 @@ const val GROUPS_KEY = "groups"
 const val ONLY_AUTHORED_GROUPS = "authored_groups"
 
 /**
+ * `DEFAULT_ROLES_FILTER_VALUE` the default value of the roles filter
+ */
+const val DEFAULT_ROLES_FILTER_VALUE = ""
+
+/**
+ * `ROLES_FILTER_KEY` roles filter key
+ */
+const val ROLES_FILTER_KEY = "roles"
+
+/**
  * `GROUP_IDENTIFIER_KEY` the group identifier key
  */
 const val GROUP_IDENTIFIER_KEY = "group_id"

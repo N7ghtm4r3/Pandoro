@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -72,18 +73,22 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
      * @param authoredGroups Whether retrieve only the groups authored by the requesting user
+     * @param groupName The name of the group to use as filter
+     * @param roles The role values to use as filter
      * @return the changelogs list as {@link PaginatedResponse} of {@link Group}
      */
-    public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize, boolean authoredGroups) {
+    public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize, boolean authoredGroups,
+                                              String groupName, HashSet<String> roles) {
+        System.out.println(roles);
         Pageable pageable = PageRequest.of(page, pageSize);
         List<Group> groups;
         long groupsCount;
         if (authoredGroups) {
-            groups = groupsRepository.getAuthoredGroups(userId, pageable);
-            groupsCount = groupsRepository.getAuthoredGroupsCount(userId);
+            groups = groupsRepository.getAuthoredGroups(userId, groupName, pageable);
+            groupsCount = groupsRepository.getAuthoredGroupsCount(userId, groupName);
         } else {
-            groups = groupsRepository.getGroups(userId, pageable);
-            groupsCount = groupsRepository.getGroupsCount(userId);
+            groups = groupsRepository.getGroups(userId, groupName, roles, pageable);
+            groupsCount = groupsRepository.getGroupsCount(userId, groupName, roles);
         }
         return new PaginatedResponse<>(groups, page, pageSize, groupsCount);
     }

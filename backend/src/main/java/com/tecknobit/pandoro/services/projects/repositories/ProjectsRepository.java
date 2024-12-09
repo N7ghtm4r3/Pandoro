@@ -59,11 +59,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
                     " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
                     " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
-
                     " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
                     PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
                     PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
@@ -77,11 +75,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
                     " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
-
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
                     " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
-
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
@@ -107,11 +103,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
                     " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
                     " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
-
                     " UNION SELECT " + PROJECTS_KEY + ".* FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY + " LEFT JOIN " +
                     PROJECTS_GROUPS_TABLE + " ON " + PROJECTS_KEY + "." + IDENTIFIER_KEY + " = " +
                     PROJECTS_GROUPS_TABLE + "." + PROJECT_IDENTIFIER_KEY + " LEFT JOIN " +
@@ -125,11 +119,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
                     " AND " + GROUPS_KEY + "." + AUTHOR_KEY + " !=:" + AUTHOR_KEY +
-
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
                     " OR " + PROJECTS_KEY + "." + PROJECT_VERSION_KEY + " IN (:" + FILTERS_KEY + ")" +
-
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )

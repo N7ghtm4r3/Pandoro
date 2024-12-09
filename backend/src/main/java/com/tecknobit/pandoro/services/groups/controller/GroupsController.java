@@ -15,13 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -66,6 +66,8 @@ public class GroupsController extends DefaultPandoroController {
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
      * @param authoredGroups Whether retrieve only the groups authored by the requesting user
+     * @param groupName The name of the group to use as filter
+     * @param roles The role values to use as filter
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -79,10 +81,16 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
             @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
-            @RequestParam(name = ONLY_AUTHORED_GROUPS, defaultValue = "false", required = false) boolean authoredGroups
+            @RequestParam(name = ONLY_AUTHORED_GROUPS, defaultValue = "false", required = false) boolean authoredGroups,
+            @RequestParam(name = NAME_KEY, defaultValue = "", required = false) String groupName,
+            @RequestParam(
+                    name = ROLES_FILTER_KEY,
+                    defaultValue = DEFAULT_ROLES_FILTER_VALUE,
+                    required = false
+            ) HashSet<String> roles
     ) {
         if (isMe(id, token))
-            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize, authoredGroups));
+            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize, authoredGroups, groupName, roles));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
