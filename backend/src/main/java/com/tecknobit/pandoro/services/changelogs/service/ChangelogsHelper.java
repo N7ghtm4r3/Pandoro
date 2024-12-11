@@ -38,6 +38,16 @@ public class ChangelogsHelper {
      * Method to get the user's changelogs list
      *
      * @param ownerId The owner identifier
+     * @return the changelogs list as {@link PaginatedResponse} of {@link Changelog}
+     */
+    public long getUnreadChangelogsCount(String ownerId) {
+        return changelogsRepository.getUnreadChangelogsCount(ownerId);
+    }
+
+    /**
+     * Method to get the user's changelogs list
+     *
+     * @param ownerId The owner identifier
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
      * @return the changelogs list as {@link PaginatedResponse} of {@link Changelog}

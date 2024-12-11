@@ -16,6 +16,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELOGS_ENDPOINT;
 
 /**
  * The {@code ChangelogsController} class is useful to manage all the changelog operations
@@ -35,13 +36,37 @@ public class ChangelogsController extends DefaultPandoroController {
     private ChangelogsHelper changelogsHelper;
 
     /**
+     * Method to get an unread changelogs list
+     *
+     * @param id    The identifier of the user
+     * @param token The token of the user
+     * @return the result of the request as {@link T}
+     */
+    @GetMapping(
+            path = UNREAD_CHANGELOGS_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/changelogs/unread", method = GET)
+    public <T> T getUnreadChangelogsCount(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token
+    ) {
+        if (isMe(id, token))
+            return (T) successResponse(changelogsHelper.getUnreadChangelogsCount(id));
+        else
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+    }
+
+    /**
      * Method to get a changelogs list
      *
      * @param id The identifier of the user
      * @param token The token of the user
      * @param page      The page requested
      * @param pageSize  The size of the items to insert in the page
-     * @return the result of the request as {@link String}
+     * @return the result of the request as {@link T}
      */
     @GetMapping(
             headers = {

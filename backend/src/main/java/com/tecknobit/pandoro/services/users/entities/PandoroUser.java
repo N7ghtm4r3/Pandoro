@@ -29,6 +29,7 @@ import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
  * @author N7ghtm4r3 - Tecknobit
  * @see com.tecknobit.equinoxbackend.environment.models.EquinoxItem
  * @see EquinoxUser
+ * @see DTOConvertible
  * @see CandidateMember
  */
 @Entity
@@ -158,7 +159,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     public int getUnreadChangelogsNumber() {
         int unread = 0;
         for (Changelog changelog : changelogs)
-            if (!changelog.isRed())
+            if (!changelog.isRead())
                 unread++;
         return unread;
     }

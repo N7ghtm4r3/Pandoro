@@ -26,13 +26,31 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
 
     /**
+     * Method to execute the query to count the {@link Changelog} yet to read
+     *
+     * @param owner The owner of the changelogs
+     * @return the count of changelogs yet to read
+     */
+    @Query(
+            value = "SELECT COUNT(*) FROM " + CHANGELOGS_KEY +
+                    " WHERE " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY +
+                    " AND " + CHANGELOG_READ_KEY + "=" + false,
+            nativeQuery = true
+    )
+    long getUnreadChangelogsCount(
+            @Param(CHANGELOG_OWNER_KEY) String owner
+    );
+
+    /**
      * Method to execute the query to get the total number of the changelogs owned by the user
      *
      * @param owner The owner of the changelogs
      * @return the total number of the changelogs owned by the user
      */
     @Query(
-            value = "SELECT COUNT(*) FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY,
+            value = "SELECT COUNT(*) FROM " + CHANGELOGS_KEY +
+                    " WHERE " + CHANGELOG_OWNER_KEY +
+                    "=:" + CHANGELOG_OWNER_KEY,
             nativeQuery = true
     )
     long getChangelogsCount(
@@ -83,7 +101,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
                     + CHANGELOG_EXTRA_CONTENT_KEY + ","
-                    + CHANGELOG_RED_KEY + ","
+                    + CHANGELOG_READ_KEY + ","
                     + CHANGELOG_TIMESTAMP_KEY + ","
                     + PROJECT_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
@@ -115,7 +133,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
                     + CHANGELOG_EXTRA_CONTENT_KEY + ","
-                    + CHANGELOG_RED_KEY + ","
+                    + CHANGELOG_READ_KEY + ","
                     + CHANGELOG_TIMESTAMP_KEY + ","
                     + GROUP_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
@@ -147,7 +165,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "UPDATE " + CHANGELOGS_KEY + " SET " + CHANGELOG_RED_KEY + "=true WHERE "
+            value = "UPDATE " + CHANGELOGS_KEY + " SET " + CHANGELOG_READ_KEY + "=true WHERE "
                     + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY + " AND "
                     + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true

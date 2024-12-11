@@ -15,7 +15,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.io.Serializable;
 
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 
 /**
  * The {@code Changelog} class is useful to create a <b>Pandoro's changelog</b>
@@ -78,10 +77,10 @@ public class Changelog extends EquinoxItem {
     private final String extraContent;
 
     /**
-     * {@code red} whether the changelog has been red
+     * {@code read} whether the changelog has been read
      */
-    @Column(name = CHANGELOG_RED_KEY)
-    private final boolean red;
+    @Column(name = CHANGELOG_READ_KEY)
+    private final boolean read;
 
     /**
      * {@code owner} the changelog owner
@@ -111,16 +110,16 @@ public class Changelog extends EquinoxItem {
      * @param timestamp      :    when the changelogEvent has been created
      * @param project        :      the project of the changelogEvent project
      * @param extraContent   : extra content data of the changelogEvent
-     * @param red:           whether the changelog has been red
+     * @param read:           whether the changelog has been read
      */
     public Changelog(String id, ChangelogEvent changelogEvent, long timestamp, Project project,
-                     String extraContent, boolean red) {
+                     String extraContent, boolean read) {
         super(id);
         this.changelogEvent = changelogEvent;
         this.timestamp = timestamp;
         this.project = project;
         this.extraContent = extraContent;
-        this.red = red;
+        this.read = read;
         group = null;
     }
 
@@ -142,45 +141,6 @@ public class Changelog extends EquinoxItem {
      */
     public long getTimestamp() {
         return timestamp;
-    }
-
-    /**
-     * Method to get the content message<br>
-     * No-any params required
-     *
-     * @return the content message in base of the {@link #changelogEvent} type as {@link String}
-     */
-    @JsonIgnore
-    public String getContent() {
-        String entityName;
-        if (group != null)
-            entityName = group.getName();
-        else if (project != null)
-            entityName = project.getName();
-        else
-            entityName = null;
-        return switch (changelogEvent) {
-            case INVITED_GROUP -> "You have been invited to join in the " + entityName + " group";
-            case JOINED_GROUP -> "You joined in the " + entityName + " group";
-            case ROLE_CHANGED -> {
-                String article = "a";
-                if (extraContent.equals(ADMIN.name()))
-                    article = "an";
-                yield "You became " + article + " " + extraContent + " in the " + entityName + " group";
-            }
-            case LEFT_GROUP -> "You left from the " + entityName + " group";
-            case GROUP_DELETED -> "The " + extraContent + " group has been deleted";
-            case PROJECT_ADDED -> "The project " + entityName + " has been added";
-            case PROJECT_REMOVED -> "The project " + entityName + " has been removed";
-            case UPDATE_SCHEDULED ->
-                    "A new update for " + entityName + "'s project has been scheduled [v. " + extraContent + "]";
-            case UPDATE_STARTED ->
-                    "The [v. " + extraContent + "] update of " + entityName + "'s project has been started";
-            case UPDATE_PUBLISHED ->
-                    "The [v. " + extraContent + "] update of " + entityName + "'s project has been published";
-            case UPDATE_DELETED ->
-                    "The [v. " + extraContent + "] update of " + entityName + "'s project has been deleted";
-        };
     }
 
     /**
@@ -212,12 +172,13 @@ public class Changelog extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #red} instance
+     * Method to get {@link #read} instance
      *
-     * @return {@link #red} instance as boolean
+     * @return {@link #read} instance as boolean
      */
-    public boolean isRed() {
-        return red;
+    @JsonGetter(CHANGELOG_READ_KEY)
+    public boolean isRead() {
+        return read;
     }
 
 }

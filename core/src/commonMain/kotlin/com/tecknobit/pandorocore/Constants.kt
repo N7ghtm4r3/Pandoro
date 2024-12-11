@@ -231,9 +231,9 @@ const val CHANGELOG_TIMESTAMP_KEY = "timestamp"
 const val CHANGELOG_EXTRA_CONTENT_KEY = "extra_content"
 
 /**
- * `CHANGELOG_RED_KEY` whether the changelog is red key
+ * `CHANGELOG_READ_KEY` whether the changelog is read key
  */
-const val CHANGELOG_RED_KEY = "red"
+const val CHANGELOG_READ_KEY = "is_read"
 
 /**
  * `CHANGELOG_OWNER_KEY` owner of the changelog key
