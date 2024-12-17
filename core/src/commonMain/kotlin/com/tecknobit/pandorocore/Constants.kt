@@ -66,9 +66,9 @@ const val PROJECT_REPOSITORY_KEY = "project_repository"
 const val UPDATES_KEY = "updates"
 
 /**
- * `UPDATE_ID` update identifier key
+ * `UPDATE_IDENTIFIER_KEY` update identifier key
  */
-const val UPDATE_ID = "update_id"
+const val UPDATE_IDENTIFIER_KEY = "update_id"
 
 /**
  * `UPDATE_KEY` project update key

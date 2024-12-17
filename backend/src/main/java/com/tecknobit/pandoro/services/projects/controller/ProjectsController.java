@@ -407,7 +407,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + START_UPDATE_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}" + START_UPDATE_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
@@ -417,7 +417,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId
     ) {
         return manageUpdateStatus(id, token, projectId, updateId, false);
     }
@@ -433,7 +433,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + PUBLISH_UPDATE_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}" + PUBLISH_UPDATE_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
@@ -443,7 +443,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId
     ) {
         return manageUpdateStatus(id, token, projectId, updateId, true);
     }
@@ -492,7 +492,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PutMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}" + ADD_CHANGE_NOTE_ENDPOINT,
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}" + ADD_CHANGE_NOTE_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
@@ -502,7 +502,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
@@ -533,7 +533,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_DONE_ENDPOINT,
             headers = {
                     TOKEN_KEY
@@ -547,7 +547,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
         return manageChangeNote(id, token, projectId, updateId, noteId, "markAsDone");
@@ -565,7 +565,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MARK_CHANGE_NOTE_AS_TODO_ENDPOINT,
             headers = {
                     TOKEN_KEY
@@ -579,7 +579,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
         return manageChangeNote(id, token, projectId, updateId, noteId, "markAsToDo");
@@ -597,7 +597,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}/" + NOTES_KEY
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}",
             headers = {
                     TOKEN_KEY
@@ -611,7 +611,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
         return manageChangeNote(id, token, projectId, updateId, noteId, "deleteChangeNote");
@@ -674,7 +674,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @DeleteMapping(
-            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_ID + "}",
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}",
             headers = {
                     TOKEN_KEY
             }
@@ -684,7 +684,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
-            @PathVariable(UPDATE_ID) String updateId
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId
     ) {
         if (isMe(id, token)) {
             if (projectsHelper.getProject(id, projectId) != null &&
