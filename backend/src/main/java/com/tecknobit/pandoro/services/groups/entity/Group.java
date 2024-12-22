@@ -177,7 +177,7 @@ public class Group extends PandoroItem {
      *
      * @return {@link #groupMembers} instance as {@link ArrayList} of {@link GroupMember}
      */
-    @JsonGetter(GROUP_MEMBERS_TABLE)
+    @JsonGetter(GROUP_MEMBERS_KEY)
     public ArrayList<GroupMember> getMembers() {
         return new ArrayList<>(groupMembers);
     }

@@ -75,8 +75,8 @@ public class ChangelogsHelper {
      * @param changelogId The changelog identifier
      * @param ownerId:     the owner identifier
      */
-    public void markAsRed(String changelogId, String ownerId) {
-        changelogsRepository.markAsRed(ownerId, changelogId);
+    public void markAsRead(String changelogId, String ownerId) {
+        changelogsRepository.markAsRead(ownerId, changelogId);
     }
 
     /**
@@ -88,15 +88,14 @@ public class ChangelogsHelper {
      */
     public void deleteChangelog(String changelogId, String ownerId, String groupId) throws IllegalAccessException {
         Changelog changelog = changelogsRepository.getChangelog(changelogId, ownerId);
-        if (changelog != null) {
-            if (changelog.getChangelogEvent() == INVITED_GROUP) {
-                if (groupId == null)
-                    throw new IllegalAccessException();
-                membersRepository.leaveGroup(ownerId, groupId);
-            }
-            changelogsRepository.deleteChangelog(ownerId, changelogId);
-        } else
+        if (changelog == null)
             throw new IllegalAccessException();
+        if (changelog.getChangelogEvent() == INVITED_GROUP) {
+            if (groupId == null)
+                throw new IllegalAccessException();
+            membersRepository.leaveGroup(ownerId, groupId);
+        }
+        changelogsRepository.deleteChangelog(ownerId, changelogId);
     }
 
 }

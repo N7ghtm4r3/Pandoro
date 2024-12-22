@@ -57,7 +57,7 @@ object PandoroInputsValidator : InputsValidator() {
      */
     @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
     private const val URL_REGEX =
-        "^(https?|ftp|file|mailto|data|ws|wss)://(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}(?::\\d{2,5})?(?:/[A-Za-z0-9%&=?./_-]*)?(?:#[A-Za-z0-9_-]*)?$"
+        "^(https?|ftp|file|mailto|data|ws|wss)://(?:[A-Za-z0-9-]+\\.)*[A-Za-z0-9-]+(?::\\d{1,5})?(?:/[A-Za-z0-9%&=?./_-]*)?(?:#[A-Za-z0-9_-]*)?\$"
 
     /**
      * `emailValidator` helper to validate the emails values
@@ -70,6 +70,16 @@ object PandoroInputsValidator : InputsValidator() {
      */
     @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
     private val urlValidator = Regex(URL_REGEX)
+
+    @Deprecated(
+        message = "USE THE BUILT-IN ONE",
+        replaceWith = ReplaceWith("isHostValid()")
+    )
+    fun isHostAddressValid(
+        hostAddress: String,
+    ): Boolean {
+        return urlValidator.matches(hostAddress)
+    }
 
     /**
      * Function to check if all the notes of the list are correct

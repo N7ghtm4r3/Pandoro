@@ -128,6 +128,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @return {@link #groups} instance as {@link ArrayList} of {@link Group}
      */
+    @JsonIgnore
     public ArrayList<Group> getGroups() {
         return new ArrayList<>(groups);
     }
@@ -146,6 +147,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @return {@link #changelogs} instance as {@link ArrayList} of {@link Changelog}
      */
+    @JsonIgnore
     public ArrayList<Changelog> getChangelogs() {
         return new ArrayList<>(changelogs);
     }
@@ -169,6 +171,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @return {@link #projects} instance as {@link ArrayList} of {@link Project}
      */
+    @JsonIgnore
     public ArrayList<Project> getProjects() {
         return new ArrayList<>(projects);
     }
@@ -178,6 +181,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @return {@link #projects} instance as {@link Set} of {@link String}
      */
+    @JsonIgnore
     public Set<String> getProjectsIds() {
         HashSet<String> ids = new HashSet<>();
         for (Project project : projects)
@@ -199,6 +203,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @return {@link #notes} instance as {@link ArrayList} of {@link Note}
      */
+    @JsonIgnore
     public ArrayList<Note> getNotes() {
         return new ArrayList<>(notes);
     }

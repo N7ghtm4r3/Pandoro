@@ -106,11 +106,10 @@ public class ChangelogsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
     ) {
-        if (isMe(id, token) && changelogsHelper.changelogExists(changelogId)) {
-            changelogsHelper.markAsRed(changelogId, id);
-            return successResponse();
-        } else
+        if (!isMe(id, token) || !changelogsHelper.changelogExists(changelogId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        changelogsHelper.markAsRead(changelogId, id);
+        return successResponse();
     }
 
     /**
@@ -136,17 +135,16 @@ public class ChangelogsController extends DefaultPandoroController {
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
             @RequestBody(required = false) Map<String, String> payload
     ) {
-        if (isMe(id, token) && changelogsHelper.changelogExists(changelogId)) {
-            loadJsonHelper(payload);
-            String groupId = jsonHelper.getString(GROUP_IDENTIFIER_KEY);
-            try {
-                changelogsHelper.deleteChangelog(changelogId, id, groupId);
-                return successResponse();
-            } catch (IllegalAccessException e) {
-                return failedResponse(WRONG_PROCEDURE_MESSAGE);
-            }
-        } else
+        if (!isMe(id, token) || !changelogsHelper.changelogExists(changelogId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String groupId = jsonHelper.getString(GROUP_IDENTIFIER_KEY);
+        try {
+            changelogsHelper.deleteChangelog(changelogId, id, groupId);
+            return successResponse();
+        } catch (IllegalAccessException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
     }
 
 }

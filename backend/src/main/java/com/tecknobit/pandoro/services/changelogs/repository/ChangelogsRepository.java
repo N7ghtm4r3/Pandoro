@@ -157,7 +157,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     );
 
     /**
-     * Method to execute the query to mark as red a {@link Changelog}
+     * Method to execute the query to mark as read a {@link Changelog}
      *
      * @param owner The owner of the changelog
      * @param changelogId The changelog identifier
@@ -170,7 +170,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void markAsRed(
+    void markAsRead(
             @Param(CHANGELOG_OWNER_KEY) String owner,
             @Param(IDENTIFIER_KEY) String changelogId
     );
