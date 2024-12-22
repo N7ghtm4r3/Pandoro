@@ -43,7 +43,7 @@ public class ChangelogsController extends DefaultPandoroController {
      * @return the result of the request as {@link T}
      */
     @GetMapping(
-            path = UNREAD_CHANGELOGS_ENDPOINT,
+            path = "/" + UNREAD_CHANGELOGS_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }

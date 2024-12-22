@@ -107,6 +107,6 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
     /**
      * `UNREAD_CHANGELOGS_ENDPOINT` endpoint to get the count of the unread changelogs
      */
-    const val UNREAD_CHANGELOGS_ENDPOINT = "/unread"
+    const val UNREAD_CHANGELOGS_ENDPOINT = "unread"
 
 }
