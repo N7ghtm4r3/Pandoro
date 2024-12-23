@@ -299,13 +299,12 @@ public class ProjectsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId
     ) {
-        if (isMe(id, token)) {
-            Project project = projectsHelper.getProject(id, projectId);
-            if (project != null)
-                return (T) successResponse(project);
-            else
-                return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Project project = projectsHelper.getProject(id, projectId);
+        if (project != null)
+            return (T) successResponse(project);
+        else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
 
@@ -330,15 +329,13 @@ public class ProjectsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId
     ) {
-        if (isMe(id, token)) {
-            Project project = projectsHelper.getProjectById(projectId);
-            if (project != null && project.getAuthor().getId().equals(id)) {
-                projectsHelper.deleteProject(id, projectId);
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Project project = projectsHelper.getProjectById(projectId);
+        if (project == null || !project.getAuthor().getId().equals(id))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        projectsHelper.deleteProject(id, projectId);
+        return successResponse();
     }
 
     /**

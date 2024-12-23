@@ -243,7 +243,7 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
                 projectsRepository.editProject(userId, projectId, name, iconPath, description, version, repository);
                 saveResource(icon, iconPath);
             } else
-                projectsRepository.editProject(userId, projectId, projectId, description, version, repository);
+                projectsRepository.editProject(userId, projectId, name, description, version, repository);
             List<String> currentGroups = projectsRepository.getProjectGroupsIds(projectId);
             currentGroups.removeAll(groups);
             for (String group : currentGroups) {

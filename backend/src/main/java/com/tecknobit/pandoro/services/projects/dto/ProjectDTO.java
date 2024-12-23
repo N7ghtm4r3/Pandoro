@@ -8,8 +8,7 @@ import java.util.List;
 
 @DTO
 public record ProjectDTO(MultipartFile icon, String name, String project_description, String project_version,
-                         List<String> projects_groups,
-                         String project_repository) {
+                         List<String> projects_groups, String project_repository) {
 
     @Override
     public List<String> projects_groups() {

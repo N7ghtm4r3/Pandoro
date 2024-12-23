@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
 import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
@@ -19,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.LANGUAGE_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.AUTHOR_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
@@ -34,6 +36,9 @@ import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
  */
 @Entity
 @Table(name = USERS_KEY)
+@JsonIgnoreProperties(
+        LANGUAGE_KEY
+)
 public class PandoroUser extends EquinoxUser implements DTOConvertible<CandidateMember> {
 
     /**
