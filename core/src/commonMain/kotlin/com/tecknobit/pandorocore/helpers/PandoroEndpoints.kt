@@ -95,14 +95,9 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
     const val MARK_CHANGE_NOTE_AS_TODO_ENDPOINT: String = "/markChangeNoteAsToDo"
 
     /**
-     * `MARK_AS_DONE_ENDPOINT` endpoint to mark as done an existing note
+     * `CHANGE_NOTE_STATUS_ENDPOINT` endpoint to change the status of an existing note
      */
-    const val MARK_AS_DONE_ENDPOINT: String = "/markAsDone"
-
-    /**
-     * `MARK_AS_TO_DO_ENDPOINT` endpoint to mark as todo an existing note
-     */
-    const val MARK_AS_TO_DO_ENDPOINT: String = "/markAsToDo"
+    const val CHANGE_NOTE_STATUS_ENDPOINT: String = "/changeNoteStatus"
 
     /**
      * `UNREAD_CHANGELOGS_ENDPOINT` endpoint to get the count of the unread changelogs

@@ -16,8 +16,7 @@ import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandoro.services.notes.service.NotesHelper.ALL_FILTER_VALUE;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_DONE_ENDPOINT;
-import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.MARK_AS_TO_DO_ENDPOINT;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_NOTE_STATUS_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
 /**
@@ -68,7 +67,33 @@ public class NotesController extends DefaultPandoroController {
         if (isMe(id, token))
             return (T) successResponse(notesHelper.getNotes(id, page, pageSize, statusFilter));
         else
-            return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+    }
+
+    /**
+     * Method to get a notes list
+     *
+     * @param id     The identifier of the user
+     * @param token  The token of the user
+     * @param noteId The note requested
+     * @return the result of the request as {@link String}
+     */
+    @GetMapping(
+            path = "/{" + NOTE_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}", method = GET)
+    public <T> T getNote(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+    ) {
+        if (isMe(id, token) && notesHelper.noteExists(id, noteId))
+            return (T) successResponse(notesHelper.getNote(noteId));
+        else
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
 
     /**
@@ -91,7 +116,7 @@ public class NotesController extends DefaultPandoroController {
             @RequestBody Map<String, String> payload
     ) {
         if (!isMe(id, token))
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
@@ -122,7 +147,7 @@ public class NotesController extends DefaultPandoroController {
             @RequestBody Map<String, String> payload
     ) {
         if (!isMe(id, token) || !notesHelper.noteExists(id, noteId))
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
@@ -141,50 +166,25 @@ public class NotesController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     @PatchMapping(
-            path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_DONE_ENDPOINT,
+            path = "{" + NOTE_IDENTIFIER_KEY + "}" + CHANGE_NOTE_STATUS_ENDPOINT,
             headers = {
                     TOKEN_KEY
             }
     )
-    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsDone", method = PATCH)
-    public String markAsDone(
+    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/changeNoteStatus", method = PATCH)
+    public String changeNoteStatus(
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
+            @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
-            notesHelper.markAsDone(id, noteId);
+            loadJsonHelper(payload);
+            boolean completed = jsonHelper.getBoolean(MARKED_AS_DONE_KEY, false);
+            notesHelper.manageNoteStatus(id, noteId, completed);
             return successResponse();
         } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-    }
-
-    /**
-     * Method to mark as todo an existing note
-     *
-     * @param id The identifier of the user
-     * @param token The token of the user
-     * @param noteId The identifier of the note
-     *
-     * @return the result of the request as {@link String}
-     */
-    @PatchMapping(
-            path = "{" + NOTE_IDENTIFIER_KEY + "}" + MARK_AS_TO_DO_ENDPOINT,
-            headers = {
-                    TOKEN_KEY
-            }
-    )
-    @RequestPath(path = "/api/v1/users/{id}/notes/{note_id}/markAsToDo", method = PATCH)
-    public String markAsToDo(
-            @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token,
-            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
-    ) {
-        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
-            notesHelper.markAsToDo(id, noteId);
-            return successResponse();
-        } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
 
     /**
@@ -212,7 +212,7 @@ public class NotesController extends DefaultPandoroController {
             notesHelper.deleteNote(id, noteId);
             return successResponse();
         } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
 
 }

@@ -56,6 +56,15 @@ public class NotesHelper {
     }
 
     /**
+     * Method to get an existing note
+     *
+     * @param noteId The note identifier
+     */
+    public Note getNote(String noteId) {
+        return notesRepository.findById(noteId).orElseThrow();
+    }
+
+    /**
      * Method to create a new note
      *
      * @param authorId The author of the note identifier
@@ -94,18 +103,8 @@ public class NotesHelper {
      * @param authorId The author of the note identifier
      * @param noteId The note identifier
      */
-    public void markAsDone(String authorId, String noteId) {
-        notesRepository.manageNoteStatus(authorId, noteId, true, currentTimeMillis());
-    }
-
-    /**
-     * Method to mark a note as todo
-     *
-     * @param authorId The author of the note identifier
-     * @param noteId The note identifier
-     */
-    public void markAsToDo(String authorId, String noteId) {
-        notesRepository.manageNoteStatus(authorId, noteId, false, -1);
+    public void manageNoteStatus(String authorId, String noteId, boolean completed) {
+        notesRepository.manageNoteStatus(authorId, noteId, completed, currentTimeMillis());
     }
 
     /**
