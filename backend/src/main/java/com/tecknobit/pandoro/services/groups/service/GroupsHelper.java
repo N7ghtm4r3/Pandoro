@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -78,7 +77,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      * @return the groups list as {@link PaginatedResponse} of {@link Group}
      */
     public PaginatedResponse<Group> getGroups(String userId, int page, int pageSize, boolean authoredGroups,
-                                              String groupName, HashSet<String> roles) {
+                                              String groupName, List<String> roles) {
         Pageable pageable = PageRequest.of(page, pageSize);
         List<Group> groups;
         long groupsCount;

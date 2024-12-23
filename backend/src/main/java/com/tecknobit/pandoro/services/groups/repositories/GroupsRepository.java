@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -52,7 +51,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     long getGroupsCount(
             @Param(AUTHOR_KEY) String userId,
             @Param(NAME_KEY) String name,
-            @Param(ROLES_FILTER_KEY) HashSet<String> roles
+            @Param(ROLES_FILTER_KEY) List<String> roles
     );
 
     /**
@@ -80,7 +79,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     List<Group> getGroups(
             @Param(AUTHOR_KEY) String userId,
             @Param(NAME_KEY) String name,
-            @Param(ROLES_FILTER_KEY) HashSet<String> roles,
+            @Param(ROLES_FILTER_KEY) List<String> roles,
             Pageable pageable
     );
 
@@ -252,10 +251,11 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
      * @return the group as {@link Group}
      */
     @Query(
-            value = "SELECT groups.* FROM " + GROUPS_KEY + " AS groups LEFT JOIN " + GROUP_MEMBERS_TABLE
-                    + " ON groups." + IDENTIFIER_KEY + " = group_members." + GROUP_MEMBER_KEY + " WHERE "
-                    + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY + " =:" + GROUP_IDENTIFIER_KEY
-                    + " AND " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY,
+            value = "SELECT " + GROUPS_KEY + ".* FROM " + GROUPS_KEY + " AS " + GROUPS_KEY +
+                    " INNER JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
+                    " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY +
+                    " WHERE " + GROUP_MEMBERS_TABLE + "." + IDENTIFIER_KEY + "=:" + AUTHOR_KEY +
+                    " AND " + GROUPS_KEY + "." + IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
     Group getGroup(

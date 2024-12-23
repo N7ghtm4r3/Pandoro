@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +81,7 @@ public class GroupsController extends DefaultPandoroController {
                     name = ROLES_FILTER_KEY,
                     defaultValue = DEFAULT_ROLES_FILTER_VALUE,
                     required = false
-            ) HashSet<String> roles
+            ) List<String> roles
     ) {
         if (isMe(id, token))
             return (T) successResponse(groupsHelper.getGroups(id, page, pageSize, authoredGroups, groupName, roles));
@@ -610,13 +609,12 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
-        if (isMe(id, token)) {
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserAdmin(me)) {
-                groupsHelper.deleteGroup(id, groupId);
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group != null && group.getAuthor().getId().equals(me.getId())) {
+            groupsHelper.deleteGroup(id, groupId);
+            return successResponse();
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
