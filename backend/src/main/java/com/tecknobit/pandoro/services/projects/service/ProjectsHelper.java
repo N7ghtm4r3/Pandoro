@@ -324,7 +324,7 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
      * @param userId The user identifier
      * @param projectId The project identifier
      */
-    public void scheduleUpdate(String updateId, String targetVersion, ArrayList<String> changeNotes,
+    public void scheduleUpdate(String updateId, String targetVersion, List<String> changeNotes,
                                String projectId, String userId) {
         updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED,
                 projectId, userId);

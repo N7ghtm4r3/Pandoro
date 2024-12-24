@@ -92,33 +92,12 @@ object PandoroInputsValidator : InputsValidator() {
     ): Boolean {
         if (notes == null)
             return false
-        var notesCorrect = notes.isNotEmpty()
-        for (note in notes) {
-            notesCorrect = isContentNoteValid(note)
-            if (!notesCorrect)
-                break
+        notes.forEach { note ->
+            if (!isContentNoteValid(note))
+                return false
         }
-        return notesCorrect
+        return true
     }
-
-    // TODO: TO IMPLEMENT
-    /**
-     * Function to check whether the change notes are all done before the publishing of the update
-     *
-     * @param changeNotes: the change notes to check
-     * @return whether the change notes are all done before the publishing of the update as [Boolean]
-     *
-    fun areAllChangeNotesDone(
-    changeNotes: List<Note>?
-    ): Boolean {
-    if (changeNotes == null)
-    return false
-    changeNotes.forEach { note ->
-    if (!note.isMarkedAsDone)
-    return false
-    }
-    return true
-    }*/
 
     /**
      * Function to check the validity of a content for a note

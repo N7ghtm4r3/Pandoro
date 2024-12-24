@@ -12,10 +12,7 @@ import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -371,26 +368,21 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @RequestBody Map<String, Object> payload
     ) {
-        if (isMe(id, token)) {
-            if (projectsHelper.getProject(id, projectId) != null) {
-                loadJsonHelper(payload);
-                String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
-                if (INSTANCE.isValidVersion(targetVersion)) {
-                    if (!projectsHelper.targetVersionExists(projectId, targetVersion)) {
-                        ArrayList<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
-                        if (INSTANCE.areNotesValid(changeNotes)) {
-                            projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
-                            return successResponse();
-                        } else
-                            return failedResponse("wrong_change_notes_list_key");
-                    } else
-                        return failedResponse("update_version_already_exists_key");
-                } else
-                    return failedResponse("wrong_target_version_key");
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (projectsHelper.getProject(id, projectId) == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
+        if (!INSTANCE.isValidVersion(targetVersion))
+            return failedResponse("wrong_target_version_key");
+        if (projectsHelper.targetVersionExists(projectId, targetVersion))
+            return failedResponse("update_version_already_exists_key");
+        List<String> changeNotes = Arrays.asList(jsonHelper.getString(UPDATE_CHANGE_NOTES_KEY).split(","));
+        if (!INSTANCE.areNotesValid(changeNotes))
+            return failedResponse("wrong_change_notes_list_key");
+        projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
+        return successResponse();
     }
 
     /**
@@ -457,24 +449,22 @@ public class ProjectsController extends DefaultPandoroController {
      * @return the result of the request as {@link String}
      */
     private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
-        if (isMe(id, token)) {
-            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-            if (projectsHelper.getProject(id, projectId) != null && update != null) {
-                UpdateStatus status = update.getStatus();
-                if (isPublishing) {
-                    if (status != IN_DEVELOPMENT)
-                        return failedResponse("wrong_publish_update_request_key");
-                    projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
-                } else {
-                    if (status != SCHEDULED)
-                        return failedResponse("wrong_development_update_request_key");
-                    projectsHelper.startUpdate(projectId, updateId, id);
-                }
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+        if (projectsHelper.getProject(id, projectId) == null || update == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        UpdateStatus status = update.getStatus();
+        if (isPublishing) {
+            if (status != IN_DEVELOPMENT)
+                return failedResponse("wrong_publish_update_request_key");
+            projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
+        } else {
+            if (status != SCHEDULED)
+                return failedResponse("wrong_development_update_request_key");
+            projectsHelper.startUpdate(projectId, updateId, id);
+        }
+        return successResponse();
     }
 
     /**
@@ -683,15 +673,12 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
             @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId
     ) {
-        if (isMe(id, token)) {
-            if (projectsHelper.getProject(id, projectId) != null &&
-                    projectsHelper.updateExists(projectId, updateId) != null) {
-                projectsHelper.deleteUpdate(projectId, updateId, id);
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
-            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        if (projectsHelper.getProject(id, projectId) == null || projectsHelper.updateExists(projectId, updateId) == null)
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        projectsHelper.deleteUpdate(projectId, updateId, id);
+        return successResponse();
     }
 
 }

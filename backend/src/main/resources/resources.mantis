@@ -51,7 +51,7 @@
         "wrong_group_description_key": "Descrizione del gruppo sbagliata",
         "update_version_already_exists_key": "Esiste già un aggiornamento con questa target version",
         "group_name_already_exists_key": "Nome gruppo già esistente",
-        "wrong_change_notes_list_key": "Elenco delle change notes sbagliato",
+        "wrong_change_notes_list_key": "Elenco delle modifiche sbagliato",
         "action_executed_on_own_account_error_key": "Non puoi eseguire questa azione sul tuo account",
         "wrong_target_version_key": "Target version sbagliata",
         "wrong_projects_list_key": "Lista dei progetti errata",
