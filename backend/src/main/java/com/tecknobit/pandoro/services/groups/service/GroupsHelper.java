@@ -216,7 +216,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
                     groupDescription
             );
         }
-        editMembers(requester, groupId, group.members());
+        editMembers(requester, groupId, groupName, group.members());
         editProjects(groupId, group.projects());
     }
 
@@ -225,12 +225,13 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      *
      * @param requester The user who request the operation
      * @param groupId The group identifier
+     * @param groupName The name of the group
      * @param members The members list of a group to edit
      */
     @Deprecated(
             message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
     )
-    public void editMembers(String requester, String groupId, List<String> members) {
+    public void editMembers(String requester, String groupId, String groupName, List<String> members) {
         List<GroupMember> groupMembers = membersRepository.getAllGroupMembers(groupId);
         List<String> currentMembers = new ArrayList<>();
         for (GroupMember member : groupMembers)
@@ -243,7 +244,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
         members.removeAll(currentMembers);
         members.remove(requester);
         for (String memberId : members) {
-            usersRepository.findById(memberId).ifPresent(pandoroUser ->
+            usersRepository.findById(memberId).ifPresent(pandoroUser -> {
                     membersRepository.insertMember(
                             memberId,
                             pandoroUser.getName(),
@@ -253,11 +254,12 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
                             DEVELOPER,
                             PENDING,
                             groupId
-                    )
-            );
-            for (GroupMember member : groupMembers)
-                changelogsCreator.newMemberJoined(groupId, member.getId());
+                    );
+                changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
+            });
         }
+        for (GroupMember member : groupMembers)
+            changelogsCreator.newMemberJoined(groupId, member.getId());
     }
 
     /**

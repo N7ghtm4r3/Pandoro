@@ -123,7 +123,7 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @ModelAttribute GroupDTO payload
     ) {
-        String isValidRequest = isValidRequest(id, token, payload);
+        String isValidRequest = isValidRequest(id, token, payload, false);
         if (isValidRequest != null)
             return failedResponse(isValidRequest);
         try {
@@ -170,7 +170,7 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @ModelAttribute GroupDTO payload
     ) {
-        String isValidRequest = isValidRequest(id, token, payload);
+        String isValidRequest = isValidRequest(id, token, payload, true);
         if (isValidRequest != null)
             return failedResponse(isValidRequest);
         if (groupsHelper.getGroup(id, groupId) == null)
@@ -207,16 +207,16 @@ public class GroupsController extends DefaultPandoroController {
      *                                 </pre>
      * @return the result of the validation as {@link String}
      */
-    private String isValidRequest(String id, String token, GroupDTO payload) {
+    private String isValidRequest(String id, String token, GroupDTO payload, boolean editingMode) {
         if (!isMe(id, token))
             return WRONG_PROCEDURE_MESSAGE;
         String groupName = payload.name();
         MultipartFile logo = payload.logo();
-        if (logo == null || logo.isEmpty())
+        if (!editingMode && (logo == null || logo.isEmpty()))
             return WRONG_GROUP_LOGO_MESSAGE;
         if (!INSTANCE.isGroupNameValid(groupName))
             return "wrong_group_name_key";
-        if (groupsHelper.groupExists(id, groupName))
+        if (!editingMode && groupsHelper.groupExists(id, groupName))
             return "group_name_already_exists_key";
         String groupDescription = payload.group_description();
         if (!INSTANCE.isGroupDescriptionValid(groupDescription))
@@ -326,7 +326,6 @@ public class GroupsController extends DefaultPandoroController {
             groupsHelper.acceptGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
             return successResponse();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
     }

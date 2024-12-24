@@ -14,6 +14,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_
 import static com.tecknobit.equinoxcore.network.RequestMethod.GET;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.CANDIDATE_GROUP_MEMBERS_ENDPOINT;
+import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT;
 
 /**
  * The {@code PandoroUsersController} class is useful to manage all the user operations
@@ -25,6 +26,30 @@ import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.CANDIDATE_GROUP
 @RestController
 public class PandoroUsersController extends EquinoxUsersController<PandoroUser, PandoroUsersRepository,
         PandoroUsersHelper> {
+
+    /**
+     * Method to count the candidate members availability
+     *
+     * @param id    The identifier of the user
+     * @param token The token of the user
+     * @return the result of the request as {@link String}
+     */
+    @GetMapping(
+            path = USERS_KEY + "/{" + IDENTIFIER_KEY + "}" + COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT,
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/candidatesCount", method = GET)
+    public <T> T getCandidateMembers(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token
+    ) {
+        if (!isMe(id, token))
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        else
+            return (T) successResponse(usersHelper.countCandidateMembers());
+    }
 
     /**
      * Method to get a list of candidates to be members of a group

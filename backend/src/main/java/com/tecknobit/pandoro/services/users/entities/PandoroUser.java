@@ -51,7 +51,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     private final List<Changelog> changelogs;
 
     /**
-     * {@code projects_groups} list of the projects_groups of the user
+     * {@code groups} list of the groups of the user
      */
     @OneToMany(
             mappedBy = AUTHOR_KEY,
@@ -117,7 +117,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      * @param changelogs List of action messages for the user
      * @param notes List of the notes of the user
      * @param projects List of the projects of the user
-     * @param groups  List of the projects_groups of the user
+     * @param groups  List of the groups of the user
      */
     public PandoroUser(String id, String token, String name, String surname, String email, String password, String profilePic,
                        String language, List<Changelog> changelogs, List<Note> notes, List<Project> projects, List<Group> groups) {
@@ -141,7 +141,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     /**
      * Method to set {@link #groups} instance <br>
      *
-     * @param groups:{@code projects_groups} list of the projects_groups of the user
+     * @param groups:{@code groups} list of the groups of the user
      */
     public void setGroups(List<Group> groups) {
         this.groups = groups;
@@ -223,9 +223,9 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     }
 
     /**
-     * Method to get the projects_groups where the user is the {@link Role#ADMIN}
+     * Method to get the groups where the user is the {@link Role#ADMIN}
      *
-     * @return projects_groups as {@link ArrayList} of {@link Group}
+     * @return groups as {@link ArrayList} of {@link Group}
      */
     @JsonIgnore
     public ArrayList<Group> getAdminGroups() {

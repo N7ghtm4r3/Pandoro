@@ -31,7 +31,7 @@
     },
     "ignored_resources": {},
     "it": {
-        "wrong_group_logo_key": "Logo del gruppo sbagliata",
+        "wrong_group_logo_key": "Logo del gruppo sbagliato",
         "wrong_project_icon_key": "Icona del progetto sbagliata",
         "wrong_project_name_key": "Nome del progetto sbagliato",
         "wrong_project_repository_key": "Repository progetto errata",

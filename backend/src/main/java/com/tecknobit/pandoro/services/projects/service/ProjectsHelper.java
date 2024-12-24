@@ -84,7 +84,7 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     private NotesRepository notesRepository;
 
     /**
-     * {@code groupsRepository} instance for the projects_groups project_repository
+     * {@code groupsRepository} instance for the groups project_repository
      */
     @Autowired
     private GroupsRepository groupsRepository;
@@ -217,7 +217,7 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
         String description = project.project_description();
         String version = project.project_version();
         String repository = project.project_repository();
-        List<String> groups = project.projects_groups();
+        List<String> groups = project.groups();
         long operationDate = System.currentTimeMillis();
         if (icon != null) {
             if (!isAdding)
@@ -258,9 +258,9 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     }
 
     /**
-     * Method to add projects_groups list to a project
+     * Method to add groups list to a project
      *
-     * @param groups:    the projects_groups list to add
+     * @param groups:    the groups list to add
      * @param projectId The project identifier
      */
     private void addGroupsToAProject(List<String> groups, String projectId) {

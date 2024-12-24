@@ -50,6 +50,15 @@ public class PandoroUsersHelper extends EquinoxUsersHelper<PandoroUser, PandoroU
     private NotesRepository notesRepository;
 
     /**
+     * Method to count the candidates
+     *
+     * @return the candidates count as {@code boolean}
+     */
+    public long countCandidateMembers() {
+        return usersRepository.count() - 1;
+    }
+
+    /**
      * Method to get the candidates user list
      *
      * @param id       The user identifier

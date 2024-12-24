@@ -50,7 +50,7 @@ public class ProjectsController extends DefaultPandoroController {
     private ProjectsHelper projectsHelper;
 
     /**
-     * {@code groupsHelper} instance to manage the projects_groups database operations
+     * {@code groupsHelper} instance to manage the groups database operations
      */
     @Autowired
     private GroupsHelper groupsHelper;
@@ -151,7 +151,7 @@ public class ProjectsController extends DefaultPandoroController {
      *                  "name" : "name of the project", -> [String]
      *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
-     *                  "projects_groups" : [ -> [List of Strings or empty]
+     *                  "groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
      *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
@@ -187,7 +187,7 @@ public class ProjectsController extends DefaultPandoroController {
      *                  "name" : "name of the project", -> [String]
      *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
-     *                  "projects_groups" : [ -> [List of Strings or empty]
+     *                  "groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
      *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
@@ -225,7 +225,7 @@ public class ProjectsController extends DefaultPandoroController {
      *                  "name" : "name of the project", -> [String]
      *                  "project_description": "description of the project", -> [String]
      *                  "project_version": "current project project_version", -> [String]
-     *                  "projects_groups" : [ -> [List of Strings or empty]
+     *                  "groups" : [ -> [List of Strings or empty]
      *                      // id of the group -> [String]
      *                  ],
      *                  "project_repository": "the GitHub or Gitlab project's project_repository" -> [String]
@@ -254,7 +254,7 @@ public class ProjectsController extends DefaultPandoroController {
         String version = payload.project_version();
         if (!INSTANCE.isValidVersion(version))
             return failedResponse("wrong_project_version_key");
-        List<String> groups = payload.projects_groups();
+        List<String> groups = payload.groups();
         ArrayList<String> adminGroups = new ArrayList<>();
         for (Group group : me.getAdminGroups())
             adminGroups.add(group.getId());

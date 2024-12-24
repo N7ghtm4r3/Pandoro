@@ -17,7 +17,7 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
- * The {@code GroupMembersRepository} interface is useful to manage the queries for the members of the projects_groups
+ * The {@code GroupMembersRepository} interface is useful to manage the queries for the members of the groups
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see JpaRepository

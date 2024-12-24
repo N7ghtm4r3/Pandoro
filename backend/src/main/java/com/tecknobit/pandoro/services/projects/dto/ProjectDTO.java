@@ -8,13 +8,12 @@ import java.util.List;
 
 @DTO
 public record ProjectDTO(MultipartFile icon, String name, String project_description, String project_version,
-                         List<String> projects_groups, String project_repository) {
+                         List<String> groups, String project_repository) {
 
-    @Override
-    public List<String> projects_groups() {
-        if (projects_groups == null)
+    public List<String> groups() {
+        if (groups == null)
             return Collections.emptyList();
-        return projects_groups;
+        return groups;
     }
 
 }

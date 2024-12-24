@@ -90,7 +90,7 @@ public class Project extends PandoroItem {
     private final String version;
 
     /**
-     * {@code projects_groups} projects_groups where the project has been assigned
+     * {@code groups} groups where the project has been assigned
      */
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
@@ -141,7 +141,7 @@ public class Project extends PandoroItem {
      * @param author       author of the project
      * @param description     description of the project
      * @param version          last update project_version
-     * @param groups           projects_groups where the project has been assigned
+     * @param groups           groups where the project has been assigned
      * @param updates          updates of the project
      * @param projectRepo      the project_repository of the project
      */
