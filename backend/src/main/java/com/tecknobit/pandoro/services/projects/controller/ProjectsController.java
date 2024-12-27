@@ -492,20 +492,58 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @RequestBody Map<String, String> payload
     ) {
-        if (isMe(id, token)) {
-            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-            if (projectsHelper.getProject(id, projectId) != null && update != null && update.getStatus() != PUBLISHED) {
-                loadJsonHelper(payload);
-                String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
-                if (INSTANCE.isContentNoteValid(contentNote)) {
-                    projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
-                    return successResponse();
-                } else
-                    return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+        if (projectsHelper.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+        if (!INSTANCE.isContentNoteValid(contentNote))
+            return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+        projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
+        return successResponse();
+    }
+
+    /**
+     * Method to edit an existing change note of an update
+     *
+     * @param id        The identifier of the user
+     * @param token     The token of the user
+     * @param projectId The identifier of the project where add the new change note
+     * @param updateId  The identifier of the update where add the new change note
+     * @param noteId    The identifier of the note to edit
+     * @param payload   The payload with the content of the change note
+     * @return the result of the request as {@link String}
+     */
+    @PatchMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY +
+                    "/{" + NOTE_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}", method = PATCH)
+    public String editChangeNote(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
+            @RequestBody Map<String, String> payload
+    ) {
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+        if (projectsHelper.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED
+                || !projectsHelper.changeNoteExists(updateId, noteId))
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
+        if (!INSTANCE.isContentNoteValid(contentNote))
+            return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
+        projectsHelper.editChangeNote(id, noteId, contentNote);
+        return successResponse();
     }
 
     /**
@@ -618,36 +656,35 @@ public class ProjectsController extends DefaultPandoroController {
      */
     private String manageChangeNote(String id, String token, String projectId, String updateId, String noteId,
                                     String ope) {
-        if (isMe(id, token)) {
-            ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-            if (projectsHelper.getProject(id, projectId) != null && update != null &&
-                    projectsHelper.changeNoteExists(updateId, noteId)) {
-                boolean isInDevelopment = update.getStatus() == IN_DEVELOPMENT;
-                switch (ope) {
-                    case "markAsDone" -> {
-                        if (isInDevelopment)
-                            projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
-                        else
-                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                    }
-                    case "markAsToDo" -> {
-                        if (isInDevelopment)
-                            projectsHelper.markChangeNoteAsToDo(updateId, noteId);
-                        else
-                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                    }
-                    default -> {
-                        if (update.getStatus() != PUBLISHED)
-                            projectsHelper.deleteChangeNote(updateId, noteId);
-                        else
-                            return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                    }
-                }
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
+        if (projectsHelper.getProject(id, projectId) == null || update == null ||
+                !projectsHelper.changeNoteExists(updateId, noteId)) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+        boolean isInDevelopment = update.getStatus() == IN_DEVELOPMENT;
+        switch (ope) {
+            case "markAsDone" -> {
+                if (isInDevelopment)
+                    projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
+                else
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
+            case "markAsToDo" -> {
+                if (isInDevelopment)
+                    projectsHelper.markChangeNoteAsToDo(updateId, noteId);
+                else
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
+            default -> {
+                if (update.getStatus() != PUBLISHED)
+                    projectsHelper.deleteChangeNote(updateId, noteId);
+                else
+                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
+            }
+        }
+        return successResponse();
     }
 
     /**

@@ -387,6 +387,17 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     }
 
     /**
+     * Method to edit an existing change note of an update
+     *
+     * @param userId      The user identifier
+     * @param noteId      The identifier of the note to add
+     * @param contentNote The content of the note to add
+     */
+    public void editChangeNote(String userId, String noteId, String contentNote) {
+        notesRepository.editNote(userId, noteId, contentNote);
+    }
+
+    /**
      * Method to check whether a change note exists
      *
      * @param noteId The identifier of the note to add
