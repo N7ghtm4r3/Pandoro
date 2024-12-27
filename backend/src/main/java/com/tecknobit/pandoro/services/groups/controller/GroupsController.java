@@ -247,14 +247,12 @@ public class GroupsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId
     ) {
-        if (isMe(id, token)) {
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null)
-                return (T) successResponse(group);
-            else
-                return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group == null)
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
+        return (T) successResponse(group);
     }
 
     /**
@@ -353,20 +351,18 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody Map<String, String> payload
     ) {
-        if (isMe(id, token)) {
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null) {
-                loadJsonHelper(payload);
-                try {
-                    groupsHelper.declineGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
-                    return successResponse();
-                } catch (IllegalAccessException e) {
-                    return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                }
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        try {
+            groupsHelper.declineGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
+            return successResponse();
+        } catch (IllegalAccessException e) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
     }
 
     /**
