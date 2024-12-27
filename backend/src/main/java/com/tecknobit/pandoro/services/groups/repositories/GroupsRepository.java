@@ -287,7 +287,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
+            value = "INSERT IGNORE INTO " + PROJECTS_GROUPS_TABLE + "("
                     + PROJECT_IDENTIFIER_KEY + ","
                     + GROUP_IDENTIFIER_KEY
                     + ") VALUES ("
@@ -309,8 +309,9 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + PROJECTS_GROUPS_TABLE + " WHERE " + PROJECT_IDENTIFIER_KEY + "=:"
-                    + PROJECT_IDENTIFIER_KEY + " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
+            value = "DELETE FROM " + PROJECTS_GROUPS_TABLE + " WHERE " +
+                    PROJECT_IDENTIFIER_KEY + "=:" + PROJECT_IDENTIFIER_KEY +
+                    " AND " + GROUP_IDENTIFIER_KEY + "=:" + GROUP_IDENTIFIER_KEY,
             nativeQuery = true
     )
     void removeGroupProject(

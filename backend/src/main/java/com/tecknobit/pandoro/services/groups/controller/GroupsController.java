@@ -5,7 +5,6 @@ import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
-import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
@@ -536,14 +535,12 @@ public class GroupsController extends DefaultPandoroController {
         if (group == null || !group.isUserAdmin(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
-        List<String> projectsList = Arrays.asList(jsonHelper.getString(PROJECTS_KEY, "")
-                .replaceAll(" ", "")
-                .split(","));
-        ArrayList<String> projectsIds = new ArrayList<>();
-        for (Project project : me.getProjects())
-            projectsIds.add(project.getId());
-        if (!projectsIds.containsAll(projectsList))
-            return failedResponse("wrong_projects_list_key");
+        ArrayList<String> projectsList = new ArrayList<>(
+                Arrays.asList(jsonHelper.getString(PROJECTS_KEY, "")
+                        .replaceAll(" ", "")
+                        .trim()
+                        .split(","))
+        );
         groupsHelper.editProjects(groupId, projectsList);
         return successResponse();
     }
