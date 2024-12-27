@@ -260,8 +260,6 @@ public class ProjectsController extends DefaultPandoroController {
             for (Group group : me.getAdminGroups())
                 adminGroups.add(group.getId());
         }
-        if (!groups.isEmpty() && !adminGroups.containsAll(groups))
-            return failedResponse("wrong_groups_list_key");
         String repository = payload.project_repository();
         if (!INSTANCE.isValidRepository(repository))
             return failedResponse("wrong_project_repository_key");

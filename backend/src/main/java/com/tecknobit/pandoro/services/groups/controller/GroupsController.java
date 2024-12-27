@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -535,12 +532,15 @@ public class GroupsController extends DefaultPandoroController {
         if (group == null || !group.isUserAdmin(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
-        ArrayList<String> projectsList = new ArrayList<>(
-                Arrays.asList(jsonHelper.getString(PROJECTS_KEY, "")
-                        .replaceAll(" ", "")
-                        .trim()
-                        .split(","))
-        );
+        String projectsIds = jsonHelper.getString(PROJECTS_KEY, "").replaceAll(" ", "");
+        ArrayList<String> projectsList;
+        if (projectsIds.isEmpty())
+            projectsList = new ArrayList<>();
+        else
+            projectsList = new ArrayList<>(Arrays.asList(projectsIds.split(",")));
+        Set<String> myProjects = me.getProjectsIds();
+        projectsList.forEach(myProjects::remove);
+        projectsList.addAll(group.getProjectsIds(myProjects.stream().toList()));
         groupsHelper.editProjects(groupId, projectsList);
         return successResponse();
     }

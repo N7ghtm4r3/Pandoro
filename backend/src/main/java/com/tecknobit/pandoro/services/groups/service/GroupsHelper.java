@@ -361,7 +361,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
             message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
     )
     public void editProjects(String groupId, ArrayList<String> projects) {
-        ArrayList<String> currentProjects = new ArrayList<>(groupsRepository.getGroupProjectsIds(groupId));
+        List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
         List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
         currentProjects.removeAll(projects);
         for (String project : currentProjects) {
@@ -369,7 +369,7 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
             for (GroupMember member : groupMembers)
                 changelogsCreator.removedGroupProject(project, member.getId());
         }
-        projects.removeAll(currentProjects);
+        projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
             groupsRepository.addGroupProject(project, groupId);
             for (GroupMember member : groupMembers)

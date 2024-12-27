@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
@@ -189,6 +190,22 @@ public class Group extends PandoroItem {
      */
     public ArrayList<Project> getProjects() {
         return new ArrayList<>(projects);
+    }
+
+    /**
+     * Method to get the list of identifier from the {@link #projects} instance
+     *
+     * @return {@link #projects} instance as {@link List} of {@link String}
+     */
+    public List<String> getProjectsIds(List<String> exclude) {
+        HashSet<String> excludeIds = new HashSet<>(exclude);
+        ArrayList<String> ids = new ArrayList<>();
+        for (Project project : projects) {
+            String projectId = project.getId();
+            if (!excludeIds.contains(projectId))
+                ids.add(project.getId());
+        }
+        return ids;
     }
 
     /**

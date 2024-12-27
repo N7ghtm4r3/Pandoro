@@ -287,7 +287,7 @@ public interface GroupsRepository extends JpaRepository<Group, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "INSERT IGNORE INTO " + PROJECTS_GROUPS_TABLE + "("
+            value = "INSERT INTO " + PROJECTS_GROUPS_TABLE + "("
                     + PROJECT_IDENTIFIER_KEY + ","
                     + GROUP_IDENTIFIER_KEY
                     + ") VALUES ("
