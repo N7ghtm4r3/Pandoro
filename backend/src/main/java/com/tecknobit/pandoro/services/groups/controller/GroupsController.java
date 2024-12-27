@@ -529,24 +529,23 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody Map<String, Object> payload
     ) {
-        if (isMe(id, token)) {
-            PandoroUser me = super.me;
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserAdmin(me)) {
-                loadJsonHelper(payload);
-                List<String> projectsList = jsonHelper.fetchList(PROJECTS_KEY, new ArrayList<>());
-                ArrayList<String> projectsIds = new ArrayList<>();
-                for (Project project : me.getProjects())
-                    projectsIds.add(project.getId());
-                if (projectsIds.containsAll(projectsList)) {
-                    groupsHelper.editProjects(groupId, projectsList);
-                    return successResponse();
-                } else
-                    return failedResponse("wrong_projects_list_key");
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        PandoroUser me = super.me;
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group == null || !group.isUserAdmin(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        List<String> projectsList = Arrays.asList(jsonHelper.getString(PROJECTS_KEY, "")
+                .replaceAll(" ", "")
+                .split(","));
+        ArrayList<String> projectsIds = new ArrayList<>();
+        for (Project project : me.getProjects())
+            projectsIds.add(project.getId());
+        if (!projectsIds.containsAll(projectsList))
+            return failedResponse("wrong_projects_list_key");
+        groupsHelper.editProjects(groupId, projectsList);
+        return successResponse();
     }
 
     /**
