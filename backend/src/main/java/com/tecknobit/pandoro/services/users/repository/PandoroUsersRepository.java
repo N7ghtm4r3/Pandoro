@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.GROUP_MEMBERS_KEY;
 
 /**
  * The {@code UsersRepository} interface is useful to manage the queries for the users
@@ -30,16 +31,18 @@ public interface PandoroUsersRepository extends EquinoxUsersRepository<PandoroUs
     /**
      * Method to get the candidates user list
      *
-     * @param userId The user identifier
      * @param pageable  The parameters to paginate the query
+     * @param membersToExclude The list of the members already joined or invited to exclude from the count
      * @return the candidates list as {@link PaginatedResponse} of {@link PandoroUser}
      */
     @Query(
-            value = "SELECT * FROM " + USERS_KEY + " WHERE " + IDENTIFIER_KEY + "!=:" + IDENTIFIER_KEY,
+            value = "SELECT * FROM " + USERS_KEY +
+                    " WHERE " +
+                    IDENTIFIER_KEY + " NOT IN (:" + GROUP_MEMBERS_KEY + ")",
             nativeQuery = true
     )
     List<PandoroUser> getCandidates(
-            @Param(IDENTIFIER_KEY) String userId,
+            @Param(GROUP_MEMBERS_KEY) List<String> membersToExclude,
             Pageable pageable
     );
 

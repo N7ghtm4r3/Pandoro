@@ -8,11 +8,14 @@ import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import com.tecknobit.pandoro.services.users.service.PandoroUsersHelper;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.equinoxcore.network.RequestMethod.GET;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
+import static com.tecknobit.pandorocore.ConstantsKt.GROUP_MEMBERS_KEY;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.CANDIDATE_GROUP_MEMBERS_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT;
 
@@ -43,12 +46,12 @@ public class PandoroUsersController extends EquinoxUsersController<PandoroUser, 
     @RequestPath(path = "/api/v1/users/{id}/candidatesCount", method = GET)
     public <T> T getCandidateMembers(
             @PathVariable(IDENTIFIER_KEY) String id,
-            @RequestHeader(TOKEN_KEY) String token
+            @RequestHeader(TOKEN_KEY) String token,
+            @RequestParam(name = GROUP_MEMBERS_KEY, required = false) long membersToExcludeSize
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        else
-            return (T) successResponse(usersHelper.countCandidateMembers());
+        return (T) successResponse(usersHelper.countCandidateMembers(membersToExcludeSize));
     }
 
     /**
@@ -58,6 +61,7 @@ public class PandoroUsersController extends EquinoxUsersController<PandoroUser, 
      * @param token    The token of the user
      * @param page     The page requested
      * @param pageSize The size of the items to insert in the page
+     * @param membersToExclude The list of the members already joined or invited to exclude from the count
      * @return the result of the request as {@link String}
      */
     @GetMapping(
@@ -71,12 +75,12 @@ public class PandoroUsersController extends EquinoxUsersController<PandoroUser, 
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @RequestParam(name = PAGE_KEY, defaultValue = DEFAULT_PAGE_HEADER_VALUE, required = false) int page,
-            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
+            @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize,
+            @RequestParam(name = GROUP_MEMBERS_KEY) ArrayList<String> membersToExclude
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        else
-            return (T) successResponse(usersHelper.getCandidateMembers(id, page, pageSize));
+        return (T) successResponse(usersHelper.getCandidateMembers(page, pageSize, id, membersToExclude));
     }
 
 }

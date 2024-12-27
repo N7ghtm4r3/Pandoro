@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -278,17 +279,17 @@ public class GroupsController extends DefaultPandoroController {
             @PathVariable(GROUP_IDENTIFIER_KEY) String groupId,
             @RequestBody Map<String, Object> payload
     ) {
-        if (isMe(id, token)) {
-            Group group = groupsHelper.getGroup(id, groupId);
-            if (group != null && group.isUserMaintainer(me)) {
-                loadJsonHelper(payload);
-                List<String> members = jsonHelper.fetchList(GROUP_MEMBERS_KEY);
-                groupsHelper.addMembers(group.getName(), members, groupId);
-                return successResponse();
-            } else
-                return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        } else
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Group group = groupsHelper.getGroup(id, groupId);
+        if (group == null || !group.isUserMaintainer(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        loadJsonHelper(payload);
+        List<String> members = Arrays.asList(jsonHelper.getString(GROUP_MEMBERS_KEY)
+                .replaceAll(" ", "")
+                .split(","));
+        groupsHelper.addMembers(group.getName(), members, groupId);
+        return successResponse();
     }
 
     /**

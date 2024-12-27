@@ -52,27 +52,32 @@ public class PandoroUsersHelper extends EquinoxUsersHelper<PandoroUser, PandoroU
     /**
      * Method to count the candidates
      *
+     * @param membersToExcludeSize The number of the members already joined or invited to exclude from the count
+     *
      * @return the candidates count as {@code boolean}
      */
-    public long countCandidateMembers() {
-        return usersRepository.count() - 1;
+    public long countCandidateMembers(long membersToExcludeSize) {
+        return usersRepository.count() - membersToExcludeSize;
     }
 
     /**
      * Method to get the candidates user list
      *
-     * @param id       The user identifier
+     * @param userId       The user identifier
      * @param page     The page requested
      * @param pageSize The size of the items to insert in the page
+     * @param membersToExclude The list of the members already joined or invited to exclude from the count
      * @return the candidates list as {@link PaginatedResponse} of {@link PandoroUser}
      */
-    public PaginatedResponse<CandidateMember> getCandidateMembers(String id, int page, int pageSize) {
+    public PaginatedResponse<CandidateMember> getCandidateMembers(int page, int pageSize, String userId,
+                                                                  ArrayList<String> membersToExclude) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        List<PandoroUser> users = usersRepository.getCandidates(id, pageable);
+        membersToExclude.add(userId);
+        List<PandoroUser> users = usersRepository.getCandidates(membersToExclude, pageable);
         ArrayList<CandidateMember> candidateMembers = new ArrayList<>();
         for (PandoroUser user : users)
             candidateMembers.add(user.convertToRelatedDTO());
-        long totalCandidates = usersRepository.count() - 1;
+        long totalCandidates = usersRepository.count() - membersToExclude.size();
         return new PaginatedResponse<>(candidateMembers, page, pageSize, totalCandidates);
     }
 
