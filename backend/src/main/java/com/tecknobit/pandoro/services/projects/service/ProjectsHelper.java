@@ -66,31 +66,31 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     private static final Pattern PROJECT_VERSION_PATTERN = Pattern.compile(PROJECT_VERSION_REGEX);
 
     /**
-     * {@code projectsRepository} instance for the projects project_repository
+     * {@code projectsRepository} instance for the projects repository
      */
     @Autowired
     private ProjectsRepository projectsRepository;
 
     /**
-     * {@code updatesRepository} instance for the updates project_repository
+     * {@code updatesRepository} instance for the updates repository
      */
     @Autowired
     private UpdatesRepository updatesRepository;
 
     /**
-     * {@code notesRepository} instance for the notes project_repository
+     * {@code notesRepository} instance for the notes repository
      */
     @Autowired
     private NotesRepository notesRepository;
 
     /**
-     * {@code groupsRepository} instance for the groups project_repository
+     * {@code groupsRepository} instance for the groups repository
      */
     @Autowired
     private GroupsRepository groupsRepository;
 
     /**
-     * {@code groupMembersRepository} instance for the group members project_repository
+     * {@code groupMembersRepository} instance for the group members repository
      */
     @Autowired
     private GroupMembersRepository groupMembersRepository;

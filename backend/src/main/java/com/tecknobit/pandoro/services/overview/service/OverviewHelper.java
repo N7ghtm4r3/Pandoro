@@ -1,6 +1,8 @@
 package com.tecknobit.pandoro.services.overview.service;
 
 import com.tecknobit.pandoro.services.overview.dto.Overview;
+import com.tecknobit.pandoro.services.overview.dto.Overview.OverviewFullStatsItem;
+import com.tecknobit.pandoro.services.overview.dto.Overview.OverviewStatsItem;
 import com.tecknobit.pandoro.services.overview.dto.Overview.ProjectPerformanceStats;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
@@ -14,15 +16,31 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: 28/12/2024 TO DOCU 
+/**
+ * The {@code OverviewHelper} class is useful to manage all the overview database operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ */
 @Service
 public class OverviewHelper {
 
+    /**
+     * {@code HUNDRED_PERCENT_VALUE} constant for 100.0 value
+     */
     private static final double HUNDRED_PERCENT_VALUE = 100.0;
 
+    /**
+     * {@code projectsRepository} instance for the projects repository
+     */
     @Autowired
     private ProjectsRepository projectsRepository;
 
+    /**
+     * Method to get the overview analysis for the requested user
+     *
+     * @param userId The user who requests the overview
+     * @return overview analysis as {@link Overview} DTO
+     */
     public Overview getOverview(String userId) {
         Pageable pageable = PageRequest.ofSize(Integer.MAX_VALUE);
         List<Project> projects = projectsRepository.getProjects(userId, "", Collections.emptySet(), pageable);
@@ -43,7 +61,14 @@ public class OverviewHelper {
         return overview;
     }
 
-    private Overview.OverviewStatsItem getTotalProjectsStats(List<Project> projects) {
+    /**
+     * Method to calculate the stats about the projects of the user
+     *
+     * @param projects The list of the user's projects
+     *
+     * @return the stats as {@link OverviewStatsItem}
+     */
+    private OverviewStatsItem getTotalProjectsStats(List<Project> projects) {
         int total = projects.size();
         int personal = 0;
         int group = 0;
@@ -53,11 +78,14 @@ public class OverviewHelper {
             else
                 personal++;
         }
-        double personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
+        boolean hasEnoughStats = total > 0;
+        double personalPercentage = 0;
         double groupPercentage = 0;
-        if (personalPercentage > 0)
+        if (hasEnoughStats) {
+            personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
-        return new Overview.OverviewStatsItem(
+        }
+        return new OverviewStatsItem(
                 total,
                 personal,
                 personalPercentage,
@@ -66,7 +94,14 @@ public class OverviewHelper {
         );
     }
 
-    private Overview.OverviewStatsItem getTotalUpdatesStats(List<Project> projects) {
+    /**
+     * Method to calculate the stats about the number of the updates in the projects of the user
+     *
+     * @param projects The list of the user's projects
+     *
+     * @return the stats as {@link OverviewStatsItem}
+     */
+    private OverviewStatsItem getTotalUpdatesStats(List<Project> projects) {
         int total = 0;
         int personal = 0;
         int group = 0;
@@ -87,7 +122,7 @@ public class OverviewHelper {
             personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
         }
-        return new Overview.OverviewStatsItem(
+        return new OverviewStatsItem(
                 total,
                 personal,
                 personalPercentage,
@@ -96,7 +131,16 @@ public class OverviewHelper {
         );
     }
 
-    private Overview.OverviewFullStatsItem getUpdatesStats(String userId, List<Project> projects, UpdateStatus status) {
+    /**
+     * Method to calculate the stats about the updates in the projects of the user
+     *
+     * @param userId The user who requests the overview
+     * @param projects The list of the user's projects
+     * @param status The status of the update to calculate its stats
+     *
+     * @return the stats as {@link OverviewFullStatsItem}
+     */
+    private OverviewFullStatsItem getUpdatesStats(String userId, List<Project> projects, UpdateStatus status) {
         int total = 0;
         int personal = 0;
         int group = 0;
@@ -136,7 +180,7 @@ public class OverviewHelper {
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
             byMePercentage = ((byMe * HUNDRED_PERCENT_VALUE) / total);
         }
-        return new Overview.OverviewFullStatsItem(
+        return new OverviewFullStatsItem(
                 status,
                 total,
                 personal,
@@ -148,7 +192,14 @@ public class OverviewHelper {
         );
     }
 
-    private Overview.OverviewStatsItem getDevelopmentDays(List<Project> projects) {
+    /**
+     * Method to calculate the stats about the total number of the development days
+     *
+     * @param projects The list of the user's projects
+     *
+     * @return the stats as {@link OverviewStatsItem}
+     */
+    private OverviewStatsItem getDevelopmentDays(List<Project> projects) {
         int total = 0;
         int personal = 0;
         int group = 0;
@@ -167,7 +218,7 @@ public class OverviewHelper {
             personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
         }
-        return new Overview.OverviewStatsItem(
+        return new OverviewStatsItem(
                 total,
                 personal,
                 personalPercentage,
@@ -176,7 +227,14 @@ public class OverviewHelper {
         );
     }
 
-    private Overview.OverviewStatsItem getAverageDevelopmentDays(List<Project> projects) {
+    /**
+     * Method to calculate the stats about the average number of the development days
+     *
+     * @param projects The list of the user's projects
+     *
+     * @return the stats as {@link OverviewStatsItem}
+     */
+    private OverviewStatsItem getAverageDevelopmentDays(List<Project> projects) {
         int total = 0;
         int personal = 0;
         int group = 0;
@@ -195,7 +253,7 @@ public class OverviewHelper {
             personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
         }
-        return new Overview.OverviewStatsItem(
+        return new OverviewStatsItem(
                 total,
                 personal,
                 personalPercentage,
@@ -204,38 +262,84 @@ public class OverviewHelper {
         );
     }
 
+    /**
+     * The {@code ProjectsAnalyzer} class is useful to analyze the projects data and discover the best and to-improve
+     * project both for personal and group side
+     *
+     * @author N7ghtm4r3 - Tecknobit
+     */
     private static final class ProjectsAnalyzer {
 
+        /**
+         * {@code projects} the list of the user's projects
+         */
         private final List<Project> projects;
 
+        /**
+         * {@code bestPersonalProject} the best personal project
+         */
         private Project bestPersonalProject;
 
+        /**
+         * {@code bestGroupProject} the best group project
+         */
         private Project bestGroupProject;
 
+        /**
+         * Constructor to instantiate the analyzer
+         *
+         * @param projects The list of the user's projects
+         */
         public ProjectsAnalyzer(List<Project> projects) {
             this.projects = projects;
         }
 
+        /**
+         * Method to get the best performance project for the personal side
+         *
+         * @return get the best performance project as {@link ProjectPerformanceStats}
+         */
         public ProjectPerformanceStats getBestPersonalProjectStats() {
             bestPersonalProject = getBestProject(false);
             return ProjectPerformanceStats.toStats(bestPersonalProject);
         }
 
+        /**
+         * Method to get the worst performance project for the personal side
+         *
+         * @return get the worst performance project as {@link ProjectPerformanceStats}
+         */
         public ProjectPerformanceStats getWorstPersonalProjectStats() {
             Project worstPersonalProject = getWorstProject(false, bestPersonalProject);
             return ProjectPerformanceStats.toStats(worstPersonalProject);
         }
 
+        /**
+         * Method to get the best performance project for the group side
+         *
+         * @return get the best performance project as {@link ProjectPerformanceStats}
+         */
         public ProjectPerformanceStats getBestGroupProjectStats() {
             bestGroupProject = getBestProject(true);
             return ProjectPerformanceStats.toStats(bestGroupProject);
         }
 
+        /**
+         * Method to get the worst performance project for the group side
+         *
+         * @return get the worst performance project as {@link ProjectPerformanceStats}
+         */
         public ProjectPerformanceStats getWorstGroupProjectStats() {
             Project worstGroupProject = getWorstProject(true, bestGroupProject);
             return ProjectPerformanceStats.toStats(worstGroupProject);
         }
 
+        /**
+         * Method to get the best performance project
+         *
+         * @param isGroup Whether search for the group or personal side
+         * @return get the best performance project as {@link Project}
+         */
         private Project getBestProject(boolean isGroup) {
             Project bestProject = null;
             int maxUpdates = 0;
@@ -259,6 +363,14 @@ public class OverviewHelper {
             return bestProject;
         }
 
+        /**
+         * Method to get the worst performance project
+         *
+         * @param isGroup Whether search for the group or personal side
+         * @param bestProject The best performance project related to the side where is searching
+         *
+         * @return get the worst performance project as {@link Project}
+         */
         private Project getWorstProject(boolean isGroup, Project bestProject) {
             Project worstProject = null;
             int minUpdates = Integer.MAX_VALUE;

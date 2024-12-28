@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.overview.controller;
 
+import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.overview.service.OverviewHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,30 @@ import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.OVERVIEW_ENDPOINT;
 
-// TODO: 28/12/2024 TO DOCU
+/**
+ * The {@code OverviewController} class is useful to manage all the overview operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxController
+ * @see DefaultPandoroController
+ */
 @RestController
 @RequestMapping(path = BASE_EQUINOX_ENDPOINT + USERS_KEY + "/{" + IDENTIFIER_KEY + "}/" + OVERVIEW_ENDPOINT)
 public class OverviewController extends DefaultPandoroController {
 
+    /**
+     * {@code overviewHelper} instance to manage the overview database operations
+     */
     @Autowired
     private OverviewHelper overviewHelper;
 
+    /**
+     * Method to get the overview analysis for the requested user
+     *
+     * @param userId The identifier of the user
+     * @param token  The token of the user
+     * @return the result of the request as {@link String}
+     */
     @GetMapping(
             headers = {
                     TOKEN_KEY
