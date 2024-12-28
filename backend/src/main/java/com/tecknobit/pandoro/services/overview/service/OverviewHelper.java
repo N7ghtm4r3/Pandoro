@@ -67,21 +67,26 @@ public class OverviewHelper {
     }
 
     private Overview.OverviewStatsItem getTotalUpdatesStats(List<Project> projects) {
-        int total = projects.size();
+        int total = 0;
         int personal = 0;
         int group = 0;
         for (Project project : projects) {
             List<ProjectUpdate> updates = project.getUpdates();
-            total += updates.size();
-            if (project.hasGroups())
-                group++;
-            else
-                personal++;
+            if (!updates.isEmpty()) {
+                total += updates.size();
+                if (project.hasGroups())
+                    group++;
+                else
+                    personal++;
+            }
         }
-        double personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
+        boolean hasEnoughStats = total > 0;
+        double personalPercentage = 0;
         double groupPercentage = 0;
-        if (personalPercentage > 0)
+        if (hasEnoughStats) {
+            personalPercentage = ((personal * HUNDRED_PERCENT_VALUE) / total);
             groupPercentage = HUNDRED_PERCENT_VALUE - personalPercentage;
+        }
         return new Overview.OverviewStatsItem(
                 total,
                 personal,

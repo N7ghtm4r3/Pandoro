@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
@@ -87,7 +86,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final EquinoxUser startedBy;
+    private final PandoroUser startedBy;
 
     /**
      * {@code startDate} when the update has been started
@@ -113,7 +112,7 @@ public class ProjectUpdate extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
-    private final EquinoxUser publishedBy;
+    private final PandoroUser publishedBy;
 
     /**
      * {@code publishDate} when the update has been published
@@ -187,9 +186,9 @@ public class ProjectUpdate extends EquinoxItem {
             status = PUBLISHED;
         } else if (startDate == -1) {
             status = SCHEDULED;
-            developmentDuration = -1;
+            developmentDuration = 0;
         } else {
-            developmentDuration = -1;
+            developmentDuration = 0;
             status = IN_DEVELOPMENT;
         }
         this.notes = notes;
@@ -230,7 +229,7 @@ public class ProjectUpdate extends EquinoxItem {
      * @return {@link #startedBy} instance as {@link PandoroUser}
      */
     @JsonGetter(UPDATE_STARTED_BY_KEY)
-    public EquinoxUser getStartedBy() {
+    public PandoroUser getStartedBy() {
         return startedBy;
     }
 
@@ -250,7 +249,7 @@ public class ProjectUpdate extends EquinoxItem {
      * @return {@link #publishedBy} instance as {@link PandoroUser}
      */
     @JsonGetter(UPDATE_PUBLISHED_BY_KEY)
-    public EquinoxUser getPublishedBy() {
+    public PandoroUser getPublishedBy() {
         return publishedBy;
     }
 
