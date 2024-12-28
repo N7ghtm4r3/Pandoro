@@ -420,7 +420,7 @@ public class ProjectsHelper extends ChangelogOperator implements PandoroResource
     }
 
     /**
-     * Method to mark as todo a change note
+     * Method to mark as to-do a change note
      *
      * @param updateId The update identifier
      * @param noteId The identifier of the note

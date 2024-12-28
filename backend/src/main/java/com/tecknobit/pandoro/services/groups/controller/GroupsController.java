@@ -38,6 +38,21 @@ import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_GRO
 public class GroupsController extends DefaultPandoroController {
 
     /**
+     * {@code WRONG_GROUP_NAME_ERROR_MESSAGE} message to use when the name of the group is not a valid name
+     */
+    public static final String WRONG_GROUP_NAME_ERROR_MESSAGE = "wrong_group_name_key";
+
+    /**
+     * {@code WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE} message to use when the name of the group is already used
+     */
+    public static final String WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE = "group_name_already_exists_key";
+
+    /**
+     * {@code WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE} message to use when the description of the group is not a valid description
+     */
+    public static final String WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE = "wrong_group_description_key";
+
+    /**
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
      * account wrong
      */
@@ -212,12 +227,12 @@ public class GroupsController extends DefaultPandoroController {
         if (!editingMode && (logo == null || logo.isEmpty()))
             return WRONG_GROUP_LOGO_MESSAGE;
         if (!INSTANCE.isGroupNameValid(groupName))
-            return "wrong_group_name_key";
+            return WRONG_GROUP_NAME_ERROR_MESSAGE;
         if (!editingMode && groupsHelper.groupExists(id, groupName))
-            return "group_name_already_exists_key";
+            return WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE;
         String groupDescription = payload.group_description();
         if (!INSTANCE.isGroupDescriptionValid(groupDescription))
-            return "wrong_group_description_key";
+            return WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE;
         if (!me.getProjectsIds().containsAll(payload.projects()))
             return WRONG_PROCEDURE_MESSAGE;
         return null;

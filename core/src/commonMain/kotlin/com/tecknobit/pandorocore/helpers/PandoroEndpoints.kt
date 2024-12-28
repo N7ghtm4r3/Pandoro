@@ -95,7 +95,7 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
     const val MARK_CHANGE_NOTE_AS_DONE_ENDPOINT: String = "/markChangeNoteAsDone"
 
     /**
-     * `MARK_CHANGE_NOTE_AS_TODO_ENDPOINT` endpoint to mark as todo a change note of an update
+     * `MARK_CHANGE_NOTE_AS_TODO_ENDPOINT` endpoint to mark as to-do a change note of an update
      */
     const val MARK_CHANGE_NOTE_AS_TODO_ENDPOINT: String = "/markChangeNoteAsToDo"
 

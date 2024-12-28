@@ -2,8 +2,6 @@ package com.tecknobit.pandoro.services.projects.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.groups.entity.Group;
-import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
@@ -12,7 +10,10 @@ import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
@@ -26,9 +27,6 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
-
-// TODO: 30/11/2024 TO MAP THE ERROR KEYS HARDCODED AS CONSTANT IN PandoroInputsValidator
-
 /**
  * The {@code ProjectsController} class is useful to manage all the project operations
  *
@@ -41,16 +39,60 @@ import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 public class ProjectsController extends DefaultPandoroController {
 
     /**
+     * {@code WRONG_PROJECT_NAME_ERROR_MESSAGE} message to use when the name of the project is not a valid name
+     */
+    public static final String WRONG_PROJECT_NAME_ERROR_MESSAGE = "wrong_project_name_key";
+
+    /**
+     * {@code WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE} message to use when the description of the project is not a valid description
+     */
+    public static final String WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE = "wrong_project_description_key";
+
+    /**
+     * {@code WRONG_PROJECT_VERSION_ERROR_MESSAGE} message to use when the version of the project is not valid
+     */
+    public static final String WRONG_PROJECT_VERSION_ERROR_MESSAGE = "wrong_project_version_key";
+
+    /**
+     * {@code WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE} message to use when the repository of the project is not valid
+     */
+    public static final String WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE = "wrong_project_repository_key";
+
+    /**
+     * {@code WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE} message to use when the name of the project is already used
+     */
+    public static final String WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE = "project_name_already_exists_key";
+
+    /**
+     * {@code WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE} message to use when the target version of an update is not valid
+     */
+    public static final String WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE = "wrong_target_version_key";
+
+    /**
+     * {@code WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE} message to use when the version of an update is already used
+     */
+    public static final String WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE = "update_version_already_exists_key";
+
+    /**
+     * {@code WRONG_CHANGE_NOTES_ERROR_MESSAGE} message to use when the change notes list is not valid
+     */
+    public static final String WRONG_CHANGE_NOTES_ERROR_MESSAGE = "wrong_change_notes_list_key";
+
+    /**
+     * {@code WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to publish an update is not valid
+     */
+    public static final String WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_publish_update_request_key";
+
+    /**
+     * {@code WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to start an update is not valid
+     */
+    public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request_key";
+    
+    /**
      * {@code projectsHelper} instance to manage the projects database operations
      */
     @Autowired
     private ProjectsHelper projectsHelper;
-
-    /**
-     * {@code groupsHelper} instance to manage the groups database operations
-     */
-    @Autowired
-    private GroupsHelper groupsHelper;
 
     /**
      * Method to get the authored projects list
@@ -238,7 +280,7 @@ public class ProjectsController extends DefaultPandoroController {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         String name = payload.name();
         if (!INSTANCE.isValidProjectName(name))
-            return failedResponse("wrong_project_name_key");
+            return failedResponse(WRONG_PROJECT_NAME_ERROR_MESSAGE);
         boolean isAdding = projectId == null;
         if (!isAdding) {
             Project currentEditingProject = projectsHelper.getProjectById(projectId);
@@ -247,28 +289,19 @@ public class ProjectsController extends DefaultPandoroController {
         }
         String description = payload.project_description();
         if (!INSTANCE.isValidProjectDescription(description))
-            return failedResponse("wrong_project_description_key");
+            return failedResponse(WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE);
         String version = payload.project_version();
         if (!INSTANCE.isValidVersion(version))
-            return failedResponse("wrong_project_version_key");
-        List<String> groups = payload.groups();
-        ArrayList<String> adminGroups = new ArrayList<>();
-        for (Group group : me.getAdminGroups())
-            adminGroups.add(group.getId());
-        if (adminGroups.isEmpty()) {
-            me.setGroups(groupsHelper.getCompleteGroupsList(id));
-            for (Group group : me.getAdminGroups())
-                adminGroups.add(group.getId());
-        }
+            return failedResponse(WRONG_PROJECT_VERSION_ERROR_MESSAGE);
         String repository = payload.project_repository();
         if (!INSTANCE.isValidRepository(repository))
-            return failedResponse("wrong_project_repository_key");
+            return failedResponse(WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE);
         if (isAdding)
             projectId = generateIdentifier();
         try {
             projectsHelper.workWithProject(id, projectId, payload, isAdding);
         } catch (Exception e) {
-            return failedResponse("project_name_already_exists_key");
+            return failedResponse(WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE);
         }
         return successResponse();
     }
@@ -373,14 +406,14 @@ public class ProjectsController extends DefaultPandoroController {
         loadJsonHelper(payload);
         String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
         if (!INSTANCE.isValidVersion(targetVersion))
-            return failedResponse("wrong_target_version_key");
+            return failedResponse(WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE);
         if (projectsHelper.targetVersionExists(projectId, targetVersion))
-            return failedResponse("update_version_already_exists_key");
+            return failedResponse(WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE);
         List<String> changeNotes = Arrays.asList(jsonHelper.getString(UPDATE_CHANGE_NOTES_KEY)
                 .replaceAll(" ", "")
                 .split(","));
         if (!INSTANCE.areNotesValid(changeNotes))
-            return failedResponse("wrong_change_notes_list_key");
+            return failedResponse(WRONG_CHANGE_NOTES_ERROR_MESSAGE);
         projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
         return successResponse();
     }
@@ -457,11 +490,11 @@ public class ProjectsController extends DefaultPandoroController {
         UpdateStatus status = update.getStatus();
         if (isPublishing) {
             if (status != IN_DEVELOPMENT)
-                return failedResponse("wrong_publish_update_request_key");
+                return failedResponse(WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE);
             projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
         } else {
             if (status != SCHEDULED)
-                return failedResponse("wrong_development_update_request_key");
+                return failedResponse(WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE);
             projectsHelper.startUpdate(projectId, updateId, id);
         }
         return successResponse();
@@ -579,12 +612,12 @@ public class ProjectsController extends DefaultPandoroController {
     }
 
     /**
-     * Method to mark a change note as todo
+     * Method to mark a change note as to-do
      *
      * @param id The identifier of the user
      * @param token The token of the user
-     * @param projectId The identifier of the project where mark as todo the change note of an update
-     * @param updateId The identifier of the update where mark as todo the change note
+     * @param projectId The identifier of the project where mark as to-do the change note of an update
+     * @param updateId The identifier of the update where mark as to-do the change note
      * @param noteId The identifier of the note
      *
      * @return the result of the request as {@link String}
