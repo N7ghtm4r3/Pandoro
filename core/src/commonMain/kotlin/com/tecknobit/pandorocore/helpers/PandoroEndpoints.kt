@@ -109,4 +109,9 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
      */
     const val UNREAD_CHANGELOGS_ENDPOINT = "unread"
 
+    /**
+     * `OVERVIEW_ENDPOINT` endpoint to get the overview data analysis
+     */
+    const val OVERVIEW_ENDPOINT = "overview"
+
 }
