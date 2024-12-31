@@ -107,12 +107,13 @@ public class OverviewHelper {
         int group = 0;
         for (Project project : projects) {
             List<ProjectUpdate> updates = project.getUpdates();
+            int updatesNumber = updates.size();
             if (!updates.isEmpty()) {
-                total += updates.size();
+                total += updatesNumber;
                 if (project.hasGroups())
-                    group++;
+                    group += updatesNumber;
                 else
-                    personal++;
+                    personal += updatesNumber;
             }
         }
         boolean hasEnoughStats = total > 0;

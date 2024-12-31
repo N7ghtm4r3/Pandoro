@@ -410,8 +410,7 @@ public class ProjectsController extends DefaultPandoroController {
         if (projectsHelper.targetVersionExists(projectId, targetVersion))
             return failedResponse(WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE);
         List<String> changeNotes = Arrays.asList(jsonHelper.getString(UPDATE_CHANGE_NOTES_KEY)
-                .replaceAll(" ", "")
-                .split(","));
+                .split(", "));
         if (!INSTANCE.areNotesValid(changeNotes))
             return failedResponse(WRONG_CHANGE_NOTES_ERROR_MESSAGE);
         projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);

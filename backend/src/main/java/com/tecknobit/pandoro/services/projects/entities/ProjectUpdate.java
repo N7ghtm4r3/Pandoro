@@ -16,7 +16,6 @@ import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -121,12 +120,6 @@ public class ProjectUpdate extends EquinoxItem {
     private final long publishDate;
 
     /**
-     * {@code developmentDuration} how many days have been required to publish the update
-     */
-    @Transient
-    private final int developmentDuration;
-
-    /**
      * {@code notes} the notes for the update to be done
      */
     @OneToMany(
@@ -155,24 +148,26 @@ public class ProjectUpdate extends EquinoxItem {
      * @apiNote empty constructor required
      */
     public ProjectUpdate() {
-        this(null, null, -1, null, null, -1, null, -1, null);
+        this(null, null, -1, null, null, -1, null, -1, null, null);
     }
 
     /**
      * Constructor to init a {@link ProjectUpdate} object
      *
-     * @param id:            identifier of the update
-     * @param author:        the author of the update
-     * @param createDate:    when the update has been created
-     * @param targetVersion:{@code targetVersion} the target project_version of the update
-     * @param startedBy:     who created the update
-     * @param startDate:     when the update has been started
-     * @param publishedBy:   who published the update
-     * @param publishDate:   when the update has been published
-     * @param notes:         the notes for the update to be done
+     * @param id            identifier of the update
+     * @param author        the author of the update
+     * @param createDate    when the update has been created
+     * @param targetVersion the target project_version of the update
+     * @param startedBy     who created the update
+     * @param startDate     when the update has been started
+     * @param publishedBy   who published the update
+     * @param publishDate   when the update has been published
+     * @param status the current status of the update
+     * @param notes         the notes for the update to be done
      */
     public ProjectUpdate(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
-                         long startDate, PandoroUser publishedBy, long publishDate, ArrayList<Note> notes) {
+                         long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
+                         ArrayList<Note> notes) {
         super(id);
         this.author = author;
         this.createDate = createDate;
@@ -181,16 +176,7 @@ public class ProjectUpdate extends EquinoxItem {
         this.startDate = startDate;
         this.publishedBy = publishedBy;
         this.publishDate = publishDate;
-        if (publishDate != -1) {
-            developmentDuration = (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
-            status = PUBLISHED;
-        } else if (startDate == -1) {
-            status = SCHEDULED;
-            developmentDuration = 0;
-        } else {
-            developmentDuration = 0;
-            status = IN_DEVELOPMENT;
-        }
+        this.status = status;
         this.notes = notes;
     }
 
@@ -264,13 +250,13 @@ public class ProjectUpdate extends EquinoxItem {
     }
 
     /**
-     * Method to get {@link #developmentDuration} instance
+     * Method to get how many days have been required to publish the update
      *
-     * @return {@link #developmentDuration} instance as int
+     * @return how many days have been required to publish the update instance as int
      */
     @JsonIgnore
     public int getDevelopmentDuration() {
-        return developmentDuration;
+        return (int) Math.ceil(((publishDate - startDate) / 86400f) / 1000);
     }
 
     /**
