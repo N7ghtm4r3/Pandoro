@@ -2550,12 +2550,12 @@
     ]
   },
   {
-    "name": "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, notes: ArrayList<Note>)",
+    "name": "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>)",
     "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/-project-update.html",
     "searchKeys": [
       "ProjectUpdate",
-      "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, notes: ArrayList<Note>)",
+      "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>)",
       "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate"
     ]
   },
@@ -3787,6 +3787,16 @@
       "getCreation",
       "open fun getCreation(): Long",
       "com.tecknobit.pandoro.services.projects.entities.Project.getCreation"
+    ]
+  },
+  {
+    "name": "open fun getDevelopmentDuration(): Int",
+    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getDevelopmentDuration",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-development-duration.html",
+    "searchKeys": [
+      "getDevelopmentDuration",
+      "open fun getDevelopmentDuration(): Int",
+      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getDevelopmentDuration"
     ]
   },
   {
@@ -5777,16 +5787,6 @@
       "description",
       "val description: String",
       "com.tecknobit.pandoro.services.projects.entities.Project.description"
-    ]
-  },
-  {
-    "name": "val developmentDuration: Int",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.developmentDuration",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/development-duration.html",
-    "searchKeys": [
-      "developmentDuration",
-      "val developmentDuration: Int",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.developmentDuration"
     ]
   },
   {
