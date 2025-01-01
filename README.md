@@ -1,6 +1,6 @@
 # Pandoro
 
-**v1.0.4**
+**v1.0.5**
 
 This project, based on Java and the
 Spring Boot framework, is an open source self-hosted management software useful in managing your personal projects and group
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:Pandoro-core:1.0.4'
+  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.5'
 }
 ```
 
@@ -46,45 +46,8 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:Pandoro-core:1.0.4")
+  implementation("com.tecknobit.pandorocore:pandorocore:1.0.5")
 }
-```
-
-## Implementation
-
-Add the JitPack repository to your build file
-
-### Gradle
-
-- Add the dependency
-
-  #### Gradle (Short)
-
-    ```gradle
-    dependencies {
-        implementation 'com.tecknobit.pandoro:Pandoro:1.0.4'
-    }
-    ```
-
-  #### Gradle (Kotlin)
-
-    ```gradle
-    dependencies {
-        implementation("com.tecknobit.pandoro:Pandoro:1.0.4")
-    }
-    ```
-
-### Maven
-
-- Add the dependency
-
-```xml
-
-<dependency>
-  <groupId>com.tecknobit.pandorocore</groupId>
-  <artifactId>Pandoro-core</artifactId>
-  <version>1.0.4</version>
-</dependency>
 ```
 
 ## 🛠 Skills
@@ -92,17 +55,15 @@ Add the JitPack repository to your build file
 - Java
 - Kotlin
 
-## Roadmap
+## Architecture
 
-This project will be constantly developed to reach different platforms to work on, following the platforms releases
-steps:
+### Clients
 
-- Mobile
-  - <a href="https://github.com/N7ghtm4r3/Pandoro-Android#readme">Android</a>
-  - iOS -> planned
-- <a href="https://github.com/N7ghtm4r3/Pandoro-Desktop/releases/tag/1.0.4">Pandoro desktop version</a>
-- <a href="https://github.com/Rhythmss/pandoro-webapp">Pandoro webapp version</a>
-- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.4">Backend service "out-of-the-box"</a>
+- [Android and Desktop](https://github.com/N7ghtm4r3/Pandoro-Clients#readme)
+
+### Backend
+
+- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.5">Backend service "out-of-the-box"</a>
 
 ## Usages
 
@@ -230,7 +191,6 @@ When you have to start the service you will have different scenarios:
 ## Authors
 
 - [@N7ghtm4r3](https://www.github.com/N7ghtm4r3)
-- [@Rhythmss](https://www.github.com/Rhythmss)
 
 ## Support
 
@@ -255,10 +215,11 @@ Thank you for your help!
 
 If you want support project and developer
 
-| Crypto                                                                                              | Address                                        | Network  |
-|-----------------------------------------------------------------------------------------------------|------------------------------------------------|----------|
-| ![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white)   | **3H3jyCzcRmnxroHthuXh22GXXSmizin2yp**         | Bitcoin  |
-| ![](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white) | **0x1b45bc41efeb3ed655b078f95086f25fc83345c4** | Ethereum |
+| Crypto                                                                                              | Address                                          | Network  |
+|-----------------------------------------------------------------------------------------------------|--------------------------------------------------|----------|
+| ![](https://img.shields.io/badge/Bitcoin-000000?style=for-the-badge&logo=bitcoin&logoColor=white)   | **3H3jyCzcRmnxroHthuXh22GXXSmizin2yp**           | Bitcoin  |
+| ![](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white) | **0x1b45bc41efeb3ed655b078f95086f25fc83345c4**   | Ethereum |
+| ![](https://img.shields.io/badge/Solana-000?style=for-the-badge&logo=Solana&logoColor=9945FF)       | **AtPjUnxYFHw3a6Si9HinQtyPTqsdbfdKX3dJ1xiDjbrL** | Solana   |
 
 If you want support project and developer
 with <a href="https://www.paypal.com/donate/?hosted_button_id=5QMN5UQH7LDT4">PayPal</a>
