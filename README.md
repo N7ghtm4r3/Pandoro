@@ -50,11 +50,6 @@ dependencies {
 }
 ```
 
-## 🛠 Skills
-
-- Java
-- Kotlin
-
 ## Architecture
 
 ### Clients
@@ -188,10 +183,6 @@ When you have to start the service you will have different scenarios:
   java -jar Pandoro.jar dssi // this will delete the current server secret and interrupts the server workflow right next
   ```
 
-## Authors
-
-- [@N7ghtm4r3](https://www.github.com/N7ghtm4r3)
-
 ## Support
 
 If you need help using the library or encounter any problems or bugs, please contact us via the following links:
@@ -224,4 +215,4 @@ If you want support project and developer
 If you want support project and developer
 with <a href="https://www.paypal.com/donate/?hosted_button_id=5QMN5UQH7LDT4">PayPal</a>
 
-Copyright © 2024 Tecknobit
+Copyright © 2025 Tecknobit
