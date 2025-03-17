@@ -23,7 +23,7 @@ import java.util.List;
 
 @Service
 @Primary
-public class PandoroUsersHelper extends EquinoxUsersService<PandoroUser, PandoroUsersRepository> {
+public class PandoroUsersService extends EquinoxUsersService<PandoroUser, PandoroUsersRepository> {
 
     /**
      * {@code membersRepository} instance for the members of a group project_repository

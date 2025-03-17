@@ -2,7 +2,7 @@ package com.tecknobit.pandoro.services.overview.controller;
 
 import com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.overview.service.OverviewHelper;
+import com.tecknobit.pandoro.services.overview.service.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +22,10 @@ import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.OVERVIEW_ENDPOI
 public class OverviewController extends DefaultPandoroController {
 
     /**
-     * {@code overviewHelper} instance to manage the overview database operations
+     * {@code overviewService} instance to manage the overview database operations
      */
     @Autowired
-    private OverviewHelper overviewHelper;
+    private OverviewService overviewService;
 
     /**
      * Method to get the overview analysis for the requested user
@@ -45,7 +45,7 @@ public class OverviewController extends DefaultPandoroController {
     ) {
         if (!isMe(userId, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(overviewHelper.getOverview(userId));
+        return (T) successResponse(overviewService.getOverview(userId));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.helpers.resources;
+package com.tecknobit.pandoro.configuration;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.equinoxbackend.resourcesutils.ResourcesManager;

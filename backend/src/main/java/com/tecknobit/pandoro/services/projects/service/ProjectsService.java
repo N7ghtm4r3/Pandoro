@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.projects.service;
 
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
-import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
-import com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager;
+import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
+import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
@@ -37,13 +37,13 @@ import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
 /**
- * The {@code ProjectsHelper} class is useful to manage all the projects database operations
+ * The {@code ProjectsService} class is useful to manage all the projects database operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see ChangelogOperator
  */
 @Service
-public class ProjectsHelper extends ChangelogOperator implements PandoroResourcesManager {
+public class ProjectsService extends ChangelogOperator implements PandoroResourcesManager {
 
     /**
      * {@code PROJECT_NAME_REGEX} regex to validate the project name

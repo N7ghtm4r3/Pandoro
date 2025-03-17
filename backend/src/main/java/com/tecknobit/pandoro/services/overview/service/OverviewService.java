@@ -22,7 +22,7 @@ import java.util.List;
  * @author N7ghtm4r3 - Tecknobit
  */
 @Service
-public class OverviewHelper {
+public class OverviewService {
 
     /**
      * {@code HUNDRED_PERCENT_VALUE} constant for 100.0 value

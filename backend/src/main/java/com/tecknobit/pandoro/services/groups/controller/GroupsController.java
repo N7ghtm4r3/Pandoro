@@ -4,7 +4,7 @@ import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
-import com.tecknobit.pandoro.services.groups.service.GroupsHelper;
+import com.tecknobit.pandoro.services.groups.service.GroupsService;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.Role;
@@ -15,9 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 
-import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -59,10 +58,10 @@ public class GroupsController extends DefaultPandoroController {
     public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "action_executed_on_own_account_error_key";
 
     /**
-     * {@code groupsHelper} instance to manage the groups database operations
+     * {@code groupsService} instance to manage the groups database operations
      */
     @Autowired
-    private GroupsHelper groupsHelper;
+    private GroupsService groupsService;
 
     /**
      * Method to get a groups list
@@ -96,7 +95,7 @@ public class GroupsController extends DefaultPandoroController {
             ) List<String> roles
     ) {
         if (isMe(id, token))
-            return (T) successResponse(groupsHelper.getGroups(id, page, pageSize, authoredGroups, groupName, roles));
+            return (T) successResponse(groupsService.getGroups(id, page, pageSize, authoredGroups, groupName, roles));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -139,7 +138,7 @@ public class GroupsController extends DefaultPandoroController {
         if (isValidRequest != null)
             return failedResponse(isValidRequest);
         try {
-            groupsHelper.createGroup(me, generateIdentifier(), payload);
+            groupsService.createGroup(me, generateIdentifier(), payload);
         } catch (IOException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
@@ -185,10 +184,10 @@ public class GroupsController extends DefaultPandoroController {
         String isValidRequest = isValidRequest(id, token, payload, true);
         if (isValidRequest != null)
             return failedResponse(isValidRequest);
-        if (groupsHelper.getGroup(id, groupId) == null)
+        if (groupsService.getGroup(id, groupId) == null)
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         try {
-            groupsHelper.editGroup(me, groupId, payload);
+            groupsService.editGroup(me, groupId, payload);
         } catch (IOException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
@@ -228,7 +227,7 @@ public class GroupsController extends DefaultPandoroController {
             return WRONG_GROUP_LOGO_MESSAGE;
         if (!INSTANCE.isGroupNameValid(groupName))
             return WRONG_GROUP_NAME_ERROR_MESSAGE;
-        if (!editingMode && groupsHelper.groupExists(id, groupName))
+        if (!editingMode && groupsService.groupExists(id, groupName))
             return WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE;
         String groupDescription = payload.group_description();
         if (!INSTANCE.isGroupDescriptionValid(groupDescription))
@@ -261,7 +260,7 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null)
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
         return (T) successResponse(group);
@@ -292,14 +291,14 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null || !group.isUserMaintainer(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         List<String> members = Arrays.asList(jsonHelper.getString(GROUP_MEMBERS_KEY)
                 .replaceAll(" ", "")
                 .split(","));
-        groupsHelper.addMembers(group.getName(), members, groupId);
+        groupsService.addMembers(group.getName(), members, groupId);
         return successResponse();
     }
 
@@ -328,12 +327,12 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null)
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         try {
-            groupsHelper.acceptGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
+            groupsService.acceptGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
             return successResponse();
         } catch (IllegalAccessException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -365,12 +364,12 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         try {
-            groupsHelper.declineGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
+            groupsService.declineGroupInvitation(groupId, jsonHelper.getString(CHANGELOG_IDENTIFIER_KEY), me);
             return successResponse();
         } catch (IllegalAccessException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -409,14 +408,14 @@ public class GroupsController extends DefaultPandoroController {
             @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
-            Group meGroup = groupsHelper.getGroup(id, groupId);
+            Group meGroup = groupsService.getGroup(id, groupId);
             loadJsonHelper(payload);
             String hisId = jsonHelper.getString(IDENTIFIER_KEY, "");
-            Group uGroup = groupsHelper.getGroup(hisId, groupId);
+            Group uGroup = groupsService.getGroup(hisId, groupId);
             if (!id.equals(hisId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, hisId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
-                    GroupMember heMember = groupsHelper.getGroupMember(groupId, hisId);
+                    GroupMember iMember = groupsService.getGroupMember(groupId, me);
+                    GroupMember heMember = groupsService.getGroupMember(groupId, hisId);
                     if (iMember != null && heMember != null && heMember.getInvitationStatus() == JOINED) {
                         boolean isMeAdmin = iMember.isAdmin();
                         boolean isMeMaintainer = iMember.isMaintainer();
@@ -425,11 +424,11 @@ public class GroupsController extends DefaultPandoroController {
                         try {
                             Role role = Role.valueOf(jsonHelper.getString(MEMBER_ROLE_KEY));
                             if (isMeAdmin) {
-                                groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                groupsService.changeMemberRole(heMember.getId(), groupId, role);
                                 return successResponse();
                             } else if (isMeMaintainer) {
                                 if (!isHeMaintainer || !isHeAdmin) {
-                                    groupsHelper.changeMemberRole(heMember.getId(), groupId, role);
+                                    groupsService.changeMemberRole(heMember.getId(), groupId, role);
                                     return successResponse();
                                 } else
                                     return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
@@ -472,25 +471,25 @@ public class GroupsController extends DefaultPandoroController {
             @RequestBody Map<String, String> payload
     ) {
         if (isMe(id, token)) {
-            Group meGroup = groupsHelper.getGroup(id, groupId);
+            Group meGroup = groupsService.getGroup(id, groupId);
             loadJsonHelper(payload);
             String memberId = jsonHelper.getString(IDENTIFIER_KEY);
-            Group uGroup = groupsHelper.getGroup(memberId, groupId);
+            Group uGroup = groupsService.getGroup(memberId, groupId);
             if (!id.equals(memberId)) {
                 if (meGroup != null && uGroup != null && isNotTheAuthor(uGroup, memberId)) {
-                    GroupMember iMember = groupsHelper.getGroupMember(groupId, me);
-                    GroupMember heMember = groupsHelper.getGroupMember(groupId, memberId);
+                    GroupMember iMember = groupsService.getGroupMember(groupId, me);
+                    GroupMember heMember = groupsService.getGroupMember(groupId, memberId);
                     if (iMember != null && heMember != null) {
                         boolean isMeAdmin = iMember.isAdmin();
                         boolean isMeMaintainer = iMember.isMaintainer();
                         boolean isHeAdmin = heMember.isAdmin();
                         boolean isHeMaintainer = heMember.isMaintainer();
                         if (isMeAdmin) {
-                            groupsHelper.removeMember(heMember.getId(), groupId);
+                            groupsService.removeMember(heMember.getId(), groupId);
                             return successResponse();
                         } else if (isMeMaintainer) {
                             if (!isHeMaintainer || !isHeAdmin) {
-                                groupsHelper.removeMember(heMember.getId(), groupId);
+                                groupsService.removeMember(heMember.getId(), groupId);
                                 return successResponse();
                             } else
                                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
@@ -543,7 +542,7 @@ public class GroupsController extends DefaultPandoroController {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         PandoroUser me = super.me;
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null || !group.isUserAdmin(me))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
@@ -556,7 +555,7 @@ public class GroupsController extends DefaultPandoroController {
         Set<String> myProjects = me.getProjectsIds();
         projectsList.forEach(myProjects::remove);
         projectsList.addAll(group.getProjectsIds(myProjects.stream().toList()));
-        groupsHelper.editProjects(groupId, projectsList);
+        groupsService.editProjects(groupId, projectsList);
         return successResponse();
     }
 
@@ -585,13 +584,13 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group == null || group.getAuthor().getId().equals(id))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        GroupMember meMember = groupsHelper.getGroupMember(groupId, me);
+        GroupMember meMember = groupsService.getGroupMember(groupId, me);
         if (meMember == null)
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        groupsHelper.leaveGroup(id, group);
+        groupsService.leaveGroup(id, group);
         return successResponse();
     }
 
@@ -618,9 +617,9 @@ public class GroupsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Group group = groupsHelper.getGroup(id, groupId);
+        Group group = groupsService.getGroup(id, groupId);
         if (group != null && group.getAuthor().getId().equals(me.getId())) {
-            groupsHelper.deleteGroup(id, groupId);
+            groupsService.deleteGroup(id, groupId);
             return successResponse();
         } else
             return failedResponse(WRONG_PROCEDURE_MESSAGE);

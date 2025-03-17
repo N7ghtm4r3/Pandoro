@@ -15,12 +15,12 @@ import java.util.List;
 import static com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP;
 
 /**
- * The {@code ChangelogsHelper} class is useful to manage all the changelogs database operations
+ * The {@code ChangelogsService} class is useful to manage all the changelogs database operations
  *
  * @author N7ghtm4r3 - Tecknobit
  */
 @Service
-public class ChangelogsHelper {
+public class ChangelogsService {
 
     /**
      * {@code changelogsRepository} instance for the changelog project_repository

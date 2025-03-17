@@ -1,4 +1,4 @@
-package com.tecknobit.pandoro.helpers;
+package com.tecknobit.pandoro.services.changelogs.helpers;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
 import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;

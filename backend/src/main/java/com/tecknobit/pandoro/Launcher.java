@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
-import static com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager.GROUP_LOGOS_DIRECTORY;
-import static com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager.PROJECT_ICONS_DIRECTORY;
+import static com.tecknobit.pandoro.configuration.PandoroResourcesManager.GROUP_LOGOS_DIRECTORY;
+import static com.tecknobit.pandoro.configuration.PandoroResourcesManager.PROJECT_ICONS_DIRECTORY;
 
 /**
  * The {@code Launcher} class is useful to launch <b>Pandoro's backend service</b>

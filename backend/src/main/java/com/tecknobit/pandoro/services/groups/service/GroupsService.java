@@ -1,8 +1,8 @@
 package com.tecknobit.pandoro.services.groups.service;
 
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
-import com.tecknobit.pandoro.helpers.ChangelogsCreator.ChangelogOperator;
-import com.tecknobit.pandoro.helpers.resources.PandoroResourcesManager;
+import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
+import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
@@ -23,9 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.REPLACE_INTO;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.PENDING;
@@ -33,13 +32,13 @@ import static com.tecknobit.pandorocore.enums.Role.ADMIN;
 import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 
 /**
- * The {@code GroupsHelper} class is useful to manage all the groups database operations
+ * The {@code GroupsService} class is useful to manage all the groups database operations
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see ChangelogOperator
  */
 @Service
-public class GroupsHelper extends ChangelogOperator implements PandoroResourcesManager {
+public class GroupsService extends ChangelogOperator implements PandoroResourcesManager {
 
     /**
      * {@code usersRepository} instance for the users project_repository
@@ -157,6 +156,9 @@ public class GroupsHelper extends ChangelogOperator implements PandoroResourcesM
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
         List<PandoroUser> filteredMembers = filterMembers(members);
+
+
+
         batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, filteredMembers,
                 query -> {
                     int index = 1;

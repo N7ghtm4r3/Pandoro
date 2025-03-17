@@ -18,7 +18,7 @@ import static java.lang.System.currentTimeMillis;
  * @author N7ghtm4r3 - Tecknobit
  */
 @Service
-public class NotesHelper {
+public class NotesService {
 
     /**
      * {@code ALL_FILTER_VALUE} the default value of the filter to retrieve the notes list
