@@ -13,7 +13,6 @@ import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import jakarta.persistence.Query;
-import kotlin.Deprecated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -231,38 +230,58 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
      * @param groupName The name of the group
      * @param members The members list of a group to edit
      */
-    @Deprecated(
-            message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
-    )
     public void editMembers(String requester, String groupId, String groupName, List<String> members) {
         List<GroupMember> groupMembers = membersRepository.getAllGroupMembers(groupId);
-        List<String> currentMembers = new ArrayList<>();
-        for (GroupMember member : groupMembers)
-            currentMembers.add(member.getId());
-        currentMembers.removeAll(members);
-        for (String memberId : currentMembers) {
-            if (!requester.equals(memberId))
-                removeMember(memberId, groupId);
-        }
-        members.removeAll(currentMembers);
-        members.remove(requester);
-        for (String memberId : members) {
-            usersRepository.findById(memberId).ifPresent(pandoroUser -> {
-                    membersRepository.insertMember(
-                            memberId,
-                            pandoroUser.getName(),
-                            pandoroUser.getEmail(),
-                            pandoroUser.getProfilePic(),
-                            pandoroUser.getSurname(),
-                            DEVELOPER,
-                            PENDING,
-                            groupId
-                    );
-                changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
-            });
-        }
-        for (GroupMember member : groupMembers)
-            changelogsCreator.newMemberJoined(groupId, member.getId());
+        SyncBatchModel model = new SyncBatchModel() {
+            @Override
+            public Collection<String> getCurrentData() {
+                return groupMembers.stream().map(GroupMember::getId).toList();
+            }
+
+            @Override
+            public String[] getDeletingColumns() {
+                return new String[]{IDENTIFIER_KEY};
+            }
+
+            @Override
+            public void afterSync() {
+                for (GroupMember member : groupMembers)
+                    changelogsCreator.newMemberJoined(groupId, member.getId());
+            }
+        };
+        BatchQuery<String> batchQuery = new BatchQuery<>() {
+            @Override
+            public Collection<String> getData() {
+                return members;
+            }
+
+            @Override
+            public void prepareQuery(Query query, int index, Collection<String> members) {
+                for (String member : members) {
+                    if (member.equals(requester))
+                        break;
+                    PandoroUser pandoroUser = usersRepository.findById(member).orElse(null);
+                    if (pandoroUser == null)
+                        break;
+                    query.setParameter(index++, groupId);
+                    query.setParameter(index++, member);
+                    query.setParameter(index++, pandoroUser.getEmail());
+                    query.setParameter(index++, PENDING);
+                    query.setParameter(index++, pandoroUser.getName());
+                    query.setParameter(index++, pandoroUser.getProfilePic());
+                    query.setParameter(index++, DEVELOPER);
+                    query.setParameter(index++, pandoroUser.getSurname());
+                    changelogsCreator.sendGroupInvite(groupId, groupName, member);
+                }
+            }
+
+            @Override
+            public String[] getColumns() {
+                return new String[]{GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY,
+                        PROFILE_PIC_KEY, MEMBER_ROLE_KEY, SURNAME_KEY};
+            }
+        };
+        syncBatch(model, GROUP_MEMBERS_TABLE, batchQuery);
     }
 
     /**
@@ -360,9 +379,6 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
      * @param groupId The group identifier
      * @param projects The projects list of a group to edit
      */
-    @Deprecated(
-            message = "REMOVE THE WORKAROUND AND USE THE syncBatch METHOD DIRECTLY"
-    )
     public void editProjects(String groupId, ArrayList<String> projects) {
         List<String> currentProjects = groupsRepository.getGroupProjectsIds(groupId);
         List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
@@ -378,21 +394,6 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             for (GroupMember member : groupMembers)
                 changelogsCreator.addedGroupProject(project, member.getId());
         }
-    }
-
-    @Deprecated(
-            message = "TO USE THE BUILT-IN ONE IN THE NEW EQUINOX VERSION (SyncBatchContainer)"
-    )
-    private void onSync(String groupId, List<String> projects, List<String> currentProjects) {
-        List<GroupMember> groupMembers = membersRepository.getGroupMembers(groupId);
-        for (String project : currentProjects) {
-            for (GroupMember member : groupMembers)
-                changelogsCreator.removedGroupProject(project, member.getId());
-        }
-        projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
-        for (String project : projects)
-            for (GroupMember member : groupMembers)
-                changelogsCreator.addedGroupProject(project, member.getId());
     }
 
     /**
