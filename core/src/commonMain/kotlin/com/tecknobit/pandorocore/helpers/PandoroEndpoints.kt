@@ -1,6 +1,6 @@
 package com.tecknobit.pandorocore.helpers
 
-import com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet
+import com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet
 
 /**
  * The {@code PandoroEndpoints} class is a container with all the Pandoro's endpoints

@@ -1,8 +1,11 @@
 package com.tecknobit.pandorocore.enums
 
+import kotlinx.serialization.Serializable
+
 /**
  * `InvitationStatus` list of available invitation statuses for a group's member
  */
+@Serializable
 enum class InvitationStatus {
 
     /**

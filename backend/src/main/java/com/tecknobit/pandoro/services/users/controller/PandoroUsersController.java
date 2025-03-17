@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.equinoxcore.network.RequestMethod.GET;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.GROUP_MEMBERS_KEY;
@@ -51,7 +49,7 @@ public class PandoroUsersController extends EquinoxUsersController<PandoroUser, 
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(usersHelper.countCandidateMembers(membersToExcludeSize));
+        return (T) successResponse(usersService.countCandidateMembers(membersToExcludeSize));
     }
 
     /**
@@ -80,7 +78,7 @@ public class PandoroUsersController extends EquinoxUsersController<PandoroUser, 
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        return (T) successResponse(usersHelper.getCandidateMembers(page, pageSize, id, membersToExclude));
+        return (T) successResponse(usersService.getCandidateMembers(page, pageSize, id, membersToExclude));
     }
 
 }

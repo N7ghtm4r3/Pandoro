@@ -1,6 +1,6 @@
 # Pandoro
 
-**v1.0.5**
+**v1.0.6**
 
 This project, based on Java and the
 Spring Boot framework, is an open source self-hosted management software useful in managing your personal projects and group
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.5'
+  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.6'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:pandorocore:1.0.5")
+  implementation("com.tecknobit.pandorocore:pandorocore:1.0.6")
 }
 ```
 
@@ -58,7 +58,7 @@ dependencies {
 
 ### Backend
 
-- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.5">Backend service "out-of-the-box"</a>
+- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.6">Backend service "out-of-the-box"</a>
 
 ## Usages
 

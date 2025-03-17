@@ -60,7 +60,7 @@ public class ChangelogsCreator {
      */
     @Wrapper
     public void yourGroupRoleChanged(String groupId, String memberId, Role role) {
-        createGroupChangelog(ROLE_CHANGED, role.toString(), groupId, memberId);
+        createGroupChangelog(ROLE_CHANGED, role.name(), groupId, memberId);
     }
 
     /**

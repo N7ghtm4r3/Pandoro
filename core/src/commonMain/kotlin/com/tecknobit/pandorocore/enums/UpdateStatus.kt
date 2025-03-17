@@ -1,8 +1,11 @@
 package com.tecknobit.pandorocore.enums
 
+import kotlinx.serialization.Serializable
+
 /**
  * `UpdateStatus` list of available statuses for an update
  */
+@Serializable
 enum class UpdateStatus {
 
     /**

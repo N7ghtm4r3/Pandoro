@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -10,7 +9,7 @@ plugins {
 }
 
 group = "com.tecknobit.pandoro"
-version = "1.0.5"
+version = "1.0.6"
 
 repositories {
     google()
@@ -33,8 +32,8 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_18)
         }
     }
-    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
-    /*listOf(
+
+    listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
@@ -43,9 +42,8 @@ kotlin {
             baseName = "Pandoro-Core"
             isStatic = true
         }
-    }*/
-    // TODO: PLANNED TO BE IMPLEMENTED IN THE NEXT VERSION
-    /*@OptIn(ExperimentalWasmDsl::class)
+    }
+
     wasmJs {
         binaries.executable()
         browser {
@@ -54,14 +52,14 @@ kotlin {
                 }
             }
         }
-    }*/
+    }
 
     sourceSets {
 
         val commonMain by getting {
             dependencies {
-                implementation("io.github.n7ghtm4r3:equinox-core:1.0.5")
-                implementation("io.github.n7ghtm4r3:equinox-backend:1.0.5")
+                implementation("io.github.n7ghtm4r3:equinox-core:1.0.9")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
             }
         }
 
@@ -84,7 +82,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandorocore"
                 artifactId = "pandorocore"
-                version = "1.0.5"
+                version = "1.0.6"
                 from(components["kotlin"])
             }
         }

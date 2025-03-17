@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.users.service;
 
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
-import com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersHelper;
+import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
+import com.tecknobit.equinoxbackend.environment.services.users.service.EquinoxUsersService;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
@@ -23,7 +23,7 @@ import java.util.List;
 
 @Service
 @Primary
-public class PandoroUsersHelper extends EquinoxUsersHelper<PandoroUser, PandoroUsersRepository> {
+public class PandoroUsersHelper extends EquinoxUsersService<PandoroUser, PandoroUsersRepository> {
 
     /**
      * {@code membersRepository} instance for the members of a group project_repository
