@@ -31,7 +31,7 @@ public class NotesController extends DefaultPandoroController {
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
      */
-    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note_key";
+    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note";
 
     /**
      * {@code notesService} instance to manage the notes database operations

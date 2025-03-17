@@ -14,6 +14,7 @@ import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
+import jakarta.persistence.Query;
 import kotlin.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
@@ -264,13 +262,25 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
      * @param projectId The project identifier
      */
     private void addGroupsToAProject(List<String> groups, String projectId) {
-        batchInsert(INSERT_INTO, PROJECTS_GROUPS_TABLE, groups, query -> {
-            int index = 1;
-            for (String group : groups) {
-                query.setParameter(index++, projectId);
-                query.setParameter(index++, group);
+        batchInsert(INSERT_INTO, PROJECTS_GROUPS_TABLE, new BatchQuery<String>() {
+            @Override
+            public Collection<String> getData() {
+                return groups;
             }
-        }, PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY);
+
+            @Override
+            public void prepareQuery(Query query, int index, Collection<String> groups) {
+                for (String group : groups) {
+                    query.setParameter(index++, projectId);
+                    query.setParameter(index++, group);
+                }
+            }
+
+            @Override
+            public String[] getColumns() {
+                return new String[]{PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY};
+            }
+        });
         for (String group : groups) {
             List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
             for (GroupMember member : members)
@@ -328,16 +338,28 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
                                String projectId, String userId) {
         updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED,
                 projectId, userId);
-        batchInsert(INSERT_IGNORE_INTO, NOTES_KEY, changeNotes, query -> {
-            int index = 1;
-            for (String changeNote : changeNotes) {
-                query.setParameter(index++, generateIdentifier());
-                query.setParameter(index++, userId);
-                query.setParameter(index++, changeNote);
-                query.setParameter(index++, System.currentTimeMillis());
-                query.setParameter(index++, updateId);
+        batchInsert(INSERT_IGNORE_INTO, NOTES_KEY, new BatchQuery<String>() {
+            @Override
+            public Collection<String> getData() {
+                return changeNotes;
             }
-        }, IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY);
+
+            @Override
+            public void prepareQuery(Query query, int index, Collection<String> changeNotes) {
+                for (String changeNote : changeNotes) {
+                    query.setParameter(index++, generateIdentifier());
+                    query.setParameter(index++, userId);
+                    query.setParameter(index++, changeNote);
+                    query.setParameter(index++, System.currentTimeMillis());
+                    query.setParameter(index++, updateId);
+                }
+            }
+
+            @Override
+            public String[] getColumns() {
+                return new String[]{IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY};
+            }
+        });
         if (projectsRepository.getProjectById(projectId).hasGroups())
             changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
     }

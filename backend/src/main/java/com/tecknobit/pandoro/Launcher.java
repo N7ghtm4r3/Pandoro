@@ -27,7 +27,7 @@ import static com.tecknobit.pandoro.configuration.PandoroResourcesManager.PROJEC
 })
 @EnableJpaRepositories("com.tecknobit.*")
 @EntityScan("com.tecknobit.*")
-@ComponentScan("com.tecknobit.pandoro.*")
+@ComponentScan(value = {"com.tecknobit.pandoro.*", "com.tecknobit.equinoxbackend.environment.configuration"})
 @SpringBootApplication
 public class Launcher {
 

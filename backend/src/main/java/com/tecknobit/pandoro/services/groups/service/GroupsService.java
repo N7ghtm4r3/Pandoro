@@ -12,6 +12,7 @@ import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
+import jakarta.persistence.Query;
 import kotlin.Deprecated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.REPLACE_INTO;
@@ -155,38 +157,37 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
      * @param groupId   The group identifier where add the members
      */
     public void addMembers(String groupName, List<String> members, String groupId) {
-        List<PandoroUser> filteredMembers = filterMembers(members);
+        batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, new BatchQuery<PandoroUser>() {
+            @Override
+            public Collection<PandoroUser> getData() {
+                ArrayList<PandoroUser> filteredMembers = new ArrayList<>();
+                for (String member : members)
+                    usersRepository.findById(member).ifPresent(filteredMembers::add);
+                return filteredMembers;
+            }
 
+            @Override
+            public void prepareQuery(Query query, int index, Collection<PandoroUser> members) {
+                for (PandoroUser member : members) {
+                    String memberId = member.getId();
+                    query.setParameter(index++, groupId);
+                    query.setParameter(index++, memberId);
+                    query.setParameter(index++, member.getEmail());
+                    query.setParameter(index++, PENDING.name());
+                    query.setParameter(index++, member.getName());
+                    query.setParameter(index++, member.getProfilePic());
+                    query.setParameter(index++, DEVELOPER.name());
+                    query.setParameter(index++, member.getSurname());
+                    changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
+                }
+            }
 
-
-        batchInsert(REPLACE_INTO, GROUP_MEMBERS_TABLE, filteredMembers,
-                query -> {
-                    int index = 1;
-                    for (PandoroUser member : filteredMembers) {
-                        String memberId = member.getId();
-                        query.setParameter(index++, groupId);
-                        query.setParameter(index++, memberId);
-                        query.setParameter(index++, member.getEmail());
-                        query.setParameter(index++, PENDING.name());
-                        query.setParameter(index++, member.getName());
-                        query.setParameter(index++, member.getProfilePic());
-                        query.setParameter(index++, DEVELOPER.name());
-                        query.setParameter(index++, member.getSurname());
-                        changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
-                    }
-                },
-                GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY, PROFILE_PIC_KEY, MEMBER_ROLE_KEY,
-                SURNAME_KEY);
-    }
-
-    @Deprecated(
-            message = "TO USE THE BUILT-IN ONE IN THE NEW EQUINOX VERSION (BATCH-QUERY)"
-    )
-    private List<PandoroUser> filterMembers(List<String> members) {
-        ArrayList<PandoroUser> filteredMembers = new ArrayList<>();
-        for (String member : members)
-            usersRepository.findById(member).ifPresent(filteredMembers::add);
-        return filteredMembers;
+            @Override
+            public String[] getColumns() {
+                return new String[]{GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY,
+                        PROFILE_PIC_KEY, MEMBER_ROLE_KEY, SURNAME_KEY};
+            }
+        });
     }
 
     /**

@@ -39,53 +39,53 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * {@code WRONG_PROJECT_NAME_ERROR_MESSAGE} message to use when the name of the project is not a valid name
      */
-    public static final String WRONG_PROJECT_NAME_ERROR_MESSAGE = "wrong_project_name_key";
+    public static final String WRONG_PROJECT_NAME_ERROR_MESSAGE = "wrong_project_name";
 
     /**
      * {@code WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE} message to use when the description of the project is not a valid description
      */
-    public static final String WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE = "wrong_project_description_key";
+    public static final String WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE = "wrong_project_description";
 
     /**
      * {@code WRONG_PROJECT_VERSION_ERROR_MESSAGE} message to use when the version of the project is not valid
      */
-    public static final String WRONG_PROJECT_VERSION_ERROR_MESSAGE = "wrong_project_version_key";
+    public static final String WRONG_PROJECT_VERSION_ERROR_MESSAGE = "wrong_project_version";
 
     /**
      * {@code WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE} message to use when the repository of the project is not valid
      */
-    public static final String WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE = "wrong_project_repository_key";
+    public static final String WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE = "wrong_project_repository";
 
     /**
      * {@code WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE} message to use when the name of the project is already used
      */
-    public static final String WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE = "project_name_already_exists_key";
+    public static final String WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE = "project_name_already_exists";
 
     /**
      * {@code WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE} message to use when the target version of an update is not valid
      */
-    public static final String WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE = "wrong_target_version_key";
+    public static final String WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE = "wrong_target_version";
 
     /**
      * {@code WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE} message to use when the version of an update is already used
      */
-    public static final String WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE = "update_version_already_exists_key";
+    public static final String WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE = "update_version_already_exists";
 
     /**
      * {@code WRONG_CHANGE_NOTES_ERROR_MESSAGE} message to use when the change notes list is not valid
      */
-    public static final String WRONG_CHANGE_NOTES_ERROR_MESSAGE = "wrong_change_notes_list_key";
+    public static final String WRONG_CHANGE_NOTES_ERROR_MESSAGE = "wrong_change_notes_list";
 
     /**
      * {@code WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to publish an update is not valid
      */
-    public static final String WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_publish_update_request_key";
+    public static final String WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_publish_update_request";
 
     /**
      * {@code WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to start an update is not valid
      */
-    public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request_key";
-    
+    public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request";
+
     /**
      * {@code projectsService} instance to manage the projects database operations
      */

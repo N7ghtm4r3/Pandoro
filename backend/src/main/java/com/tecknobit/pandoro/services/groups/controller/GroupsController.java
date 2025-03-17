@@ -23,7 +23,6 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.InvitationStatus.JOINED;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
-import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.WRONG_GROUP_LOGO_MESSAGE;
 
 /**
  * The {@code GroupsController} class is useful to manage all the group operations
@@ -39,23 +38,28 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * {@code WRONG_GROUP_NAME_ERROR_MESSAGE} message to use when the name of the group is not a valid name
      */
-    public static final String WRONG_GROUP_NAME_ERROR_MESSAGE = "wrong_group_name_key";
+    public static final String WRONG_GROUP_NAME_ERROR_MESSAGE = "wrong_group_name";
 
     /**
      * {@code WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE} message to use when the name of the group is already used
      */
-    public static final String WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE = "group_name_already_exists_key";
+    public static final String WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE = "group_name_already_exists";
 
     /**
      * {@code WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE} message to use when the description of the group is not a valid description
      */
-    public static final String WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE = "wrong_group_description_key";
+    public static final String WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE = "wrong_group_description";
 
     /**
      * {@code CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE} message to use when the user tried to execute an action on its
      * account wrong
      */
-    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "action_executed_on_own_account_error_key";
+    public static final String CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE = "action_executed_on_own_account_error";
+
+    /**
+     * {@code WRONG_GROUP_LOGO_MESSAGE} the message to warn the user about an invalid logo for a group
+     */
+    public static final String WRONG_GROUP_LOGO_MESSAGE = "wrong_group_logo";
 
     /**
      * {@code groupsService} instance to manage the groups database operations
