@@ -235,7 +235,9 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
         SyncBatchModel model = new SyncBatchModel() {
             @Override
             public Collection<String> getCurrentData() {
-                return groupMembers.stream().map(GroupMember::getId).toList();
+                ArrayList<String> members = new ArrayList<>(groupMembers.stream().map(GroupMember::getId).toList());
+                members.remove(requester);
+                return members;
             }
 
             @Override
@@ -258,8 +260,6 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             @Override
             public void prepareQuery(Query query, int index, Collection<String> members) {
                 for (String member : members) {
-                    if (member.equals(requester))
-                        break;
                     PandoroUser pandoroUser = usersRepository.findById(member).orElse(null);
                     if (pandoroUser == null)
                         break;
