@@ -126,6 +126,7 @@ public class ProjectUpdate extends EquinoxItem {
             mappedBy = UPDATE_KEY,
             cascade = CascadeType.ALL
     )
+    @OrderBy(CREATION_DATE_KEY + " DESC")
     private final List<Note> notes;
 
     /**
