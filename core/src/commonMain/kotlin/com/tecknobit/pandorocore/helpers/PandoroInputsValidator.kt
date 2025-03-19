@@ -1,19 +1,10 @@
 package com.tecknobit.pandorocore.helpers
 
+import com.tecknobit.equinoxcore.annotations.Validator
 import com.tecknobit.equinoxcore.helpers.InputsValidator
 import com.tecknobit.pandorocore.enums.RepositoryPlatform.Companion.isValidPlatform
 
 object PandoroInputsValidator : InputsValidator() {
-
-    /**
-     * `WRONG_PROJECT_ICON_MESSAGE` the message to warn the user about an invalid icon for a project
-     */
-    const val WRONG_PROJECT_ICON_MESSAGE = "wrong_project_icon_key"
-
-    /**
-     * `WRONG_GROUP_LOGO_MESSAGE` the message to warn the user about an invalid logo for a group
-     */
-    const val WRONG_GROUP_LOGO_MESSAGE = "wrong_group_logo_key"
 
     /**
      * `PROJECT_NAME_MAX_LENGTH` the max length of the name for a project
@@ -46,47 +37,12 @@ object PandoroInputsValidator : InputsValidator() {
     const val TARGET_VERSION_MAX_LENGTH: Int = 20
 
     /**
-     * `EMAIL_REGEX` regular expression to validate the emails value
-     */
-    @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
-    private const val EMAIL_REGEX =
-        "^(?![.])(?!.*\\.\\.{2})[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
-
-    /**
-     * `URL_REGEX` regular expression to validate the urls value
-     */
-    @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
-    private const val URL_REGEX =
-        "^(https?|ftp|file|mailto|data|ws|wss)://(?:[A-Za-z0-9-]+\\.)*[A-Za-z0-9-]+(?::\\d{1,5})?(?:/[A-Za-z0-9%&=?./_-]*)?(?:#[A-Za-z0-9_-]*)?\$"
-
-    /**
-     * `emailValidator` helper to validate the emails values
-     */
-    @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
-    private val emailValidator = Regex(EMAIL_REGEX)
-
-    /**
-     * `urlValidator` helper to validate the urls values
-     */
-    @Deprecated(message = "To use the original one", level = DeprecationLevel.WARNING)
-    private val urlValidator = Regex(URL_REGEX)
-
-    @Deprecated(
-        message = "USE THE BUILT-IN ONE",
-        replaceWith = ReplaceWith("isHostValid()")
-    )
-    fun isHostAddressValid(
-        hostAddress: String,
-    ): Boolean {
-        return urlValidator.matches(hostAddress)
-    }
-
-    /**
      * Function to check if all the notes of the list are correct
      *
      * @param notes: list of notes
      * @return whether all the notes of the list are correct as boolean
      */
+    @Validator
     fun areNotesValid(
         notes: List<String?>?,
     ): Boolean {
@@ -105,6 +61,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param content: content to check
      * @return whether the content is valid as [Boolean]
      */
+    @Validator
     fun isContentNoteValid(
         content: String?,
     ): Boolean {
@@ -117,6 +74,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param groupName: group name to check
      * @return whether the group name is valid as [Boolean]
      */
+    @Validator
     fun isGroupNameValid(
         groupName: String?,
     ): Boolean {
@@ -129,6 +87,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param groupDescription: group description to check
      * @return whether the group description is valid as [Boolean]
      */
+    @Validator
     fun isGroupDescriptionValid(
         groupDescription: String?,
     ): Boolean {
@@ -141,6 +100,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param projectName: project name to check
      * @return whether the project name is valid as [Boolean]
      */
+    @Validator
     fun isValidProjectName(
         projectName: String?,
     ): Boolean {
@@ -153,6 +113,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param description: project description to check
      * @return whether the project description is valid as [Boolean]
      */
+    @Validator
     fun isValidProjectDescription(
         description: String?,
     ): Boolean {
@@ -165,6 +126,7 @@ object PandoroInputsValidator : InputsValidator() {
      * @param version: target version to check
      * @return whether the version is valid as [Boolean]
      */
+    @Validator
     fun isValidVersion(
         version: String?,
     ): Boolean {
@@ -177,19 +139,12 @@ object PandoroInputsValidator : InputsValidator() {
      * @param repository: repository to check
      * @return whether the repository is valid as [Boolean]
      */
+    @Validator
     fun isValidRepository(
         repository: String?,
     ): Boolean {
         return repository != null && repository.isEmpty() || (urlValidator.matches(repository!!) &&
                 isValidPlatform(repository))
-    }
-
-    @Deprecated(
-        message = "USE THE BUILT-IN ONE",
-        replaceWith = ReplaceWith("the super method")
-    )
-    private fun isInputValid(field: String?): Boolean {
-        return !field.isNullOrEmpty()
     }
 
 }

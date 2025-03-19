@@ -26,44 +26,79 @@
     <link href="../../../styles/prism.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
     <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
     <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
     <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
     <script type="text/javascript" src="../../../scripts/main.js" defer></script>
     <script type="text/javascript" src="../../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
     <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
 </head>
 <body>
 <div class="root">
-    <nav class="navigation" id="navigation-wrapper">
-        <div class="navigation--inner">
-            <div class="navigation-title">
-                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-                <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
-                        Pandoro
-                    </a></div>
-                <div class="library-version">
-                </div>
-            </div>
-            <div class="filter-section" id="filter-section">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../../index.html">
+            Pandoro
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
                 <button class="platform-tag platform-selector jvm-like" data-active=""
                         data-filter=":backend:dokkaHtmlPartial/main">jvm
                 </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":backend:dokkaHtmlPartial/main"
+                                       data-filter=":backend:dokkaHtmlPartial/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
-        </div>
-        <div class="navigation-controls">
-            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
-                switch theme
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
             </button>
-            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
     </nav>
     <div id="container">
         <div class="sidebar" id="leftColumn">
-            <div class="sidebar--inner" id="sideMenu"></div>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
         </div>
         <div id="main">
             <div class="main-content" data-page-type="classlike" id="content"
@@ -86,7 +121,7 @@
                                 </div>
                                 <span class="token keyword">open </span><span class="token keyword">class </span><a
                                     href="index.html">PandoroUser</a> : <span
-                                    data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxUser///PointingToDeclaration/">EquinoxUser</span>,
+                                    data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.users.entity/EquinoxUser///PointingToDeclaration/">EquinoxUser</span>,
                                 <span data-unresolved-link="com.tecknobit.equinoxcore.dtoutils/DTOConvertible///PointingToDeclaration/">DTOConvertible</span><span
                                     class="token operator">&lt;</span><span
                                     data-unresolved-link="com.tecknobit.equinoxcore.dtoutils/DTOConvertible///PointingToGenericParameters(0)/">T</span><span
@@ -100,7 +135,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex"><div><span
-                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxItem///PointingToDeclaration/"><span>Equinox</span><wbr><span><span>Item</span></span></span></div></span>
+                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.builtin.entity/EquinoxItem///PointingToDeclaration/"><span>Equinox</span><wbr><span><span>Item</span></span></span></div></span>
                                         </div>
                                         <div></div>
                                     </div>
@@ -109,7 +144,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex"><div><span
-                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxUser///PointingToDeclaration/"><span>Equinox</span><wbr><span><span>User</span></span></span></div></span>
+                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.users.entity/EquinoxUser///PointingToDeclaration/"><span>Equinox</span><wbr><span><span>User</span></span></span></div></span>
                                         </div>
                                         <div></div>
                                     </div>
@@ -306,15 +341,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="910758965%2FProperties%2F-612206970" anchor-label="DEFAULT_PROFILE_PIC"
-                                   id="910758965%2FProperties%2F-612206970"
+                                <a data-name="930988169%2FProperties%2F-612206970"
+                                   anchor-label="DISCRIMINATOR_VALUE_KEY" id="930988169%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#910758965%2FProperties%2F-612206970"><span><span>DEFAULT_PROFILE_PIC</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="910758965%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#930988169%2FProperties%2F-612206970"><span>DISCRIMINATOR_</span><wbr><span>VALUE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="930988169%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -326,39 +361,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#910758965%2FProperties%2F-612206970">DEFAULT_PROFILE_PIC</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"profiles/defProfilePic.png"</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1053114933%2FProperties%2F-612206970"
-                                   anchor-label="DISCRIMINATOR_VALUE_KEY" id="1053114933%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1053114933%2FProperties%2F-612206970"><span><span>DISCRIMINATOR_VALUE_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1053114933%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#1053114933%2FProperties%2F-612206970">DISCRIMINATOR_VALUE_KEY</a><span
+                                                                href="index.html#930988169%2FProperties%2F-612206970">DISCRIMINATOR_VALUE_KEY</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
@@ -369,15 +372,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1678524527%2FProperties%2F-612206970" anchor-label="email"
-                                   id="1678524527%2FProperties%2F-612206970"
+                                <a data-name="-1262991512%2FProperties%2F-612206970" anchor-label="email"
+                                   id="-1262991512%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1678524527%2FProperties%2F-612206970"><span><span>email</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1678524527%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-1262991512%2FProperties%2F-612206970"><span><span>email</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1262991512%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -389,41 +392,10 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1678524527%2FProperties%2F-612206970">email</a><span
+                                                                href="index.html#-1262991512%2FProperties%2F-612206970">email</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-1412531697%2FProperties%2F-612206970" anchor-label="EMAIL_KEY"
-                                   id="-1412531697%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1412531697%2FProperties%2F-612206970"><span><span>EMAIL_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1412531697%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#-1412531697%2FProperties%2F-612206970">EMAIL_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"email"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -465,15 +437,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1425294600%2FProperties%2F-612206970" anchor-label="hItem"
-                                   id="1425294600%2FProperties%2F-612206970"
+                                <a data-name="1922658396%2FProperties%2F-612206970" anchor-label="hItem"
+                                   id="1922658396%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1425294600%2FProperties%2F-612206970"><span>h</span><wbr><span><span>Item</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1425294600%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#1922658396%2FProperties%2F-612206970"><span>h</span><wbr><span><span>Item</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1922658396%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -485,7 +457,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1425294600%2FProperties%2F-612206970">hItem</a><span
+                                                                href="index.html#1922658396%2FProperties%2F-612206970">hItem</a><span
                                                                 class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/JsonHelper///PointingToDeclaration/">JsonHelper</span>
                                                         </div>
@@ -495,15 +467,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1807142972%2FProperties%2F-612206970" anchor-label="id"
-                                   id="1807142972%2FProperties%2F-612206970"
+                                <a data-name="1957528936%2FProperties%2F-612206970" anchor-label="id"
+                                   id="1957528936%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1807142972%2FProperties%2F-612206970"><span><span>id</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1807142972%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#1957528936%2FProperties%2F-612206970"><span><span>id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1957528936%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -515,7 +487,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1807142972%2FProperties%2F-612206970">id</a><span
+                                                                href="index.html#1957528936%2FProperties%2F-612206970">id</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
@@ -525,46 +497,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="430343278%2FProperties%2F-612206970" anchor-label="IDENTIFIER_KEY"
-                                   id="430343278%2FProperties%2F-612206970"
+                                <a data-name="-2015874498%2FProperties%2F-612206970" anchor-label="language"
+                                   id="-2015874498%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#430343278%2FProperties%2F-612206970"><span><span>IDENTIFIER_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="430343278%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#430343278%2FProperties%2F-612206970">IDENTIFIER_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"id"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-1529296937%2FProperties%2F-612206970" anchor-label="language"
-                                   id="-1529296937%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1529296937%2FProperties%2F-612206970"><span><span>language</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1529296937%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-2015874498%2FProperties%2F-612206970"><span><span>language</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2015874498%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -576,7 +517,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#-1529296937%2FProperties%2F-612206970">language</a><span
+                                                                href="index.html#-2015874498%2FProperties%2F-612206970">language</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
@@ -586,46 +527,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1119852887%2FProperties%2F-612206970" anchor-label="LANGUAGE_KEY"
-                                   id="1119852887%2FProperties%2F-612206970"
+                                <a data-name="-1680339221%2FProperties%2F-612206970" anchor-label="name"
+                                   id="-1680339221%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1119852887%2FProperties%2F-612206970"><span><span>LANGUAGE_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1119852887%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#1119852887%2FProperties%2F-612206970">LANGUAGE_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"language"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1462589700%2FProperties%2F-612206970" anchor-label="name"
-                                   id="1462589700%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1462589700%2FProperties%2F-612206970"><span><span>name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1462589700%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-1680339221%2FProperties%2F-612206970"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1680339221%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -637,41 +547,10 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1462589700%2FProperties%2F-612206970">name</a><span
+                                                                href="index.html#-1680339221%2FProperties%2F-612206970">name</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="617595908%2FProperties%2F-612206970" anchor-label="NAME_KEY"
-                                   id="617595908%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#617595908%2FProperties%2F-612206970"><span><span>NAME_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="617595908%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#617595908%2FProperties%2F-612206970">NAME_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"name"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -713,15 +592,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-7585292%2FProperties%2F-612206970" anchor-label="password"
-                                   id="-7585292%2FProperties%2F-612206970"
+                                <a data-name="-494162853%2FProperties%2F-612206970" anchor-label="password"
+                                   id="-494162853%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-7585292%2FProperties%2F-612206970"><span><span>password</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-7585292%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-494162853%2FProperties%2F-612206970"><span><span>password</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-494162853%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -733,7 +612,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#-7585292%2FProperties%2F-612206970">password</a><span
+                                                                href="index.html#-494162853%2FProperties%2F-612206970">password</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
@@ -743,77 +622,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-994132748%2FProperties%2F-612206970" anchor-label="PASSWORD_KEY"
-                                   id="-994132748%2FProperties%2F-612206970"
+                                <a data-name="-602098603%2FProperties%2F-612206970" anchor-label="profilePic"
+                                   id="-602098603%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-994132748%2FProperties%2F-612206970"><span><span>PASSWORD_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994132748%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#-994132748%2FProperties%2F-612206970">PASSWORD_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"password"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-1292830633%2FProperties%2F-612206970" anchor-label="PROFILE_PIC_KEY"
-                                   id="-1292830633%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1292830633%2FProperties%2F-612206970"><span><span>PROFILE_PIC_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1292830633%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#-1292830633%2FProperties%2F-612206970">PROFILE_PIC_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"profile_pic"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-1152497746%2FProperties%2F-612206970" anchor-label="profilePic"
-                                   id="-1152497746%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1152497746%2FProperties%2F-612206970"><span>profile</span><wbr><span><span>Pic</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1152497746%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-602098603%2FProperties%2F-612206970"><span>profile</span><wbr><span><span>Pic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-602098603%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -825,7 +642,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#-1152497746%2FProperties%2F-612206970">profilePic</a><span
+                                                                href="index.html#-602098603%2FProperties%2F-612206970">profilePic</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
@@ -871,15 +688,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1720652944%2FProperties%2F-612206970" anchor-label="surname"
-                                   id="1720652944%2FProperties%2F-612206970"
+                                <a data-name="1012220233%2FProperties%2F-612206970" anchor-label="surname"
+                                   id="1012220233%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1720652944%2FProperties%2F-612206970"><span><span>surname</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1720652944%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#1012220233%2FProperties%2F-612206970"><span><span>surname</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1012220233%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -891,7 +708,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1720652944%2FProperties%2F-612206970">surname</a><span
+                                                                href="index.html#1012220233%2FProperties%2F-612206970">surname</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
@@ -901,46 +718,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-409382480%2FProperties%2F-612206970" anchor-label="SURNAME_KEY"
-                                   id="-409382480%2FProperties%2F-612206970"
+                                <a data-name="-317358150%2FProperties%2F-612206970" anchor-label="timeFormatter"
+                                   id="-317358150%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-409382480%2FProperties%2F-612206970"><span><span>SURNAME_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-409382480%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#-409382480%2FProperties%2F-612206970">SURNAME_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"surname"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="993129186%2FProperties%2F-612206970" anchor-label="theme"
-                                   id="993129186%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#993129186%2FProperties%2F-612206970"><span><span>theme</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="993129186%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-317358150%2FProperties%2F-612206970"><span>time</span><wbr><span><span>Formatter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-317358150%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -952,68 +738,7 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#993129186%2FProperties%2F-612206970">theme</a><span
-                                                                class="token operator">: </span><span
-                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxUser.ApplicationTheme///PointingToDeclaration/">EquinoxUser.ApplicationTheme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="991935234%2FProperties%2F-612206970" anchor-label="THEME_KEY"
-                                   id="991935234%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#991935234%2FProperties%2F-612206970"><span><span>THEME_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="991935234%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#991935234%2FProperties%2F-612206970">THEME_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"theme"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="525789286%2FProperties%2F-612206970" anchor-label="timeFormatter"
-                                   id="525789286%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#525789286%2FProperties%2F-612206970"><span>time</span><wbr><span><span>Formatter</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="525789286%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#525789286%2FProperties%2F-612206970">timeFormatter</a><span
+                                                                href="index.html#-317358150%2FProperties%2F-612206970">timeFormatter</a><span
                                                                 class="token operator">: </span><span
                                                                 data-unresolved-link="com.tecknobit.apimanager.formatters/TimeFormatter///PointingToDeclaration/">TimeFormatter</span>
                                                         </div>
@@ -1023,15 +748,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1197655218%2FProperties%2F-612206970" anchor-label="token"
-                                   id="1197655218%2FProperties%2F-612206970"
+                                <a data-name="-1743860821%2FProperties%2F-612206970" anchor-label="token"
+                                   id="-1743860821%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1197655218%2FProperties%2F-612206970"><span><span>token</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1197655218%2FProperties%2F-612206970"></span>
+                  <div><a href="index.html#-1743860821%2FProperties%2F-612206970"><span><span>token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1743860821%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1043,72 +768,10 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">val </span><a
-                                                                href="index.html#1197655218%2FProperties%2F-612206970">token</a><span
+                                                                href="index.html#-1743860821%2FProperties%2F-612206970">token</a><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1005790418%2FProperties%2F-612206970" anchor-label="TOKEN_KEY"
-                                   id="1005790418%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1005790418%2FProperties%2F-612206970"><span><span>TOKEN_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1005790418%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#1005790418%2FProperties%2F-612206970">TOKEN_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"token"</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1384242979%2FProperties%2F-612206970" anchor-label="USERS_KEY"
-                                   id="1384242979%2FProperties%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1384242979%2FProperties%2F-612206970"><span><span>USERS_KEY</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1384242979%2FProperties%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">val </span><a
-                                                                href="index.html#1384242979%2FProperties%2F-612206970">USERS_KEY</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token operator"> = </span><span
-                                                                class="token string">"users"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1235,15 +898,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="936072817%2FFunctions%2F-612206970" anchor-label="getCompleteName"
-                                   id="936072817%2FFunctions%2F-612206970"
+                                <a data-name="-803620310%2FFunctions%2F-612206970" anchor-label="getCompleteName"
+                                   id="-803620310%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#936072817%2FFunctions%2F-612206970"><span>get</span><wbr><span>Complete</span><wbr><span><span>Name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="936072817%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-803620310%2FFunctions%2F-612206970"><span>get</span><wbr><span>Complete</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-803620310%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1256,7 +919,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#936072817%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-803620310%2FFunctions%2F-612206970"><span
                                                                 class="token function">getCompleteName</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1269,15 +932,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-335723255%2FFunctions%2F-612206970" anchor-label="getEmail"
-                                   id="-335723255%2FFunctions%2F-612206970"
+                                <a data-name="-822300816%2FFunctions%2F-612206970" anchor-label="getEmail"
+                                   id="-822300816%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-335723255%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Email</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-335723255%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-822300816%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Email</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-822300816%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1290,7 +953,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-335723255%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-822300816%2FFunctions%2F-612206970"><span
                                                                 class="token function">getEmail</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1341,15 +1004,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-2088577454%2FFunctions%2F-612206970" anchor-label="getId"
-                                   id="-2088577454%2FFunctions%2F-612206970"
+                                <a data-name="-1591213658%2FFunctions%2F-612206970" anchor-label="getId"
+                                   id="-1591213658%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-2088577454%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Id</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2088577454%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-1591213658%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1591213658%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1362,7 +1025,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-2088577454%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-1591213658%2FFunctions%2F-612206970"><span
                                                                 class="token function">getId</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1375,15 +1038,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="2045367807%2FFunctions%2F-612206970" anchor-label="getInstance"
-                                   id="2045367807%2FFunctions%2F-612206970"
+                                <a data-name="-418223834%2FFunctions%2F-612206970" anchor-label="getInstance"
+                                   id="-418223834%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#2045367807%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Instance</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2045367807%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-418223834%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Instance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-418223834%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1396,7 +1059,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#2045367807%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-418223834%2FFunctions%2F-612206970"><span
                                                                 class="token function">getInstance</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">jUser<span
@@ -1404,7 +1067,7 @@
                                                                 data-unresolved-link="org.json/JSONObject///PointingToDeclaration/">JSONObject</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><span
-                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxUser///PointingToDeclaration/">EquinoxUser</span>
+                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.services.users.entity/EquinoxUser///PointingToDeclaration/">EquinoxUser</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1412,15 +1075,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1298089213%2FFunctions%2F-612206970" anchor-label="getLanguage"
-                                   id="1298089213%2FFunctions%2F-612206970"
+                                <a data-name="1180593462%2FFunctions%2F-612206970" anchor-label="getLanguage"
+                                   id="1180593462%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1298089213%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Language</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1298089213%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#1180593462%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Language</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1180593462%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1433,7 +1096,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#1298089213%2FFunctions%2F-612206970"><span
+                                                                href="index.html#1180593462%2FFunctions%2F-612206970"><span
                                                                 class="token function">getLanguage</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1446,15 +1109,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1927522006%2FFunctions%2F-612206970" anchor-label="getName"
-                                   id="-1927522006%2FFunctions%2F-612206970"
+                                <a data-name="1659012579%2FFunctions%2F-612206970" anchor-label="getName"
+                                   id="1659012579%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1927522006%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1927522006%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#1659012579%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1659012579%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1467,7 +1130,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-1927522006%2FFunctions%2F-612206970"><span
+                                                                href="index.html#1659012579%2FFunctions%2F-612206970"><span
                                                                 class="token function">getName</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1518,15 +1181,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1475166438%2FFunctions%2F-612206970" anchor-label="getPassword"
-                                   id="-1475166438%2FFunctions%2F-612206970"
+                                <a data-name="-1592662189%2FFunctions%2F-612206970" anchor-label="getPassword"
+                                   id="-1592662189%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1475166438%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Password</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1475166438%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-1592662189%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Password</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1592662189%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1539,7 +1202,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-1475166438%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-1592662189%2FFunctions%2F-612206970"><span
                                                                 class="token function">getPassword</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1552,15 +1215,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="1546261332%2FFunctions%2F-612206970" anchor-label="getProfilePic"
-                                   id="1546261332%2FFunctions%2F-612206970"
+                                <a data-name="301994317%2FFunctions%2F-612206970" anchor-label="getProfilePic"
+                                   id="301994317%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1546261332%2FFunctions%2F-612206970"><span>get</span><wbr><span>Profile</span><wbr><span><span>Pic</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1546261332%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#301994317%2FFunctions%2F-612206970"><span>get</span><wbr><span>Profile</span><wbr><span><span>Pic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="301994317%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1573,7 +1236,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#1546261332%2FFunctions%2F-612206970"><span
+                                                                href="index.html#301994317%2FFunctions%2F-612206970"><span
                                                                 class="token function">getProfilePic</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1663,15 +1326,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1236182358%2FFunctions%2F-612206970" anchor-label="getSurname"
-                                   id="-1236182358%2FFunctions%2F-612206970"
+                                <a data-name="-685783215%2FFunctions%2F-612206970" anchor-label="getSurname"
+                                   id="-685783215%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1236182358%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Surname</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1236182358%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-685783215%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Surname</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-685783215%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1684,7 +1347,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-1236182358%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-685783215%2FFunctions%2F-612206970"><span
                                                                 class="token function">getSurname</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1697,15 +1360,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1021118596%2FFunctions%2F-612206970" anchor-label="getTheme"
-                                   id="-1021118596%2FFunctions%2F-612206970"
+                                <a data-name="-1303170125%2FFunctions%2F-612206970" anchor-label="getToken"
+                                   id="-1303170125%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-1021118596%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Theme</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1021118596%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-1303170125%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1303170125%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1718,41 +1381,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-1021118596%2FFunctions%2F-612206970"><span
-                                                                class="token function">getTheme</span></a><span
-                                                                class="token punctuation">(</span><span
-                                                                class="token punctuation">)</span><span
-                                                                class="token operator">: </span><span
-                                                                data-unresolved-link="com.tecknobit.equinoxbackend.environment.models/EquinoxUser.ApplicationTheme///PointingToDeclaration/">EquinoxUser.ApplicationTheme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-816592564%2FFunctions%2F-612206970" anchor-label="getToken"
-                                   id="-816592564%2FFunctions%2F-612206970"
-                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
-                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
-                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-816592564%2FFunctions%2F-612206970"><span>get</span><wbr><span><span>Token</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-816592564%2FFunctions%2F-612206970"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":backend:dokkaHtmlPartial/main">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">open </span><span
-                                                                class="token keyword">fun </span><a
-                                                                href="index.html#-816592564%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-1303170125%2FFunctions%2F-612206970"><span
                                                                 class="token function">getToken</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1791,7 +1420,7 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a>
                                                         </div>
                                                         <div class="brief ">Method to get the number of <a
                                                                 href="changelogs.html">changelogs</a> unread
@@ -1919,15 +1548,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-75422581%2FFunctions%2F-612206970" anchor-label="toString"
-                                   id="-75422581%2FFunctions%2F-612206970"
+                                <a data-name="-747747145%2FFunctions%2F-612206970" anchor-label="toString"
+                                   id="-747747145%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="index.html#-75422581%2FFunctions%2F-612206970"><span>to</span><wbr><span><span>String</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-75422581%2FFunctions%2F-612206970"></span>
+                  <div><a href="index.html#-747747145%2FFunctions%2F-612206970"><span>to</span><wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-747747145%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -1940,7 +1569,7 @@
                                                         <div class="symbol monospace"><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">fun </span><a
-                                                                href="index.html#-75422581%2FFunctions%2F-612206970"><span
+                                                                href="index.html#-747747145%2FFunctions%2F-612206970"><span
                                                                 class="token function">toString</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="token punctuation">)</span><span
@@ -1959,15 +1588,17 @@
                 </div>
             </div>
             <div class="footer">
-                <span class="go-to-top-icon"><a href="#content"
-                                                id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
-                    class="pull-right"><span>Generated by </span><a
-                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
-                    class="padded-icon"></span></a></span>
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

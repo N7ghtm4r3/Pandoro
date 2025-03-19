@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.services.projects.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
@@ -126,6 +126,7 @@ public class ProjectUpdate extends EquinoxItem {
             mappedBy = UPDATE_KEY,
             cascade = CascadeType.ALL
     )
+    @OrderBy(CREATION_DATE_KEY + " DESC")
     private final List<Note> notes;
 
     /**

@@ -26,44 +26,79 @@
     <link href="../../../styles/prism.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
     <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
     <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
     <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
     <script type="text/javascript" src="../../../scripts/main.js" defer></script>
     <script type="text/javascript" src="../../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
     <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
 </head>
 <body>
 <div class="root">
-    <nav class="navigation" id="navigation-wrapper">
-        <div class="navigation--inner">
-            <div class="navigation-title">
-                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-                <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
-                        Pandoro
-                    </a></div>
-                <div class="library-version">
-                </div>
-            </div>
-            <div class="filter-section" id="filter-section">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../../index.html">
+            Pandoro
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
                 <button class="platform-tag platform-selector jvm-like" data-active=""
                         data-filter=":backend:dokkaHtmlPartial/main">jvm
                 </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":backend:dokkaHtmlPartial/main"
+                                       data-filter=":backend:dokkaHtmlPartial/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
-        </div>
-        <div class="navigation-controls">
-            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
-                switch theme
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
             </button>
-            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
     </nav>
     <div id="container">
         <div class="sidebar" id="leftColumn">
-            <div class="sidebar--inner" id="sideMenu"></div>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
         </div>
         <div id="main">
             <div class="main-content" data-page-type="classlike" id="content"
@@ -172,7 +207,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-a-n-n-o-t_-e-x-e-c-u-t-e_-a-c-t-i-o-n_-o-n_-o-w-n_-a-c-c-o-u-n-t_-m-e-s-s-a-g-e.html"><span><span>CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE</span></span></a></div>
+                  <div><a href="-c-a-n-n-o-t_-e-x-e-c-u-t-e_-a-c-t-i-o-n_-o-n_-o-w-n_-a-c-c-o-u-n-t_-m-e-s-s-a-g-e.html"><span>CANNOT_</span><wbr><span>EXECUTE_</span><wbr><span>ACTION_</span><wbr><span>ON_</span><wbr><span>OWN_</span><wbr><span>ACCOUNT_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2096873559%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -189,7 +224,7 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"action_executed_on_own_account_error_key"</span>
+                                                                class="token string">"action_executed_on_own_account_error"</span>
                                                         </div>
                                                         <div class="brief "><code class="lang-kotlin">CANNOT_EXECUTE_ACTION_ON_OWN_ACCOUNT_MESSAGE</code>
                                                             message to use when the user tried to execute an action on
@@ -201,15 +236,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="-1031997420%2FProperties%2F-612206970" anchor-label="groupsHelper"
-                                   id="-1031997420%2FProperties%2F-612206970"
+                                <a data-name="236775171%2FProperties%2F-612206970" anchor-label="groupsService"
+                                   id="236775171%2FProperties%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="groups-helper.html"><span>groups</span><wbr><span><span>Helper</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1031997420%2FProperties%2F-612206970"></span>
+                  <div><a href="groups-service.html"><span>groups</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="236775171%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -230,12 +265,12 @@
                                                             <span class="token keyword">private </span><span
                                                                 class="token keyword">open </span><span
                                                                 class="token keyword">var </span><a
-                                                                href="groups-helper.html">groupsHelper</a><span
+                                                                href="groups-service.html">groupsService</a><span
                                                                 class="token operator">: </span><a
-                                                                href="../../com.tecknobit.pandoro.services.groups.service/-groups-helper/index.html">GroupsHelper</a>
+                                                                href="../../com.tecknobit.pandoro.services.groups.service/-groups-service/index.html">GroupsService</a>
                                                         </div>
                                                         <div class="brief "><code
-                                                                class="lang-kotlin">groupsHelper</code> instance to
+                                                                class="lang-kotlin">groupsService</code> instance to
                                                             manage the groups database operations
                                                         </div>
                                                     </div>
@@ -335,6 +370,37 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a data-name="960711571%2FProperties%2F-612206970" anchor-label="messageSource"
+                                   id="960711571%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#960711571%2FProperties%2F-612206970"><span>message</span><wbr><span><span>Source</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="960711571%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">var </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#960711571%2FProperties%2F-612206970">messageSource</a><span
+                                                                class="token operator">: </span><span
+                                                                data-unresolved-link="org.springframework.context/MessageSource///PointingToDeclaration/">MessageSource</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a data-name="-2093580415%2FProperties%2F-612206970"
                                    anchor-label="NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE"
                                    id="-2093580415%2FProperties%2F-612206970"
@@ -343,7 +409,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-2093580415%2FProperties%2F-612206970"><span><span>NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE</span></span></a></div>
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-2093580415%2FProperties%2F-612206970"><span>NOT_</span><wbr><span>AUTHORIZED_</span><wbr><span>OR_</span><wbr><span>WRONG_</span><wbr><span>DETAILS_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2093580415%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -360,7 +426,7 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"not_authorized_key"</span></div>
+                                                                class="token string">"not_authorized"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -405,7 +471,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#833130069%2FProperties%2F-612206970"><span><span>RESPONSE_SUCCESSFUL_MESSAGE</span></span></a></div>
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#833130069%2FProperties%2F-612206970"><span>RESPONSE_</span><wbr><span>SUCCESSFUL_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="833130069%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -422,7 +488,7 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"operation_executed_successfully_key"</span>
+                                                                class="token string">"operation_executed_successfully"</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -492,6 +558,37 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a data-name="-1379507293%2FProperties%2F-612206970" anchor-label="WRONG_EMAIL_MESSAGE"
+                                   id="-1379507293%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1379507293%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>EMAIL_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1379507293%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1379507293%2FProperties%2F-612206970">WRONG_EMAIL_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_email"</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a data-name="589104720%2FProperties%2F-612206970"
                                    anchor-label="WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE"
                                    id="589104720%2FProperties%2F-612206970"
@@ -500,7 +597,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-a-l-r-e-a-d-y_-e-x-i-s-t-s_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span><span>WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE</span></span></a></div>
+                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-a-l-r-e-a-d-y_-e-x-i-s-t-s_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span>WRONG_</span><wbr><span>GROUP_</span><wbr><span>ALREADY_</span><wbr><span>EXISTS_</span><wbr><span>ERROR_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="589104720%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -517,7 +614,7 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"group_name_already_exists_key"</span>
+                                                                class="token string">"group_name_already_exists"</span>
                                                         </div>
                                                         <div class="brief "><code class="lang-kotlin">WRONG_GROUP_ALREADY_EXISTS_ERROR_MESSAGE</code>
                                                             message to use when the name of the group is already used
@@ -536,7 +633,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span><span>WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE</span></span></a></div>
+                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span>WRONG_</span><wbr><span>GROUP_</span><wbr><span>DESCRIPTION_</span><wbr><span>ERROR_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-847130455%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -553,11 +650,46 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"wrong_group_description_key"</span>
+                                                                class="token string">"wrong_group_description"</span>
                                                         </div>
                                                         <div class="brief "><code class="lang-kotlin">WRONG_GROUP_DESCRIPTION_ERROR_MESSAGE</code>
                                                             message to use when the description of the group is not a
                                                             valid description
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="609387377%2FProperties%2F-612206970"
+                                   anchor-label="WRONG_GROUP_LOGO_MESSAGE" id="609387377%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-l-o-g-o_-m-e-s-s-a-g-e.html"><span>WRONG_</span><wbr><span>GROUP_</span><wbr><span>LOGO_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="609387377%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="-w-r-o-n-g_-g-r-o-u-p_-l-o-g-o_-m-e-s-s-a-g-e.html">WRONG_GROUP_LOGO_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_group_logo"</span></div>
+                                                        <div class="brief "><code class="lang-kotlin">WRONG_GROUP_LOGO_MESSAGE</code>
+                                                            the message to warn the user about an invalid logo for a
+                                                            group
                                                         </div>
                                                     </div>
                                                 </div>
@@ -573,7 +705,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-n-a-m-e_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span><span>WRONG_GROUP_NAME_ERROR_MESSAGE</span></span></a></div>
+                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-n-a-m-e_-e-r-r-o-r_-m-e-s-s-a-g-e.html"><span>WRONG_</span><wbr><span>GROUP_</span><wbr><span>NAME_</span><wbr><span>ERROR_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1278647864%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -590,11 +722,104 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"wrong_group_name_key"</span></div>
+                                                                class="token string">"wrong_group_name"</span></div>
                                                         <div class="brief "><code class="lang-kotlin">WRONG_GROUP_NAME_ERROR_MESSAGE</code>
                                                             message to use when the name of the group is not a valid
                                                             name
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="2036762611%2FProperties%2F-612206970"
+                                   anchor-label="WRONG_LANGUAGE_MESSAGE" id="2036762611%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#2036762611%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>LANGUAGE_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2036762611%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#2036762611%2FProperties%2F-612206970">WRONG_LANGUAGE_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_language"</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="949884448%2FProperties%2F-612206970" anchor-label="WRONG_NAME_MESSAGE"
+                                   id="949884448%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#949884448%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>NAME_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="949884448%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#949884448%2FProperties%2F-612206970">WRONG_NAME_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_name"</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-641690352%2FProperties%2F-612206970"
+                                   anchor-label="WRONG_PASSWORD_MESSAGE" id="-641690352%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-641690352%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>PASSWORD_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-641690352%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-641690352%2FProperties%2F-612206970">WRONG_PASSWORD_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_password"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -608,7 +833,7 @@
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1822338484%2FProperties%2F-612206970"><span><span>WRONG_PROCEDURE_MESSAGE</span></span></a></div>
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1822338484%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>PROCEDURE_</span><wbr><span>MESSAGE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1822338484%2FProperties%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -625,7 +850,38 @@
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator"> = </span><span
-                                                                class="token string">"wrong_procedure_key"</span></div>
+                                                                class="token string">"wrong_procedure"</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1045152708%2FProperties%2F-612206970" anchor-label="WRONG_SURNAME_MESSAGE"
+                                   id="1045152708%2FProperties%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#1045152708%2FProperties%2F-612206970"><span>WRONG_</span><wbr><span>SURNAME_</span><wbr><span>MESSAGE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1045152708%2FProperties%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">val </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#1045152708%2FProperties%2F-612206970">WRONG_SURNAME_MESSAGE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token operator"> = </span><span
+                                                                class="token string">"wrong_surname"</span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -817,7 +1073,7 @@
                                                                 class="token operator">&lt;</span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
                                                                 class="token operator">&gt;</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
@@ -1360,7 +1616,7 @@
                                                                 class="token operator">&lt;</span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token punctuation">, </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
                                                                 class="token operator">&gt;</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
@@ -1397,8 +1653,8 @@
                                                                 href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-569406398%2FFunctions%2F-612206970"><span
                                                                 class="token function">failedResponse</span></a><span
                                                                 class="token punctuation">(</span><span
-                                                                class="parameters "><span class="parameter ">error<span
-                                                                class="token operator">: </span><a
+                                                                class="parameters "><span
+                                                                class="parameter ">errorKey<span class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
@@ -1608,7 +1864,7 @@
                                                                 class="token boolean">false</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>page<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter "><span><span
                                                                 class="token annotation builtin">@</span><span
@@ -1627,7 +1883,7 @@
                                                                 class="token boolean">false</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>pageSize<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter "><span><span
                                                                 class="token annotation builtin">@</span><span
@@ -1645,7 +1901,7 @@
                                                                 class="token boolean">false</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>authoredGroups<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter "><span><span
                                                                 class="token annotation builtin">@</span><span
@@ -1698,6 +1954,44 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a data-name="778897073%2FFunctions%2F-612206970"
+                                   anchor-label="getInternationalizedMessage" id="778897073%2FFunctions%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#778897073%2FFunctions%2F-612206970"><span>get</span><wbr><span>Internationalized</span><wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="778897073%2FFunctions%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">fun </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#778897073%2FFunctions%2F-612206970"><span
+                                                                class="token function">getInternationalizedMessage</span></a><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span
+                                                                class="parameter ">messageKey<span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
+                                                                class="token punctuation">)</span><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a data-name="1908026192%2FFunctions%2F-612206970" anchor-label="initEquinoxEnvironment"
                                    id="1908026192%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
@@ -1735,19 +2029,19 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a><span
                                                                 class="token operator">&lt;</span><span
                                                                 class="token keyword">out </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span
                                                                 class="token operator">&gt;</span><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">args<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
                                                                 class="token operator">&lt;</span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator">&gt;</span><span
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">customSubDirectories<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span
                                                                 class="token operator">&lt;</span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
                                                                 class="token operator">&gt;</span></span></span><span
@@ -1791,7 +2085,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1831,7 +2125,7 @@
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief ">Method to check whether the member of the
                                                             operation is not the author of the group
@@ -1880,7 +2174,7 @@
                                                                 class="token punctuation">, </span></span><span
                                                                 class="parameter ">editingMode<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
@@ -1995,15 +2289,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-name="499142058%2FFunctions%2F-612206970" anchor-label="loadJsonHelper"
-                                   id="499142058%2FFunctions%2F-612206970"
+                                <a data-name="-264279978%2FFunctions%2F-612206970" anchor-label="loadJsonHelper"
+                                   id="-264279978%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
                                 <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
                                      data-filterable-set=":backend:dokkaHtmlPartial/main">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#499142058%2FFunctions%2F-612206970"><span>load</span><wbr><span>Json</span><wbr><span><span>Helper</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="499142058%2FFunctions%2F-612206970"></span>
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-264279978%2FFunctions%2F-612206970"><span>load</span><wbr><span>Json</span><wbr><span><span>Helper</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-264279978%2FFunctions%2F-612206970"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
@@ -2015,23 +2309,56 @@
                                                          data-togglable=":backend:dokkaHtmlPartial/main">
                                                         <div class="symbol monospace"><span class="token keyword">protected </span><span
                                                                 class="token keyword">open </span><span
-                                                                class="token keyword">fun </span><span
-                                                                class="token operator">&lt;</span><a
-                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#499142058%2FFunctions%2F-612206970">V</a><span
-                                                                class="token operator">&gt; </span><a
-                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#499142058%2FFunctions%2F-612206970"><span
+                                                                class="token keyword">fun </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-264279978%2FFunctions%2F-612206970"><span
                                                                 class="token function">loadJsonHelper</span></a><span
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span
                                                                 class="parameter ">payload<span
-                                                                class="token operator">: </span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html">Map</a><span
-                                                                class="token operator">&lt;</span><a
-                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
-                                                                class="token punctuation">, </span><a
-                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#499142058%2FFunctions%2F-612206970">V</a><span
-                                                                class="token operator">&gt;</span></span></span><span
+                                                                class="token operator">: </span><span
+                                                                data-unresolved-link="org.json/JSONObject///PointingToDeclaration/">JSONObject</span></span></span><span
                                                                 class="token punctuation">)</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="23709763%2FFunctions%2F-612206970" anchor-label="plainResponse"
+                                   id="23709763%2FFunctions%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#23709763%2FFunctions%2F-612206970"><span>plain</span><wbr><span><span>Response</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="23709763%2FFunctions%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">fun </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#23709763%2FFunctions%2F-612206970"><span
+                                                                class="token function">plainResponse</span></a><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span class="parameter ">status<span
+                                                                class="token operator">: </span><span
+                                                                data-unresolved-link="com.tecknobit.equinoxcore.network/ResponseStatus///PointingToDeclaration/">ResponseStatus</span><span
+                                                                class="token punctuation">, </span></span><span
+                                                                class="parameter ">message<span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
+                                                                class="token punctuation">)</span><span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2134,6 +2461,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a data-name="-1136418670%2FFunctions%2F-612206970" anchor-label="setSessionLocale"
+                                   id="-1136418670%2FFunctions%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1136418670%2FFunctions%2F-612206970"><span>set</span><wbr><span>Session</span><wbr><span><span>Locale</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1136418670%2FFunctions%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace"><span class="token keyword">protected </span><span
+                                                                class="token keyword">open </span><span
+                                                                class="token keyword">fun </span><a
+                                                                href="../../com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/index.html#-1136418670%2FFunctions%2F-612206970"><span
+                                                                class="token function">setSessionLocale</span></a><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span class="parameter ">locale<span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
+                                                                class="token punctuation">)</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a data-name="-362629056%2FFunctions%2F-612206970" anchor-label="successResponse"
                                    id="-362629056%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
@@ -2194,15 +2555,17 @@
                 </div>
             </div>
             <div class="footer">
-                <span class="go-to-top-icon"><a href="#content"
-                                                id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
-                    class="pull-right"><span>Generated by </span><a
-                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
-                    class="padded-icon"></span></a></span>
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

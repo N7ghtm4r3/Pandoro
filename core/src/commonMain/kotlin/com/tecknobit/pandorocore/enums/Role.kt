@@ -1,8 +1,11 @@
 package com.tecknobit.pandorocore.enums
 
+import kotlinx.serialization.Serializable
+
 /**
  * `Role` list of available roles for a group's member
  */
+@Serializable
 enum class Role {
 
     /**

@@ -2,17 +2,15 @@ package com.tecknobit.pandoro.services.changelogs.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.changelogs.service.ChangelogsHelper;
+import com.tecknobit.pandoro.services.changelogs.service.ChangelogsService;
 import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -30,10 +28,10 @@ import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELO
 public class ChangelogsController extends DefaultPandoroController {
 
     /**
-     * {@code changelogsHelper} instance to manage the changelogs database operations
+     * {@code changelogsService} instance to manage the changelogs database operations
      */
     @Autowired
-    private ChangelogsHelper changelogsHelper;
+    private ChangelogsService changelogsService;
 
     /**
      * Method to get an unread changelogs list
@@ -54,7 +52,7 @@ public class ChangelogsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) successResponse(changelogsHelper.getUnreadChangelogsCount(id));
+            return (T) successResponse(changelogsService.getUnreadChangelogsCount(id));
         else
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
@@ -81,7 +79,7 @@ public class ChangelogsController extends DefaultPandoroController {
             @RequestParam(name = PAGE_SIZE_KEY, defaultValue = DEFAULT_PAGE_SIZE_HEADER_VALUE, required = false) int pageSize
     ) {
         if (isMe(id, token))
-            return (T) successResponse(changelogsHelper.getChangelogs(id, page, pageSize));
+            return (T) successResponse(changelogsService.getChangelogs(id, page, pageSize));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -106,9 +104,9 @@ public class ChangelogsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId
     ) {
-        if (!isMe(id, token) || !changelogsHelper.changelogExists(changelogId))
+        if (!isMe(id, token) || !changelogsService.changelogExists(changelogId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        changelogsHelper.markAsRead(changelogId, id);
+        changelogsService.markAsRead(changelogId, id);
         return successResponse();
     }
 
@@ -135,12 +133,12 @@ public class ChangelogsController extends DefaultPandoroController {
             @PathVariable(CHANGELOG_IDENTIFIER_KEY) String changelogId,
             @RequestBody(required = false) Map<String, String> payload
     ) {
-        if (!isMe(id, token) || !changelogsHelper.changelogExists(changelogId))
+        if (!isMe(id, token) || !changelogsService.changelogExists(changelogId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String groupId = jsonHelper.getString(GROUP_IDENTIFIER_KEY);
         try {
-            changelogsHelper.deleteChangelog(changelogId, id, groupId);
+            changelogsService.deleteChangelog(changelogId, id, groupId);
             return successResponse();
         } catch (IllegalAccessException e) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);

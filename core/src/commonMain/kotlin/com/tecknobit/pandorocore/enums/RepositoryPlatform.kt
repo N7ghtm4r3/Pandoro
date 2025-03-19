@@ -1,10 +1,12 @@
 package com.tecknobit.pandorocore.enums
 
-import java.util.*
+import com.tecknobit.equinoxcore.annotations.Validator
+import kotlinx.serialization.Serializable
 
 /**
  * `RepositoryPlatform` list of available repository platforms
  */
+@Serializable
 enum class RepositoryPlatform {
 
     /**
@@ -29,8 +31,10 @@ enum class RepositoryPlatform {
             url: String,
         ): RepositoryPlatform? {
             if (isValidPlatform(url)) {
-                return if (url.contains(Github.name.lowercase(Locale.getDefault()))) Github
-                else GitLab
+                return if (url.contains(Github.name.lowercase()))
+                    Github
+                else
+                    GitLab
             }
             return null
         }
@@ -41,10 +45,13 @@ enum class RepositoryPlatform {
          * @param url: the url to check the platform
          * @return whether the repository platform is valid as boolean
          */
+        @Validator
         fun isValidPlatform(
             url: String,
         ): Boolean {
-            for (platform in entries) if (url.contains(platform.name.lowercase(Locale.getDefault()))) return true
+            for (platform in entries)
+                if (url.contains(platform.name.lowercase()))
+                    return true
             return false
         }
 

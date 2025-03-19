@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**

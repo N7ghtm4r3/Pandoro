@@ -5,7 +5,7 @@ import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
-import com.tecknobit.pandoro.services.projects.service.ProjectsHelper;
+import com.tecknobit.pandoro.services.projects.service.ProjectsService;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
@@ -41,58 +39,58 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * {@code WRONG_PROJECT_NAME_ERROR_MESSAGE} message to use when the name of the project is not a valid name
      */
-    public static final String WRONG_PROJECT_NAME_ERROR_MESSAGE = "wrong_project_name_key";
+    public static final String WRONG_PROJECT_NAME_ERROR_MESSAGE = "wrong_project_name";
 
     /**
      * {@code WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE} message to use when the description of the project is not a valid description
      */
-    public static final String WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE = "wrong_project_description_key";
+    public static final String WRONG_PROJECT_DESCRIPTION_ERROR_MESSAGE = "wrong_project_description";
 
     /**
      * {@code WRONG_PROJECT_VERSION_ERROR_MESSAGE} message to use when the version of the project is not valid
      */
-    public static final String WRONG_PROJECT_VERSION_ERROR_MESSAGE = "wrong_project_version_key";
+    public static final String WRONG_PROJECT_VERSION_ERROR_MESSAGE = "wrong_project_version";
 
     /**
      * {@code WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE} message to use when the repository of the project is not valid
      */
-    public static final String WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE = "wrong_project_repository_key";
+    public static final String WRONG_PROJECT_REPOSITORY_ERROR_MESSAGE = "wrong_project_repository";
 
     /**
      * {@code WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE} message to use when the name of the project is already used
      */
-    public static final String WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE = "project_name_already_exists_key";
+    public static final String WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE = "project_name_already_exists";
 
     /**
      * {@code WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE} message to use when the target version of an update is not valid
      */
-    public static final String WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE = "wrong_target_version_key";
+    public static final String WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE = "wrong_target_version";
 
     /**
      * {@code WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE} message to use when the version of an update is already used
      */
-    public static final String WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE = "update_version_already_exists_key";
+    public static final String WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE = "update_version_already_exists";
 
     /**
      * {@code WRONG_CHANGE_NOTES_ERROR_MESSAGE} message to use when the change notes list is not valid
      */
-    public static final String WRONG_CHANGE_NOTES_ERROR_MESSAGE = "wrong_change_notes_list_key";
+    public static final String WRONG_CHANGE_NOTES_ERROR_MESSAGE = "wrong_change_notes_list";
 
     /**
      * {@code WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to publish an update is not valid
      */
-    public static final String WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_publish_update_request_key";
+    public static final String WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_publish_update_request";
 
     /**
      * {@code WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE} message to use when a request to start an update is not valid
      */
-    public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request_key";
-    
+    public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request";
+
     /**
-     * {@code projectsHelper} instance to manage the projects database operations
+     * {@code projectsService} instance to manage the projects database operations
      */
     @Autowired
-    private ProjectsHelper projectsHelper;
+    private ProjectsService projectsService;
 
     /**
      * Method to get the authored projects list
@@ -113,7 +111,7 @@ public class ProjectsController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getAuthoredProjects(id));
+            return (T) successResponse(projectsService.getAuthoredProjects(id));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -143,7 +141,7 @@ public class ProjectsController extends DefaultPandoroController {
             @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getInDevelopmentProjects(id, page, pageSize, filters));
+            return (T) successResponse(projectsService.getInDevelopmentProjects(id, page, pageSize, filters));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -173,7 +171,7 @@ public class ProjectsController extends DefaultPandoroController {
             @RequestParam(name = FILTERS_KEY, defaultValue = "", required = false) Set<String> filters
     ) {
         if (isMe(id, token))
-            return (T) successResponse(projectsHelper.getProjects(id, page, pageSize, filters));
+            return (T) successResponse(projectsService.getProjects(id, page, pageSize, filters));
         else
             return (T) failedResponse(WRONG_PROCEDURE_MESSAGE);
     }
@@ -283,7 +281,7 @@ public class ProjectsController extends DefaultPandoroController {
             return failedResponse(WRONG_PROJECT_NAME_ERROR_MESSAGE);
         boolean isAdding = projectId == null;
         if (!isAdding) {
-            Project currentEditingProject = projectsHelper.getProjectById(projectId);
+            Project currentEditingProject = projectsService.getProjectById(projectId);
             if (currentEditingProject == null || !currentEditingProject.getAuthor().getId().equals(id))
                 return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         }
@@ -299,7 +297,7 @@ public class ProjectsController extends DefaultPandoroController {
         if (isAdding)
             projectId = generateIdentifier();
         try {
-            projectsHelper.workWithProject(id, projectId, payload, isAdding);
+            projectsService.workWithProject(id, projectId, payload, isAdding);
         } catch (Exception e) {
             return failedResponse(WRONG_PROJECT_NAME_EXISTS_ERROR_MESSAGE);
         }
@@ -329,7 +327,7 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Project project = projectsHelper.getProject(id, projectId);
+        Project project = projectsService.getProject(id, projectId);
         if (project != null)
             return (T) successResponse(project);
         else
@@ -359,10 +357,10 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        Project project = projectsHelper.getProjectById(projectId);
+        Project project = projectsService.getProjectById(projectId);
         if (project == null || !project.getAuthor().getId().equals(id))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        projectsHelper.deleteProject(id, projectId);
+        projectsService.deleteProject(id, projectId);
         return successResponse();
     }
 
@@ -401,19 +399,19 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        if (projectsHelper.getProject(id, projectId) == null)
+        if (projectsService.getProject(id, projectId) == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String targetVersion = jsonHelper.getString(UPDATE_TARGET_VERSION_KEY);
         if (!INSTANCE.isValidVersion(targetVersion))
             return failedResponse(WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE);
-        if (projectsHelper.targetVersionExists(projectId, targetVersion))
+        if (projectsService.targetVersionExists(projectId, targetVersion))
             return failedResponse(WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE);
         List<String> changeNotes = Arrays.asList(jsonHelper.getString(UPDATE_CHANGE_NOTES_KEY)
                 .split(", "));
         if (!INSTANCE.areNotesValid(changeNotes))
             return failedResponse(WRONG_CHANGE_NOTES_ERROR_MESSAGE);
-        projectsHelper.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
+        projectsService.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
         return successResponse();
     }
 
@@ -483,18 +481,18 @@ public class ProjectsController extends DefaultPandoroController {
     private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-        if (projectsHelper.getProject(id, projectId) == null || update == null)
+        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        if (projectsService.getProject(id, projectId) == null || update == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         UpdateStatus status = update.getStatus();
         if (isPublishing) {
             if (status != IN_DEVELOPMENT)
                 return failedResponse(WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE);
-            projectsHelper.publishUpdate(projectId, updateId, id, update.getTargetVersion());
+            projectsService.publishUpdate(projectId, updateId, id, update.getTargetVersion());
         } else {
             if (status != SCHEDULED)
                 return failedResponse(WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE);
-            projectsHelper.startUpdate(projectId, updateId, id);
+            projectsService.startUpdate(projectId, updateId, id);
         }
         return successResponse();
     }
@@ -526,14 +524,14 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-        if (projectsHelper.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED)
+        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        if (projectsService.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        projectsHelper.addChangeNote(id, generateIdentifier(), contentNote, updateId);
+        projectsService.addChangeNote(id, generateIdentifier(), contentNote, updateId);
         return successResponse();
     }
 
@@ -566,15 +564,15 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-        if (projectsHelper.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED
-                || !projectsHelper.changeNoteExists(updateId, noteId))
+        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        if (projectsService.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED
+                || !projectsService.changeNoteExists(updateId, noteId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        projectsHelper.editChangeNote(id, noteId, contentNote);
+        projectsService.editChangeNote(id, noteId, contentNote);
         return successResponse();
     }
 
@@ -690,28 +688,28 @@ public class ProjectsController extends DefaultPandoroController {
                                     String ope) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsHelper.updateExists(projectId, updateId);
-        if (projectsHelper.getProject(id, projectId) == null || update == null ||
-                !projectsHelper.changeNoteExists(updateId, noteId)) {
+        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        if (projectsService.getProject(id, projectId) == null || update == null ||
+                !projectsService.changeNoteExists(updateId, noteId)) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
         boolean isInDevelopment = update.getStatus() == IN_DEVELOPMENT;
         switch (ope) {
             case "markAsDone" -> {
                 if (isInDevelopment)
-                    projectsHelper.markChangeNoteAsDone(updateId, noteId, id);
+                    projectsService.markChangeNoteAsDone(updateId, noteId, id);
                 else
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
             }
             case "markAsToDo" -> {
                 if (isInDevelopment)
-                    projectsHelper.markChangeNoteAsToDo(updateId, noteId);
+                    projectsService.markChangeNoteAsToDo(updateId, noteId);
                 else
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
             }
             default -> {
                 if (update.getStatus() != PUBLISHED)
-                    projectsHelper.deleteChangeNote(updateId, noteId);
+                    projectsService.deleteChangeNote(updateId, noteId);
                 else
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
             }
@@ -744,9 +742,9 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        if (projectsHelper.getProject(id, projectId) == null || projectsHelper.updateExists(projectId, updateId) == null)
+        if (projectsService.getProject(id, projectId) == null || projectsService.updateExists(projectId, updateId) == null)
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        projectsHelper.deleteUpdate(projectId, updateId, id);
+        projectsService.deleteUpdate(projectId, updateId, id);
         return successResponse();
     }
 

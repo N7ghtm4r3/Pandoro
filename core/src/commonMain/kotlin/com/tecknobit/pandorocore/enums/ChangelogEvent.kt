@@ -1,8 +1,11 @@
 package com.tecknobit.pandorocore.enums
 
+import kotlinx.serialization.Serializable
+
 /**
  * `ChangelogEvent` list of available event types
  */
+@Serializable
 enum class ChangelogEvent {
 
     /**

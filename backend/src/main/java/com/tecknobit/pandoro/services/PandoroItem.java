@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services;
 
 import com.tecknobit.apimanager.annotations.Structure;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -9,7 +9,7 @@ import jakarta.persistence.InheritanceType;
 
 import java.io.Serializable;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.NAME_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.NAME_KEY;
 
 /**
  * The {@code PandoroItem} class is useful to give the base details structure for a <b>Pandoro's item class</b>

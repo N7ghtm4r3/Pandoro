@@ -2,19 +2,17 @@ package com.tecknobit.pandoro.services.notes.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
-import com.tecknobit.pandoro.services.notes.service.NotesHelper;
+import com.tecknobit.pandoro.services.notes.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static com.tecknobit.equinoxbackend.environment.helpers.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.TOKEN_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
+import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQUINOX_ENDPOINT;
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
-import static com.tecknobit.pandoro.services.notes.service.NotesHelper.ALL_FILTER_VALUE;
+import static com.tecknobit.pandoro.services.notes.service.NotesService.ALL_FILTER_VALUE;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.CHANGE_NOTE_STATUS_ENDPOINT;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
@@ -33,13 +31,13 @@ public class NotesController extends DefaultPandoroController {
     /**
      * {@code WRONG_CONTENT_NOTE_MESSAGE} message to use when a wrong content note has been inserted
      */
-    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note_key";
+    public static final String WRONG_CONTENT_NOTE_MESSAGE = "wrong_content_note";
 
     /**
-     * {@code notesHelper} instance to manage the notes database operations
+     * {@code notesService} instance to manage the notes database operations
      */
     @Autowired
-    private NotesHelper notesHelper;
+    private NotesService notesService;
 
     /**
      * Method to get a notes list
@@ -65,7 +63,7 @@ public class NotesController extends DefaultPandoroController {
             @RequestParam(name = MARKED_AS_DONE_KEY, defaultValue = ALL_FILTER_VALUE, required = false) String statusFilter
     ) {
         if (isMe(id, token))
-            return (T) successResponse(notesHelper.getNotes(id, page, pageSize, statusFilter));
+            return (T) successResponse(notesService.getNotes(id, page, pageSize, statusFilter));
         else
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
@@ -90,8 +88,8 @@ public class NotesController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isMe(id, token) && notesHelper.noteExists(id, noteId))
-            return (T) successResponse(notesHelper.getNote(noteId));
+        if (isMe(id, token) && notesService.noteExists(id, noteId))
+            return (T) successResponse(notesService.getNote(noteId));
         else
             return (T) failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
     }
@@ -121,7 +119,7 @@ public class NotesController extends DefaultPandoroController {
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        notesHelper.createNote(id, generateIdentifier(), contentNote);
+        notesService.createNote(id, generateIdentifier(), contentNote);
         return successResponse();
     }
 
@@ -146,13 +144,13 @@ public class NotesController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @RequestBody Map<String, String> payload
     ) {
-        if (!isMe(id, token) || !notesHelper.noteExists(id, noteId))
+        if (!isMe(id, token) || !notesService.noteExists(id, noteId))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        notesHelper.editNote(id, noteId, contentNote);
+        notesService.editNote(id, noteId, contentNote);
         return successResponse();
     }
 
@@ -176,12 +174,12 @@ public class NotesController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
-            @RequestBody Map<String, String> payload
+            @RequestBody Map<String, Object> payload
     ) {
-        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
+        if (isMe(id, token) && notesService.noteExists(id, noteId)) {
             loadJsonHelper(payload);
             boolean completed = jsonHelper.getBoolean(MARKED_AS_DONE_KEY, false);
-            notesHelper.manageNoteStatus(id, noteId, completed);
+            notesService.manageNoteStatus(id, noteId, completed);
             return successResponse();
         } else
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
@@ -208,8 +206,8 @@ public class NotesController extends DefaultPandoroController {
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        if (isMe(id, token) && notesHelper.noteExists(id, noteId)) {
-            notesHelper.deleteNote(id, noteId);
+        if (isMe(id, token) && notesService.noteExists(id, noteId)) {
+            notesService.deleteNote(id, noteId);
             return successResponse();
         } else
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);

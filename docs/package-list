@@ -4,11 +4,10 @@ $dokka.linkExtension:html
 module:backend
 com.tecknobit.pandoro
 com.tecknobit.pandoro.configuration
-com.tecknobit.pandoro.helpers
-com.tecknobit.pandoro.helpers.resources
 com.tecknobit.pandoro.services
 com.tecknobit.pandoro.services.changelogs.controller
 com.tecknobit.pandoro.services.changelogs.entity
+com.tecknobit.pandoro.services.changelogs.helpers
 com.tecknobit.pandoro.services.changelogs.repository
 com.tecknobit.pandoro.services.changelogs.service
 com.tecknobit.pandoro.services.groups.controller

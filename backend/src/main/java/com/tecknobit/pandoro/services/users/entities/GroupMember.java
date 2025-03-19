@@ -13,8 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxItem.IDENTIFIER_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.*;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
@@ -53,7 +52,7 @@ public class GroupMember {
      */
     @Column(
             name = PROFILE_PIC_KEY,
-            columnDefinition = "text default '" + PandoroUser.DEFAULT_PROFILE_PIC + "'",
+            columnDefinition = "text default '" + DEFAULT_PROFILE_PIC + "'",
             insertable = false
     )
     private final String profilePic;

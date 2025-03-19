@@ -26,44 +26,79 @@
     <link href="../../../styles/prism.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
     <script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
     <script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
     <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
     <script type="text/javascript" src="../../../scripts/main.js" defer></script>
     <script type="text/javascript" src="../../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script>
     <script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
 </head>
 <body>
 <div class="root">
-    <nav class="navigation" id="navigation-wrapper">
-        <div class="navigation--inner">
-            <div class="navigation-title">
-                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-                <div class="library-name">
-                    <a class="library-name--link" href="../../../index.html">
-                        Pandoro
-                    </a></div>
-                <div class="library-version">
-                </div>
-            </div>
-            <div class="filter-section" id="filter-section">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../../index.html">
+            Pandoro
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
                 <button class="platform-tag platform-selector common-like" data-active=""
                         data-filter=":core:dokkaHtmlPartial/commonMain">common
                 </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core:dokkaHtmlPartial/commonMain"
+                                       data-filter=":core:dokkaHtmlPartial/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
-        </div>
-        <div class="navigation-controls">
-            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
-                switch theme
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
             </button>
-            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
     </nav>
     <div id="container">
         <div class="sidebar" id="leftColumn">
-            <div class="sidebar--inner" id="sideMenu"></div>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
         </div>
         <div id="main">
             <div class="main-content" data-page-type="classlike" id="content"
@@ -96,82 +131,15 @@
                     <div class="tabs-section-body">
                         <div data-togglable="PROPERTY">
                             <h2 class="">Properties</h2>
-                            <div class="table"><a data-name="945298312%2FProperties%2F-2011752812"
-                                                  anchor-label="EMAIL_REGEX" id="945298312%2FProperties%2F-2011752812"
+                            <div class="table"><a data-name="1914572490%2FProperties%2F-2011752812"
+                                                  anchor-label="GROUP_DESCRIPTION_MAX_LENGTH"
+                                                  id="1914572490%2FProperties%2F-2011752812"
                                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
                                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-e-m-a-i-l_-r-e-g-e-x.html"><span><span>EMAIL_REGEX</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="945298312%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span class="token keyword">private </span><span
-                                                                class="token keyword">const </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="-e-m-a-i-l_-r-e-g-e-x.html"><strike>EMAIL_REGEX</strike></a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">EMAIL_REGEX</code> regular
-                                                            expression to validate the emails value</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1751049752%2FProperties%2F-2011752812" anchor-label="emailValidator"
-                                   id="1751049752%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="email-validator.html"><span>email</span><wbr><span><span>Validator</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1751049752%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span class="token keyword">private </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="email-validator.html"><strike>emailValidator</strike></a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">emailValidator</code> helper to
-                                                            validate the emails values</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1914572490%2FProperties%2F-2011752812"
-                                   anchor-label="GROUP_DESCRIPTION_MAX_LENGTH"
-                                   id="1914572490%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span><span>GROUP_DESCRIPTION_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span>GROUP_</span><wbr><span>DESCRIPTION_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1914572490%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -187,7 +155,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html">GROUP_DESCRIPTION_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">65535</span></div>
                                                         <div class="brief "><p class="paragraph"><code
@@ -206,7 +174,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html"><span><span>GROUP_NAME_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html"><span>GROUP_</span><wbr><span>NAME_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1012896521%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -222,7 +190,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html">GROUP_NAME_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">15</span></div>
                                                         <div class="brief "><p class="paragraph"><code
@@ -241,7 +209,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-n-o-t-e_-c-o-n-t-e-n-t_-m-a-x_-l-e-n-g-t-h.html"><span><span>NOTE_CONTENT_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-n-o-t-e_-c-o-n-t-e-n-t_-m-a-x_-l-e-n-g-t-h.html"><span>NOTE_</span><wbr><span>CONTENT_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1671541416%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -257,7 +225,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-n-o-t-e_-c-o-n-t-e-n-t_-m-a-x_-l-e-n-g-t-h.html">NOTE_CONTENT_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">65535</span></div>
                                                         <div class="brief "><p class="paragraph"><code
@@ -277,7 +245,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span><span>PROJECT_DESCRIPTION_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span>PROJECT_</span><wbr><span>DESCRIPTION_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="758420260%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -293,7 +261,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-m-a-x_-l-e-n-g-t-h.html">PROJECT_DESCRIPTION_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">65535</span></div>
                                                         <div class="brief "><p class="paragraph"><code
@@ -312,7 +280,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html"><span><span>PROJECT_NAME_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html"><span>PROJECT_</span><wbr><span>NAME_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-823477795%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -328,7 +296,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html">PROJECT_NAME_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">15</span></div>
                                                         <div class="brief "><p class="paragraph"><code
@@ -347,7 +315,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-t-a-r-g-e-t_-v-e-r-s-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span><span>TARGET_VERSION_MAX_LENGTH</span></span></a></div>
+                  <div><a href="-t-a-r-g-e-t_-v-e-r-s-i-o-n_-m-a-x_-l-e-n-g-t-h.html"><span>TARGET_</span><wbr><span>VERSION_</span><wbr><span>MAX_</span><wbr><span>LENGTH</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-838541930%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -363,149 +331,12 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-t-a-r-g-e-t_-v-e-r-s-i-o-n_-m-a-x_-l-e-n-g-t-h.html">TARGET_VERSION_MAX_LENGTH</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span
                                                                 class="token operator"> = </span><span
                                                                 class="token constant">20</span></div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">TARGET_VERSION_MAX_LENGTH</code> the
                                                             max length of the target version for an update</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1161075477%2FProperties%2F-2011752812" anchor-label="URL_REGEX"
-                                   id="1161075477%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="-u-r-l_-r-e-g-e-x.html"><span><span>URL_REGEX</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1161075477%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span class="token keyword">private </span><span
-                                                                class="token keyword">const </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="-u-r-l_-r-e-g-e-x.html"><strike>URL_REGEX</strike></a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">URL_REGEX</code> regular expression
-                                                            to validate the urls value</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-846486677%2FProperties%2F-2011752812" anchor-label="urlValidator"
-                                   id="-846486677%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="url-validator.html"><span>url</span><wbr><span><span>Validator</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-846486677%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span class="token keyword">private </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="url-validator.html"><strike>urlValidator</strike></a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/index.html">Regex</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">urlValidator</code> helper to
-                                                            validate the urls values</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="752530345%2FProperties%2F-2011752812"
-                                   anchor-label="WRONG_GROUP_LOGO_MESSAGE" id="752530345%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="-w-r-o-n-g_-g-r-o-u-p_-l-o-g-o_-m-e-s-s-a-g-e.html"><span><span>WRONG_GROUP_LOGO_MESSAGE</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="752530345%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">const </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="-w-r-o-n-g_-g-r-o-u-p_-l-o-g-o_-m-e-s-s-a-g-e.html">WRONG_GROUP_LOGO_MESSAGE</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">WRONG_GROUP_LOGO_MESSAGE</code> the
-                                                            message to warn the user about an invalid logo for a group
-                                                        </p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-179015691%2FProperties%2F-2011752812"
-                                   anchor-label="WRONG_PROJECT_ICON_MESSAGE" id="-179015691%2FProperties%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="-w-r-o-n-g_-p-r-o-j-e-c-t_-i-c-o-n_-m-e-s-s-a-g-e.html"><span><span>WRONG_PROJECT_ICON_MESSAGE</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-179015691%2FProperties%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">const </span><span
-                                                                class="token keyword">val </span><a
-                                                                href="-w-r-o-n-g_-p-r-o-j-e-c-t_-i-c-o-n_-m-e-s-s-a-g-e.html">WRONG_PROJECT_ICON_MESSAGE</a><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
-                                                        </div>
-                                                        <div class="brief "><p class="paragraph"><code
-                                                                class="lang-kotlin">WRONG_PROJECT_ICON_MESSAGE</code>
-                                                            the message to warn the user about an invalid icon for a
-                                                            project</p></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -542,15 +373,15 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">notes<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span
                                                                 class="token operator">&lt;</span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span><span
                                                                 class="token operator">&gt;</span><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check if
                                                             all the notes of the list are correct</p></div>
@@ -586,11 +417,11 @@
                                                                 class="parameters "><span
                                                                 class="parameter ">content<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a content for a note</p></div>
@@ -625,11 +456,11 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">groupDescription<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a group description</p></div>
@@ -665,86 +496,14 @@
                                                                 class="parameters "><span
                                                                 class="parameter ">groupName<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a group name</p></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="1083396048%2FFunctions%2F-2011752812" anchor-label="isHostAddressValid"
-                                   id="1083396048%2FFunctions%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="is-host-address-valid.html"><span>is</span><wbr><span>Host</span><wbr><span>Address</span><wbr><span><span>Valid</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1083396048%2FFunctions%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span
-                                                                class="token keyword">fun </span><a
-                                                                href="is-host-address-valid.html"><span
-                                                                class="token function"><strike>isHostAddressValid</strike></span></a><span
-                                                                class="token punctuation">(</span><span
-                                                                class="parameters "><span class="parameter ">hostAddress<span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span
-                                                                class="token punctuation">)</span><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a data-name="-424457231%2FFunctions%2F-2011752812" anchor-label="isInputValid"
-                                   id="-424457231%2FFunctions%2F-2011752812"
-                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
-                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
-                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
-                                    <div class="main-subrow keyValue ">
-                                        <div class=""><span class="inline-flex">
-                  <div><a href="is-input-valid.html"><span>is</span><wbr><span>Input</span><wbr><span><span>Valid</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-424457231%2FFunctions%2F-2011752812"></span>
-                    <div class="copy-popup-wrapper "><span
-                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-                                        <div>
-                                            <div class="title">
-                                                <div class="platform-hinted "
-                                                     data-platform-hinted="data-platform-hinted">
-                                                    <div class="content sourceset-dependent-content" data-active=""
-                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
-                                                        <div class="symbol monospace"><span class="token keyword">private </span><span
-                                                                class="token keyword">fun </span><a
-                                                                href="is-input-valid.html"><span class="token function"><strike>isInputValid</strike></span></a><span
-                                                                class="token punctuation">(</span><span
-                                                                class="parameters "><span class="parameter ">field<span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
-                                                                class="token operator">?</span></span></span><span
-                                                                class="token punctuation">)</span><span
-                                                                class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -776,11 +535,11 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">description<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a project description</p></div>
@@ -815,11 +574,11 @@
                                                                 class="token punctuation">(</span><span
                                                                 class="parameters "><span class="parameter ">projectName<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a project name</p></div>
@@ -855,11 +614,11 @@
                                                                 class="parameters "><span
                                                                 class="parameter ">repository<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a repository url</p></div>
@@ -895,11 +654,11 @@
                                                                 class="parameters "><span
                                                                 class="parameter ">version<span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span
                                                                 class="token operator">?</span></span></span><span
                                                                 class="token punctuation">)</span><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph">Function to check the
                                                             validity of a version</p></div>
@@ -915,15 +674,17 @@
                 </div>
             </div>
             <div class="footer">
-                <span class="go-to-top-icon"><a href="#content"
-                                                id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
-                    class="pull-right"><span>Generated by </span><a
-                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
-                    class="padded-icon"></span></a></span>
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

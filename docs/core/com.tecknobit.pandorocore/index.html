@@ -26,44 +26,79 @@
     <link href="../../styles/prism.css" rel="Stylesheet">
     <link href="../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
     <script type="text/javascript" src="../../scripts/clipboard.js" async></script>
     <script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
     <script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
     <script type="text/javascript" src="../../scripts/main.js" defer></script>
     <script type="text/javascript" src="../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script>
     <script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
 </head>
 <body>
 <div class="root">
-    <nav class="navigation" id="navigation-wrapper">
-        <div class="navigation--inner">
-            <div class="navigation-title">
-                <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
-                <div class="library-name">
-                    <a class="library-name--link" href="../../index.html">
-                        Pandoro
-                    </a></div>
-                <div class="library-version">
-                </div>
-            </div>
-            <div class="filter-section" id="filter-section">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../index.html">
+            Pandoro
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
                 <button class="platform-tag platform-selector common-like" data-active=""
                         data-filter=":core:dokkaHtmlPartial/commonMain">common
                 </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core:dokkaHtmlPartial/commonMain"
+                                       data-filter=":core:dokkaHtmlPartial/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
             </div>
-        </div>
-        <div class="navigation-controls">
-            <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">
-                switch theme
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
             </button>
-            <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
                 API
             </div>
         </div>
     </nav>
     <div id="container">
         <div class="sidebar" id="leftColumn">
-            <div class="sidebar--inner" id="sideMenu"></div>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
         </div>
         <div id="main">
             <div class="main-content" data-page-type="package" id="content"
@@ -90,7 +125,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-a-u-t-h-o-r_-k-e-y.html"><span><span>AUTHOR_KEY</span></span></a></div>
+                  <div><a href="-a-u-t-h-o-r_-k-e-y.html"><span>AUTHOR_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="177343062%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -106,7 +141,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-a-u-t-h-o-r_-k-e-y.html">AUTHOR_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">AUTHOR_KEY</code> author key</p>
@@ -124,7 +159,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-v-e-n-t_-k-e-y.html"><span><span>CHANGELOG_EVENT_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-v-e-n-t_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>EVENT_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1293374314%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -140,7 +175,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-e-v-e-n-t_-k-e-y.html">CHANGELOG_EVENT_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_EVENT_KEY</code> changelog
@@ -158,7 +193,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html"><span><span>CHANGELOG_EXTRA_CONTENT_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>EXTRA_</span><wbr><span>CONTENT_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="166063578%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -174,7 +209,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html">CHANGELOG_EXTRA_CONTENT_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_EXTRA_CONTENT_KEY</code>
@@ -192,7 +227,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span><span>CHANGELOG_IDENTIFIER_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1296974547%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -208,7 +243,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">CHANGELOG_IDENTIFIER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_IDENTIFIER_KEY</code>
@@ -226,7 +261,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-o-w-n-e-r_-k-e-y.html"><span><span>CHANGELOG_OWNER_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-o-w-n-e-r_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>OWNER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="978753009%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -242,7 +277,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-o-w-n-e-r_-k-e-y.html">CHANGELOG_OWNER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_OWNER_KEY</code> owner of
@@ -260,7 +295,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-r-e-a-d_-k-e-y.html"><span><span>CHANGELOG_READ_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-r-e-a-d_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>READ_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1878971936%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -276,7 +311,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-r-e-a-d_-k-e-y.html">CHANGELOG_READ_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_READ_KEY</code> whether
@@ -294,7 +329,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html"><span><span>CHANGELOG_TIMESTAMP_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>TIMESTAMP_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1659802898%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -310,7 +345,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html">CHANGELOG_TIMESTAMP_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOG_TIMESTAMP_KEY</code>
@@ -328,7 +363,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-h-a-n-g-e-l-o-g-s_-k-e-y.html"><span><span>CHANGELOGS_KEY</span></span></a></div>
+                  <div><a href="-c-h-a-n-g-e-l-o-g-s_-k-e-y.html"><span>CHANGELOGS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1067233538%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -344,7 +379,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-h-a-n-g-e-l-o-g-s_-k-e-y.html">CHANGELOGS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CHANGELOGS_KEY</code> changelogs key
@@ -362,7 +397,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-o-n-t-e-n-t_-n-o-t-e_-k-e-y.html"><span><span>CONTENT_NOTE_KEY</span></span></a></div>
+                  <div><a href="-c-o-n-t-e-n-t_-n-o-t-e_-k-e-y.html"><span>CONTENT_</span><wbr><span>NOTE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1026986985%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -378,7 +413,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-o-n-t-e-n-t_-n-o-t-e_-k-e-y.html">CONTENT_NOTE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CONTENT_NOTE_KEY</code> the content
@@ -396,7 +431,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-c-r-e-a-t-i-o-n_-d-a-t-e_-k-e-y.html"><span><span>CREATION_DATE_KEY</span></span></a></div>
+                  <div><a href="-c-r-e-a-t-i-o-n_-d-a-t-e_-k-e-y.html"><span>CREATION_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1849705045%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -412,7 +447,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-c-r-e-a-t-i-o-n_-d-a-t-e_-k-e-y.html">CREATION_DATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">CREATION_DATE_KEY</code> creation
@@ -430,7 +465,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-d-e-f-a-u-l-t_-r-o-l-e-s_-f-i-l-t-e-r_-v-a-l-u-e.html"><span><span>DEFAULT_ROLES_FILTER_VALUE</span></span></a></div>
+                  <div><a href="-d-e-f-a-u-l-t_-r-o-l-e-s_-f-i-l-t-e-r_-v-a-l-u-e.html"><span>DEFAULT_</span><wbr><span>ROLES_</span><wbr><span>FILTER_</span><wbr><span>VALUE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1587168695%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -446,7 +481,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-d-e-f-a-u-l-t_-r-o-l-e-s_-f-i-l-t-e-r_-v-a-l-u-e.html">DEFAULT_ROLES_FILTER_VALUE</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">DEFAULT_ROLES_FILTER_VALUE</code>
@@ -464,7 +499,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-f-i-l-t-e-r-s_-k-e-y.html"><span><span>FILTERS_KEY</span></span></a></div>
+                  <div><a href="-f-i-l-t-e-r-s_-k-e-y.html"><span>FILTERS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-268570882%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -480,7 +515,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-f-i-l-t-e-r-s_-k-e-y.html">FILTERS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">FILTERS_KEY</code> filters key</p>
@@ -498,7 +533,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span><span>GROUP_DESCRIPTION_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span>GROUP_</span><wbr><span>DESCRIPTION_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-196942467%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -514,7 +549,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html">GROUP_DESCRIPTION_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_DESCRIPTION_KEY</code> the
@@ -532,7 +567,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span><span>GROUP_IDENTIFIER_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>GROUP_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1926204136%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -548,7 +583,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">GROUP_IDENTIFIER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_IDENTIFIER_KEY</code> the
@@ -566,7 +601,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-k-e-y.html"><span><span>GROUP_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-k-e-y.html"><span>GROUP_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="656530938%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -582,7 +617,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-k-e-y.html">GROUP_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_KEY</code> the group key</p>
@@ -600,7 +635,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-l-o-g-o_-k-e-y.html"><span><span>GROUP_LOGO_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-l-o-g-o_-k-e-y.html"><span>GROUP_</span><wbr><span>LOGO_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1105773142%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -616,7 +651,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-l-o-g-o_-k-e-y.html">GROUP_LOGO_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_LOGO_KEY</code> the group logo
@@ -634,7 +669,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r_-k-e-y.html"><span><span>GROUP_MEMBER_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r_-k-e-y.html"><span>GROUP_</span><wbr><span>MEMBER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1854123321%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -650,7 +685,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-m-e-m-b-e-r_-k-e-y.html">GROUP_MEMBER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_MEMBER_KEY</code> the group
@@ -668,7 +703,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-k-e-y.html"><span><span>GROUP_MEMBERS_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-k-e-y.html"><span>GROUP_</span><wbr><span>MEMBERS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="671967104%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -684,7 +719,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-m-e-m-b-e-r-s_-k-e-y.html">GROUP_MEMBERS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_MEMBERS_KEY</code> the group
@@ -702,7 +737,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-t-a-b-l-e.html"><span><span>GROUP_MEMBERS_TABLE</span></span></a></div>
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-t-a-b-l-e.html"><span>GROUP_</span><wbr><span>MEMBERS_</span><wbr><span>TABLE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1285902223%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -718,7 +753,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p_-m-e-m-b-e-r-s_-t-a-b-l-e.html">GROUP_MEMBERS_TABLE</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUP_MEMBERS_TABLE</code> group
@@ -736,7 +771,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-g-r-o-u-p-s_-k-e-y.html"><span><span>GROUPS_KEY</span></span></a></div>
+                  <div><a href="-g-r-o-u-p-s_-k-e-y.html"><span>GROUPS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1192837805%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -752,7 +787,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-g-r-o-u-p-s_-k-e-y.html">GROUPS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">GROUPS_KEY</code> groups key</p>
@@ -770,7 +805,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-i-n-v-i-t-a-t-i-o-n_-s-t-a-t-u-s_-k-e-y.html"><span><span>INVITATION_STATUS_KEY</span></span></a></div>
+                  <div><a href="-i-n-v-i-t-a-t-i-o-n_-s-t-a-t-u-s_-k-e-y.html"><span>INVITATION_</span><wbr><span>STATUS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="29573537%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -786,7 +821,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-i-n-v-i-t-a-t-i-o-n_-s-t-a-t-u-s_-k-e-y.html">INVITATION_STATUS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">INVITATION_STATUS_KEY</code> the
@@ -804,7 +839,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-b-y_-k-e-y.html"><span><span>MARKED_AS_DONE_BY_KEY</span></span></a></div>
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-b-y_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1213636383%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -820,7 +855,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-b-y_-k-e-y.html">MARKED_AS_DONE_BY_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">MARKED_AS_DONE_BY_KEY</code> mark as
@@ -838,7 +873,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-d-a-t-e_-k-e-y.html"><span><span>MARKED_AS_DONE_DATE_KEY</span></span></a></div>
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-d-a-t-e_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="263741672%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -854,7 +889,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-d-a-t-e_-k-e-y.html">MARKED_AS_DONE_DATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">MARKED_AS_DONE_DATE_KEY</code>
@@ -872,7 +907,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-k-e-y.html"><span><span>MARKED_AS_DONE_KEY</span></span></a></div>
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-75834587%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -888,7 +923,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-k-e-y.html">MARKED_AS_DONE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">MARKED_AS_DONE_KEY</code> mark as
@@ -906,7 +941,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-m-e-m-b-e-r_-r-o-l-e_-k-e-y.html"><span><span>MEMBER_ROLE_KEY</span></span></a></div>
+                  <div><a href="-m-e-m-b-e-r_-r-o-l-e_-k-e-y.html"><span>MEMBER_</span><wbr><span>ROLE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-415501858%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -922,7 +957,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-m-e-m-b-e-r_-r-o-l-e_-k-e-y.html">MEMBER_ROLE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">MEMBER_ROLE_KEY</code> the role of a
@@ -940,7 +975,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-n-o-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span><span>NOTE_IDENTIFIER_KEY</span></span></a></div>
+                  <div><a href="-n-o-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>NOTE_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1228985763%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -956,7 +991,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-n-o-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">NOTE_IDENTIFIER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">NOTE_IDENTIFIER_KEY</code> the note
@@ -974,7 +1009,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-n-o-t-e-s_-k-e-y.html"><span><span>NOTES_KEY</span></span></a></div>
+                  <div><a href="-n-o-t-e-s_-k-e-y.html"><span>NOTES_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1243364104%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -990,7 +1025,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-n-o-t-e-s_-k-e-y.html">NOTES_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">NOTES_KEY</code> notes key</p></div>
@@ -1007,7 +1042,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-o-n-l-y_-a-u-t-h-o-r-e-d_-g-r-o-u-p-s.html"><span><span>ONLY_AUTHORED_GROUPS</span></span></a></div>
+                  <div><a href="-o-n-l-y_-a-u-t-h-o-r-e-d_-g-r-o-u-p-s.html"><span>ONLY_</span><wbr><span>AUTHORED_</span><wbr><span>GROUPS</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1531484043%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1023,7 +1058,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-o-n-l-y_-a-u-t-h-o-r-e-d_-g-r-o-u-p-s.html">ONLY_AUTHORED_GROUPS</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">ONLY_AUTHORED_GROUPS</code> authored
@@ -1041,7 +1076,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span><span>PROJECT_DESCRIPTION_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>DESCRIPTION_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-562167005%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1057,7 +1092,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html">PROJECT_DESCRIPTION_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_DESCRIPTION_KEY</code>
@@ -1075,7 +1110,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-i-c-o-n_-k-e-y.html"><span><span>PROJECT_ICON_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-i-c-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>ICON_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="701396834%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1091,7 +1126,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-i-c-o-n_-k-e-y.html">PROJECT_ICON_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_ICON_KEY</code> project icon
@@ -1109,7 +1144,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span><span>PROJECT_IDENTIFIER_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>PROJECT_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="971508402%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1125,7 +1160,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">PROJECT_IDENTIFIER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_IDENTIFIER_KEY</code>
@@ -1143,7 +1178,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-k-e-y.html"><span><span>PROJECT_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-k-e-y.html"><span>PROJECT_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1408252768%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1159,7 +1194,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-k-e-y.html">PROJECT_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_KEY</code> project key</p>
@@ -1177,7 +1212,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-r-e-p-o-s-i-t-o-r-y_-k-e-y.html"><span><span>PROJECT_REPOSITORY_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-r-e-p-o-s-i-t-o-r-y_-k-e-y.html"><span>PROJECT_</span><wbr><span>REPOSITORY_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1185379407%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1193,7 +1228,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-r-e-p-o-s-i-t-o-r-y_-k-e-y.html">PROJECT_REPOSITORY_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_REPOSITORY_KEY</code>
@@ -1211,7 +1246,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-k-e-y.html"><span><span>PROJECT_VERSION_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>VERSION_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1847074617%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1227,7 +1262,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-k-e-y.html">PROJECT_VERSION_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECT_VERSION_KEY</code> project
@@ -1245,7 +1280,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t-s_-g-r-o-u-p-s_-t-a-b-l-e.html"><span><span>PROJECTS_GROUPS_TABLE</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t-s_-g-r-o-u-p-s_-t-a-b-l-e.html"><span>PROJECTS_</span><wbr><span>GROUPS_</span><wbr><span>TABLE</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1601522863%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1261,7 +1296,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t-s_-g-r-o-u-p-s_-t-a-b-l-e.html">PROJECTS_GROUPS_TABLE</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECTS_GROUPS_TABLE</code>
@@ -1279,7 +1314,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-p-r-o-j-e-c-t-s_-k-e-y.html"><span><span>PROJECTS_KEY</span></span></a></div>
+                  <div><a href="-p-r-o-j-e-c-t-s_-k-e-y.html"><span>PROJECTS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1609052359%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1295,7 +1330,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-p-r-o-j-e-c-t-s_-k-e-y.html">PROJECTS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">PROJECTS_KEY</code> projects key</p>
@@ -1313,7 +1348,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-r-o-l-e-s_-f-i-l-t-e-r_-k-e-y.html"><span><span>ROLES_FILTER_KEY</span></span></a></div>
+                  <div><a href="-r-o-l-e-s_-f-i-l-t-e-r_-k-e-y.html"><span>ROLES_</span><wbr><span>FILTER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1678919705%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1329,7 +1364,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-r-o-l-e-s_-f-i-l-t-e-r_-k-e-y.html">ROLES_FILTER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">ROLES_FILTER_KEY</code> roles filter
@@ -1347,7 +1382,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-c-h-a-n-g-e_-n-o-t-e-s_-k-e-y.html"><span><span>UPDATE_CHANGE_NOTES_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-c-h-a-n-g-e_-n-o-t-e-s_-k-e-y.html"><span>UPDATE_</span><wbr><span>CHANGE_</span><wbr><span>NOTES_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2141939441%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1363,7 +1398,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-c-h-a-n-g-e_-n-o-t-e-s_-k-e-y.html">UPDATE_CHANGE_NOTES_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_CHANGE_NOTES_KEY</code>
@@ -1381,7 +1416,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-c-r-e-a-t-e_-d-a-t-e_-k-e-y.html"><span><span>UPDATE_CREATE_DATE_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-c-r-e-a-t-e_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>CREATE_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1622440634%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1397,7 +1432,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-c-r-e-a-t-e_-d-a-t-e_-k-e-y.html">UPDATE_CREATE_DATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_CREATE_DATE_KEY</code> create
@@ -1415,7 +1450,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span><span>UPDATE_IDENTIFIER_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>UPDATE_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1971239034%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1431,7 +1466,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">UPDATE_IDENTIFIER_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_IDENTIFIER_KEY</code> update
@@ -1449,7 +1484,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-k-e-y.html"><span><span>UPDATE_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1428429864%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1465,7 +1500,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-k-e-y.html">UPDATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_KEY</code> project update key
@@ -1483,7 +1518,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h_-d-a-t-e_-k-e-y.html"><span><span>UPDATE_PUBLISH_DATE_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>PUBLISH_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="393125573%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1499,7 +1534,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-p-u-b-l-i-s-h_-d-a-t-e_-k-e-y.html">UPDATE_PUBLISH_DATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_PUBLISH_DATE_KEY</code>
@@ -1517,7 +1552,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d_-b-y_-k-e-y.html"><span><span>UPDATE_PUBLISHED_BY_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d_-b-y_-k-e-y.html"><span>UPDATE_</span><wbr><span>PUBLISHED_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1828422555%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1533,7 +1568,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d_-b-y_-k-e-y.html">UPDATE_PUBLISHED_BY_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_PUBLISHED_BY_KEY</code>
@@ -1551,7 +1586,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t_-d-a-t-e_-k-e-y.html"><span><span>UPDATE_START_DATE_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>START_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="460859096%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1567,7 +1602,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-s-t-a-r-t_-d-a-t-e_-k-e-y.html">UPDATE_START_DATE_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_START_DATE_KEY</code> start
@@ -1585,7 +1620,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t-e-d_-b-y_-k-e-y.html"><span><span>UPDATE_STARTED_BY_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t-e-d_-b-y_-k-e-y.html"><span>UPDATE_</span><wbr><span>STARTED_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896156078%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1601,7 +1636,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-s-t-a-r-t-e-d_-b-y_-k-e-y.html">UPDATE_STARTED_BY_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_STARTED_BY_KEY</code> started
@@ -1619,7 +1654,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-s-t-a-t-u-s_-k-e-y.html"><span><span>UPDATE_STATUS_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-t-u-s_-k-e-y.html"><span>UPDATE_</span><wbr><span>STATUS_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1105628975%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1635,7 +1670,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-s-t-a-t-u-s_-k-e-y.html">UPDATE_STATUS_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_STATUS_KEY</code> update
@@ -1653,7 +1688,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e_-t-a-r-g-e-t_-v-e-r-s-i-o-n_-k-e-y.html"><span><span>UPDATE_TARGET_VERSION_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e_-t-a-r-g-e-t_-v-e-r-s-i-o-n_-k-e-y.html"><span>UPDATE_</span><wbr><span>TARGET_</span><wbr><span>VERSION_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-88206919%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1669,7 +1704,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e_-t-a-r-g-e-t_-v-e-r-s-i-o-n_-k-e-y.html">UPDATE_TARGET_VERSION_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATE_TARGET_VERSION_KEY</code>
@@ -1687,7 +1722,7 @@
                                      data-filterable-set=":core:dokkaHtmlPartial/commonMain">
                                     <div class="main-subrow keyValue ">
                                         <div class=""><span class="inline-flex">
-                  <div><a href="-u-p-d-a-t-e-s_-k-e-y.html"><span><span>UPDATES_KEY</span></span></a></div>
+                  <div><a href="-u-p-d-a-t-e-s_-k-e-y.html"><span>UPDATES_</span><wbr><span>KEY</span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="983562383%2FProperties%2F-2011752812"></span>
                     <div class="copy-popup-wrapper "><span
                             class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
@@ -1703,7 +1738,7 @@
                                                                 class="token keyword">val </span><a
                                                                 href="-u-p-d-a-t-e-s_-k-e-y.html">UPDATES_KEY</a><span
                                                                 class="token operator">: </span><a
-                                                                href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
                                                         </div>
                                                         <div class="brief "><p class="paragraph"><code
                                                                 class="lang-kotlin">UPDATES_KEY</code> updates key</p>
@@ -1720,15 +1755,17 @@
                 </div>
             </div>
             <div class="footer">
-                <span class="go-to-top-icon"><a href="#content"
-                                                id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
-                    class="pull-right"><span>Generated by </span><a
-                    href="https://github.com/Kotlin/dokka"><span>dokka</span><span
-                    class="padded-icon"></span></a></span>
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
             </div>
         </div>
     </div>
 </div>
 </body>
 </html>
-

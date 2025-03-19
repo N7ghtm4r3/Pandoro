@@ -2,7 +2,8 @@ package com.tecknobit.pandoro.services.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tecknobit.equinoxbackend.environment.models.EquinoxUser;
+import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
+import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
 import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandoro.services.groups.entity.Group;
@@ -20,8 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.LANGUAGE_KEY;
-import static com.tecknobit.equinoxbackend.environment.models.EquinoxUser.USERS_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.AUTHOR_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
 
@@ -29,16 +29,14 @@ import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
  * The {@code PandoroUser} class is useful to create a <b>Pandoro's user</b>
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see com.tecknobit.equinoxbackend.environment.models.EquinoxItem
+ * @see EquinoxItem
  * @see EquinoxUser
  * @see DTOConvertible
  * @see CandidateMember
  */
 @Entity
 @Table(name = USERS_KEY)
-@JsonIgnoreProperties(
-        LANGUAGE_KEY
-)
+@JsonIgnoreProperties(LANGUAGE_KEY)
 public class PandoroUser extends EquinoxUser implements DTOConvertible<CandidateMember> {
 
     /**
@@ -121,7 +119,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      */
     public PandoroUser(String id, String token, String name, String surname, String email, String password, String profilePic,
                        String language, List<Changelog> changelogs, List<Note> notes, List<Project> projects, List<Group> groups) {
-        super(id, token, name, surname, email, password, profilePic, language, null);
+        super(id, token, name, surname, email, password, profilePic, language);
         this.changelogs = changelogs;
         this.notes = notes;
         this.projects = projects;
