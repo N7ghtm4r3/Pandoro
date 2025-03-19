@@ -54,11 +54,15 @@ dependencies {
 
 ### Clients
 
-- [Android and Desktop](https://github.com/N7ghtm4r3/Pandoro-Clients#readme)
+- [Android](https://play.google.com/store/apps/details?id=com.tecknobit.pandoro)
+- [Pandoro desktop version](https://github.com/N7ghtm4r3/Pandoro-Clients/releases/tag/1.1.1)
+- iOS -> source code available, but cannot distribute due
+  missing [Apple Developer Program license](https://developer.apple.com/programs/)
+- [Pandoro webapp version](https://github.com/N7ghtm4r3/Pandoro-WebApp)
 
 ### Backend
 
-- <a href="https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.6">Backend service "out-of-the-box"</a>
+- [Backend service "out-of-the-box"](https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.6)
 
 ## Usages
 
