@@ -111,7 +111,7 @@ public class Project extends PandoroItem {
             mappedBy = PROJECT_KEY,
             cascade = CascadeType.ALL
     )
-    @OrderBy(UPDATE_CREATE_DATE_KEY + " DESC")
+    @OrderBy(UPDATE_TARGET_VERSION_KEY + " DESC")
     private List<ProjectUpdate> updates;
 
     /**
