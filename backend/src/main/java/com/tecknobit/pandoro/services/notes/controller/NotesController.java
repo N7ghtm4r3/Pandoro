@@ -174,7 +174,7 @@ public class NotesController extends DefaultPandoroController {
             @PathVariable(IDENTIFIER_KEY) String id,
             @RequestHeader(TOKEN_KEY) String token,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
-            @RequestBody Map<String, String> payload
+            @RequestBody Map<String, Object> payload
     ) {
         if (isMe(id, token) && notesService.noteExists(id, noteId)) {
             loadJsonHelper(payload);
