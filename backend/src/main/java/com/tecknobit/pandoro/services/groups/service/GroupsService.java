@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.groups.service;
 
+import com.tecknobit.equinoxbackend.annotations.TableColumns;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
 import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
@@ -92,16 +93,6 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
     }
 
     /**
-     * Method to get the user's groups list
-     *
-     * @param userId The user identifier
-     * @return the changelogs list as {@link List} of {@link Group}
-     */
-    public List<Group> getCompleteGroupsList(String userId) {
-        return groupsRepository.getGroups(userId);
-    }
-
-    /**
      * Method to check whether the user's group exists
      *
      * @param userId The user identifier
@@ -166,6 +157,8 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             }
 
             @Override
+            @TableColumns(columns = {GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY,
+                    PROFILE_PIC_KEY, MEMBER_ROLE_KEY, SURNAME_KEY})
             public void prepareQuery(Query query, int index, Collection<PandoroUser> members) {
                 for (PandoroUser member : members) {
                     String memberId = member.getId();
@@ -258,6 +251,8 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             }
 
             @Override
+            @TableColumns(columns = {GROUP_MEMBER_KEY, IDENTIFIER_KEY, EMAIL_KEY, INVITATION_STATUS_KEY, NAME_KEY,
+                    PROFILE_PIC_KEY, MEMBER_ROLE_KEY, SURNAME_KEY})
             public void prepareQuery(Query query, int index, Collection<String> members) {
                 for (String member : members) {
                     PandoroUser pandoroUser = usersRepository.findById(member).orElse(null);
