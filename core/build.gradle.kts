@@ -1,15 +1,18 @@
+@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("maven-publish")
-    id("com.android.library") version "8.2.2"
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "2.0.20"
+    alias(libs.plugins.androidLibrary)
 }
 
 group = "com.tecknobit.pandoro"
-version = "1.0.6"
+version = "1.0.7"
 
 repositories {
     google()
@@ -19,7 +22,6 @@ repositories {
 kotlin {
     jvm {
         compilations.all {
-            @OptIn(ExperimentalKotlinGradlePluginApi::class)
             this@jvm.compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_18)
             }
@@ -27,7 +29,6 @@ kotlin {
     }
     androidTarget {
         publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_18)
         }
@@ -39,7 +40,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Pandoro-Core"
+            baseName = "pandorocore"
             isStatic = true
         }
     }
@@ -58,8 +59,8 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation("io.github.n7ghtm4r3:equinox-core:1.0.9")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+                implementation(libs.equinox.core)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
@@ -70,7 +71,7 @@ kotlin {
 
 android {
     namespace = "com.tecknobit.pandorocore"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 24
     }
@@ -82,7 +83,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandorocore"
                 artifactId = "pandorocore"
-                version = "1.0.6"
+                version = "1.0.7"
                 from(components["kotlin"])
             }
         }

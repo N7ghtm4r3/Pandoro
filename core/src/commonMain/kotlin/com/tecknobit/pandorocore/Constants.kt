@@ -1,16 +1,6 @@
 package com.tecknobit.pandorocore
 
 /**
- * `AUTHOR_KEY` author key
- */
-const val AUTHOR_KEY = "author"
-
-/**
- * `CREATION_DATE_KEY` creation date key
- */
-const val CREATION_DATE_KEY = "creation_date"
-
-/**
  * `GROUP_MEMBERS_TABLE` group members table
  */
 const val GROUP_MEMBERS_TABLE = "group_members"

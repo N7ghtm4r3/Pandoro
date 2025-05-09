@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
-import static com.tecknobit.pandorocore.ConstantsKt.AUTHOR_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
 
 /**

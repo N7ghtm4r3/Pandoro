@@ -12,8 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.CUSTOM_CONFIGURATION_FILE_PATH;
 import static com.tecknobit.equinoxbackend.resourcesutils.ResourcesProvider.DEFAULT_CONFIGURATION_FILE_PATH;
-import static com.tecknobit.pandoro.configuration.PandoroResourcesManager.GROUP_LOGOS_DIRECTORY;
-import static com.tecknobit.pandoro.configuration.PandoroResourcesManager.PROJECT_ICONS_DIRECTORY;
 
 /**
  * The {@code Launcher} class is useful to launch <b>Pandoro's backend service</b>
@@ -61,13 +59,7 @@ public class Launcher {
      * </ul>
      */
     public static void main(String[] args) {
-        EquinoxController.initEquinoxEnvironment(
-                "com/tecknobit/pandoro",
-                " to correctly register a new user in the Pandoro system ",
-                Launcher.class,
-                args,
-                PROJECT_ICONS_DIRECTORY, GROUP_LOGOS_DIRECTORY
-        );
+        EquinoxController.initEquinoxEnvironment(Launcher.class, args);
         SpringApplication.run(Launcher.class, args);
     }
 
