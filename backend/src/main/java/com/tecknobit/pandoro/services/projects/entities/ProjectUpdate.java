@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.projects.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
@@ -148,6 +149,7 @@ public class ProjectUpdate extends EquinoxItem {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public ProjectUpdate() {
         this(null, null, -1, null, null, -1, null, -1, null, null);
     }

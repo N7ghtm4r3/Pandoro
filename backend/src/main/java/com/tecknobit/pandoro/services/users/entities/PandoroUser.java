@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
@@ -79,6 +80,7 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public PandoroUser() {
         this(null, null, null, DEFAULT_PROFILE_PIC, null, null, null, null, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());

@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.pandoro.services.PandoroItem;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandorocore.enums.InvitationStatus;
@@ -97,6 +98,7 @@ public class GroupMember {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public GroupMember() {
         this(null, null, null, null, null, null, null);
     }
