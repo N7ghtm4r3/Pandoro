@@ -1,0 +1,1704 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.tecknobit.pandorocore</title>
+    <link href="../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+    <script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+    <link href="../../styles/style.css" rel="Stylesheet">
+    <link href="../../styles/main.css" rel="Stylesheet">
+    <link href="../../styles/prism.css" rel="Stylesheet">
+    <link href="../../styles/logo-styles.css" rel="Stylesheet">
+    <link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+    <link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+    <script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+    <script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+    <script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+    <script type="text/javascript" src="../../scripts/main.js" defer></script>
+    <script type="text/javascript" src="../../scripts/prism.js" async></script>
+    <script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script>
+    <script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script>
+</head>
+<body>
+<div class="root">
+    <nav class="navigation theme-dark" id="navigation-wrapper">
+        <a class="library-name--link" href="../../index.html">
+            Pandoro
+        </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+            <div class="filter-section filter-section_loading" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active=""
+                        data-filter=":core:dokkaHtmlPartial/commonMain">common
+                </button>
+                <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                    <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                            data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox"
+                            aria-expanded="false" aria-label="Toggle source sets"></button>
+                    <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
+                        <div class="dropdown--header"><span>Platform filter</span>
+                            <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                            </button>
+                        </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core:dokkaHtmlPartial/commonMain"
+                                       data-filter=":core:dokkaHtmlPartial/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="dropdown--overlay"></div>
+                </div>
+            </div>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </nav>
+    <div id="container">
+        <div class="sidebar" id="leftColumn">
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox">
+                    <div class="dropdown--header">
+                            <span>
+                                    Pandoro
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </div>
+        <div id="main">
+            <div class="main-content" data-page-type="package" id="content"
+                 pageids="core::com.tecknobit.pandorocore////PointingToDeclaration//-2011752812">
+                <div class="breadcrumbs"><a href="../index.html">core</a><span class="delimiter">/</span><span
+                        class="current">com.tecknobit.pandorocore</span></div>
+                <div class="cover ">
+                    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span>
+                    </h1>
+                </div>
+                <div class="tabbedcontent">
+                    <div class="tabs-section" tabs-section="tabs-section">
+                        <button class="section-tab" data-active="" data-togglable="PROPERTY,EXTENSION_PROPERTY">
+                            Properties
+                        </button>
+                    </div>
+                    <div class="tabs-section-body">
+                        <div data-togglable="PROPERTY">
+                            <h2 class="">Properties</h2>
+                            <div class="table"><a data-name="1293374314%2FProperties%2F-2011752812"
+                                                  anchor-label="CHANGELOG_EVENT_KEY"
+                                                  id="1293374314%2FProperties%2F-2011752812"
+                                                  data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-v-e-n-t_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>EVENT_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1293374314%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-e-v-e-n-t_-k-e-y.html">CHANGELOG_EVENT_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_EVENT_KEY</code> changelog
+                                                            event key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="166063578%2FProperties%2F-2011752812"
+                                   anchor-label="CHANGELOG_EXTRA_CONTENT_KEY" id="166063578%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>EXTRA_</span><wbr><span>CONTENT_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="166063578%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html">CHANGELOG_EXTRA_CONTENT_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_EXTRA_CONTENT_KEY</code>
+                                                            extra content of the changelog key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1296974547%2FProperties%2F-2011752812"
+                                   anchor-label="CHANGELOG_IDENTIFIER_KEY" id="-1296974547%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1296974547%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">CHANGELOG_IDENTIFIER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_IDENTIFIER_KEY</code>
+                                                            changelog identifier key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="978753009%2FProperties%2F-2011752812" anchor-label="CHANGELOG_OWNER_KEY"
+                                   id="978753009%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-o-w-n-e-r_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>OWNER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="978753009%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-o-w-n-e-r_-k-e-y.html">CHANGELOG_OWNER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_OWNER_KEY</code> owner of
+                                                            the changelog key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1878971936%2FProperties%2F-2011752812" anchor-label="CHANGELOG_READ_KEY"
+                                   id="1878971936%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-r-e-a-d_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>READ_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1878971936%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-r-e-a-d_-k-e-y.html">CHANGELOG_READ_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_READ_KEY</code> whether
+                                                            the changelog is read key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1659802898%2FProperties%2F-2011752812"
+                                   anchor-label="CHANGELOG_TIMESTAMP_KEY" id="-1659802898%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html"><span>CHANGELOG_</span><wbr><span>TIMESTAMP_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1659802898%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html">CHANGELOG_TIMESTAMP_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOG_TIMESTAMP_KEY</code>
+                                                            changelog timestamp key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1067233538%2FProperties%2F-2011752812" anchor-label="CHANGELOGS_KEY"
+                                   id="1067233538%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-h-a-n-g-e-l-o-g-s_-k-e-y.html"><span>CHANGELOGS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1067233538%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-h-a-n-g-e-l-o-g-s_-k-e-y.html">CHANGELOGS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CHANGELOGS_KEY</code> changelogs key
+                                                        </p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1026986985%2FProperties%2F-2011752812" anchor-label="CONTENT_NOTE_KEY"
+                                   id="1026986985%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-c-o-n-t-e-n-t_-n-o-t-e_-k-e-y.html"><span>CONTENT_</span><wbr><span>NOTE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1026986985%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-c-o-n-t-e-n-t_-n-o-t-e_-k-e-y.html">CONTENT_NOTE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">CONTENT_NOTE_KEY</code> the content
+                                                            of the note key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1587168695%2FProperties%2F-2011752812"
+                                   anchor-label="DEFAULT_ROLES_FILTER_VALUE" id="1587168695%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-d-e-f-a-u-l-t_-r-o-l-e-s_-f-i-l-t-e-r_-v-a-l-u-e.html"><span>DEFAULT_</span><wbr><span>ROLES_</span><wbr><span>FILTER_</span><wbr><span>VALUE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1587168695%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-d-e-f-a-u-l-t_-r-o-l-e-s_-f-i-l-t-e-r_-v-a-l-u-e.html">DEFAULT_ROLES_FILTER_VALUE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">DEFAULT_ROLES_FILTER_VALUE</code>
+                                                            the default value of the roles filter</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-268570882%2FProperties%2F-2011752812" anchor-label="FILTERS_KEY"
+                                   id="-268570882%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-f-i-l-t-e-r-s_-k-e-y.html"><span>FILTERS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-268570882%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-f-i-l-t-e-r-s_-k-e-y.html">FILTERS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">FILTERS_KEY</code> filters key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-196942467%2FProperties%2F-2011752812"
+                                   anchor-label="GROUP_DESCRIPTION_KEY" id="-196942467%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span>GROUP_</span><wbr><span>DESCRIPTION_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-196942467%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html">GROUP_DESCRIPTION_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_DESCRIPTION_KEY</code> the
+                                                            group member key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1926204136%2FProperties%2F-2011752812"
+                                   anchor-label="GROUP_IDENTIFIER_KEY" id="-1926204136%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>GROUP_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1926204136%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">GROUP_IDENTIFIER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_IDENTIFIER_KEY</code> the
+                                                            group identifier key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="656530938%2FProperties%2F-2011752812" anchor-label="GROUP_KEY"
+                                   id="656530938%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-k-e-y.html"><span>GROUP_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="656530938%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-k-e-y.html">GROUP_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_KEY</code> the group key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1105773142%2FProperties%2F-2011752812" anchor-label="GROUP_LOGO_KEY"
+                                   id="1105773142%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-l-o-g-o_-k-e-y.html"><span>GROUP_</span><wbr><span>LOGO_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1105773142%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-l-o-g-o_-k-e-y.html">GROUP_LOGO_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_LOGO_KEY</code> the group logo
+                                                            key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1854123321%2FProperties%2F-2011752812" anchor-label="GROUP_MEMBER_KEY"
+                                   id="-1854123321%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r_-k-e-y.html"><span>GROUP_</span><wbr><span>MEMBER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1854123321%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-m-e-m-b-e-r_-k-e-y.html">GROUP_MEMBER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_MEMBER_KEY</code> the group
+                                                            member key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="671967104%2FProperties%2F-2011752812" anchor-label="GROUP_MEMBERS_KEY"
+                                   id="671967104%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-k-e-y.html"><span>GROUP_</span><wbr><span>MEMBERS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="671967104%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-m-e-m-b-e-r-s_-k-e-y.html">GROUP_MEMBERS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_MEMBERS_KEY</code> the group
+                                                            members key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1285902223%2FProperties%2F-2011752812" anchor-label="GROUP_MEMBERS_TABLE"
+                                   id="-1285902223%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p_-m-e-m-b-e-r-s_-t-a-b-l-e.html"><span>GROUP_</span><wbr><span>MEMBERS_</span><wbr><span>TABLE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1285902223%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p_-m-e-m-b-e-r-s_-t-a-b-l-e.html">GROUP_MEMBERS_TABLE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUP_MEMBERS_TABLE</code> group
+                                                            members table</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1192837805%2FProperties%2F-2011752812" anchor-label="GROUPS_KEY"
+                                   id="1192837805%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-g-r-o-u-p-s_-k-e-y.html"><span>GROUPS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1192837805%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-g-r-o-u-p-s_-k-e-y.html">GROUPS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">GROUPS_KEY</code> groups key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="29573537%2FProperties%2F-2011752812" anchor-label="INVITATION_STATUS_KEY"
+                                   id="29573537%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-i-n-v-i-t-a-t-i-o-n_-s-t-a-t-u-s_-k-e-y.html"><span>INVITATION_</span><wbr><span>STATUS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="29573537%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-i-n-v-i-t-a-t-i-o-n_-s-t-a-t-u-s_-k-e-y.html">INVITATION_STATUS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">INVITATION_STATUS_KEY</code> the
+                                                            invitation status key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1213636383%2FProperties%2F-2011752812"
+                                   anchor-label="MARKED_AS_DONE_BY_KEY" id="1213636383%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-b-y_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1213636383%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-b-y_-k-e-y.html">MARKED_AS_DONE_BY_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">MARKED_AS_DONE_BY_KEY</code> mark as
+                                                            done author key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="263741672%2FProperties%2F-2011752812"
+                                   anchor-label="MARKED_AS_DONE_DATE_KEY" id="263741672%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-d-a-t-e_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="263741672%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-d-a-t-e_-k-e-y.html">MARKED_AS_DONE_DATE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">MARKED_AS_DONE_DATE_KEY</code>
+                                                            marked as done date key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-75834587%2FProperties%2F-2011752812" anchor-label="MARKED_AS_DONE_KEY"
+                                   id="-75834587%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-k-e-y.html"><span>MARKED_</span><wbr><span>AS_</span><wbr><span>DONE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-75834587%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-m-a-r-k-e-d_-a-s_-d-o-n-e_-k-e-y.html">MARKED_AS_DONE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">MARKED_AS_DONE_KEY</code> mark as
+                                                            done key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-415501858%2FProperties%2F-2011752812" anchor-label="MEMBER_ROLE_KEY"
+                                   id="-415501858%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-m-e-m-b-e-r_-r-o-l-e_-k-e-y.html"><span>MEMBER_</span><wbr><span>ROLE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-415501858%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-m-e-m-b-e-r_-r-o-l-e_-k-e-y.html">MEMBER_ROLE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">MEMBER_ROLE_KEY</code> the role of a
+                                                            member key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1228985763%2FProperties%2F-2011752812" anchor-label="NOTE_IDENTIFIER_KEY"
+                                   id="1228985763%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-n-o-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>NOTE_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1228985763%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-n-o-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">NOTE_IDENTIFIER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">NOTE_IDENTIFIER_KEY</code> the note
+                                                            identifier key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1243364104%2FProperties%2F-2011752812" anchor-label="NOTES_KEY"
+                                   id="-1243364104%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-n-o-t-e-s_-k-e-y.html"><span>NOTES_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1243364104%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-n-o-t-e-s_-k-e-y.html">NOTES_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">NOTES_KEY</code> notes key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1531484043%2FProperties%2F-2011752812" anchor-label="ONLY_AUTHORED_GROUPS"
+                                   id="1531484043%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-o-n-l-y_-a-u-t-h-o-r-e-d_-g-r-o-u-p-s.html"><span>ONLY_</span><wbr><span>AUTHORED_</span><wbr><span>GROUPS</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1531484043%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-o-n-l-y_-a-u-t-h-o-r-e-d_-g-r-o-u-p-s.html">ONLY_AUTHORED_GROUPS</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">ONLY_AUTHORED_GROUPS</code> authored
+                                                            groups key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-562167005%2FProperties%2F-2011752812"
+                                   anchor-label="PROJECT_DESCRIPTION_KEY" id="-562167005%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>DESCRIPTION_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-562167005%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-d-e-s-c-r-i-p-t-i-o-n_-k-e-y.html">PROJECT_DESCRIPTION_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_DESCRIPTION_KEY</code>
+                                                            project description key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="701396834%2FProperties%2F-2011752812" anchor-label="PROJECT_ICON_KEY"
+                                   id="701396834%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-i-c-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>ICON_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="701396834%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-i-c-o-n_-k-e-y.html">PROJECT_ICON_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_ICON_KEY</code> project icon
+                                                            key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="971508402%2FProperties%2F-2011752812"
+                                   anchor-label="PROJECT_IDENTIFIER_KEY" id="971508402%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>PROJECT_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="971508402%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">PROJECT_IDENTIFIER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_IDENTIFIER_KEY</code>
+                                                            project identifier key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1408252768%2FProperties%2F-2011752812" anchor-label="PROJECT_KEY"
+                                   id="-1408252768%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-k-e-y.html"><span>PROJECT_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1408252768%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-k-e-y.html">PROJECT_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_KEY</code> project key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1185379407%2FProperties%2F-2011752812"
+                                   anchor-label="PROJECT_REPOSITORY_KEY" id="-1185379407%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-r-e-p-o-s-i-t-o-r-y_-k-e-y.html"><span>PROJECT_</span><wbr><span>REPOSITORY_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1185379407%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-r-e-p-o-s-i-t-o-r-y_-k-e-y.html">PROJECT_REPOSITORY_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_REPOSITORY_KEY</code>
+                                                            project repository key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1847074617%2FProperties%2F-2011752812" anchor-label="PROJECT_VERSION_KEY"
+                                   id="-1847074617%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-k-e-y.html"><span>PROJECT_</span><wbr><span>VERSION_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1847074617%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-k-e-y.html">PROJECT_VERSION_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECT_VERSION_KEY</code> project
+                                                            version key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1601522863%2FProperties%2F-2011752812"
+                                   anchor-label="PROJECTS_GROUPS_TABLE" id="-1601522863%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t-s_-g-r-o-u-p-s_-t-a-b-l-e.html"><span>PROJECTS_</span><wbr><span>GROUPS_</span><wbr><span>TABLE</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1601522863%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t-s_-g-r-o-u-p-s_-t-a-b-l-e.html">PROJECTS_GROUPS_TABLE</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECTS_GROUPS_TABLE</code>
+                                                            projects groups table</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1609052359%2FProperties%2F-2011752812" anchor-label="PROJECTS_KEY"
+                                   id="1609052359%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-p-r-o-j-e-c-t-s_-k-e-y.html"><span>PROJECTS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1609052359%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-p-r-o-j-e-c-t-s_-k-e-y.html">PROJECTS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">PROJECTS_KEY</code> projects key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1678919705%2FProperties%2F-2011752812" anchor-label="ROLES_FILTER_KEY"
+                                   id="-1678919705%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-r-o-l-e-s_-f-i-l-t-e-r_-k-e-y.html"><span>ROLES_</span><wbr><span>FILTER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1678919705%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-r-o-l-e-s_-f-i-l-t-e-r_-k-e-y.html">ROLES_FILTER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">ROLES_FILTER_KEY</code> roles filter
+                                                            key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="2141939441%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_CHANGE_NOTES_KEY" id="2141939441%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-c-h-a-n-g-e_-n-o-t-e-s_-k-e-y.html"><span>UPDATE_</span><wbr><span>CHANGE_</span><wbr><span>NOTES_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2141939441%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-c-h-a-n-g-e_-n-o-t-e-s_-k-e-y.html">UPDATE_CHANGE_NOTES_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_CHANGE_NOTES_KEY</code>
+                                                            update change notes key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1622440634%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_CREATE_DATE_KEY" id="-1622440634%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-c-r-e-a-t-e_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>CREATE_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1622440634%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-c-r-e-a-t-e_-d-a-t-e_-k-e-y.html">UPDATE_CREATE_DATE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_CREATE_DATE_KEY</code> create
+                                                            date key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1971239034%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_IDENTIFIER_KEY" id="1971239034%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html"><span>UPDATE_</span><wbr><span>IDENTIFIER_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1971239034%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html">UPDATE_IDENTIFIER_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_IDENTIFIER_KEY</code> update
+                                                            identifier key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1428429864%2FProperties%2F-2011752812" anchor-label="UPDATE_KEY"
+                                   id="-1428429864%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1428429864%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-k-e-y.html">UPDATE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_KEY</code> project update key
+                                                        </p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="393125573%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_PUBLISH_DATE_KEY" id="393125573%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>PUBLISH_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="393125573%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-p-u-b-l-i-s-h_-d-a-t-e_-k-e-y.html">UPDATE_PUBLISH_DATE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_PUBLISH_DATE_KEY</code>
+                                                            publish date key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1828422555%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_PUBLISHED_BY_KEY" id="1828422555%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d_-b-y_-k-e-y.html"><span>UPDATE_</span><wbr><span>PUBLISHED_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1828422555%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d_-b-y_-k-e-y.html">UPDATE_PUBLISHED_BY_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_PUBLISHED_BY_KEY</code>
+                                                            published by key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="460859096%2FProperties%2F-2011752812" anchor-label="UPDATE_START_DATE_KEY"
+                                   id="460859096%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t_-d-a-t-e_-k-e-y.html"><span>UPDATE_</span><wbr><span>START_</span><wbr><span>DATE_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="460859096%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-s-t-a-r-t_-d-a-t-e_-k-e-y.html">UPDATE_START_DATE_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_START_DATE_KEY</code> start
+                                                            date key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="1896156078%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_STARTED_BY_KEY" id="1896156078%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-r-t-e-d_-b-y_-k-e-y.html"><span>UPDATE_</span><wbr><span>STARTED_</span><wbr><span>BY_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896156078%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-s-t-a-r-t-e-d_-b-y_-k-e-y.html">UPDATE_STARTED_BY_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_STARTED_BY_KEY</code> started
+                                                            by key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-1105628975%2FProperties%2F-2011752812" anchor-label="UPDATE_STATUS_KEY"
+                                   id="-1105628975%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-s-t-a-t-u-s_-k-e-y.html"><span>UPDATE_</span><wbr><span>STATUS_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1105628975%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-s-t-a-t-u-s_-k-e-y.html">UPDATE_STATUS_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_STATUS_KEY</code> update
+                                                            status key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="-88206919%2FProperties%2F-2011752812"
+                                   anchor-label="UPDATE_TARGET_VERSION_KEY" id="-88206919%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e_-t-a-r-g-e-t_-v-e-r-s-i-o-n_-k-e-y.html"><span>UPDATE_</span><wbr><span>TARGET_</span><wbr><span>VERSION_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-88206919%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e_-t-a-r-g-e-t_-v-e-r-s-i-o-n_-k-e-y.html">UPDATE_TARGET_VERSION_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATE_TARGET_VERSION_KEY</code>
+                                                            target version key</p></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-name="983562383%2FProperties%2F-2011752812" anchor-label="UPDATES_KEY"
+                                   id="983562383%2FProperties%2F-2011752812"
+                                   data-filterable-set=":core:dokkaHtmlPartial/commonMain"></a>
+                                <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/commonMain"
+                                     data-filterable-set=":core:dokkaHtmlPartial/commonMain">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="-u-p-d-a-t-e-s_-k-e-y.html"><span>UPDATES_</span><wbr><span>KEY</span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="983562383%2FProperties%2F-2011752812"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":core:dokkaHtmlPartial/commonMain">
+                                                        <div class="symbol monospace"><span
+                                                                class="token keyword">const </span><span
+                                                                class="token keyword">val </span><a
+                                                                href="-u-p-d-a-t-e-s_-k-e-y.html">UPDATES_KEY</a><span
+                                                                class="token operator">: </span><a
+                                                                href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a>
+                                                        </div>
+                                                        <div class="brief "><p class="paragraph"><code
+                                                                class="lang-kotlin">UPDATES_KEY</code> updates key</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+                <span>© 2025 Copyright</span>
+                <span class="pull-right">
+            <span>Generated by </span>
+            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                <span>dokka</span>
+            </a>
+        </span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
