@@ -1,5 +1,6 @@
 package com.tecknobit.pandoro.services.projects.service;
 
+import com.tecknobit.equinoxbackend.annotations.TableColumns;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
 import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
@@ -29,7 +30,7 @@ import java.util.regex.Pattern;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_IGNORE_INTO;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
-import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
@@ -269,6 +270,7 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
             }
 
             @Override
+            @TableColumns(columns = {PROJECT_IDENTIFIER_KEY, GROUP_IDENTIFIER_KEY})
             public void prepareQuery(Query query, int index, Collection<String> groups) {
                 for (String group : groups) {
                     query.setParameter(index++, projectId);
@@ -345,6 +347,7 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
             }
 
             @Override
+            @TableColumns(columns = {IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY})
             public void prepareQuery(Query query, int index, Collection<String> changeNotes) {
                 for (String changeNote : changeNotes) {
                     query.setParameter(index++, generateIdentifier());

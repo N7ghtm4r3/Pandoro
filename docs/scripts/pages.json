@@ -250,16 +250,6 @@
     ]
   },
   {
-    "name": "const val AUTHOR_KEY: String",
-    "description": "com.tecknobit.pandorocore.AUTHOR_KEY",
-    "location": "core/com.tecknobit.pandorocore/-a-u-t-h-o-r_-k-e-y.html",
-    "searchKeys": [
-      "AUTHOR_KEY",
-      "const val AUTHOR_KEY: String",
-      "com.tecknobit.pandorocore.AUTHOR_KEY"
-    ]
-  },
-  {
     "name": "const val CANDIDATE_GROUP_MEMBERS_ENDPOINT: String",
     "description": "com.tecknobit.pandorocore.helpers.PandoroEndpoints.CANDIDATE_GROUP_MEMBERS_ENDPOINT",
     "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-endpoints/-c-a-n-d-i-d-a-t-e_-g-r-o-u-p_-m-e-m-b-e-r-s_-e-n-d-p-o-i-n-t.html",
@@ -377,16 +367,6 @@
       "COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT",
       "const val COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT: String",
       "com.tecknobit.pandorocore.helpers.PandoroEndpoints.COUNT_CANDIDATE_GROUP_MEMBERS_ENDPOINT"
-    ]
-  },
-  {
-    "name": "const val CREATION_DATE_KEY: String",
-    "description": "com.tecknobit.pandorocore.CREATION_DATE_KEY",
-    "location": "core/com.tecknobit.pandorocore/-c-r-e-a-t-i-o-n_-d-a-t-e_-k-e-y.html",
-    "searchKeys": [
-      "CREATION_DATE_KEY",
-      "const val CREATION_DATE_KEY: String",
-      "com.tecknobit.pandorocore.CREATION_DATE_KEY"
     ]
   },
   {
@@ -520,12 +500,12 @@
     ]
   },
   {
-    "name": "const val GROUP_NAME_MAX_LENGTH: Int = 15",
+    "name": "const val GROUP_NAME_MAX_LENGTH: Int = 25",
     "description": "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.GROUP_NAME_MAX_LENGTH",
     "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-inputs-validator/-g-r-o-u-p_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html",
     "searchKeys": [
       "GROUP_NAME_MAX_LENGTH",
-      "const val GROUP_NAME_MAX_LENGTH: Int = 15",
+      "const val GROUP_NAME_MAX_LENGTH: Int = 25",
       "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.GROUP_NAME_MAX_LENGTH"
     ]
   },
@@ -740,12 +720,12 @@
     ]
   },
   {
-    "name": "const val PROJECT_NAME_MAX_LENGTH: Int = 15",
+    "name": "const val PROJECT_NAME_MAX_LENGTH: Int = 25",
     "description": "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.PROJECT_NAME_MAX_LENGTH",
     "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-inputs-validator/-p-r-o-j-e-c-t_-n-a-m-e_-m-a-x_-l-e-n-g-t-h.html",
     "searchKeys": [
       "PROJECT_NAME_MAX_LENGTH",
-      "const val PROJECT_NAME_MAX_LENGTH: Int = 15",
+      "const val PROJECT_NAME_MAX_LENGTH: Int = 25",
       "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.PROJECT_NAME_MAX_LENGTH"
     ]
   },
@@ -3647,16 +3627,6 @@
       "getChangelogs",
       "open fun getChangelogs(ownerId: String, page: Int, pageSize: Int): PaginatedResponse<Changelog>",
       "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.getChangelogs"
-    ]
-  },
-  {
-    "name": "open fun getCompleteGroupsList(userId: String): List<Group>",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.getCompleteGroupsList",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/get-complete-groups-list.html",
-    "searchKeys": [
-      "getCompleteGroupsList",
-      "open fun getCompleteGroupsList(userId: String): List<Group>",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.getCompleteGroupsList"
     ]
   },
   {

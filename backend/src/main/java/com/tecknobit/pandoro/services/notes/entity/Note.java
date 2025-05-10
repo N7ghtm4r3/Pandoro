@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.notes.entity;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
@@ -122,6 +123,7 @@ public class Note extends EquinoxItem {
      *
      * @apiNote empty constructor required
      */
+    @EmptyConstructor
     public Note() {
         this(null, null, null, -1, false, null, -1);
     }

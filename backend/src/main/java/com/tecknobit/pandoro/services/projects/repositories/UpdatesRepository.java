@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.AUTHOR_KEY;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.IDENTIFIER_KEY;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
@@ -161,7 +162,9 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
             value = "DELETE FROM " + UPDATES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void deleteUpdate(@Param(IDENTIFIER_KEY) String updateId);
+    void deleteUpdate(
+            @Param(IDENTIFIER_KEY) String updateId
+    );
 
     /**
      * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and {@link ProjectUpdate}
@@ -180,6 +183,8 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
                     + " OR " + UPDATE_PUBLISHED_BY_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    void removeUserConstraints(@Param(IDENTIFIER_KEY) String userId);
+    void removeUserConstraints(
+            @Param(IDENTIFIER_KEY) String userId
+    );
 
 }

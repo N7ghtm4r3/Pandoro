@@ -10,7 +10,6 @@ import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -407,8 +406,7 @@ public class ProjectsController extends DefaultPandoroController {
             return failedResponse(WRONG_UPDATE_TARGET_VERSION_ERROR_MESSAGE);
         if (projectsService.targetVersionExists(projectId, targetVersion))
             return failedResponse(WRONG_UPDATE_TARGET_VERSION_EXISTS_ERROR_MESSAGE);
-        List<String> changeNotes = Arrays.asList(jsonHelper.getString(UPDATE_CHANGE_NOTES_KEY)
-                .split(", "));
+        List<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
         if (!INSTANCE.areNotesValid(changeNotes))
             return failedResponse(WRONG_CHANGE_NOTES_ERROR_MESSAGE);
         projectsService.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, projectId, id);
