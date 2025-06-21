@@ -67,32 +67,47 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
     /**
      * {@code projectsRepository} instance for the projects repository
      */
-    @Autowired
-    private ProjectsRepository projectsRepository;
+    private final ProjectsRepository projectsRepository;
 
     /**
      * {@code updatesRepository} instance for the updates repository
      */
-    @Autowired
-    private UpdatesRepository updatesRepository;
+    private final UpdatesRepository updatesRepository;
 
     /**
      * {@code notesRepository} instance for the notes repository
      */
-    @Autowired
-    private NotesRepository notesRepository;
+    private final NotesRepository notesRepository;
 
     /**
      * {@code groupsRepository} instance for the groups repository
      */
-    @Autowired
-    private GroupsRepository groupsRepository;
+    private final GroupsRepository groupsRepository;
 
     /**
      * {@code groupMembersRepository} instance for the group members repository
      */
+    private final GroupMembersRepository groupMembersRepository;
+
+    /**
+     * Constructor used to init the service
+     *
+     * @param projectsRepository     The instance for the projects repository
+     * @param updatesRepository      The instance for the updates repository
+     * @param notesRepository        The instance for the notes repository
+     * @param groupsRepository       The instance for the groups repository
+     * @param groupMembersRepository The instance for the group members repository
+     */
     @Autowired
-    private GroupMembersRepository groupMembersRepository;
+    public ProjectsService(ProjectsRepository projectsRepository, UpdatesRepository updatesRepository,
+                           NotesRepository notesRepository, GroupsRepository groupsRepository,
+                           GroupMembersRepository groupMembersRepository) {
+        this.projectsRepository = projectsRepository;
+        this.updatesRepository = updatesRepository;
+        this.notesRepository = notesRepository;
+        this.groupsRepository = groupsRepository;
+        this.groupMembersRepository = groupMembersRepository;
+    }
 
     /**
      * Method to get the user's authored projects list

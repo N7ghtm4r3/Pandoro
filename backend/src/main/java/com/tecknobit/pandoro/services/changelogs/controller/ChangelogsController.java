@@ -30,8 +30,17 @@ public class ChangelogsController extends DefaultPandoroController {
     /**
      * {@code changelogsService} instance to manage the changelogs database operations
      */
+    private final ChangelogsService changelogsService;
+
+    /**
+     * Constructor used to init the controller
+     *
+     * @param changelogsService The instance to manage the changelogs database operations
+     */
     @Autowired
-    private ChangelogsService changelogsService;
+    public ChangelogsController(ChangelogsService changelogsService) {
+        this.changelogsService = changelogsService;
+    }
 
     /**
      * Method to get an unread changelogs list

@@ -64,8 +64,17 @@ public class GroupsController extends DefaultPandoroController {
     /**
      * {@code groupsService} instance to manage the groups database operations
      */
+    private final GroupsService groupsService;
+
+    /**
+     * Constructor used to init the controller
+     *
+     * @param groupsService The instance to manage the groups database operations
+     */
     @Autowired
-    private GroupsService groupsService;
+    public GroupsController(GroupsService groupsService) {
+        this.groupsService = groupsService;
+    }
 
     /**
      * Method to get a groups list

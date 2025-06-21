@@ -24,8 +24,17 @@ public class OverviewController extends DefaultPandoroController {
     /**
      * {@code overviewService} instance to manage the overview database operations
      */
+    private final OverviewService overviewService;
+
+    /**
+     * Constructor used to init the controller
+     *
+     * @param overviewService The instance to manage the overview database operations
+     */
     @Autowired
-    private OverviewService overviewService;
+    public OverviewController(OverviewService overviewService) {
+        this.overviewService = overviewService;
+    }
 
     /**
      * Method to get the overview analysis for the requested user

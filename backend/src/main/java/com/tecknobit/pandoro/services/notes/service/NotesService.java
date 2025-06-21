@@ -26,10 +26,19 @@ public class NotesService {
     public static final String ALL_FILTER_VALUE = "all";
 
     /**
-     * {@code notesRepository} instance for the notes project_repository
+     * {@code notesRepository} instance for the notes repository
+     */
+    private final NotesRepository notesRepository;
+
+    /**
+     * Constructor used to init the service
+     *
+     * @param notesRepository The instance for the notes repository
      */
     @Autowired
-    private NotesRepository notesRepository;
+    public NotesService(NotesRepository notesRepository) {
+        this.notesRepository = notesRepository;
+    }
 
     /**
      * Method to get the user's notes list

@@ -6,6 +6,7 @@ import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository;
 import com.tecknobit.pandoro.services.users.service.PandoroUsersService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,16 @@ import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.COUNT_CANDIDATE
 @RestController
 public class PandoroUsersController extends EquinoxUsersController<PandoroUser, PandoroUsersRepository,
         PandoroUsersService> {
+
+    /**
+     * Constructor to init the controller
+     *
+     * @param usersService The helper to manage the users database operations
+     */
+    @Autowired
+    public PandoroUsersController(PandoroUsersService usersService) {
+        super(usersService);
+    }
 
     /**
      * Method to count the candidate members availability
