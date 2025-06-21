@@ -1,6 +1,5 @@
-@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
+@file:OptIn(ExperimentalWasmDsl::class)
 
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -12,7 +11,7 @@ plugins {
 }
 
 group = "com.tecknobit.pandoro"
-version = "1.0.7"
+version = "1.0.8"
 
 repositories {
     google()
@@ -83,7 +82,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandorocore"
                 artifactId = "pandorocore"
-                version = "1.0.7"
+                version = "1.0.8"
                 from(components["kotlin"])
             }
         }
