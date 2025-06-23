@@ -26,28 +26,44 @@ import java.util.List;
 public class PandoroUsersService extends EquinoxUsersService<PandoroUser, PandoroUsersRepository> {
 
     /**
-     * {@code membersRepository} instance for the members of a group project_repository
+     * {@code membersRepository} instance for the members of a group repository
      */
-    @Autowired
-    private GroupMembersRepository membersRepository;
+    private final GroupMembersRepository membersRepository;
 
     /**
-     * {@code projectsRepository} instance for the projects project_repository
+     * {@code projectsRepository} instance for the projects repository
      */
-    @Autowired
-    private ProjectsRepository projectsRepository;
+    private final ProjectsRepository projectsRepository;
 
     /**
-     * {@code updatesRepository} instance for the updates project_repository
+     * {@code updatesRepository} instance for the updates repository
      */
-    @Autowired
-    private UpdatesRepository updatesRepository;
+    private final UpdatesRepository updatesRepository;
 
     /**
-     * {@code notesRepository} instance for the notes project_repository
+     * {@code notesRepository} instance for the notes repository
+     */
+    private final NotesRepository notesRepository;
+
+    /**
+     * Constructor to init the service
+     *
+     * @param usersRepository    The instance for the users repository
+     * @param membersRepository  The instance for the members of a group repository
+     * @param projectsRepository The instance for the projects repository
+     * @param updatesRepository  The instance for the updates repository
+     * @param notesRepository    The instance for the notes repository
      */
     @Autowired
-    private NotesRepository notesRepository;
+    public PandoroUsersService(PandoroUsersRepository usersRepository, GroupMembersRepository membersRepository,
+                               ProjectsRepository projectsRepository, UpdatesRepository updatesRepository,
+                               NotesRepository notesRepository) {
+        super(usersRepository);
+        this.membersRepository = membersRepository;
+        this.projectsRepository = projectsRepository;
+        this.updatesRepository = updatesRepository;
+        this.notesRepository = notesRepository;
+    }
 
     /**
      * Method to count the candidates

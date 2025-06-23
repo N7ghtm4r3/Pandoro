@@ -36,8 +36,17 @@ public class NotesController extends DefaultPandoroController {
     /**
      * {@code notesService} instance to manage the notes database operations
      */
+    private final NotesService notesService;
+
+    /**
+     * Constructor used to init the controller
+     *
+     * @param notesService The instance to manage the notes database operations
+     */
     @Autowired
-    private NotesService notesService;
+    public NotesController(NotesService notesService) {
+        this.notesService = notesService;
+    }
 
     /**
      * Method to get a notes list

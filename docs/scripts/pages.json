@@ -2151,16 +2151,6 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.ChangelogsController",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.controller/-changelogs-controller/-changelogs-controller.html",
-    "searchKeys": [
-      "ChangelogsController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.ChangelogsController"
-    ]
-  },
-  {
-    "name": "constructor()",
     "description": "com.tecknobit.pandoro.services.changelogs.entity.Changelog.Changelog",
     "location": "backend/com.tecknobit.pandoro.services.changelogs.entity/-changelog/-changelog.html",
     "searchKeys": [
@@ -2191,26 +2181,6 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.ChangelogsService",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/-changelogs-service.html",
-    "searchKeys": [
-      "ChangelogsService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.ChangelogsService"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.groups.controller.GroupsController.GroupsController",
-    "location": "backend/com.tecknobit.pandoro.services.groups.controller/-groups-controller/-groups-controller.html",
-    "searchKeys": [
-      "GroupsController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.groups.controller.GroupsController.GroupsController"
-    ]
-  },
-  {
-    "name": "constructor()",
     "description": "com.tecknobit.pandoro.services.groups.dto.GroupDTO.GroupDTO",
     "location": "backend/com.tecknobit.pandoro.services.groups.dto/-group-d-t-o/-group-d-t-o.html",
     "searchKeys": [
@@ -2231,52 +2201,12 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/-groups-service.html",
-    "searchKeys": [
-      "GroupsService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.notes.controller.NotesController.NotesController",
-    "location": "backend/com.tecknobit.pandoro.services.notes.controller/-notes-controller/-notes-controller.html",
-    "searchKeys": [
-      "NotesController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.notes.controller.NotesController.NotesController"
-    ]
-  },
-  {
-    "name": "constructor()",
     "description": "com.tecknobit.pandoro.services.notes.entity.Note.Note",
     "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/-note.html",
     "searchKeys": [
       "Note",
       "constructor()",
       "com.tecknobit.pandoro.services.notes.entity.Note.Note"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.notes.service.NotesService.NotesService",
-    "location": "backend/com.tecknobit.pandoro.services.notes.service/-notes-service/-notes-service.html",
-    "searchKeys": [
-      "NotesService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.notes.service.NotesService.NotesService"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.overview.controller.OverviewController.OverviewController",
-    "location": "backend/com.tecknobit.pandoro.services.overview.controller/-overview-controller/-overview-controller.html",
-    "searchKeys": [
-      "OverviewController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.overview.controller.OverviewController.OverviewController"
     ]
   },
   {
@@ -2321,26 +2251,6 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.overview.service.OverviewService.OverviewService",
-    "location": "backend/com.tecknobit.pandoro.services.overview.service/-overview-service/-overview-service.html",
-    "searchKeys": [
-      "OverviewService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.overview.service.OverviewService.OverviewService"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController",
-    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/-projects-controller.html",
-    "searchKeys": [
-      "ProjectsController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController"
-    ]
-  },
-  {
-    "name": "constructor()",
     "description": "com.tecknobit.pandoro.services.projects.dto.ProjectDTO.ProjectDTO",
     "location": "backend/com.tecknobit.pandoro.services.projects.dto/-project-d-t-o/-project-d-t-o.html",
     "searchKeys": [
@@ -2367,26 +2277,6 @@
       "ProjectUpdate",
       "constructor()",
       "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-projects-service.html",
-    "searchKeys": [
-      "ProjectsService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.users.controller.PandoroUsersController.PandoroUsersController",
-    "location": "backend/com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/-pandoro-users-controller.html",
-    "searchKeys": [
-      "PandoroUsersController",
-      "constructor()",
-      "com.tecknobit.pandoro.services.users.controller.PandoroUsersController.PandoroUsersController"
     ]
   },
   {
@@ -2430,13 +2320,33 @@
     ]
   },
   {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.PandoroUsersService",
-    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/-pandoro-users-service.html",
+    "name": "constructor(changelogsRepository: ChangelogsRepository, membersRepository: GroupMembersRepository)",
+    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.ChangelogsService",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/-changelogs-service.html",
     "searchKeys": [
-      "PandoroUsersService",
-      "constructor()",
-      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.PandoroUsersService"
+      "ChangelogsService",
+      "constructor(changelogsRepository: ChangelogsRepository, membersRepository: GroupMembersRepository)",
+      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.ChangelogsService"
+    ]
+  },
+  {
+    "name": "constructor(changelogsService: ChangelogsService)",
+    "description": "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.ChangelogsController",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.controller/-changelogs-controller/-changelogs-controller.html",
+    "searchKeys": [
+      "ChangelogsController",
+      "constructor(changelogsService: ChangelogsService)",
+      "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.ChangelogsController"
+    ]
+  },
+  {
+    "name": "constructor(groupsService: GroupsService)",
+    "description": "com.tecknobit.pandoro.services.groups.controller.GroupsController.GroupsController",
+    "location": "backend/com.tecknobit.pandoro.services.groups.controller/-groups-controller/-groups-controller.html",
+    "searchKeys": [
+      "GroupsController",
+      "constructor(groupsService: GroupsService)",
+      "com.tecknobit.pandoro.services.groups.controller.GroupsController.GroupsController"
     ]
   },
   {
@@ -2540,6 +2450,36 @@
     ]
   },
   {
+    "name": "constructor(notesRepository: NotesRepository)",
+    "description": "com.tecknobit.pandoro.services.notes.service.NotesService.NotesService",
+    "location": "backend/com.tecknobit.pandoro.services.notes.service/-notes-service/-notes-service.html",
+    "searchKeys": [
+      "NotesService",
+      "constructor(notesRepository: NotesRepository)",
+      "com.tecknobit.pandoro.services.notes.service.NotesService.NotesService"
+    ]
+  },
+  {
+    "name": "constructor(notesService: NotesService)",
+    "description": "com.tecknobit.pandoro.services.notes.controller.NotesController.NotesController",
+    "location": "backend/com.tecknobit.pandoro.services.notes.controller/-notes-controller/-notes-controller.html",
+    "searchKeys": [
+      "NotesController",
+      "constructor(notesService: NotesService)",
+      "com.tecknobit.pandoro.services.notes.controller.NotesController.NotesController"
+    ]
+  },
+  {
+    "name": "constructor(overviewService: OverviewService)",
+    "description": "com.tecknobit.pandoro.services.overview.controller.OverviewController.OverviewController",
+    "location": "backend/com.tecknobit.pandoro.services.overview.controller/-overview-controller/-overview-controller.html",
+    "searchKeys": [
+      "OverviewController",
+      "constructor(overviewService: OverviewService)",
+      "com.tecknobit.pandoro.services.overview.controller.OverviewController.OverviewController"
+    ]
+  },
+  {
     "name": "constructor(projects: List<Project>)",
     "description": "com.tecknobit.pandoro.services.overview.service.OverviewService.ProjectsAnalyzer.ProjectsAnalyzer",
     "location": "backend/com.tecknobit.pandoro.services.overview.service/-overview-service/-projects-analyzer/-projects-analyzer.html",
@@ -2547,6 +2487,66 @@
       "ProjectsAnalyzer",
       "constructor(projects: List<Project>)",
       "com.tecknobit.pandoro.services.overview.service.OverviewService.ProjectsAnalyzer.ProjectsAnalyzer"
+    ]
+  },
+  {
+    "name": "constructor(projectsRepository: ProjectsRepository)",
+    "description": "com.tecknobit.pandoro.services.overview.service.OverviewService.OverviewService",
+    "location": "backend/com.tecknobit.pandoro.services.overview.service/-overview-service/-overview-service.html",
+    "searchKeys": [
+      "OverviewService",
+      "constructor(projectsRepository: ProjectsRepository)",
+      "com.tecknobit.pandoro.services.overview.service.OverviewService.OverviewService"
+    ]
+  },
+  {
+    "name": "constructor(projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository)",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-projects-service.html",
+    "searchKeys": [
+      "ProjectsService",
+      "constructor(projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository)",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService"
+    ]
+  },
+  {
+    "name": "constructor(projectsService: ProjectsService)",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/-projects-controller.html",
+    "searchKeys": [
+      "ProjectsController",
+      "constructor(projectsService: ProjectsService)",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController"
+    ]
+  },
+  {
+    "name": "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository)",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/-groups-service.html",
+    "searchKeys": [
+      "GroupsService",
+      "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository)",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService"
+    ]
+  },
+  {
+    "name": "constructor(usersRepository: PandoroUsersRepository, membersRepository: GroupMembersRepository, projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository)",
+    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.PandoroUsersService",
+    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/-pandoro-users-service.html",
+    "searchKeys": [
+      "PandoroUsersService",
+      "constructor(usersRepository: PandoroUsersRepository, membersRepository: GroupMembersRepository, projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository)",
+      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.PandoroUsersService"
+    ]
+  },
+  {
+    "name": "constructor(usersService: PandoroUsersService)",
+    "description": "com.tecknobit.pandoro.services.users.controller.PandoroUsersController.PandoroUsersController",
+    "location": "backend/com.tecknobit.pandoro.services.users.controller/-pandoro-users-controller/-pandoro-users-controller.html",
+    "searchKeys": [
+      "PandoroUsersController",
+      "constructor(usersService: PandoroUsersService)",
+      "com.tecknobit.pandoro.services.users.controller.PandoroUsersController.PandoroUsersController"
     ]
   },
   {
@@ -4850,46 +4850,6 @@
     ]
   },
   {
-    "name": "private open var changelogsRepository: ChangelogsRepository",
-    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.changelogsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/changelogs-repository.html",
-    "searchKeys": [
-      "changelogsRepository",
-      "private open var changelogsRepository: ChangelogsRepository",
-      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.changelogsRepository"
-    ]
-  },
-  {
-    "name": "private open var changelogsRepository: ChangelogsRepository",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/changelogs-repository.html",
-    "searchKeys": [
-      "changelogsRepository",
-      "private open var changelogsRepository: ChangelogsRepository",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsRepository"
-    ]
-  },
-  {
-    "name": "private open var changelogsService: ChangelogsService",
-    "description": "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.changelogsService",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.controller/-changelogs-controller/changelogs-service.html",
-    "searchKeys": [
-      "changelogsService",
-      "private open var changelogsService: ChangelogsService",
-      "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.changelogsService"
-    ]
-  },
-  {
-    "name": "private open var groupMembersRepository: GroupMembersRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/group-members-repository.html",
-    "searchKeys": [
-      "groupMembersRepository",
-      "private open var groupMembersRepository: GroupMembersRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository"
-    ]
-  },
-  {
     "name": "private open var group_member: Group",
     "description": "com.tecknobit.pandoro.services.users.entities.GroupMember.group_member",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-group-member/group_member.html",
@@ -4920,36 +4880,6 @@
     ]
   },
   {
-    "name": "private open var groupsRepository: GroupsRepository",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.groupsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/groups-repository.html",
-    "searchKeys": [
-      "groupsRepository",
-      "private open var groupsRepository: GroupsRepository",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.groupsRepository"
-    ]
-  },
-  {
-    "name": "private open var groupsRepository: GroupsRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/groups-repository.html",
-    "searchKeys": [
-      "groupsRepository",
-      "private open var groupsRepository: GroupsRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository"
-    ]
-  },
-  {
-    "name": "private open var groupsService: GroupsService",
-    "description": "com.tecknobit.pandoro.services.groups.controller.GroupsController.groupsService",
-    "location": "backend/com.tecknobit.pandoro.services.groups.controller/-groups-controller/groups-service.html",
-    "searchKeys": [
-      "groupsService",
-      "private open var groupsService: GroupsService",
-      "com.tecknobit.pandoro.services.groups.controller.GroupsController.groupsService"
-    ]
-  },
-  {
     "name": "private open var id: String",
     "description": "com.tecknobit.pandoro.services.users.entities.GroupMemberCompositeKey.id",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-group-member-composite-key/id.html",
@@ -4960,36 +4890,6 @@
     ]
   },
   {
-    "name": "private open var membersRepository: GroupMembersRepository",
-    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.membersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/members-repository.html",
-    "searchKeys": [
-      "membersRepository",
-      "private open var membersRepository: GroupMembersRepository",
-      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.membersRepository"
-    ]
-  },
-  {
-    "name": "private open var membersRepository: GroupMembersRepository",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.membersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/members-repository.html",
-    "searchKeys": [
-      "membersRepository",
-      "private open var membersRepository: GroupMembersRepository",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.membersRepository"
-    ]
-  },
-  {
-    "name": "private open var membersRepository: GroupMembersRepository",
-    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.membersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/members-repository.html",
-    "searchKeys": [
-      "membersRepository",
-      "private open var membersRepository: GroupMembersRepository",
-      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.membersRepository"
-    ]
-  },
-  {
     "name": "private open var notes: List<Note>",
     "description": "com.tecknobit.pandoro.services.users.entities.PandoroUser.notes",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-pandoro-user/notes.html",
@@ -4997,56 +4897,6 @@
       "notes",
       "private open var notes: List<Note>",
       "com.tecknobit.pandoro.services.users.entities.PandoroUser.notes"
-    ]
-  },
-  {
-    "name": "private open var notesRepository: NotesRepository",
-    "description": "com.tecknobit.pandoro.services.notes.service.NotesService.notesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.notes.service/-notes-service/notes-repository.html",
-    "searchKeys": [
-      "notesRepository",
-      "private open var notesRepository: NotesRepository",
-      "com.tecknobit.pandoro.services.notes.service.NotesService.notesRepository"
-    ]
-  },
-  {
-    "name": "private open var notesRepository: NotesRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/notes-repository.html",
-    "searchKeys": [
-      "notesRepository",
-      "private open var notesRepository: NotesRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository"
-    ]
-  },
-  {
-    "name": "private open var notesRepository: NotesRepository",
-    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.notesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/notes-repository.html",
-    "searchKeys": [
-      "notesRepository",
-      "private open var notesRepository: NotesRepository",
-      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.notesRepository"
-    ]
-  },
-  {
-    "name": "private open var notesService: NotesService",
-    "description": "com.tecknobit.pandoro.services.notes.controller.NotesController.notesService",
-    "location": "backend/com.tecknobit.pandoro.services.notes.controller/-notes-controller/notes-service.html",
-    "searchKeys": [
-      "notesService",
-      "private open var notesService: NotesService",
-      "com.tecknobit.pandoro.services.notes.controller.NotesController.notesService"
-    ]
-  },
-  {
-    "name": "private open var overviewService: OverviewService",
-    "description": "com.tecknobit.pandoro.services.overview.controller.OverviewController.overviewService",
-    "location": "backend/com.tecknobit.pandoro.services.overview.controller/-overview-controller/overview-service.html",
-    "searchKeys": [
-      "overviewService",
-      "private open var overviewService: OverviewService",
-      "com.tecknobit.pandoro.services.overview.controller.OverviewController.overviewService"
     ]
   },
   {
@@ -5090,46 +4940,6 @@
     ]
   },
   {
-    "name": "private open var projectsRepository: ProjectsRepository",
-    "description": "com.tecknobit.pandoro.services.overview.service.OverviewService.projectsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.overview.service/-overview-service/projects-repository.html",
-    "searchKeys": [
-      "projectsRepository",
-      "private open var projectsRepository: ProjectsRepository",
-      "com.tecknobit.pandoro.services.overview.service.OverviewService.projectsRepository"
-    ]
-  },
-  {
-    "name": "private open var projectsRepository: ProjectsRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/projects-repository.html",
-    "searchKeys": [
-      "projectsRepository",
-      "private open var projectsRepository: ProjectsRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository"
-    ]
-  },
-  {
-    "name": "private open var projectsRepository: ProjectsRepository",
-    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.projectsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/projects-repository.html",
-    "searchKeys": [
-      "projectsRepository",
-      "private open var projectsRepository: ProjectsRepository",
-      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.projectsRepository"
-    ]
-  },
-  {
-    "name": "private open var projectsService: ProjectsService",
-    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.projectsService",
-    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/projects-service.html",
-    "searchKeys": [
-      "projectsService",
-      "private open var projectsService: ProjectsService",
-      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.projectsService"
-    ]
-  },
-  {
     "name": "private open var updates: List<ProjectUpdate>",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.updates",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/updates.html",
@@ -5137,36 +4947,6 @@
       "updates",
       "private open var updates: List<ProjectUpdate>",
       "com.tecknobit.pandoro.services.projects.entities.Project.updates"
-    ]
-  },
-  {
-    "name": "private open var updatesRepository: UpdatesRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/updates-repository.html",
-    "searchKeys": [
-      "updatesRepository",
-      "private open var updatesRepository: UpdatesRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository"
-    ]
-  },
-  {
-    "name": "private open var updatesRepository: UpdatesRepository",
-    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.updatesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/updates-repository.html",
-    "searchKeys": [
-      "updatesRepository",
-      "private open var updatesRepository: UpdatesRepository",
-      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.updatesRepository"
-    ]
-  },
-  {
-    "name": "private open var usersRepository: PandoroUsersRepository",
-    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/users-repository.html",
-    "searchKeys": [
-      "usersRepository",
-      "private open var usersRepository: PandoroUsersRepository",
-      "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository"
     ]
   },
   {
@@ -5230,6 +5010,36 @@
     ]
   },
   {
+    "name": "private val changelogsRepository: ChangelogsRepository",
+    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.changelogsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/changelogs-repository.html",
+    "searchKeys": [
+      "changelogsRepository",
+      "private val changelogsRepository: ChangelogsRepository",
+      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.changelogsRepository"
+    ]
+  },
+  {
+    "name": "private val changelogsRepository: ChangelogsRepository",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/changelogs-repository.html",
+    "searchKeys": [
+      "changelogsRepository",
+      "private val changelogsRepository: ChangelogsRepository",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsRepository"
+    ]
+  },
+  {
+    "name": "private val changelogsService: ChangelogsService",
+    "description": "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.changelogsService",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.controller/-changelogs-controller/changelogs-service.html",
+    "searchKeys": [
+      "changelogsService",
+      "private val changelogsService: ChangelogsService",
+      "com.tecknobit.pandoro.services.changelogs.controller.ChangelogsController.changelogsService"
+    ]
+  },
+  {
     "name": "private val createDate: Long",
     "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.createDate",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/create-date.html",
@@ -5280,6 +5090,16 @@
     ]
   },
   {
+    "name": "private val groupMembersRepository: GroupMembersRepository",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/group-members-repository.html",
+    "searchKeys": [
+      "groupMembersRepository",
+      "private val groupMembersRepository: GroupMembersRepository",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository"
+    ]
+  },
+  {
     "name": "private val groups: List<Group>",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.groups",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/groups.html",
@@ -5287,6 +5107,36 @@
       "groups",
       "private val groups: List<Group>",
       "com.tecknobit.pandoro.services.projects.entities.Project.groups"
+    ]
+  },
+  {
+    "name": "private val groupsRepository: GroupsRepository",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.groupsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/groups-repository.html",
+    "searchKeys": [
+      "groupsRepository",
+      "private val groupsRepository: GroupsRepository",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.groupsRepository"
+    ]
+  },
+  {
+    "name": "private val groupsRepository: GroupsRepository",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/groups-repository.html",
+    "searchKeys": [
+      "groupsRepository",
+      "private val groupsRepository: GroupsRepository",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository"
+    ]
+  },
+  {
+    "name": "private val groupsService: GroupsService",
+    "description": "com.tecknobit.pandoro.services.groups.controller.GroupsController.groupsService",
+    "location": "backend/com.tecknobit.pandoro.services.groups.controller/-groups-controller/groups-service.html",
+    "searchKeys": [
+      "groupsService",
+      "private val groupsService: GroupsService",
+      "com.tecknobit.pandoro.services.groups.controller.GroupsController.groupsService"
     ]
   },
   {
@@ -5300,6 +5150,36 @@
     ]
   },
   {
+    "name": "private val membersRepository: GroupMembersRepository",
+    "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.membersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/members-repository.html",
+    "searchKeys": [
+      "membersRepository",
+      "private val membersRepository: GroupMembersRepository",
+      "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.membersRepository"
+    ]
+  },
+  {
+    "name": "private val membersRepository: GroupMembersRepository",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.membersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/members-repository.html",
+    "searchKeys": [
+      "membersRepository",
+      "private val membersRepository: GroupMembersRepository",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.membersRepository"
+    ]
+  },
+  {
+    "name": "private val membersRepository: GroupMembersRepository",
+    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.membersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/members-repository.html",
+    "searchKeys": [
+      "membersRepository",
+      "private val membersRepository: GroupMembersRepository",
+      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.membersRepository"
+    ]
+  },
+  {
     "name": "private val notes: List<Note>",
     "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.notes",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/notes.html",
@@ -5307,6 +5187,56 @@
       "notes",
       "private val notes: List<Note>",
       "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.notes"
+    ]
+  },
+  {
+    "name": "private val notesRepository: NotesRepository",
+    "description": "com.tecknobit.pandoro.services.notes.service.NotesService.notesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.notes.service/-notes-service/notes-repository.html",
+    "searchKeys": [
+      "notesRepository",
+      "private val notesRepository: NotesRepository",
+      "com.tecknobit.pandoro.services.notes.service.NotesService.notesRepository"
+    ]
+  },
+  {
+    "name": "private val notesRepository: NotesRepository",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/notes-repository.html",
+    "searchKeys": [
+      "notesRepository",
+      "private val notesRepository: NotesRepository",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository"
+    ]
+  },
+  {
+    "name": "private val notesRepository: NotesRepository",
+    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.notesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/notes-repository.html",
+    "searchKeys": [
+      "notesRepository",
+      "private val notesRepository: NotesRepository",
+      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.notesRepository"
+    ]
+  },
+  {
+    "name": "private val notesService: NotesService",
+    "description": "com.tecknobit.pandoro.services.notes.controller.NotesController.notesService",
+    "location": "backend/com.tecknobit.pandoro.services.notes.controller/-notes-controller/notes-service.html",
+    "searchKeys": [
+      "notesService",
+      "private val notesService: NotesService",
+      "com.tecknobit.pandoro.services.notes.controller.NotesController.notesService"
+    ]
+  },
+  {
+    "name": "private val overviewService: OverviewService",
+    "description": "com.tecknobit.pandoro.services.overview.controller.OverviewController.overviewService",
+    "location": "backend/com.tecknobit.pandoro.services.overview.controller/-overview-controller/overview-service.html",
+    "searchKeys": [
+      "overviewService",
+      "private val overviewService: OverviewService",
+      "com.tecknobit.pandoro.services.overview.controller.OverviewController.overviewService"
     ]
   },
   {
@@ -5327,6 +5257,46 @@
       "projects",
       "private val projects: List<Project>",
       "com.tecknobit.pandoro.services.overview.service.OverviewService.ProjectsAnalyzer.projects"
+    ]
+  },
+  {
+    "name": "private val projectsRepository: ProjectsRepository",
+    "description": "com.tecknobit.pandoro.services.overview.service.OverviewService.projectsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.overview.service/-overview-service/projects-repository.html",
+    "searchKeys": [
+      "projectsRepository",
+      "private val projectsRepository: ProjectsRepository",
+      "com.tecknobit.pandoro.services.overview.service.OverviewService.projectsRepository"
+    ]
+  },
+  {
+    "name": "private val projectsRepository: ProjectsRepository",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/projects-repository.html",
+    "searchKeys": [
+      "projectsRepository",
+      "private val projectsRepository: ProjectsRepository",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository"
+    ]
+  },
+  {
+    "name": "private val projectsRepository: ProjectsRepository",
+    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.projectsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/projects-repository.html",
+    "searchKeys": [
+      "projectsRepository",
+      "private val projectsRepository: ProjectsRepository",
+      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.projectsRepository"
+    ]
+  },
+  {
+    "name": "private val projectsService: ProjectsService",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.projectsService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/projects-service.html",
+    "searchKeys": [
+      "projectsService",
+      "private val projectsService: ProjectsService",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.projectsService"
     ]
   },
   {
@@ -5357,6 +5327,36 @@
       "startDate",
       "private val startDate: Long",
       "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.startDate"
+    ]
+  },
+  {
+    "name": "private val updatesRepository: UpdatesRepository",
+    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/updates-repository.html",
+    "searchKeys": [
+      "updatesRepository",
+      "private val updatesRepository: UpdatesRepository",
+      "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository"
+    ]
+  },
+  {
+    "name": "private val updatesRepository: UpdatesRepository",
+    "description": "com.tecknobit.pandoro.services.users.service.PandoroUsersService.updatesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.users.service/-pandoro-users-service/updates-repository.html",
+    "searchKeys": [
+      "updatesRepository",
+      "private val updatesRepository: UpdatesRepository",
+      "com.tecknobit.pandoro.services.users.service.PandoroUsersService.updatesRepository"
+    ]
+  },
+  {
+    "name": "private val usersRepository: PandoroUsersRepository",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/users-repository.html",
+    "searchKeys": [
+      "usersRepository",
+      "private val usersRepository: PandoroUsersRepository",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository"
     ]
   },
   {

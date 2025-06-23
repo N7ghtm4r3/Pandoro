@@ -102,7 +102,7 @@
         </div>
         <div id="main">
             <div class="main-content" data-page-type="member" id="content"
-                 pageids="backend::com.tecknobit.pandoro.services.projects.service/ProjectsService/ProjectsService/#/PointingToDeclaration//-612206970">
+                 pageids="backend::com.tecknobit.pandoro.services.projects.service/ProjectsService/ProjectsService/#com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository#com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository#com.tecknobit.pandoro.services.notes.repository.NotesRepository#com.tecknobit.pandoro.services.groups.repositories.GroupsRepository#com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository/PointingToDeclaration//-612206970">
                 <div class="breadcrumbs"><a href="../../index.html">backend</a><span class="delimiter">/</span><a
                         href="../index.html">com.tecknobit.pandoro.services.projects.service</a><span class="delimiter">/</span><a
                         href="index.html">ProjectsService</a><span class="delimiter">/</span><span class="current">ProjectsService</span>
@@ -115,8 +115,87 @@
                 <div class="platform-hinted " data-platform-hinted="data-platform-hinted">
                     <div class="content sourceset-dependent-content" data-active=""
                          data-togglable=":backend:dokkaHtmlPartial/main">
-                        <div class="symbol monospace"><span class="token keyword">constructor</span><span
-                                class="token punctuation">(</span><span class="token punctuation">)</span></div>
+                        <div class="symbol monospace">
+                            <div class="block">
+                                <div class="block"><span class="token annotation builtin">@</span><span
+                                        data-unresolved-link="org.springframework.beans.factory.annotation/Autowired///PointingToDeclaration/"><span
+                                        class="token annotation builtin">Autowired</span></span></div>
+                            </div>
+                            <span class="token keyword">constructor</span><span class="token punctuation">(</span><span
+                                class="parameters "><span class="parameter ">projectsRepository<span
+                                class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.projects.repositories/-projects-repository/index.html">ProjectsRepository</a><span
+                                class="token punctuation">, </span></span><span
+                                class="parameter ">updatesRepository<span class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.projects.repositories/-updates-repository/index.html">UpdatesRepository</a><span
+                                class="token punctuation">, </span></span><span class="parameter ">notesRepository<span
+                                class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.notes.repository/-notes-repository/index.html">NotesRepository</a><span
+                                class="token punctuation">, </span></span><span class="parameter ">groupsRepository<span
+                                class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.groups.repositories/-groups-repository/index.html">GroupsRepository</a><span
+                                class="token punctuation">, </span></span><span class="parameter ">groupMembersRepository<span
+                                class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.groups.repositories/-group-members-repository/index.html">GroupMembersRepository</a></span></span><span
+                                class="token punctuation">)</span></div>
+                        <p class="paragraph">Constructor used to init the service</p><h4 class="">Parameters</h4>
+                        <div class="table">
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>projects</span><wbr><span><span>Repository</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance for the projects
+                                            repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>updates</span><wbr><span><span>Repository</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance for the updates
+                                            repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>notes</span><wbr><span><span>Repository</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance for the notes
+                                            repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>groups</span><wbr><span><span>Repository</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance for the groups
+                                            repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>group</span><wbr><span>Members</span><wbr><span><span>Repository</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance for the group members
+                                            repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

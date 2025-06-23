@@ -23,16 +23,26 @@ import static com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP;
 public class ChangelogsService {
 
     /**
-     * {@code changelogsRepository} instance for the changelog project_repository
+     * {@code changelogsRepository} instance for the changelogs repository
      */
-    @Autowired
-    private ChangelogsRepository changelogsRepository;
+    private final ChangelogsRepository changelogsRepository;
 
     /**
-     * {@code membersRepository} instance for the members of a group project_repository
+     * {@code membersRepository} instance for the members of a group repository
+     */
+    private final GroupMembersRepository membersRepository;
+
+    /**
+     * Constructor used to init the service
+     *
+     * @param changelogsRepository The instance for the changelogs repository
+     * @param membersRepository    The instance for the members of a group repository
      */
     @Autowired
-    private GroupMembersRepository membersRepository;
+    public ChangelogsService(ChangelogsRepository changelogsRepository, GroupMembersRepository membersRepository) {
+        this.changelogsRepository = changelogsRepository;
+        this.membersRepository = membersRepository;
+    }
 
     /**
      * Method to get the user's changelogs list

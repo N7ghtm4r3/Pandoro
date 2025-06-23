@@ -1,6 +1,6 @@
 # Pandoro
 
-**v1.0.7**
+**v1.0.8**
 
 This project, based on Java and the
 Spring Boot framework, is an open source self-hosted management software useful in managing your personal projects and group
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.7'
+  implementation 'com.tecknobit.pandorocore:pandorocore:1.0.8'
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.tecknobit.pandorocore:pandorocore:1.0.7")
+  implementation("com.tecknobit.pandorocore:pandorocore:1.0.8")
 }
 ```
 
@@ -55,14 +55,14 @@ dependencies {
 ### Clients
 
 - [Android](https://play.google.com/store/apps/details?id=com.tecknobit.pandoro)
-- [Pandoro desktop version](https://github.com/N7ghtm4r3/Pandoro-Clients/releases/tag/1.1.2)
+- [Pandoro desktop version](https://github.com/N7ghtm4r3/Pandoro-Clients/releases/tag/1.1.3)
 - iOS -> source code available, but cannot distribute due
   missing [Apple Developer Program license](https://developer.apple.com/programs/)
 - [Pandoro webapp version](https://github.com/N7ghtm4r3/Pandoro-WebApp)
 
 ### Backend
 
-- [Backend service "out-of-the-box"](https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.7)
+- [Backend service "out-of-the-box"](https://github.com/N7ghtm4r3/Pandoro/releases/tag/1.0.8)
 
 ## Usages
 
@@ -88,32 +88,17 @@ dependencies {
 
 The default properties to launch the backend service as designed are the following:
 
-``` properties
-# The properties considered critical could alter the flow of how the backend service was designed, so we do not recommend
-# to change them
-
-spring.datasource.url=jdbc:mysql://localhost:3306/pandoro?createDatabaseIfNotExist=true
-server.port=1809
-spring.datasource.username=root
-spring.jpa.generate-ddl=true 
-spring.jpa.hibernate.ddl.auto=update
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
-spring.mvc.dispatch-options-request=true
-spring.servlet.multipart.max-file-size=10MB
-spring.servlet.multipart.max-request-size=10MB
-```
-
-| Property                                  | Default value                                                     |    Not-Critical    | Recommended to change |
-|-------------------------------------------|-------------------------------------------------------------------|:------------------:|:---------------------:|
-| spring.datasource.url                     | jdbc:mysql://localhost:3306/pandoro?createDatabaseIfNotExist=true | :white_check_mark: |          :x:          | 
-| server.port                               | 1809                                                              | :white_check_mark: |           /           |
-| spring.datasource.username                | root                                                              | :white_check_mark: |  :white_check_mark:   |
-| spring.jpa.generate-ddl                   | update                                                            |        :x:         |          :x:          |
-| spring.jpa.hibernate.ddl.auto             | auto                                                              |        :x:         |          :x:          |           
-| spring.jpa.properties.hibernate.dialect   | org.hibernate.dialect.MySQL8Dialect                               |        :x:         |          :x:          |           
-| spring.mvc.dispatch-options-request       | true                                                              |        :x:         |          :x:          |           
-| spring.servlet.multipart.max-file-size    | 10MB                                                              | :white_check_mark: |           /           |           
-| spring.servlet.multipart.max-request-size | 10MB                                                              | :white_check_mark: |           /           |
+| Property                                  | Default value                                                     |
+|-------------------------------------------|-------------------------------------------------------------------|
+| spring.datasource.url                     | jdbc:mysql://localhost:3306/pandoro?createDatabaseIfNotExist=true | 
+| server.port                               | 1809                                                              |
+| spring.datasource.username                | root                                                              |
+| spring.jpa.generate-ddl                   | update                                                            |
+| spring.jpa.hibernate.ddl.auto             | auto                                                              |           
+| spring.jpa.properties.hibernate.dialect   | org.hibernate.dialect.MySQL8Dialect                               |           
+| spring.mvc.dispatch-options-request       | true                                                              |           
+| spring.servlet.multipart.max-file-size    | 10MB                                                              |           
+| spring.servlet.multipart.max-request-size | 10MB                                                              |
 
 The **spring.datasource.username** if is not set is used the default password of the MySQL environment
 
@@ -123,10 +108,10 @@ To customize the properties to launch the backend service you must create a file
 the server file (.jar)** and call it **"custom.properties"** as below:
 
 ``` bash
-  folderOfWhereYouPlacedTheServerFile
-   |-- custom.properties
-   |-- pandoro.jar
-  ```
+folderOfWhereYouPlacedTheServerFile
+├── custom.properties
+└── pandoro.jar
+```
 
 If your custom properties do not contain the properties of the default configuration will be used these default
 properties instead,
@@ -148,10 +133,10 @@ To start the **Pandoro** service on your own infrastructure you have to follow t
   **(created automatically by the server)** the default profile pic as below:
   ``` bash
   folderOfWhereYouPlacedTheServerFile
-   |-- resources
-   |   |-- profiles
-   |   |   |-- defProfilePic.png
-   |-- pandoro.jar
+  ├── resources
+  │   └── profiles
+  │       └── defProfilePic.png
+  └── pandoro.jar
   ```
   This action is required because to provide the images media the service need an external place where store and fetch
   that media files, you can take a look directly <a href="https://github.com/N7ghtm4r3/Pandoro/tree/main/images">

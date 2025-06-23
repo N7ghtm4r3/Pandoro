@@ -88,8 +88,17 @@ public class ProjectsController extends DefaultPandoroController {
     /**
      * {@code projectsService} instance to manage the projects database operations
      */
+    private final ProjectsService projectsService;
+
+    /**
+     * Constructor used to init the controller
+     *
+     * @param projectsService The instance to manage the projects database operations
+     */
     @Autowired
-    private ProjectsService projectsService;
+    public ProjectsController(ProjectsService projectsService) {
+        this.projectsService = projectsService;
+    }
 
     /**
      * Method to get the authored projects list

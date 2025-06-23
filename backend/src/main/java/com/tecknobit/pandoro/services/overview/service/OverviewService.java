@@ -32,8 +32,17 @@ public class OverviewService {
     /**
      * {@code projectsRepository} instance for the projects repository
      */
+    private final ProjectsRepository projectsRepository;
+
+    /**
+     * Constructor used to init the service
+     *
+     * @param projectsRepository The instance for the projects repository
+     */
     @Autowired
-    private ProjectsRepository projectsRepository;
+    public OverviewService(ProjectsRepository projectsRepository) {
+        this.projectsRepository = projectsRepository;
+    }
 
     /**
      * Method to get the overview analysis for the requested user

@@ -43,28 +43,41 @@ import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
 public class GroupsService extends ChangelogOperator implements PandoroResourcesManager {
 
     /**
-     * {@code usersRepository} instance for the users project_repository
+     * {@code usersRepository} instance for the users repository
      */
-    @Autowired
-    private PandoroUsersRepository usersRepository;
+    private final PandoroUsersRepository usersRepository;
 
     /**
-     * {@code groupsRepository} instance for the groups project_repository
+     * {@code groupsRepository} instance for the groups repository
      */
-    @Autowired
-    private GroupsRepository groupsRepository;
+    private final GroupsRepository groupsRepository;
 
     /**
-     * {@code membersRepository} instance for the members of a group project_repository
+     * {@code membersRepository} instance for the members of a group repository
      */
-    @Autowired
-    private GroupMembersRepository membersRepository;
+    private final GroupMembersRepository membersRepository;
 
     /**
-     * {@code changelogsRepository} instance for the changelogs project_repository
+     * {@code changelogsRepository} instance for the changelogs repository
+     */
+    private final ChangelogsRepository changelogsRepository;
+
+    /**
+     * Constructor to init the service
+     *
+     * @param usersRepository      The instance for the users repository
+     * @param groupsRepository     The instance for the groups repository
+     * @param membersRepository    The instance for the members of a group repository
+     * @param changelogsRepository The instance for the changelogs repository
      */
     @Autowired
-    private ChangelogsRepository changelogsRepository;
+    public GroupsService(PandoroUsersRepository usersRepository, GroupsRepository groupsRepository,
+                         GroupMembersRepository membersRepository, ChangelogsRepository changelogsRepository) {
+        this.usersRepository = usersRepository;
+        this.groupsRepository = groupsRepository;
+        this.membersRepository = membersRepository;
+        this.changelogsRepository = changelogsRepository;
+    }
 
     /**
      * Method to get the user's groups list
