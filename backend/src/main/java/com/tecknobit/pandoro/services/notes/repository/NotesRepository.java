@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper._WHERE_;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
@@ -296,13 +297,27 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY,
             nativeQuery = true
     )
     void deleteNote(
             @Param(AUTHOR_KEY) String authorId,
             @Param(IDENTIFIER_KEY) String noteId
+    );
+
+    // TODO: 25/08/2025 TO DOCUMENT
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(
+            value = "UPDATE " + NOTES_KEY + " SET " +
+                    UPDATE_KEY + "=:" + DESTINATION_UPDATE_IDENTIFIER_KEY +
+                    _WHERE_ + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
+            nativeQuery = true
+    )
+    void moveChangeNote(
+            @Param(IDENTIFIER_KEY) String noteId,
+            @Param(DESTINATION_UPDATE_IDENTIFIER_KEY) String destinationUpdateId
     );
 
     /**
@@ -314,8 +329,8 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(
-            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
+            value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     void deleteChangeNote(

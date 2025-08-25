@@ -1,7 +1,8 @@
 [versions]
-agp = "8.6.1"
+agp = "8.11.1"
 dokka = "2.0.0"
-equinox = "1.1.3"
+equinox-backend = "1.1.4"
+equinox = "1.1.5"
 # backend
 apimanager = "2.2.4"
 jacksonDatabind = "2.15.4"
@@ -9,10 +10,10 @@ json = "20250517"
 mysqlConnectorJava = "8.0.33"
 spring = "3.2.3"
 # core
-kotlinxSerializationJson = "1.8.1"
+kotlinxSerializationJson = "1.9.0"
 
 [libraries]
-equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinox" }
+equinox-backend = { module = "io.github.n7ghtm4r3:equinox-backend", version.ref = "equinox-backend" }
 equinox-core = { module = "io.github.n7ghtm4r3:equinox-core", version.ref = "equinox" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 # backend

@@ -61,6 +61,11 @@ const val UPDATES_KEY = "updates"
 const val UPDATE_IDENTIFIER_KEY = "update_id"
 
 /**
+ * `DESTINATION_UPDATE_IDENTIFIER_KEY` destination update identifier key
+ */
+const val DESTINATION_UPDATE_IDENTIFIER_KEY = "destination_update_id"
+
+/**
  * `UPDATE_KEY` project update key
  */
 const val UPDATE_KEY = "project_update"

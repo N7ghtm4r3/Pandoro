@@ -5,7 +5,8 @@ import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
-import com.tecknobit.pandoro.services.projects.service.ProjectsService;
+import com.tecknobit.pandoro.services.projects.services.ChangeNotesService;
+import com.tecknobit.pandoro.services.projects.services.ProjectsService;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,11 @@ import static com.tecknobit.equinoxcore.network.EquinoxBaseEndpointsSet.BASE_EQU
 import static com.tecknobit.equinoxcore.network.RequestMethod.*;
 import static com.tecknobit.equinoxcore.pagination.PaginatedResponse.*;
 import static com.tecknobit.pandoro.services.notes.controller.NotesController.WRONG_CONTENT_NOTE_MESSAGE;
+import static com.tecknobit.pandoro.services.projects.controller.ProjectsController.ChangeNoteOperation.MARK_AS_DONE;
+import static com.tecknobit.pandoro.services.projects.controller.ProjectsController.ChangeNoteOperation.MARK_AS_TODO;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
-import static com.tecknobit.pandorocore.enums.UpdateStatus.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 import static com.tecknobit.pandorocore.helpers.PandoroEndpoints.*;
 import static com.tecknobit.pandorocore.helpers.PandoroInputsValidator.INSTANCE;
 
@@ -85,19 +89,35 @@ public class ProjectsController extends DefaultPandoroController {
      */
     public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request";
 
+    // TODO: 25/08/2025 TO COMMENT
+    enum ChangeNoteOperation {
+
+        MARK_AS_DONE,
+
+        MARK_AS_TODO,
+
+        DELETE
+
+    }
+
     /**
      * {@code projectsService} instance to manage the projects database operations
      */
     private final ProjectsService projectsService;
 
+    // TODO: 25/08/2025 TO COMMENT
+    private final ChangeNotesService changeNotesService;
+
     /**
      * Constructor used to init the controller
      *
      * @param projectsService The instance to manage the projects database operations
+     * @param changeNotesService The service which handles the database operations of the change notes
      */
     @Autowired
-    public ProjectsController(ProjectsService projectsService) {
+    public ProjectsController(ProjectsService projectsService, ChangeNotesService changeNotesService) {
         this.projectsService = projectsService;
+        this.changeNotesService = changeNotesService;
     }
 
     /**
@@ -532,13 +552,13 @@ public class ProjectsController extends DefaultPandoroController {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         ProjectUpdate update = projectsService.updateExists(projectId, updateId);
-        if (projectsService.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED)
+        if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished())
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        projectsService.addChangeNote(id, generateIdentifier(), contentNote, updateId);
+        changeNotesService.addChangeNote(id, generateIdentifier(), contentNote, updateId);
         return successResponse();
     }
 
@@ -572,14 +592,14 @@ public class ProjectsController extends DefaultPandoroController {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         ProjectUpdate update = projectsService.updateExists(projectId, updateId);
-        if (projectsService.getProject(id, projectId) == null || update == null || update.getStatus() == PUBLISHED
-                || !projectsService.changeNoteExists(updateId, noteId))
+        if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished()
+                || !changeNotesService.changeNoteExists(updateId, noteId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        projectsService.editChangeNote(id, noteId, contentNote);
+        changeNotesService.editChangeNote(id, noteId, contentNote);
         return successResponse();
     }
 
@@ -612,7 +632,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        return manageChangeNote(id, token, projectId, updateId, noteId, "markAsDone");
+        return handleChangeNote(id, token, projectId, updateId, noteId, MARK_AS_DONE);
     }
 
     /**
@@ -644,7 +664,7 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        return manageChangeNote(id, token, projectId, updateId, noteId, "markAsToDo");
+        return handleChangeNote(id, token, projectId, updateId, noteId, MARK_AS_TODO);
     }
 
     /**
@@ -676,51 +696,86 @@ public class ProjectsController extends DefaultPandoroController {
             @PathVariable(UPDATE_IDENTIFIER_KEY) String updateId,
             @PathVariable(NOTE_IDENTIFIER_KEY) String noteId
     ) {
-        return manageChangeNote(id, token, projectId, updateId, noteId, "deleteChangeNote");
+        return handleChangeNote(id, token, projectId, updateId, noteId, ChangeNoteOperation.DELETE);
     }
 
     /**
      * Method to manage a change note
      *
-     * @param id The identifier of the user
-     * @param token The token of the user
+     * @param id        The identifier of the user
+     * @param token     The token of the user
      * @param projectId The identifier of the project where manage the change note
-     * @param updateId The identifier of the update where manage the change note
-     * @param noteId The identifier of the note
-     * @param ope The operation to execute
-     *
+     * @param updateId  The identifier of the update where manage the change note
+     * @param noteId    The identifier of the note
+     * @param operation The operation to execute
      * @return the result of the request as {@link String}
      */
-    private String manageChangeNote(String id, String token, String projectId, String updateId, String noteId,
-                                    String ope) {
+    private String handleChangeNote(String id, String token, String projectId, String updateId, String noteId,
+                                    ChangeNoteOperation operation) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         ProjectUpdate update = projectsService.updateExists(projectId, updateId);
         if (projectsService.getProject(id, projectId) == null || update == null ||
-                !projectsService.changeNoteExists(updateId, noteId)) {
+                !changeNotesService.changeNoteExists(updateId, noteId)) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
-        boolean isInDevelopment = update.getStatus() == IN_DEVELOPMENT;
-        switch (ope) {
-            case "markAsDone" -> {
-                if (isInDevelopment)
-                    projectsService.markChangeNoteAsDone(updateId, noteId, id);
-                else
+        boolean isNotInDevelopment = update.getStatus() != IN_DEVELOPMENT;
+        switch (operation) {
+            case MARK_AS_DONE -> {
+                if (isNotInDevelopment)
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                changeNotesService.markChangeNoteAsDone(updateId, noteId, id);
             }
-            case "markAsToDo" -> {
-                if (isInDevelopment)
-                    projectsService.markChangeNoteAsToDo(updateId, noteId);
-                else
+            case MARK_AS_TODO -> {
+                if (isNotInDevelopment)
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                changeNotesService.markChangeNoteAsToDo(updateId, noteId);
             }
             default -> {
-                if (update.getStatus() != PUBLISHED)
-                    projectsService.deleteChangeNote(updateId, noteId);
-                else
+                if (update.isPublished())
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
+                changeNotesService.deleteChangeNote(updateId, noteId);
             }
         }
+        return successResponse();
+    }
+
+    // TODO: 25/08/2025 TO DOCU
+    @PutMapping(
+            path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY
+                    + "/{" + NOTE_IDENTIFIER_KEY + "}" + MOVE_ENDPOINT + "{" + DESTINATION_UPDATE_IDENTIFIER_KEY + "}",
+            headers = {
+                    TOKEN_KEY
+            }
+    )
+    @RequestPath(
+            path = "/api/v1/users/{id}/projects/{project_id}/updates/{update_id}/notes/{note_id}/move/{destination_id}",
+            method = PUT
+    )
+    public String moveChangeNote(
+            @PathVariable(IDENTIFIER_KEY) String id,
+            @RequestHeader(TOKEN_KEY) String token,
+            @PathVariable(PROJECT_IDENTIFIER_KEY) String projectId,
+            @PathVariable(UPDATE_IDENTIFIER_KEY) String sourceUpdateId,
+            @PathVariable(NOTE_IDENTIFIER_KEY) String noteId,
+            @PathVariable(DESTINATION_UPDATE_IDENTIFIER_KEY) String destinationUpdateId
+    ) {
+        if (!isMe(id, token))
+            return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        boolean userIsNotProjectCollaborator = projectsService.getProject(id, projectId) == null;
+        ProjectUpdate sourceUpdate = projectsService.updateExists(projectId, sourceUpdateId);
+        boolean sourceUpdateDoesNotExist = sourceUpdate == null;
+        ProjectUpdate destinationUpdate = projectsService.updateExists(projectId, destinationUpdateId);
+        boolean destinationUpdateDoesNotExist = destinationUpdate == null;
+        boolean sourceUpdateDoesNotContainNote = !changeNotesService.changeNoteExists(sourceUpdateId, noteId);
+        boolean destinationUpdateAlreadyContainsNote = changeNotesService.changeNoteExists(destinationUpdateId, noteId);
+        if (userIsNotProjectCollaborator || sourceUpdateDoesNotExist || destinationUpdateDoesNotExist ||
+                sourceUpdateDoesNotContainNote || destinationUpdateAlreadyContainsNote ||
+                changeNotesService.getChangeNote(noteId).isMarkedAsDone() ||
+                sourceUpdate.isPublished() || destinationUpdate.isPublished()) {
+            return failedResponse(WRONG_PROCEDURE_MESSAGE);
+        }
+        changeNotesService.moveChangeNote(noteId, destinationUpdateId);
         return successResponse();
     }
 

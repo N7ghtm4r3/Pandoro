@@ -17,6 +17,7 @@ import java.util.List;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED;
 
 /**
  * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
@@ -278,6 +279,12 @@ public class ProjectUpdate extends EquinoxItem {
      */
     public UpdateStatus getStatus() {
         return status;
+    }
+
+    // TODO: 25/08/2025 TO COMMENT
+    @JsonIgnore
+    public boolean isPublished() {
+        return status == PUBLISHED;
     }
 
 }

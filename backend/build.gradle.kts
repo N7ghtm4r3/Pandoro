@@ -7,7 +7,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit.pandoro"
-version = "1.0.8"
+version = "1.2.0"
 
 repositories {
     mavenCentral()
