@@ -5,6 +5,12 @@ import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * The {@code ChangeNotesService} class is useful to handle the change notes database operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @since 1.2.0
+ */
 @Service
 public class ChangeNotesService {
 
@@ -57,7 +63,13 @@ public class ChangeNotesService {
         return notesRepository.getNoteByUpdate(updateId, noteId) != null;
     }
 
-    // TODO: 25/08/2025 TO DOCU
+    /**
+     * Method used to get a change note by its identifier
+     *
+     * @param noteId The identifier of the note to get
+     * @return the change note as {@link Note}, {@code null} otherwise
+     * @since 1.2.0
+     */
     public Note getChangeNote(String noteId) {
         return notesRepository.findById(noteId).orElse(null);
     }
@@ -83,7 +95,14 @@ public class ChangeNotesService {
         notesRepository.manageChangeNoteStatus(updateId, noteId, false, null, -1);
     }
 
-    // TODO: 25/08/2025 TO DOCUMENT
+    /**
+     * Method used to move a change note from an update to other
+     *
+     * @param noteId    The identifier of the note
+     * @param destinationUpdateId The identifier of the update to move the change note
+     *
+     * @since 1.2.0
+     */
     public void moveChangeNote(String noteId, String destinationUpdateId) {
         notesRepository.moveChangeNote(noteId, destinationUpdateId);
     }

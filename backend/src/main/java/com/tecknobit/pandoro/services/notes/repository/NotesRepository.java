@@ -306,7 +306,13 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(IDENTIFIER_KEY) String noteId
     );
 
-    // TODO: 25/08/2025 TO DOCUMENT
+    /**
+     * Query used to move a change note from an update to other
+     *
+     * @param noteId              The identifier of the note
+     * @param destinationUpdateId The identifier of the update to move the change note
+     * @since 1.2.0
+     */
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(

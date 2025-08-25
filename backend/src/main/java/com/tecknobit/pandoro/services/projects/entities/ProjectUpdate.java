@@ -281,7 +281,11 @@ public class ProjectUpdate extends EquinoxItem {
         return status;
     }
 
-    // TODO: 25/08/2025 TO COMMENT
+    /**
+     * Method used to check whether the update has been {@link UpdateStatus#PUBLISHED}
+     *
+     * @return whether the update has been {@link UpdateStatus#PUBLISHED} as {@code boolean}
+     */
     @JsonIgnore
     public boolean isPublished() {
         return status == PUBLISHED;

@@ -89,13 +89,26 @@ public class ProjectsController extends DefaultPandoroController {
      */
     public static final String WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE = "wrong_development_update_request";
 
-    // TODO: 25/08/2025 TO COMMENT
+    /**
+     * The {@code ChangeNoteOperation} are the available operations to be performed on a change note
+     *
+     * @since 1.2.0
+     */
     enum ChangeNoteOperation {
 
+        /**
+         * {@code MARK_AS_DONE} the change note must be marked as done
+         */
         MARK_AS_DONE,
 
+        /**
+         * {@code MARK_AS_TODO} the change note must be marked as to do
+         */
         MARK_AS_TODO,
 
+        /**
+         * {@code DELETE} the change note must be deleted
+         */
         DELETE
 
     }
@@ -105,7 +118,11 @@ public class ProjectsController extends DefaultPandoroController {
      */
     private final ProjectsService projectsService;
 
-    // TODO: 25/08/2025 TO COMMENT
+    /**
+     * {@code changeNotesService} The service which handles the database operations of the change notes
+     *
+     * @since 1.2.0
+     */
     private final ChangeNotesService changeNotesService;
 
     /**
@@ -740,7 +757,18 @@ public class ProjectsController extends DefaultPandoroController {
         return successResponse();
     }
 
-    // TODO: 25/08/2025 TO DOCU
+    /**
+     * Endpoint used to move a change note from an update to other update
+     *
+     * @param id                  The identifier of the user
+     * @param token               The token of the user
+     * @param projectId           The identifier of the project where manage the change note
+     * @param sourceUpdateId      The identifier of the update from move the change note
+     * @param noteId              The identifier of the note
+     * @param destinationUpdateId The identifier of the update to move the change note
+     * @return the result of the request as {@link String}
+     * @since 1.2.0
+     */
     @PutMapping(
             path = "/{" + PROJECT_IDENTIFIER_KEY + "}" + UPDATES_PATH + "{" + UPDATE_IDENTIFIER_KEY + "}/" + NOTES_KEY
                     + "/{" + NOTE_IDENTIFIER_KEY + "}" + MOVE_ENDPOINT + "{" + DESTINATION_UPDATE_IDENTIFIER_KEY + "}",
