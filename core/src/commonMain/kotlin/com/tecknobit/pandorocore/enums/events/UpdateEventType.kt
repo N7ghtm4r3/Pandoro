@@ -18,6 +18,8 @@ enum class UpdateEventType {
 
     CHANGENOTE_EDITED,
 
+    CHANGENOTE_MOVED,
+
     CHANGENOTE_REMOVED,
 
     PUBLISHED

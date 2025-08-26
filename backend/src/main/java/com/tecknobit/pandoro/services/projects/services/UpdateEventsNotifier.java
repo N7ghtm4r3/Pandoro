@@ -30,6 +30,36 @@ public class UpdateEventsNotifier {
     }
 
     @Wrapper
+    public void changeNoteAdded(PandoroUser author, Update owner, Note changeNote) {
+        storeUpdateEvent(author, CHANGENOTE_ADDED, owner, changeNote);
+    }
+
+    @Wrapper
+    public void changeNoteDone(PandoroUser author, Update owner, Note changeNote) {
+        storeUpdateEvent(author, CHANGENOTE_DONE, owner, changeNote);
+    }
+
+    @Wrapper
+    public void changeNoteUndone(PandoroUser author, Update owner, Note changeNote) {
+        storeUpdateEvent(author, CHANGENOTE_UNDONE, owner, changeNote);
+    }
+
+    @Wrapper
+    public void changeNoteEdited(PandoroUser author, Update owner, Note changeNote) {
+        storeUpdateEvent(author, CHANGENOTE_EDITED, owner, changeNote);
+    }
+
+    @Wrapper
+    public void changeNoteMoved(PandoroUser author, Update owner, Note changeNote) {
+        // TODO: 26/08/2025 TO THINK ABOUT ITS INTEGRATION
+    }
+
+    @Wrapper
+    public void changeNoteRemoved(PandoroUser author, Update owner, Note changeNote) {
+        storeUpdateEvent(author, CHANGENOTE_REMOVED, owner, changeNote);
+    }
+
+    @Wrapper
     public void updateStarted(PandoroUser author, Update owner) {
         storeUpdateEvent(author, STARTED, owner);
     }

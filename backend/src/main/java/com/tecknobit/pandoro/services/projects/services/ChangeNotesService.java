@@ -2,8 +2,11 @@ package com.tecknobit.pandoro.services.projects.services;
 
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.notes.repository.NotesRepository;
+import com.tecknobit.pandoro.services.projects.entities.Update;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The {@code ChangeNotesService} class is useful to handle the change notes database operations
@@ -37,24 +40,30 @@ public class ChangeNotesService {
     /**
      * Method to add a change note to an update
      *
-     * @param userId      The user identifier
+     * @param user The user owner of the change note
      * @param noteId      The identifier of the note to add
      * @param contentNote The content of the note to add
-     * @param updateId    The update identifier
+     * @param update    The update where the change note will be added
      */
-    public void addChangeNote(String userId, String noteId, String contentNote, String updateId) {
-        notesRepository.addChangeNote(userId, noteId, contentNote, System.currentTimeMillis(), updateId);
+    @Transactional
+    public void addChangeNote(PandoroUser user, String noteId, String contentNote, Update update) {
+        Note changeNote = new Note(noteId, user, contentNote, System.currentTimeMillis(), update);
+        notesRepository.save(changeNote);
+        updateEventsNotifier.changeNoteAdded(user, update, changeNote);
     }
 
     /**
      * Method to edit an existing change note of an update
      *
-     * @param userId      The user identifier
-     * @param noteId      The identifier of the note to add
+     * @param user The user owner of the change note
+     * @param changeNote    The note to edit
      * @param contentNote The content of the note to add
      */
-    public void editChangeNote(String userId, String noteId, String contentNote) {
-        notesRepository.editNote(userId, noteId, contentNote);
+    @Transactional
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public void editChangeNote(PandoroUser user, Update update, Note changeNote, String contentNote) {
+        notesRepository.editNote(user.getId(), changeNote.getId(), contentNote);
+        updateEventsNotifier.changeNoteEdited(user, update, changeNote);
     }
 
     /**
@@ -64,8 +73,14 @@ public class ChangeNotesService {
      * @param updateId The update identifier
      * @return whether the change note exists as boolean
      */
+    @Deprecated
     public boolean changeNoteExists(String updateId, String noteId) {
         return notesRepository.getNoteByUpdate(updateId, noteId) != null;
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public Note getChangeNote(String updateId, String noteId) {
+        return notesRepository.getNoteByUpdate(updateId, noteId);
     }
 
     /**
@@ -73,6 +88,7 @@ public class ChangeNotesService {
      *
      * @param noteId The identifier of the note to get
      * @return the change note as {@link Note}, {@code null} otherwise
+     *
      * @since 1.2.0
      */
     public Note getChangeNote(String noteId) {

@@ -2,6 +2,7 @@ package com.tecknobit.pandoro.services.projects.controller;
 
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
+import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.Update;
@@ -582,14 +583,15 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Project project = projectsService.getProject(id, projectId);
         Update update = updatesService.updateExists(projectId, updateId);
-        if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished())
+        if (project == null || update == null || update.isPublished())
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        changeNotesService.addChangeNote(id, generateIdentifier(), contentNote, updateId);
+        changeNotesService.addChangeNote(me, generateIdentifier(), contentNote, update);
         return successResponse();
     }
 
@@ -622,15 +624,16 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Project project = projectsService.getProject(id, projectId);
         Update update = updatesService.updateExists(projectId, updateId);
-        if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished()
-                || !changeNotesService.changeNoteExists(updateId, noteId))
+        Note changeNote = changeNotesService.getChangeNote(updateId, noteId);
+        if (project == null || update == null || update.isPublished() || changeNote == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
         String contentNote = jsonHelper.getString(CONTENT_NOTE_KEY);
         if (!INSTANCE.isContentNoteValid(contentNote))
             return failedResponse(WRONG_CONTENT_NOTE_MESSAGE);
-        changeNotesService.editChangeNote(id, noteId, contentNote);
+        changeNotesService.editChangeNote(me, update, changeNote, contentNote);
         return successResponse();
     }
 

@@ -115,7 +115,7 @@ public class Note extends EquinoxItem {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
+    @JoinColumn(name = UPDATE_ESCAPED_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Update update;
 
@@ -135,6 +135,12 @@ public class Note extends EquinoxItem {
     @EmptyConstructor
     public Note() {
         this(null, null, null, -1, false, null, -1);
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public Note(String id, PandoroUser author, String content, long creationDate, Update update) {
+        this(id, author, content, creationDate, false, null, -1);
+        this.update = update;
     }
 
     /**
