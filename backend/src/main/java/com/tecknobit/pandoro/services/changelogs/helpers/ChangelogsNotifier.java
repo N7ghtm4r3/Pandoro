@@ -5,35 +5,46 @@ import com.tecknobit.equinoxbackend.environment.services.builtin.service.Equinox
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.projects.entities.Project;
-import com.tecknobit.pandorocore.enums.ChangelogEvent;
 import com.tecknobit.pandorocore.enums.Role;
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
-import static com.tecknobit.pandorocore.enums.ChangelogEvent.*;
+import static com.tecknobit.pandorocore.enums.events.ChangelogEvent.*;
 import static java.lang.System.currentTimeMillis;
 
 /**
- * The {@code ChangelogsCreator} class is useful to manage the creation and the queries to the database for the changelogs
+ * The {@code ChangelogsNotifier} class is useful to manage the creation and the queries to the database for the changelogs
  *
  * @author N7ghtm4r3 - Tecknobit
+ *
+ * @since 1.2.0
  */
 @Service
-public class ChangelogsCreator {
+public class ChangelogsNotifier {
 
     /**
-     * {@code changelogsRepository} instance for the changelog project_repository
+     * {@code changelogsRepository} repository to handle the database operations
+     */
+    private final ChangelogsRepository changelogRepository;
+
+    /**
+     * Constructor used to init the service
+     *
+     * @param changelogRepository The repository to handle the database operations
      */
     @Autowired
-    private ChangelogsRepository changelogRepository;
+    public ChangelogsNotifier(ChangelogsRepository changelogRepository) {
+        this.changelogRepository = changelogRepository;
+    }
 
     /**
      * Method to create a changelog when the user has been invited in a {@link Group}
      *
-     * @param groupId:   the group identifier
-     * @param groupName: the name of the group of the invite
-     * @param memberId:  the member id, the changelog owner
+     * @param groupId The group identifier
+     * @param groupName The name of the group of the invite
+     * @param memberId The member identifier
      */
     @Wrapper
     public void sendGroupInvite(String groupId, String groupName, String memberId) {
@@ -185,15 +196,21 @@ public class ChangelogsCreator {
      * The {@code ChangelogOperator} class is useful to manage the creation of the changelogs
      *
      * @author N7ghtm4r3 - Tecknobit
+     *
+     * @deprecated To use directly the {@link ChangelogsNotifier} instance instead
      */
     @Service
+    @Deprecated(
+            since = "1.2.0",
+            forRemoval = true
+    )
     public static class ChangelogOperator extends EquinoxItemsHelper {
 
         /**
-         * {@code changelogsCreator} the changelogs creator helper
+         * {@code changelogsNotifier} the changelogs creator helper
          */
         @Autowired
-        protected ChangelogsCreator changelogsCreator;
+        protected ChangelogsNotifier changelogsNotifier;
 
     }
 

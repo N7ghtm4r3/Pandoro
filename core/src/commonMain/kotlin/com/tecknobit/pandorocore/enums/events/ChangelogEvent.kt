@@ -1,4 +1,4 @@
-package com.tecknobit.pandorocore.enums
+package com.tecknobit.pandorocore.enums.events
 
 import kotlinx.serialization.Serializable
 

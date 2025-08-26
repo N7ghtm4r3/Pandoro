@@ -10,12 +10,10 @@ import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.projects.entities.UpdateEvent;
 import com.tecknobit.pandoro.services.users.dto.CandidateMember;
 import com.tecknobit.pandorocore.enums.Role;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
-import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
+import static com.tecknobit.pandorocore.ConstantsKt.*;
 
 /**
  * The {@code PandoroUser} class is useful to create a <b>Pandoro's user</b>
@@ -74,6 +72,19 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
             cascade = CascadeType.ALL
     )
     private List<Note> notes;
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    @JsonIgnore
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = USER_UPDATE_EVENTS_KEY,
+            joinColumns = {@JoinColumn(name = USER_IDENTIFIER_KEY)},
+            inverseJoinColumns = {@JoinColumn(name = EVENT_IDENTIFIER_KEY)}
+    )
+    private List<UpdateEvent> events;
 
     /**
      * Default constructor

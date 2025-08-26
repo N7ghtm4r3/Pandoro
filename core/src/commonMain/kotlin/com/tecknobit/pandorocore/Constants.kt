@@ -6,6 +6,20 @@ package com.tecknobit.pandorocore
 const val GROUP_MEMBERS_TABLE = "group_members"
 
 /**
+ * `EVENTS_KEY` events key
+ *
+ * @since 1.2.0
+ */
+const val EVENTS_KEY = "events"
+
+/**
+ * `EVENT_IDENTIFIER_KEY` event identifier key
+ *
+ * @since 1.2.0
+ */
+const val EVENT_IDENTIFIER_KEY = "event_id"
+
+/**
  * `PROJECTS_KEY` projects key
  */
 const val PROJECTS_KEY = "projects"
@@ -74,6 +88,8 @@ const val UPDATE_KEY = "update"
 
 /**
  * `UPDATE_ESCAPED_KEY` `update` key, it is used in the queries
+ *
+ * @since 1.2.0
  */
 const val UPDATE_ESCAPED_KEY = "`$UPDATE_KEY`"
 
@@ -116,6 +132,27 @@ const val UPDATE_PUBLISHED_BY_KEY = "published_by"
  * `UPDATE_PUBLISH_DATE_KEY` publish date key
  */
 const val UPDATE_PUBLISH_DATE_KEY = "publish_date"
+
+/**
+ * `UPDATE_EVENTS_KEY` update events key
+ *
+ * @since 1.2.0
+ */
+const val UPDATE_EVENTS_KEY = "update_events"
+
+/**
+ * `USER_UPDATE_EVENTS_KEY` user update events key
+ *
+ * @since 1.2.0
+ */
+const val USER_UPDATE_EVENTS_KEY = "user_update_events"
+
+/**
+ * `NOTE_UPDATE_EVENTS_KEY` note update events key
+ *
+ * @since 1.2.0
+ */
+const val NOTE_UPDATE_EVENTS_KEY = "note_update_events"
 
 /**
  * `GROUPS_KEY` groups key
@@ -208,6 +245,11 @@ const val MARKED_AS_DONE_BY_KEY = "marked_as_done_by"
 const val MARKED_AS_DONE_DATE_KEY = "marked_as_done_date"
 
 /**
+ * `CHANGE_NOTE_KEY` change note key
+ */
+const val CHANGE_NOTE_KEY = "change_note"
+
+/**
  * `CHANGELOGS_KEY` changelogs key
  */
 const val CHANGELOGS_KEY = "changelogs"
@@ -223,9 +265,9 @@ const val CHANGELOG_IDENTIFIER_KEY = "changelog_id"
 const val CHANGELOG_EVENT_KEY = "changelog_event"
 
 /**
- * `CHANGELOG_TIMESTAMP_KEY` changelog timestamp key
+ * `TIMESTAMP_KEY` changelog timestamp key
  */
-const val CHANGELOG_TIMESTAMP_KEY = "timestamp"
+const val TIMESTAMP_KEY = "timestamp"
 
 /**
  * `CHANGELOG_EXTRA_CONTENT_KEY` extra content of the changelog key

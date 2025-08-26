@@ -6,10 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.projects.entities.Update;
+import com.tecknobit.pandoro.services.projects.entities.UpdateEvent;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -118,6 +121,19 @@ public class Note extends EquinoxItem {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Update update;
 
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    @JsonIgnore
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = NOTE_UPDATE_EVENTS_KEY,
+            joinColumns = {@JoinColumn(name = NOTE_IDENTIFIER_KEY)},
+            inverseJoinColumns = {@JoinColumn(name = EVENT_IDENTIFIER_KEY)}
+    )
+    private List<UpdateEvent> events;
+
     /**
      * Default constructor
      *
@@ -131,12 +147,12 @@ public class Note extends EquinoxItem {
     /**
      * Constructor to init a {@link Note} object
      *
-     * @param id:               the identifier of the note
-     * @param content:          the content of the note
-     * @param creationDate:when the note has been created
-     * @param markedAsDone:     whether the note is marked as done
-     * @param markedAsDoneBy:   who marked the note as done
-     * @param markAsDoneDate:{@code markedAsDoneDate} when the note has been marked as done
+     * @param id The identifier of the note
+     * @param content The content of the note
+     * @param creationDate When the note has been created
+     * @param markedAsDone Whether the note is marked as done
+     * @param markedAsDoneBy Who marked the note as done
+     * @param markAsDoneDate When the note has been marked as done
      */
     public Note(String id, PandoroUser author, String content, long creationDate, boolean markedAsDone,
                 PandoroUser markedAsDoneBy, long markAsDoneDate) {

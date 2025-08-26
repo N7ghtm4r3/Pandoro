@@ -3,7 +3,7 @@ package com.tecknobit.pandoro.services.changelogs.controller;
 import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.changelogs.service.ChangelogsService;
-import com.tecknobit.pandorocore.enums.ChangelogEvent;
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

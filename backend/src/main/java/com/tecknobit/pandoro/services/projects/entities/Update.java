@@ -145,6 +145,14 @@ public class Update extends EquinoxItem {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    @OneToMany(
+            mappedBy = OWNER_KEY,
+            cascade = CascadeType.ALL
+    )
+    @OrderBy(TIMESTAMP_KEY)
+    private final List<UpdateEvent> events;
+
     /**
      * Default constructor
      *
@@ -152,7 +160,8 @@ public class Update extends EquinoxItem {
      */
     @EmptyConstructor
     public Update() {
-        this(null, null, -1, null, null, -1, null, -1, null, null);
+        this(null, null, -1, null, null, -1, null, -1, null, null,
+                new ArrayList<>());
     }
 
     /**
@@ -169,9 +178,10 @@ public class Update extends EquinoxItem {
      * @param status the current status of the update
      * @param notes         the notes for the update to be done
      */
+    // TODO: 26/08/2025 TO DOCU 1.2.0
     public Update(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
                   long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
-                  ArrayList<Note> notes) {
+                  ArrayList<Note> notes, List<UpdateEvent> events) {
         super(id);
         this.author = author;
         this.createDate = createDate;
@@ -182,6 +192,7 @@ public class Update extends EquinoxItem {
         this.publishDate = publishDate;
         this.status = status;
         this.notes = notes;
+        this.events = events;
     }
 
     /**
@@ -270,6 +281,11 @@ public class Update extends EquinoxItem {
      */
     public ArrayList<Note> getNotes() {
         return new ArrayList<>(notes);
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public List<UpdateEvent> getEvents() {
+        return events;
     }
 
     /**

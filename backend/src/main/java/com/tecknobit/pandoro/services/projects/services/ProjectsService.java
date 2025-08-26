@@ -1,9 +1,10 @@
 package com.tecknobit.pandoro.services.projects.services;
 
 import com.tecknobit.equinoxbackend.annotations.TableColumns;
+import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
-import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
+import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
@@ -11,7 +12,6 @@ import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
-import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.persistence.Query;
@@ -26,22 +26,19 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static com.tecknobit.equinoxbackend.environment.services.builtin.controller.EquinoxController.generateIdentifier;
-import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_IGNORE_INTO;
 import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
-import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
-import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
 /**
  * The {@code ProjectsService} class is useful to manage all the projects database operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see ChangelogOperator
+ *
+ * @see EquinoxItemsHelper
  */
 @Service
-public class ProjectsService extends ChangelogOperator implements PandoroResourcesManager {
+public class ProjectsService extends EquinoxItemsHelper implements PandoroResourcesManager {
 
     /**
      * {@code PROJECT_NAME_REGEX} regex to validate the project name
@@ -69,11 +66,6 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
     private final ProjectsRepository projectsRepository;
 
     /**
-     * {@code updatesRepository} instance for the updates repository
-     */
-    private final UpdatesRepository updatesRepository;
-
-    /**
      * {@code groupsRepository} instance for the groups repository
      */
     private final GroupsRepository groupsRepository;
@@ -84,20 +76,25 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
     private final GroupMembersRepository groupMembersRepository;
 
     /**
+     * {@code changelogsNotifier} instance used to notify a changelog event
+     */
+    private final ChangelogsNotifier changelogsNotifier;
+
+    /**
      * Constructor used to init the service
      *
      * @param projectsRepository     The instance for the projects repository
-     * @param updatesRepository      The instance for the updates repository
      * @param groupsRepository       The instance for the groups repository
      * @param groupMembersRepository The instance for the group members repository
+     * @param changelogsNotifier The instance used to notify a changelog event
      */
     @Autowired
-    public ProjectsService(ProjectsRepository projectsRepository, UpdatesRepository updatesRepository,
-                           GroupsRepository groupsRepository, GroupMembersRepository groupMembersRepository) {
+    public ProjectsService(ProjectsRepository projectsRepository, GroupsRepository groupsRepository,
+                           GroupMembersRepository groupMembersRepository, ChangelogsNotifier changelogsNotifier) {
         this.projectsRepository = projectsRepository;
-        this.updatesRepository = updatesRepository;
         this.groupsRepository = groupsRepository;
         this.groupMembersRepository = groupMembersRepository;
+        this.changelogsNotifier = changelogsNotifier;
     }
 
     /**
@@ -255,7 +252,7 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
                 projectsRepository.removeProjectGroup(projectId, group);
                 List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
                 for (GroupMember member : members)
-                    changelogsCreator.removedGroupProject(projectId, member.getId());
+                    changelogsNotifier.removedGroupProject(projectId, member.getId());
             }
             groups.removeAll(projectsRepository.getProjectGroupsIds(projectId));
             addGroupsToAProject(groups, projectId);
@@ -292,8 +289,13 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
         for (String group : groups) {
             List<GroupMember> members = groupMembersRepository.getGroupMembers(group);
             for (GroupMember member : members)
-                changelogsCreator.addedGroupProject(projectId, member.getId());
+                changelogsNotifier.addedGroupProject(projectId, member.getId());
         }
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public void updateProjectVersion(String userId, String projectId, String updateVersion) {
+        projectsRepository.updateProjectVersion(userId, projectId, updateVersion);
     }
 
     /**
@@ -309,114 +311,6 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
                 groupsRepository.removeGroupProject(projectId, group.getId());
         projectsRepository.deleteProject(userId, projectId);
         deleteProjectIconResource(projectId);
-    }
-
-    /**
-     * Method to check whether an update with the target project_version inserted already exists
-     *
-     * @param projectId The project identifier
-     * @param targetVersion The target project_version to check
-     * @return whether an update with the target project_version inserted already exists as boolean
-     */
-    public boolean targetVersionExists(String projectId, String targetVersion) {
-        return updatesRepository.getUpdateByVersion(projectId, targetVersion) != null;
-    }
-
-    /**
-     * Method to fetch and check if an update exists
-     *
-     * @param projectId The project identifier
-     * @param updateId The update identifier
-     * @return project update, if exists, as {@link Update}, null if not
-     */
-    public Update updateExists(String projectId, String updateId) {
-        return updatesRepository.getUpdateById(projectId, updateId);
-    }
-
-    /**
-     * Method to schedule a new update
-     *
-     * @param updateId The update identifier
-     * @param targetVersion The target project_version of the new update
-     * @param changeNotes The change notes of the new update
-     * @param userId The user identifier
-     * @param projectId The project identifier
-     */
-    public void scheduleUpdate(String updateId, String targetVersion, List<String> changeNotes,
-                               String projectId, String userId) {
-        updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED,
-                projectId, userId);
-        batchInsert(INSERT_IGNORE_INTO, NOTES_KEY, new BatchQuery<String>() {
-            @Override
-            public Collection<String> getData() {
-                return changeNotes;
-            }
-
-            @Override
-            @TableColumns(columns = {IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY})
-            public void prepareQuery(Query query, int index, Collection<String> changeNotes) {
-                for (String changeNote : changeNotes) {
-                    query.setParameter(index++, generateIdentifier());
-                    query.setParameter(index++, userId);
-                    query.setParameter(index++, changeNote);
-                    query.setParameter(index++, System.currentTimeMillis());
-                    query.setParameter(index++, updateId);
-                }
-            }
-
-            @Override
-            public String[] getColumns() {
-                return new String[]{IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY};
-            }
-        });
-        if (projectsRepository.getProjectById(projectId).hasGroups())
-            changelogsCreator.scheduledNewUpdate(targetVersion, projectId, userId);
-    }
-
-    /**
-     * Method to start an existing update
-     *
-     * @param projectId The project identifier
-     * @param updateId The update identifier
-     * @param userId The user identifier who start the update
-     */
-    public void startUpdate(String projectId, String updateId, String userId) {
-        updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
-        if (projectsRepository.getProjectById(projectId).hasGroups()) {
-            changelogsCreator.updateStarted(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
-                    projectId, userId);
-        }
-    }
-
-    /**
-     * Method to publish an existing update
-     *
-     * @param projectId The project identifier
-     * @param updateId The update identifier
-     * @param userId The user identifier who publish the update
-     * @param updateVersion The project_version of the update to set as last project_version of the project
-     */
-    public void publishUpdate(String projectId, String updateId, String userId, String updateVersion) {
-        updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
-        projectsRepository.updateProjectVersion(userId, projectId, updateVersion);
-        if (projectsRepository.getProjectById(projectId).hasGroups()) {
-            changelogsCreator.updatePublished(updatesRepository.getUpdateById(projectId, updateId).getTargetVersion(),
-                    projectId, userId);
-        }
-    }
-
-    /**
-     * Method to delete an update
-     *
-     * @param projectId The project identifier
-     * @param updateId The update identifier
-     * @param userId The user identifier
-     */
-    public void deleteUpdate(String projectId, String updateId, String userId) {
-        Update update = updatesRepository.getUpdateById(projectId, updateId);
-        updatesRepository.deleteUpdate(updateId);
-        if (projectsRepository.getProjectById(projectId).hasGroups())
-            changelogsCreator.updateDeleted(update.getTargetVersion(), projectId, userId);
     }
 
 }

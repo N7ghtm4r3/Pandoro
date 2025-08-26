@@ -8,7 +8,7 @@ import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxI
 import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.projects.entities.Project;
-import com.tecknobit.pandorocore.enums.ChangelogEvent;
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,7 +38,7 @@ public class Changelog extends EquinoxItem {
     /**
      * {@code timestamp} when the changelog event has been created
      */
-    @Column(name = CHANGELOG_TIMESTAMP_KEY)
+    @Column(name = TIMESTAMP_KEY)
     private final long timestamp;
 
     /**
