@@ -136,7 +136,6 @@ public class Update extends EquinoxItem {
      *
      * @apiNote usage in SQL scopes
      */
-    @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
@@ -308,6 +307,7 @@ public class Update extends EquinoxItem {
     }
 
     // TODO: 26/08/2025 TO DOCU 1.2.0
+    @JsonIgnore
     public Project getProject() {
         return project;
     }

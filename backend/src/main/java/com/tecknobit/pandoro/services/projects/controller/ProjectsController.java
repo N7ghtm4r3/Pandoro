@@ -545,12 +545,12 @@ public class ProjectsController extends DefaultPandoroController {
         if (isPublishing) {
             if (status != IN_DEVELOPMENT)
                 return failedResponse(WRONG_PUBLISH_UPDATE_REQUEST_ERROR_MESSAGE);
-            updatesService.publishUpdate(project, update, id);
+            updatesService.publishUpdate(project, update, me);
             projectsService.updateProjectVersion(id, projectId, update.getTargetVersion());
         } else {
             if (status != SCHEDULED)
                 return failedResponse(WRONG_START_UPDATE_REQUEST_ERROR_MESSAGE);
-            updatesService.startUpdate(project, update, id);
+            updatesService.startUpdate(project, update, me);
         }
         return successResponse();
     }

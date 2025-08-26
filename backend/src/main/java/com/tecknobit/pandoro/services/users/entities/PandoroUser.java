@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
-import static com.tecknobit.pandorocore.ConstantsKt.*;
+import static com.tecknobit.pandorocore.ConstantsKt.CHANGELOG_OWNER_KEY;
 
 /**
  * The {@code PandoroUser} class is useful to create a <b>Pandoro's user</b>
@@ -74,15 +74,10 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     private List<Note> notes;
 
     // TODO: 26/08/2025 TO DOCU 1.2.0
-    @JsonIgnore
     @OneToMany(
+            mappedBy = AUTHOR_KEY,
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
-    )
-    @JoinTable(
-            name = USER_UPDATE_EVENTS_KEY,
-            joinColumns = {@JoinColumn(name = USER_IDENTIFIER_KEY)},
-            inverseJoinColumns = {@JoinColumn(name = EVENT_IDENTIFIER_KEY)}
     )
     private List<UpdateEvent> events;
 

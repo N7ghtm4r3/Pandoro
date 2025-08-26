@@ -1,6 +1,5 @@
 package com.tecknobit.pandoro.services.projects.entities;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
@@ -51,14 +50,13 @@ public class UpdateEvent extends EquinoxItem {
     @Column(name = TIMESTAMP_KEY)
     private final long timestamp;
 
-    @OneToOne
-    @JoinColumn(name = CHANGE_NOTE_KEY)
+    @ManyToOne
     @JsonIgnoreProperties({
             EVENTS_KEY,
             "hibernateLazyInitializer",
             "handler"
     })
-    private final Note changeNote;
+    private final Note note;
 
     @EmptyConstructor
     public UpdateEvent() {
@@ -71,7 +69,7 @@ public class UpdateEvent extends EquinoxItem {
         this.type = type;
         this.author = author;
         this.timestamp = timestamp;
-        this.changeNote = changeNote;
+        this.note = changeNote;
     }
 
     public Update getOwner() {
@@ -91,9 +89,8 @@ public class UpdateEvent extends EquinoxItem {
 
     }
 
-    @JsonGetter(CHANGE_NOTE_KEY)
-    public Note getChangeNote() {
-        return changeNote;
+    public Note getNote() {
+        return note;
     }
 
 }

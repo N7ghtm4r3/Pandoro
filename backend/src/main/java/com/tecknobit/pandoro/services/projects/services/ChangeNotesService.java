@@ -19,14 +19,19 @@ public class ChangeNotesService {
      */
     private final NotesRepository notesRepository;
 
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    private final UpdateEventsNotifier updateEventsNotifier;
+
     /**
      * Constructor used to init the service
      *
      * @param notesRepository The instance for the notes repository
      */
     @Autowired
-    public ChangeNotesService(NotesRepository notesRepository) {
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public ChangeNotesService(NotesRepository notesRepository, UpdateEventsNotifier updateEventsNotifier) {
         this.notesRepository = notesRepository;
+        this.updateEventsNotifier = updateEventsNotifier;
     }
 
     /**

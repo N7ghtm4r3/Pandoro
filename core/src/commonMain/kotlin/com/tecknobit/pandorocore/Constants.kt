@@ -141,20 +141,6 @@ const val UPDATE_PUBLISH_DATE_KEY = "publish_date"
 const val UPDATE_EVENTS_KEY = "update_events"
 
 /**
- * `USER_UPDATE_EVENTS_KEY` user update events key
- *
- * @since 1.2.0
- */
-const val USER_UPDATE_EVENTS_KEY = "user_update_events"
-
-/**
- * `NOTE_UPDATE_EVENTS_KEY` note update events key
- *
- * @since 1.2.0
- */
-const val NOTE_UPDATE_EVENTS_KEY = "note_update_events"
-
-/**
  * `GROUPS_KEY` groups key
  */
 const val GROUPS_KEY = "groups"
@@ -245,9 +231,11 @@ const val MARKED_AS_DONE_BY_KEY = "marked_as_done_by"
 const val MARKED_AS_DONE_DATE_KEY = "marked_as_done_date"
 
 /**
- * `CHANGE_NOTE_KEY` change note key
+ * `NOTE_KEY` note key
+ *
+ * @since 1.2.0
  */
-const val CHANGE_NOTE_KEY = "change_note"
+const val NOTE_KEY = "note"
 
 /**
  * `CHANGELOGS_KEY` changelogs key

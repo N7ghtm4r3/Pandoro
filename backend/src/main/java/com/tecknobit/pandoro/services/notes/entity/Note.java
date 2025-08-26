@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.services.notes.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
@@ -112,7 +111,6 @@ public class Note extends EquinoxItem {
      *
      * @apiNote usage in SQL scopes
      */
-    @JsonIgnore
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
@@ -122,15 +120,10 @@ public class Note extends EquinoxItem {
     private Update update;
 
     // TODO: 26/08/2025 TO DOCU 1.2.0
-    @JsonIgnore
     @OneToMany(
+            mappedBy = NOTE_KEY,
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
-    )
-    @JoinTable(
-            name = NOTE_UPDATE_EVENTS_KEY,
-            joinColumns = {@JoinColumn(name = NOTE_IDENTIFIER_KEY)},
-            inverseJoinColumns = {@JoinColumn(name = EVENT_IDENTIFIER_KEY)}
     )
     private List<UpdateEvent> events;
 

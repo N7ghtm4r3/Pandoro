@@ -122,12 +122,14 @@ public class UpdatesService extends EquinoxItemsHelper {
      *
      * @param project The project owner of the update
      * @param update  The update to start
-     * @param userId  The user identifier who start the update
+     * @param user  The user who start the update
      */
-    public void startUpdate(Project project, Update update, String userId) {
+    public void startUpdate(Project project, Update update, PandoroUser user) {
         String projectId = project.getId();
         String updateId = update.getId();
+        String userId = user.getId();
         updatesRepository.startUpdate(updateId, System.currentTimeMillis(), userId);
+        updateEventsNotifier.updateStarted(user, update);
         if (project.hasGroups())
             changelogsNotifier.updateStarted(update.getTargetVersion(), projectId, userId);
     }
@@ -137,12 +139,14 @@ public class UpdatesService extends EquinoxItemsHelper {
      *
      * @param project The project owner of the update
      * @param update  The update to publish
-     * @param userId  The user identifier who publish the update
+     * @param user  The user who publish the update
      */
-    public void publishUpdate(Project project, Update update, String userId) {
+    public void publishUpdate(Project project, Update update, PandoroUser user) {
         String projectId = project.getId();
         String updateId = update.getId();
+        String userId = user.getId();
         updatesRepository.publishUpdate(updateId, System.currentTimeMillis(), userId);
+        updateEventsNotifier.updatePublished(user, update);
         if (project.hasGroups())
             changelogsNotifier.updatePublished(update.getTargetVersion(), projectId, userId);
     }
