@@ -20,14 +20,14 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.PUBLISHED;
 
 /**
- * The {@code ProjectUpdate} class is useful to create a <b>Pandoro's update</b>
+ * The {@code Update} class is useful to represent an update
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see EquinoxItem
  */
 @Entity
 @Table(name = UPDATES_KEY)
-public class ProjectUpdate extends EquinoxItem {
+public class Update extends EquinoxItem {
 
     /**
      * {@code author} the author of the update
@@ -151,12 +151,12 @@ public class ProjectUpdate extends EquinoxItem {
      * @apiNote empty constructor required
      */
     @EmptyConstructor
-    public ProjectUpdate() {
+    public Update() {
         this(null, null, -1, null, null, -1, null, -1, null, null);
     }
 
     /**
-     * Constructor to init a {@link ProjectUpdate} object
+     * Constructor to init a {@link Update} object
      *
      * @param id            identifier of the update
      * @param author        the author of the update
@@ -169,9 +169,9 @@ public class ProjectUpdate extends EquinoxItem {
      * @param status the current status of the update
      * @param notes         the notes for the update to be done
      */
-    public ProjectUpdate(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
-                         long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
-                         ArrayList<Note> notes) {
+    public Update(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
+                  long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
+                  ArrayList<Note> notes) {
         super(id);
         this.author = author;
         this.createDate = createDate;

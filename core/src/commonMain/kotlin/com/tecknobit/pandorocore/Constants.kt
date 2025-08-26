@@ -66,9 +66,16 @@ const val UPDATE_IDENTIFIER_KEY = "update_id"
 const val DESTINATION_UPDATE_IDENTIFIER_KEY = "destination_update_id"
 
 /**
- * `UPDATE_KEY` project update key
+ * `UPDATE_KEY` update key
  */
-const val UPDATE_KEY = "project_update"
+// TODO: TO WARN ABOUT ALTER:
+// TODO: - ALTER TABLE `notes` CHANGE `project_update` `update` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+const val UPDATE_KEY = "update"
+
+/**
+ * `UPDATE_ESCAPED_KEY` `update` key, it is used in the queries
+ */
+const val UPDATE_ESCAPED_KEY = "`$UPDATE_KEY`"
 
 /**
  * `UPDATE_CREATE_DATE_KEY` create date key

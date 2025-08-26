@@ -9,7 +9,7 @@ import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository
 import com.tecknobit.pandoro.services.groups.repositories.GroupsRepository;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
 import com.tecknobit.pandoro.services.users.entities.GroupMember;
@@ -133,7 +133,7 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
                 pageable
         );
         for (Project project : projects) {
-            ArrayList<ProjectUpdate> updates = project.getUpdates();
+            ArrayList<Update> updates = project.getUpdates();
             updates.removeIf(update -> update.getStatus() != IN_DEVELOPMENT);
             project.setUpdates(updates);
         }
@@ -327,9 +327,9 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
      *
      * @param projectId The project identifier
      * @param updateId The update identifier
-     * @return project update, if exists, as {@link ProjectUpdate}, null if not
+     * @return project update, if exists, as {@link Update}, null if not
      */
-    public ProjectUpdate updateExists(String projectId, String updateId) {
+    public Update updateExists(String projectId, String updateId) {
         return updatesRepository.getUpdateById(projectId, updateId);
     }
 
@@ -413,7 +413,7 @@ public class ProjectsService extends ChangelogOperator implements PandoroResourc
      * @param userId The user identifier
      */
     public void deleteUpdate(String projectId, String updateId, String userId) {
-        ProjectUpdate update = updatesRepository.getUpdateById(projectId, updateId);
+        Update update = updatesRepository.getUpdateById(projectId, updateId);
         updatesRepository.deleteUpdate(updateId);
         if (projectsRepository.getProjectById(projectId).hasGroups())
             changelogsCreator.updateDeleted(update.getTargetVersion(), projectId, userId);

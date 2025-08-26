@@ -1,6 +1,6 @@
 package com.tecknobit.pandoro.services.projects.repositories;
 
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import jakarta.transaction.Transactional;
@@ -19,47 +19,47 @@ import static com.tecknobit.pandorocore.ConstantsKt.*;
  *
  * @author N7ghtm4r3 - Tecknobit
  * @see JpaRepository
- * @see ProjectUpdate
+ * @see Update
  */
 @Repository
-public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> {
+public interface UpdatesRepository extends JpaRepository<Update, String> {
 
     /**
-     * Method to execute the query to select a {@link ProjectUpdate} by its target project_version
+     * Method to execute the query to select a {@link Update} by its target project_version
      *
      * @param projectId:     the project identifier
      * @param targetVersion: the target project_version of the update to fetch
-     * @return the project update as {@link ProjectUpdate}
+     * @return the project update as {@link Update}
      */
     @Query(
             value = "SELECT * FROM " + UPDATES_KEY + " WHERE " + PROJECT_KEY + "=:" + PROJECT_KEY
                     + " AND " + UPDATE_TARGET_VERSION_KEY + "=:" + UPDATE_TARGET_VERSION_KEY,
             nativeQuery = true
     )
-    ProjectUpdate getUpdateByVersion(
+    Update getUpdateByVersion(
             @Param(PROJECT_KEY) String projectId,
             @Param(UPDATE_TARGET_VERSION_KEY) String targetVersion
     );
 
     /**
-     * Method to execute the query to select a {@link ProjectUpdate} by its id
+     * Method to execute the query to select a {@link Update} by its id
      *
      * @param projectId: the project identifier
      * @param updateId: the update identifier to fetch
-     * @return the project update as {@link ProjectUpdate}
+     * @return the project update as {@link Update}
      */
     @Query(
             value = "SELECT * FROM " + UPDATES_KEY + " WHERE " + PROJECT_KEY + "=:" + PROJECT_KEY
                     + " AND " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )
-    ProjectUpdate getUpdateById(
+    Update getUpdateById(
             @Param(PROJECT_KEY) String projectId,
             @Param(IDENTIFIER_KEY) String updateId
     );
 
     /**
-     * Method to execute the query to schedule a new {@link ProjectUpdate}
+     * Method to execute the query to schedule a new {@link Update}
      *
      * @param updateId: the update identifier
      * @param targetVersion: the target project_version of the new update
@@ -106,7 +106,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     );
 
     /**
-     * Method to execute the query to start an existing {@link ProjectUpdate}
+     * Method to execute the query to start an existing {@link Update}
      *
      * @param updateId: the update identifier
      * @param startDate: the start date of the update
@@ -129,7 +129,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     );
 
     /**
-     * Method to execute the query to publish an existing {@link com.tecknobit.pandoro.services.projects.entities.ProjectUpdate}
+     * Method to execute the query to publish an existing {@link Update}
      *
      * @param updateId: the update identifier
      * @param publishDate: the publishing date of the update
@@ -152,7 +152,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     );
 
     /**
-     * Method to execute the query to delete an existing {@link ProjectUpdate}
+     * Method to execute the query to delete an existing {@link Update}
      *
      * @param updateId: the update identifier
      */
@@ -167,7 +167,7 @@ public interface UpdatesRepository extends JpaRepository<ProjectUpdate, String> 
     );
 
     /**
-     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and {@link ProjectUpdate}
+     * Method to execute the query to remove the constraints between {@link PandoroUser} deleted and {@link Update}
      *
      * @param userId: the user identifier
      */

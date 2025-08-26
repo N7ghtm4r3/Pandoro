@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -116,7 +116,7 @@ public class Note extends EquinoxItem {
     )
     @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private ProjectUpdate project_update;
+    private Update update;
 
     /**
      * Default constructor

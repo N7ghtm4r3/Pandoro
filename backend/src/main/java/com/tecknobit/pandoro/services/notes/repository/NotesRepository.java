@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.notes.repository;
 
 import com.tecknobit.pandoro.services.notes.entity.Note;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
      */
     @Query(
             value = "SELECT COUNT(*) FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL",
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL",
             nativeQuery = true
     )
     long getNotesCount(
@@ -51,7 +51,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
      */
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC ",
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
     )
     List<Note> getNotes(
@@ -70,7 +70,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             value = "SELECT COUNT(*) FROM " + NOTES_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
                     " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL",
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL",
             nativeQuery = true
     )
     long getNotesCount(
@@ -89,7 +89,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Query(
             value = "SELECT * FROM " + NOTES_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL" +
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL" +
                     " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
                     " ORDER BY " + CREATION_DATE_KEY + " DESC ",
             nativeQuery = true
@@ -118,7 +118,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     );
 
     /**
-     * Method to execute the query to select a {@link Note} of an {@link ProjectUpdate}
+     * Method to execute the query to select a {@link Note} of an {@link Update}
      *
      * @param updateId The update identifier
      * @param noteId The note identifier
@@ -126,7 +126,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
      */
     @Query(
             value = "SELECT * FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
+                    + " AND " + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     Note getNoteByUpdate(
@@ -213,7 +213,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_KEY + ","
                     + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ","
-                    + UPDATE_KEY + ") "
+                    + UPDATE_ESCAPED_KEY + ") "
                     + "VALUES ("
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + AUTHOR_KEY + ","
@@ -277,7 +277,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
                     + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
                     + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND "
-                    + UPDATE_KEY + "=:" + UPDATE_KEY,
+                    + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     void manageChangeNoteStatus(
@@ -336,7 +336,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
-                    " AND " + UPDATE_KEY + "=:" + UPDATE_KEY,
+                    " AND " + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY,
             nativeQuery = true
     )
     void deleteChangeNote(
@@ -353,7 +353,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "DELETE FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NULL",
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NULL",
             nativeQuery = true
     )
     void removeUserConstraints(
@@ -372,7 +372,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             value = "UPDATE " + NOTES_KEY + " SET "
                     + AUTHOR_KEY + "= NULL"
                     + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NOT NULL",
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NOT NULL",
             nativeQuery = true
     )
     void setGroupNotesAuthorAfterUserDeletion(
@@ -391,7 +391,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             value = "UPDATE " + NOTES_KEY + " SET "
                     + MARKED_AS_DONE_BY_KEY + "= NULL"
                     + " WHERE " + MARKED_AS_DONE_BY_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NOT NULL",
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NOT NULL",
             nativeQuery = true
     )
     void setGroupNotesMarkerAfterUserDeletion(

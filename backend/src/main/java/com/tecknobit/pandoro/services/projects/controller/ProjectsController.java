@@ -4,7 +4,7 @@ import com.tecknobit.equinoxcore.annotations.RequestPath;
 import com.tecknobit.pandoro.services.DefaultPandoroController;
 import com.tecknobit.pandoro.services.projects.dto.ProjectDTO;
 import com.tecknobit.pandoro.services.projects.entities.Project;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.projects.services.ChangeNotesService;
 import com.tecknobit.pandoro.services.projects.services.ProjectsService;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
@@ -525,7 +525,7 @@ public class ProjectsController extends DefaultPandoroController {
     private String manageUpdateStatus(String id, String token, String projectId, String updateId, boolean isPublishing) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        Update update = projectsService.updateExists(projectId, updateId);
         if (projectsService.getProject(id, projectId) == null || update == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         UpdateStatus status = update.getStatus();
@@ -568,7 +568,7 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        Update update = projectsService.updateExists(projectId, updateId);
         if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished())
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         loadJsonHelper(payload);
@@ -608,7 +608,7 @@ public class ProjectsController extends DefaultPandoroController {
     ) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        Update update = projectsService.updateExists(projectId, updateId);
         if (projectsService.getProject(id, projectId) == null || update == null || update.isPublished()
                 || !changeNotesService.changeNoteExists(updateId, noteId))
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -731,7 +731,7 @@ public class ProjectsController extends DefaultPandoroController {
                                     ChangeNoteOperation operation) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
-        ProjectUpdate update = projectsService.updateExists(projectId, updateId);
+        Update update = projectsService.updateExists(projectId, updateId);
         if (projectsService.getProject(id, projectId) == null || update == null ||
                 !changeNotesService.changeNoteExists(updateId, noteId)) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
@@ -791,9 +791,9 @@ public class ProjectsController extends DefaultPandoroController {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
         boolean userIsNotProjectCollaborator = projectsService.getProject(id, projectId) == null;
-        ProjectUpdate sourceUpdate = projectsService.updateExists(projectId, sourceUpdateId);
+        Update sourceUpdate = projectsService.updateExists(projectId, sourceUpdateId);
         boolean sourceUpdateDoesNotExist = sourceUpdate == null;
-        ProjectUpdate destinationUpdate = projectsService.updateExists(projectId, destinationUpdateId);
+        Update destinationUpdate = projectsService.updateExists(projectId, destinationUpdateId);
         boolean destinationUpdateDoesNotExist = destinationUpdate == null;
         boolean sourceUpdateDoesNotContainNote = !changeNotesService.changeNoteExists(sourceUpdateId, noteId);
         boolean destinationUpdateAlreadyContainsNote = changeNotesService.changeNoteExists(destinationUpdateId, noteId);
