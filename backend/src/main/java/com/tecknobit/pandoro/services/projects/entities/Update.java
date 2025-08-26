@@ -143,13 +143,18 @@ public class Update extends EquinoxItem {
     )
     @JoinColumn(name = PROJECT_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Project project;
+    private final Project project;
 
     // TODO: 26/08/2025 TO DOCU 1.2.0
     @OneToMany(
             mappedBy = OWNER_KEY,
             cascade = CascadeType.ALL
     )
+    @JsonIgnoreProperties({
+            OWNER_KEY,
+            "hibernateLazyInitializer",
+            "handler"
+    })
     @OrderBy(TIMESTAMP_KEY)
     private final List<UpdateEvent> events;
 
@@ -160,8 +165,12 @@ public class Update extends EquinoxItem {
      */
     @EmptyConstructor
     public Update() {
-        this(null, null, -1, null, null, -1, null, -1, null, null,
-                new ArrayList<>());
+        this(null, null, -1, null, null, -1, null, -1, null, null, null, new ArrayList<>());
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public Update(String id, PandoroUser author, long createDate, String targetVersion, UpdateStatus status, Project project) {
+        this(id, author, createDate, targetVersion, null, -1, null, -1, status, null, project, null);
     }
 
     /**
@@ -181,7 +190,7 @@ public class Update extends EquinoxItem {
     // TODO: 26/08/2025 TO DOCU 1.2.0
     public Update(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
                   long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
-                  ArrayList<Note> notes, List<UpdateEvent> events) {
+                  ArrayList<Note> notes, Project project, List<UpdateEvent> events) {
         super(id);
         this.author = author;
         this.createDate = createDate;
@@ -192,6 +201,7 @@ public class Update extends EquinoxItem {
         this.publishDate = publishDate;
         this.status = status;
         this.notes = notes;
+        this.project = project;
         this.events = events;
     }
 
@@ -295,6 +305,11 @@ public class Update extends EquinoxItem {
      */
     public UpdateStatus getStatus() {
         return status;
+    }
+
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public Project getProject() {
+        return project;
     }
 
     /**

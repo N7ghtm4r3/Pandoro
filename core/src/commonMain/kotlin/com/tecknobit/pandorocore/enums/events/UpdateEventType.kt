@@ -8,6 +8,8 @@ enum class UpdateEventType {
 
     SCHEDULED,
 
+    STARTED,
+
     CHANGENOTE_ADDED,
 
     CHANGENOTE_DONE,

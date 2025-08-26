@@ -467,7 +467,7 @@ public class ProjectsController extends DefaultPandoroController {
         List<String> changeNotes = jsonHelper.fetchList(UPDATE_CHANGE_NOTES_KEY);
         if (!INSTANCE.areNotesValid(changeNotes))
             return failedResponse(WRONG_CHANGE_NOTES_ERROR_MESSAGE);
-        updatesService.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, project, id);
+        updatesService.scheduleUpdate(generateIdentifier(), targetVersion, changeNotes, project, me);
         return successResponse();
     }
 

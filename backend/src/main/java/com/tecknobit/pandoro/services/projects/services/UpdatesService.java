@@ -6,6 +6,7 @@ import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier;
 import com.tecknobit.pandoro.services.projects.entities.Project;
 import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository;
+import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,16 +34,22 @@ public class UpdatesService extends EquinoxItemsHelper {
      */
     private final ChangelogsNotifier changelogsNotifier;
 
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    private final UpdateEventsNotifier updateEventsNotifier;
+
     /**
      * Constructor used to init the service
      *
      * @param updatesRepository  The instance for the updates repository
      * @param changelogsNotifier The instance used to notify a changelog event
      */
+    // TODO: 26/08/2025 TO DOCU 1.2.0
     @Autowired
-    public UpdatesService(UpdatesRepository updatesRepository, ChangelogsNotifier changelogsNotifier) {
+    public UpdatesService(UpdatesRepository updatesRepository, ChangelogsNotifier changelogsNotifier,
+                          UpdateEventsNotifier updateEventsNotifier) {
         this.updatesRepository = updatesRepository;
         this.changelogsNotifier = changelogsNotifier;
+        this.updateEventsNotifier = updateEventsNotifier;
     }
 
     /**
@@ -73,14 +80,15 @@ public class UpdatesService extends EquinoxItemsHelper {
      * @param updateId      The update identifier
      * @param targetVersion The target project_version of the new update
      * @param changeNotes   The change notes of the new update
-     * @param userId        The user identifier
+     * @param user        The user who scheduled the update
      * @param project       The project owner of the update
      */
     public void scheduleUpdate(String updateId, String targetVersion, List<String> changeNotes,
-                               Project project, String userId) {
+                               Project project, PandoroUser user) {
         String projectId = project.getId();
-        updatesRepository.scheduleUpdate(updateId, targetVersion, System.currentTimeMillis(), SCHEDULED, projectId,
-                userId);
+        String userId = user.getId();
+        Update update = new Update(updateId, user, System.currentTimeMillis(), targetVersion, SCHEDULED, project);
+        updatesRepository.save(update);
         batchInsert(INSERT_IGNORE_INTO, NOTES_KEY, new EquinoxItemsHelper.BatchQuery<String>() {
             @Override
             public Collection<String> getData() {
@@ -88,7 +96,7 @@ public class UpdatesService extends EquinoxItemsHelper {
             }
 
             @Override
-            @TableColumns(columns = {IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY})
+            @TableColumns(columns = {IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_ESCAPED_KEY})
             public void prepareQuery(Query query, int index, Collection<String> changeNotes) {
                 for (String changeNote : changeNotes) {
                     query.setParameter(index++, generateIdentifier());
@@ -101,9 +109,10 @@ public class UpdatesService extends EquinoxItemsHelper {
 
             @Override
             public String[] getColumns() {
-                return new String[]{IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_KEY};
+                return new String[]{IDENTIFIER_KEY, AUTHOR_KEY, CONTENT_NOTE_KEY, CREATION_DATE_KEY, UPDATE_ESCAPED_KEY};
             }
         });
+        updateEventsNotifier.updateScheduled(user, update);
         if (project.hasGroups())
             changelogsNotifier.scheduledNewUpdate(targetVersion, projectId, userId);
     }

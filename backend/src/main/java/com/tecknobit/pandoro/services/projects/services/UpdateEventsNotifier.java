@@ -11,17 +11,29 @@ import com.tecknobit.pandorocore.enums.events.UpdateEventType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.tecknobit.pandorocore.enums.events.UpdateEventType.SCHEDULED;
+import static com.tecknobit.pandorocore.enums.events.UpdateEventType.STARTED;
+
 // TODO: 26/08/2025 TO DOCU 1.2.0
 @Service
-public class UpdateEventsService {
+public class UpdateEventsNotifier {
 
     private final UpdateEventsRepository updateEventsRepository;
 
     @Autowired
-    public UpdateEventsService(UpdateEventsRepository updateEventsRepository) {
+    public UpdateEventsNotifier(UpdateEventsRepository updateEventsRepository) {
         this.updateEventsRepository = updateEventsRepository;
     }
 
+    @Wrapper
+    public void updateScheduled(PandoroUser author, Update owner) {
+        storeUpdateEvent(author, SCHEDULED, owner);
+    }
+
+    @Wrapper
+    public void updateStarted(PandoroUser author, Update owner) {
+        storeUpdateEvent(author, STARTED, owner);
+    }
 
     @Wrapper
     private void storeUpdateEvent(PandoroUser author, UpdateEventType type, Update owner) {

@@ -93,7 +93,10 @@ public class Project extends PandoroItem {
     /**
      * {@code groups} groups where the project has been assigned
      */
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE
+    )
     @JoinTable(
             name = PROJECTS_GROUPS_TABLE,
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
