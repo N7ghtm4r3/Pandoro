@@ -5,13 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.projects.entities.Update;
-import com.tecknobit.pandoro.services.projects.entities.UpdateEvent;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import java.util.List;
 
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
@@ -118,14 +115,6 @@ public class Note extends EquinoxItem {
     @JoinColumn(name = UPDATE_ESCAPED_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Update update;
-
-    // TODO: 26/08/2025 TO DOCU 1.2.0
-    @OneToMany(
-            mappedBy = NOTE_KEY,
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
-    )
-    private List<UpdateEvent> events;
 
     /**
      * Default constructor

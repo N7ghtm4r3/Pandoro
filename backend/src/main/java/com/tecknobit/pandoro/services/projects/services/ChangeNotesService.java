@@ -37,6 +37,34 @@ public class ChangeNotesService {
         this.updateEventsNotifier = updateEventsNotifier;
     }
 
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public Note getChangeNote(String updateId, String noteId) {
+        return notesRepository.getNoteByUpdate(updateId, noteId);
+    }
+
+    /**
+     * Method used to get a change note by its identifier
+     *
+     * @param noteId The identifier of the note to get
+     * @return the change note as {@link Note}, {@code null} otherwise
+     * @since 1.2.0
+     */
+    public Note getChangeNote(String noteId) {
+        return notesRepository.findById(noteId).orElse(null);
+    }
+
+    /**
+     * Method to check whether a change note exists
+     *
+     * @param noteId   The identifier of the note to add
+     * @param updateId The update identifier
+     * @return whether the change note exists as boolean
+     * @since 1.2.0
+     */
+    public boolean updateHasChangeNote(String updateId, String noteId) {
+        return notesRepository.getNoteByUpdate(updateId, noteId) != null;
+    }
+
     /**
      * Method to add a change note to an update
      *
@@ -67,75 +95,56 @@ public class ChangeNotesService {
     }
 
     /**
-     * Method to check whether a change note exists
-     *
-     * @param noteId   The identifier of the note to add
-     * @param updateId The update identifier
-     * @return whether the change note exists as boolean
-     */
-    @Deprecated
-    public boolean changeNoteExists(String updateId, String noteId) {
-        return notesRepository.getNoteByUpdate(updateId, noteId) != null;
-    }
-
-    // TODO: 26/08/2025 TO DOCU 1.2.0
-    public Note getChangeNote(String updateId, String noteId) {
-        return notesRepository.getNoteByUpdate(updateId, noteId);
-    }
-
-    /**
-     * Method used to get a change note by its identifier
-     *
-     * @param noteId The identifier of the note to get
-     * @return the change note as {@link Note}, {@code null} otherwise
-     *
-     * @since 1.2.0
-     */
-    public Note getChangeNote(String noteId) {
-        return notesRepository.findById(noteId).orElse(null);
-    }
-
-    /**
      * Method to mark as done a change note
      *
-     * @param updateId The update identifier
-     * @param noteId   The identifier of the note
-     * @param userId   The user identifier
+     * @param update The update owner of the change note
+     * @param changeNote   The note to mark as done
+     * @param user   The user who marks the note as done
      */
-    public void markChangeNoteAsDone(String updateId, String noteId, String userId) {
-        notesRepository.manageChangeNoteStatus(updateId, noteId, true, userId, System.currentTimeMillis());
+    @Transactional
+    public void markChangeNoteAsDone(Update update, Note changeNote, PandoroUser user) {
+        long markAsDoneDate = System.currentTimeMillis();
+        notesRepository.manageChangeNoteStatus(update.getId(), changeNote.getId(), true, user.getId(), markAsDoneDate);
+        updateEventsNotifier.changeNoteDone(user, update, changeNote);
     }
 
     /**
      * Method to mark as to-do a change note
      *
-     * @param updateId The update identifier
-     * @param noteId   The identifier of the note
+     * @param update The update owner of the change note
+     * @param changeNote   The note to mark as to-do
+     * @param user   The user who marks the note as to-do
      */
-    public void markChangeNoteAsToDo(String updateId, String noteId) {
-        notesRepository.manageChangeNoteStatus(updateId, noteId, false, null, -1);
+    @Transactional
+    public void markChangeNoteAsToDo(Update update, Note changeNote, PandoroUser user) {
+        notesRepository.manageChangeNoteStatus(update.getId(), changeNote.getId(), false, null, -1);
+        updateEventsNotifier.changeNoteUndone(user, update, changeNote);
     }
 
     /**
      * Method used to move a change note from an update to other
      *
-     * @param noteId    The identifier of the note
-     * @param destinationUpdateId The identifier of the update to move the change note
      *
      * @since 1.2.0
      */
-    public void moveChangeNote(String noteId, String destinationUpdateId) {
-        notesRepository.moveChangeNote(noteId, destinationUpdateId);
+    @Transactional
+    // TODO: 26/08/2025 TO DOCU 1.2.0
+    public void moveChangeNote(Note changeNote, Update sourceUpdate, Update destinationUpdate, PandoroUser user) {
+        notesRepository.moveChangeNote(changeNote.getId(), destinationUpdate.getId());
+        updateEventsNotifier.changeNoteMoved(user, sourceUpdate, destinationUpdate, changeNote);
     }
 
     /**
      * Method to delete a change note
      *
-     * @param updateId The update identifier
-     * @param noteId   The identifier of the note
+     * @param update The update owner of the change note
+     * @param changeNote   The identifier of the note to delete
+     * @param user   The user who deleted the change note
      */
-    public void deleteChangeNote(String updateId, String noteId) {
-        notesRepository.deleteChangeNote(updateId, noteId);
+    @Transactional
+    public void deleteChangeNote(Update update, Note changeNote, PandoroUser user) {
+        notesRepository.deleteChangeNote(update.getId(), changeNote.getId());
+        updateEventsNotifier.changeNoteRemoved(user, update, changeNote);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.tecknobit.pandoro.services.projects.entities;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
-import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import com.tecknobit.pandorocore.enums.events.UpdateEventType;
 import jakarta.persistence.*;
@@ -50,26 +50,26 @@ public class UpdateEvent extends EquinoxItem {
     @Column(name = TIMESTAMP_KEY)
     private final long timestamp;
 
-    @ManyToOne
-    @JsonIgnoreProperties({
-            EVENTS_KEY,
-            "hibernateLazyInitializer",
-            "handler"
-    })
-    private final Note note;
+    @Column(name = CONTENT_NOTE_KEY)
+    private final String noteContent;
+
+    @Column(name = EXTRA_CONTENT_KEY)
+    private final String extraContent;
 
     @EmptyConstructor
     public UpdateEvent() {
-        this(null, null, null, null, -1, null);
+        this(null, null, null, null, -1, null, null);
     }
 
-    public UpdateEvent(String id, Update owner, UpdateEventType type, PandoroUser author, long timestamp, Note changeNote) {
+    public UpdateEvent(String id, Update owner, UpdateEventType type, PandoroUser author, long timestamp, String noteContent,
+                       String extraContent) {
         super(id);
         this.owner = owner;
         this.type = type;
         this.author = author;
         this.timestamp = timestamp;
-        this.note = changeNote;
+        this.noteContent = noteContent;
+        this.extraContent = extraContent;
     }
 
     public Update getOwner() {
@@ -89,8 +89,14 @@ public class UpdateEvent extends EquinoxItem {
 
     }
 
-    public Note getNote() {
-        return note;
+    @JsonGetter(CONTENT_NOTE_KEY)
+    public String getNoteContent() {
+        return noteContent;
+    }
+
+    @JsonGetter(EXTRA_CONTENT_KEY)
+    public String getExtraContent() {
+        return extraContent;
     }
 
 }

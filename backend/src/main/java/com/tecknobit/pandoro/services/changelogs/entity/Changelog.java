@@ -74,7 +74,7 @@ public class Changelog extends EquinoxItem {
     /**
      * {@code extraContent} extra content data of the changelog event
      */
-    @Column(name = CHANGELOG_EXTRA_CONTENT_KEY)
+    @Column(name = EXTRA_CONTENT_KEY)
     private final String extraContent;
 
     /**
@@ -168,7 +168,7 @@ public class Changelog extends EquinoxItem {
      *
      * @return {@link #extraContent} instance as {@link String}
      */
-    @JsonGetter(CHANGELOG_EXTRA_CONTENT_KEY)
+    @JsonGetter(EXTRA_CONTENT_KEY)
     public String getExtraContent() {
         return extraContent;
     }

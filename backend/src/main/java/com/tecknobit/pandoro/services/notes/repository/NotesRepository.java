@@ -317,7 +317,7 @@ public interface NotesRepository extends JpaRepository<Note, String> {
     @Transactional
     @Query(
             value = "UPDATE " + NOTES_KEY + " SET " +
-                    UPDATE_KEY + "=:" + DESTINATION_UPDATE_IDENTIFIER_KEY +
+                    UPDATE_ESCAPED_KEY + "=:" + DESTINATION_UPDATE_IDENTIFIER_KEY +
                     _WHERE_ + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY,
             nativeQuery = true
     )

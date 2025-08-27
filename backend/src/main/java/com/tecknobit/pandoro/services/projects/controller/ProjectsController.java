@@ -748,27 +748,27 @@ public class ProjectsController extends DefaultPandoroController {
                                     ChangeNoteOperation operation) {
         if (!isMe(id, token))
             return failedResponse(NOT_AUTHORIZED_OR_WRONG_DETAILS_MESSAGE);
+        Project project = projectsService.getProject(id, projectId);
         Update update = updatesService.updateExists(projectId, updateId);
-        if (projectsService.getProject(id, projectId) == null || update == null ||
-                !changeNotesService.changeNoteExists(updateId, noteId)) {
+        Note changeNote = changeNotesService.getChangeNote(updateId, noteId);
+        if (project == null || update == null || changeNote == null)
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
-        }
         boolean isNotInDevelopment = update.getStatus() != IN_DEVELOPMENT;
         switch (operation) {
             case MARK_AS_DONE -> {
-                if (isNotInDevelopment)
+                if (isNotInDevelopment || changeNote.isMarkedAsDone())
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                changeNotesService.markChangeNoteAsDone(updateId, noteId, id);
+                changeNotesService.markChangeNoteAsDone(update, changeNote, me);
             }
             case MARK_AS_TODO -> {
-                if (isNotInDevelopment)
+                if (isNotInDevelopment || !changeNote.isMarkedAsDone())
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                changeNotesService.markChangeNoteAsToDo(updateId, noteId);
+                changeNotesService.markChangeNoteAsToDo(update, changeNote, me);
             }
             default -> {
                 if (update.isPublished())
                     return failedResponse(WRONG_PROCEDURE_MESSAGE);
-                changeNotesService.deleteChangeNote(updateId, noteId);
+                changeNotesService.deleteChangeNote(update, changeNote, me);
             }
         }
         return successResponse();
@@ -784,6 +784,7 @@ public class ProjectsController extends DefaultPandoroController {
      * @param noteId              The identifier of the note
      * @param destinationUpdateId The identifier of the update to move the change note
      * @return the result of the request as {@link String}
+     *
      * @since 1.2.0
      */
     @PutMapping(
@@ -812,15 +813,15 @@ public class ProjectsController extends DefaultPandoroController {
         boolean sourceUpdateDoesNotExist = sourceUpdate == null;
         Update destinationUpdate = updatesService.updateExists(projectId, destinationUpdateId);
         boolean destinationUpdateDoesNotExist = destinationUpdate == null;
-        boolean sourceUpdateDoesNotContainNote = !changeNotesService.changeNoteExists(sourceUpdateId, noteId);
-        boolean destinationUpdateAlreadyContainsNote = changeNotesService.changeNoteExists(destinationUpdateId, noteId);
+        boolean sourceUpdateDoesNotHaveNote = !changeNotesService.updateHasChangeNote(sourceUpdateId, noteId);
+        boolean destinationUpdateAlreadyHaveNote = changeNotesService.updateHasChangeNote(destinationUpdateId, noteId);
+        Note changeNote = changeNotesService.getChangeNote(sourceUpdateId, noteId);
         if (userIsNotProjectCollaborator || sourceUpdateDoesNotExist || destinationUpdateDoesNotExist ||
-                sourceUpdateDoesNotContainNote || destinationUpdateAlreadyContainsNote ||
-                changeNotesService.getChangeNote(noteId).isMarkedAsDone() ||
-                sourceUpdate.isPublished() || destinationUpdate.isPublished()) {
+                sourceUpdateDoesNotHaveNote || destinationUpdateAlreadyHaveNote ||
+                changeNote.isMarkedAsDone() || sourceUpdate.isPublished() || destinationUpdate.isPublished()) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
-        changeNotesService.moveChangeNote(noteId, destinationUpdateId);
+        changeNotesService.moveChangeNote(changeNote, sourceUpdate, destinationUpdate, me);
         return successResponse();
     }
 

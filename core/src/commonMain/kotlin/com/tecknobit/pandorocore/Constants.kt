@@ -258,11 +258,6 @@ const val CHANGELOG_EVENT_KEY = "changelog_event"
 const val TIMESTAMP_KEY = "timestamp"
 
 /**
- * `CHANGELOG_EXTRA_CONTENT_KEY` extra content of the changelog key
- */
-const val CHANGELOG_EXTRA_CONTENT_KEY = "extra_content"
-
-/**
  * `CHANGELOG_READ_KEY` whether the changelog is read key
  */
 const val CHANGELOG_READ_KEY = "is_read"
@@ -271,3 +266,10 @@ const val CHANGELOG_READ_KEY = "is_read"
  * `CHANGELOG_OWNER_KEY` owner of the changelog key
  */
 const val CHANGELOG_OWNER_KEY = "owner"
+
+/**
+ * `EXTRA_CONTENT_KEY` extra content key
+ *
+ * @since 1.2.0
+ */
+const val EXTRA_CONTENT_KEY = "extra_content"

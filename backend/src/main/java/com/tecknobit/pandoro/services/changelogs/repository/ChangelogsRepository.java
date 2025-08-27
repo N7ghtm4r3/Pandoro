@@ -100,7 +100,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
-                    + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_READ_KEY + ","
                     + TIMESTAMP_KEY + ","
                     + PROJECT_IDENTIFIER_KEY + ","
@@ -108,7 +108,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
-                    + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + ":" + EXTRA_CONTENT_KEY + ","
                     + "false,"
                     + ":" + TIMESTAMP_KEY + ","
                     + ":" + PROJECT_IDENTIFIER_KEY + ","
@@ -118,7 +118,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     void addProjectChangelog(
             @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
-            @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
+            @Param(EXTRA_CONTENT_KEY) String extraContent,
             @Param(TIMESTAMP_KEY) long changelogTimestamp,
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
             @Param(CHANGELOG_OWNER_KEY) String owner
@@ -132,7 +132,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
-                    + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_READ_KEY + ","
                     + TIMESTAMP_KEY + ","
                     + GROUP_IDENTIFIER_KEY + ","
@@ -140,7 +140,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
-                    + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + ":" + EXTRA_CONTENT_KEY + ","
                     + "false,"
                     + ":" + TIMESTAMP_KEY + ","
                     + ":" + GROUP_IDENTIFIER_KEY + ","
@@ -150,7 +150,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     void addGroupChangelog(
             @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
-            @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
+            @Param(EXTRA_CONTENT_KEY) String extraContent,
             @Param(TIMESTAMP_KEY) long changelogTimestamp,
             @Param(GROUP_IDENTIFIER_KEY) String groupId,
             @Param(CHANGELOG_OWNER_KEY) String owner
