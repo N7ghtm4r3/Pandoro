@@ -43,17 +43,6 @@ public class ChangeNotesService {
     }
 
     /**
-     * Method used to get a change note by its identifier
-     *
-     * @param noteId The identifier of the note to get
-     * @return the change note as {@link Note}, {@code null} otherwise
-     * @since 1.2.0
-     */
-    public Note getChangeNote(String noteId) {
-        return notesRepository.findById(noteId).orElse(null);
-    }
-
-    /**
      * Method to check whether a change note exists
      *
      * @param noteId   The identifier of the note to add
@@ -84,14 +73,16 @@ public class ChangeNotesService {
      * Method to edit an existing change note of an update
      *
      * @param user The user owner of the change note
-     * @param changeNote    The note to edit
-     * @param contentNote The content of the note to add
+     * @param changeNote The note to edit
+     * @param contentNote The edited content of the change note
      */
     @Transactional
     // TODO: 26/08/2025 TO DOCU 1.2.0
     public void editChangeNote(PandoroUser user, Update update, Note changeNote, String contentNote) {
         notesRepository.editNote(user.getId(), changeNote.getId(), contentNote);
-        updateEventsNotifier.changeNoteEdited(user, update, changeNote);
+        String oldContent = changeNote.getContent();
+        changeNote.setContent(contentNote);
+        updateEventsNotifier.changeNoteEdited(user, update, changeNote, oldContent);
     }
 
     /**

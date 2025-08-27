@@ -54,7 +54,7 @@ public class Note extends EquinoxItem {
             columnDefinition = "MEDIUMTEXT",
             nullable = false
     )
-    private final String content;
+    private String content;
 
     /**
      * {@code creationDate} when the note has been created
@@ -160,6 +160,16 @@ public class Note extends EquinoxItem {
      */
     public PandoroUser getAuthor() {
         return author;
+    }
+
+    /**
+     * Method used to the {@link #content} value
+     *
+     * @param content The content of the note
+     * @since 1.2.0
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 
     /**

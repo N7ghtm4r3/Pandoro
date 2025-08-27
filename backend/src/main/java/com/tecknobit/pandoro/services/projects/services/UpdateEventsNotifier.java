@@ -46,8 +46,8 @@ public class UpdateEventsNotifier {
     }
 
     @Wrapper
-    public void changeNoteEdited(PandoroUser author, Update owner, Note changeNote) {
-        storeUpdateEvent(author, CHANGENOTE_EDITED, owner, changeNote);
+    public void changeNoteEdited(PandoroUser author, Update owner, Note changeNote, String oldContent) {
+        storeUpdateEvent(author, CHANGENOTE_EDITED, owner, changeNote, oldContent);
     }
 
     @Wrapper
@@ -59,7 +59,7 @@ public class UpdateEventsNotifier {
 
     @Wrapper
     public void changeNoteRemoved(PandoroUser author, Update owner, Note changeNote) {
-        storeUpdateEvent(author, CHANGENOTE_REMOVED, owner, changeNote, changeNote.getContent());
+        storeUpdateEvent(author, CHANGENOTE_REMOVED, owner, changeNote);
     }
 
     @Wrapper
@@ -90,13 +90,16 @@ public class UpdateEventsNotifier {
     private void storeUpdateEvent(PandoroUser author, UpdateEventType type, Update owner, Note changeNote,
                                   String extraContent) {
         String eventId = EquinoxController.generateIdentifier();
+        String noteContent = null;
+        if (changeNote != null)
+            noteContent = changeNote.getContent();
         UpdateEvent event = new UpdateEvent(
                 eventId,
                 owner,
                 type,
                 author,
                 System.currentTimeMillis(),
-                changeNote.getContent(),
+                noteContent,
                 extraContent
         );
         updateEventsRepository.save(event);
