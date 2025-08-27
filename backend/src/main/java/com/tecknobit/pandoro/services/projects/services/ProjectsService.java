@@ -293,7 +293,14 @@ public class ProjectsService extends EquinoxItemsHelper implements PandoroResour
         }
     }
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * Method used to update the version of the project as the version of the latest published update
+     *
+     * @param userId        The user identifier which published the update
+     * @param projectId     The identifier of the project
+     * @param updateVersion The new version to set
+     * @since 1.2.0
+     */
     public void updateProjectVersion(String userId, String projectId, String updateVersion) {
         projectsRepository.updateProjectVersion(userId, projectId, updateVersion);
     }

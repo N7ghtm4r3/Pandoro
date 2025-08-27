@@ -4,7 +4,14 @@ import com.tecknobit.pandoro.services.projects.entities.UpdateEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-// TODO: 26/08/2025 TO DOCU 1.2.0
+/**
+ * The {@code UpdatesRepository} interface is useful to handle the queries for the updates events
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see JpaRepository
+ * @see UpdateEvent
+ * @since 1.2.0
+ */
 @Repository
 public interface UpdateEventsRepository extends JpaRepository<UpdateEvent, String> {
 }

@@ -133,9 +133,8 @@ public class Update extends EquinoxItem {
 
     /**
      * {@code project} the project owner
-     *
-     * @apiNote usage in SQL scopes
      */
+    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
@@ -144,7 +143,11 @@ public class Update extends EquinoxItem {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final Project project;
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * {@code events} the events occurred during the lifecycle of the update
+     *
+     * @since 1.2.0
+     */
     @OneToMany(
             mappedBy = OWNER_KEY,
             cascade = CascadeType.ALL
@@ -167,7 +170,17 @@ public class Update extends EquinoxItem {
         this(null, null, -1, null, null, -1, null, -1, null, null, null, new ArrayList<>());
     }
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * Constructor to init a {@link Update} object
+     *
+     * @param id            The      identifier of the update
+     * @param author        The author of the update
+     * @param createDate    When the update has been created
+     * @param targetVersion The target project_version of the update
+     * @param status        The current status of the update
+     * @param project       The project owner
+     * @since 1.2.0
+     */
     public Update(String id, PandoroUser author, long createDate, String targetVersion, UpdateStatus status, Project project) {
         this(id, author, createDate, targetVersion, null, -1, null, -1, status, null, project, null);
     }
@@ -175,18 +188,19 @@ public class Update extends EquinoxItem {
     /**
      * Constructor to init a {@link Update} object
      *
-     * @param id            identifier of the update
-     * @param author        the author of the update
-     * @param createDate    when the update has been created
-     * @param targetVersion the target project_version of the update
-     * @param startedBy     who created the update
-     * @param startDate     when the update has been started
-     * @param publishedBy   who published the update
-     * @param publishDate   when the update has been published
-     * @param status the current status of the update
-     * @param notes         the notes for the update to be done
+     * @param id      The      identifier of the update
+     * @param author        The author of the update
+     * @param createDate    When the update has been created
+     * @param targetVersion The target project_version of the update
+     * @param startedBy     Who created the update
+     * @param startDate     When the update has been started
+     * @param publishedBy   Who published the update
+     * @param publishDate   When the update has been published
+     * @param status The current status of the update
+     * @param notes  The notes for the update to be done
+     * @param project The project owner
+     * @param events The events occurred during the lifecycle of the update
      */
-    // TODO: 26/08/2025 TO DOCU 1.2.0
     public Update(String id, PandoroUser author, long createDate, String targetVersion, PandoroUser startedBy,
                   long startDate, PandoroUser publishedBy, long publishDate, UpdateStatus status,
                   ArrayList<Note> notes, Project project, List<UpdateEvent> events) {
@@ -292,7 +306,13 @@ public class Update extends EquinoxItem {
         return new ArrayList<>(notes);
     }
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * Method to get {@link #events} instance
+     *
+     * @return {@link #events} instance as {@link List} of {@link UpdateEvent}
+     *
+     * @since 1.2.0
+     */
     public List<UpdateEvent> getEvents() {
         return events;
     }
@@ -304,12 +324,6 @@ public class Update extends EquinoxItem {
      */
     public UpdateStatus getStatus() {
         return status;
-    }
-
-    // TODO: 26/08/2025 TO DOCU 1.2.0
-    @JsonIgnore
-    public Project getProject() {
-        return project;
     }
 
     /**

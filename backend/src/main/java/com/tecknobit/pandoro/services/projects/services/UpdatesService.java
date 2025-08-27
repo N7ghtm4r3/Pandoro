@@ -20,7 +20,13 @@ import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.SCHEDULED;
 
-// TODO: 26/08/2025 TO DOCU 1.2.0
+/**
+ * The {@code UpdatesService} class is useful to handle the updates database operations
+ *
+ * @author N7ghtm4r3 - Tecknobit
+ * @see EquinoxItemsHelper
+ * @since 1.2.0
+ */
 @Service
 public class UpdatesService extends EquinoxItemsHelper {
 
@@ -34,7 +40,9 @@ public class UpdatesService extends EquinoxItemsHelper {
      */
     private final ChangelogsNotifier changelogsNotifier;
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * {@code updateEventsNotifier} the notifier used to notify about an update event
+     */
     private final UpdateEventsNotifier updateEventsNotifier;
 
     /**
@@ -42,8 +50,8 @@ public class UpdatesService extends EquinoxItemsHelper {
      *
      * @param updatesRepository  The instance for the updates repository
      * @param changelogsNotifier The instance used to notify a changelog event
+     * @param updateEventsNotifier The notifier used to notify about an update event
      */
-    // TODO: 26/08/2025 TO DOCU 1.2.0
     @Autowired
     public UpdatesService(UpdatesRepository updatesRepository, ChangelogsNotifier changelogsNotifier,
                           UpdateEventsNotifier updateEventsNotifier) {

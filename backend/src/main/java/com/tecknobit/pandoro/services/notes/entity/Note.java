@@ -108,6 +108,7 @@ public class Note extends EquinoxItem {
      *
      * @apiNote usage in SQL scopes
      */
+    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
@@ -126,7 +127,16 @@ public class Note extends EquinoxItem {
         this(null, null, null, -1, false, null, -1);
     }
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * Constructor to init a {@link Note} object
+     *
+     * @param id           The identifier of the note
+     * @param author       The author of the note
+     * @param content      The content of the note
+     * @param creationDate When the note has been created
+     * @param update       The update where the note is attached
+     * @since 1.2.0
+     */
     public Note(String id, PandoroUser author, String content, long creationDate, Update update) {
         this(id, author, content, creationDate, false, null, -1);
         this.update = update;
@@ -136,6 +146,7 @@ public class Note extends EquinoxItem {
      * Constructor to init a {@link Note} object
      *
      * @param id The identifier of the note
+     * @param author The author of the note
      * @param content The content of the note
      * @param creationDate When the note has been created
      * @param markedAsDone Whether the note is marked as done

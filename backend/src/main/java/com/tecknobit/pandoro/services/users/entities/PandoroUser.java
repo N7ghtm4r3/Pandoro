@@ -73,7 +73,12 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
     )
     private List<Note> notes;
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * {@code events} the update events the user "creates" during the lifecycle of an update
+     *
+     * @since 1.2.0
+     */
+    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @OneToMany(
             mappedBy = AUTHOR_KEY,
             fetch = FetchType.LAZY,

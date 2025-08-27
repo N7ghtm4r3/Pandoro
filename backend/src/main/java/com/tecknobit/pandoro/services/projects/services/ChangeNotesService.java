@@ -22,22 +22,30 @@ public class ChangeNotesService {
      */
     private final NotesRepository notesRepository;
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * {@code updateEventsNotifier} the notifier used to notify about an update event
+     */
     private final UpdateEventsNotifier updateEventsNotifier;
 
     /**
      * Constructor used to init the service
      *
      * @param notesRepository The instance for the notes repository
+     * @param updateEventsNotifier The notifier used to notify about an update event
      */
     @Autowired
-    // TODO: 26/08/2025 TO DOCU 1.2.0
     public ChangeNotesService(NotesRepository notesRepository, UpdateEventsNotifier updateEventsNotifier) {
         this.notesRepository = notesRepository;
         this.updateEventsNotifier = updateEventsNotifier;
     }
 
-    // TODO: 26/08/2025 TO DOCU 1.2.0
+    /**
+     * Method used to query a change note with the identifier of the update and the identifier of the change note
+     *
+     * @param updateId The identifier of the update
+     * @param noteId   The identifier of the note
+     * @return the change note attached to the update as {@link Note} if exists, {@code null} otherwise
+     */
     public Note getChangeNote(String updateId, String noteId) {
         return notesRepository.getNoteByUpdate(updateId, noteId);
     }
@@ -48,7 +56,6 @@ public class ChangeNotesService {
      * @param noteId   The identifier of the note to add
      * @param updateId The update identifier
      * @return whether the change note exists as boolean
-     * @since 1.2.0
      */
     public boolean updateHasChangeNote(String updateId, String noteId) {
         return notesRepository.getNoteByUpdate(updateId, noteId) != null;
@@ -72,12 +79,12 @@ public class ChangeNotesService {
     /**
      * Method to edit an existing change note of an update
      *
-     * @param user The user owner of the change note
+     * @param user The user which edited the change note
+     * @param update The update owner of the change note
      * @param changeNote The note to edit
      * @param contentNote The edited content of the change note
      */
     @Transactional
-    // TODO: 26/08/2025 TO DOCU 1.2.0
     public void editChangeNote(PandoroUser user, Update update, Note changeNote, String contentNote) {
         notesRepository.editNote(user.getId(), changeNote.getId(), contentNote);
         String oldContent = changeNote.getContent();
@@ -115,11 +122,12 @@ public class ChangeNotesService {
     /**
      * Method used to move a change note from an update to other
      *
-     *
-     * @since 1.2.0
+     * @param changeNote The change note to move
+     * @param sourceUpdate The update from move the change note
+     * @param destinationUpdate The update where move the change note
+     * @param user The user who moved the notes
      */
     @Transactional
-    // TODO: 26/08/2025 TO DOCU 1.2.0
     public void moveChangeNote(Note changeNote, Update sourceUpdate, Update destinationUpdate, PandoroUser user) {
         notesRepository.moveChangeNote(changeNote.getId(), destinationUpdate.getId());
         updateEventsNotifier.changeNoteMoved(user, sourceUpdate, destinationUpdate, changeNote);
