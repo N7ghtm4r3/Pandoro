@@ -813,11 +813,12 @@ public class ProjectsController extends DefaultPandoroController {
         boolean sourceUpdateDoesNotExist = sourceUpdate == null;
         Update destinationUpdate = updatesService.updateExists(projectId, destinationUpdateId);
         boolean destinationUpdateDoesNotExist = destinationUpdate == null;
+        boolean areSameUpdate = sourceUpdateId.equals(destinationUpdateId);
         boolean sourceUpdateDoesNotHaveNote = !changeNotesService.updateHasChangeNote(sourceUpdateId, noteId);
         boolean destinationUpdateAlreadyHaveNote = changeNotesService.updateHasChangeNote(destinationUpdateId, noteId);
         Note changeNote = changeNotesService.getChangeNote(sourceUpdateId, noteId);
         if (userIsNotProjectCollaborator || sourceUpdateDoesNotExist || destinationUpdateDoesNotExist ||
-                sourceUpdateDoesNotHaveNote || destinationUpdateAlreadyHaveNote ||
+                areSameUpdate || sourceUpdateDoesNotHaveNote || destinationUpdateAlreadyHaveNote ||
                 changeNote.isMarkedAsDone() || sourceUpdate.isPublished() || destinationUpdate.isPublished()) {
             return failedResponse(WRONG_PROCEDURE_MESSAGE);
         }
