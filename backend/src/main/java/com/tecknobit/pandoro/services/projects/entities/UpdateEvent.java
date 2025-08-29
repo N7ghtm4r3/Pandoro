@@ -1,6 +1,7 @@
 package com.tecknobit.pandoro.services.projects.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
+import static org.hibernate.annotations.OnDeleteAction.SET_NULL;
 
 /**
  * The {@code UpdateEvent} class represents an update occurred during the lifecycle of that update
@@ -60,6 +62,7 @@ public class UpdateEvent extends EquinoxItem {
             "hibernateLazyInitializer",
             "handler"
     })
+    @OnDelete(action = SET_NULL)
     private final PandoroUser author;
 
     /**
@@ -115,6 +118,7 @@ public class UpdateEvent extends EquinoxItem {
      *
      * @return {@link #owner} instance as {@link PandoroUser}
      */
+    @JsonIgnore
     public Update getOwner() {
         return owner;
     }
