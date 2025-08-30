@@ -82,8 +82,6 @@ const val DESTINATION_UPDATE_IDENTIFIER_KEY = "destination_update_id"
 /**
  * `UPDATE_KEY` update key
  */
-// TODO: TO WARN ABOUT ALTER:
-// TODO: - ALTER TABLE `notes` CHANGE `project_update` `update` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 const val UPDATE_KEY = "update"
 
 /**
