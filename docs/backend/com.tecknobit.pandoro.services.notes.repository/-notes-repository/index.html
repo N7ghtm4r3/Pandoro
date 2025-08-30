@@ -207,7 +207,7 @@
                     + MARKED_AS_DONE_KEY + ","
                     + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + ","
-                    + UPDATE_KEY + ") "
+                    + UPDATE_ESCAPED_KEY + ") "
                     + "VALUES ("
                     + ":" + IDENTIFIER_KEY + ","
                     + ":" + AUTHOR_KEY + ","
@@ -282,7 +282,7 @@
                                                                 class="token annotation builtin">Param</span></span><span
                                                                 class="token punctuation">(</span><span>value<span
                                                                 class="token operator"> = </span><span
-                                                                class="breakable-word"><span class="token string">"project_update"</span></span></span><wbr><span
+                                                                class="breakable-word"><span class="token string">"update"</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>updateId<span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
@@ -711,8 +711,8 @@
                                                                         class="token punctuation">(</span><span>value<span
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
-                                                                        class="token string">""DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY"</span></span><span
+                                                                        class="token string">""DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY"</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
@@ -733,7 +733,7 @@
                                                                 class="token annotation builtin">Param</span></span><span
                                                                 class="token punctuation">(</span><span>value<span
                                                                 class="token operator"> = </span><span
-                                                                class="breakable-word"><span class="token string">"project_update"</span></span></span><wbr><span
+                                                                class="breakable-word"><span class="token string">"update"</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>updateId<span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
@@ -833,8 +833,8 @@
                                                                         class="token punctuation">(</span><span>value<span
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
-                                                                        class="token string">""DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY"</span></span><span
+                                                                        class="token string">""DELETE FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY +
+                    " AND " + AUTHOR_KEY + "=:" + AUTHOR_KEY"</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
@@ -1570,7 +1570,7 @@
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
                                                                         class="token string">""SELECT * FROM " + NOTES_KEY + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + "=:" + UPDATE_KEY"</span></span><span
+                    + " AND " + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY"</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
@@ -1591,7 +1591,7 @@
                                                                 class="token annotation builtin">Param</span></span><span
                                                                 class="token punctuation">(</span><span>value<span
                                                                 class="token operator"> = </span><span
-                                                                class="breakable-word"><span class="token string">"project_update"</span></span></span><wbr><span
+                                                                class="breakable-word"><span class="token string">"update"</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>updateId<span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
@@ -1614,7 +1614,7 @@
                                                         <div class="brief ">Method to execute the query to select a <a
                                                                 href="../../com.tecknobit.pandoro.services.notes.entity/-note/index.html">Note</a>
                                                             of an <a
-                                                                    href="../../com.tecknobit.pandoro.services.projects.entities/-project-update/index.html">ProjectUpdate</a>
+                                                                    href="../../com.tecknobit.pandoro.services.projects.entities/-update/index.html">Update</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1650,7 +1650,7 @@
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
                                                                         class="token string">"SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
@@ -1694,7 +1694,7 @@
                                                                         class="breakable-word"><span
                                                                         class="token string">"SELECT * FROM " + NOTES_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL" +
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL" +
                     " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
                     " ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
                                                                         class="token punctuation">, </span></span>
@@ -1778,7 +1778,8 @@
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
                                                                         class="token string">"SELECT COUNT(*) FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL"</span></span><span class="token punctuation">, </span></span>
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL"</span></span><span
+                                                                        class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
                                                                             class="token operator"> = </span><span
@@ -1818,7 +1819,8 @@
                                                                         class="token string">"SELECT COUNT(*) FROM " + NOTES_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
                     " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL"</span></span><span class="token punctuation">, </span></span>
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL"</span></span><span
+                                                                        class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
                                                                             class="token operator"> = </span><span
@@ -1980,7 +1982,8 @@
                     + MARKED_AS_DONE_BY_KEY + "=:" + MARKED_AS_DONE_BY_KEY + ","
                     + MARKED_AS_DONE_DATE_KEY + "=:" + MARKED_AS_DONE_DATE_KEY
                     + " WHERE " + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY + " AND "
-                    + UPDATE_KEY + "=:" + UPDATE_KEY"</span></span><span class="token punctuation">, </span></span>
+                    + UPDATE_ESCAPED_KEY + "=:" + UPDATE_KEY"</span></span><span
+                                                                        class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
                                                                             class="token operator"> = </span><span
@@ -2000,7 +2003,7 @@
                                                                 class="token annotation builtin">Param</span></span><span
                                                                 class="token punctuation">(</span><span>value<span
                                                                 class="token operator"> = </span><span
-                                                                class="breakable-word"><span class="token string">"project_update"</span></span></span><wbr><span
+                                                                class="breakable-word"><span class="token string">"update"</span></span></span><wbr><span
                                                                 class="token punctuation">)</span>&nbsp;</span>updateId<span
                                                                 class="token operator">: </span><a
                                                                 href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
@@ -2170,6 +2173,92 @@
                                         </div>
                                     </div>
                                 </div>
+                                <a data-name="-1551115022%2FFunctions%2F-612206970" anchor-label="moveChangeNote"
+                                   id="-1551115022%2FFunctions%2F-612206970"
+                                   data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
+                                <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                     data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                    <div class="main-subrow keyValue ">
+                                        <div class=""><span class="inline-flex">
+                  <div><a href="move-change-note.html"><span>move</span><wbr><span>Change</span><wbr><span><span>Note</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1551115022%2FFunctions%2F-612206970"></span>
+                    <div class="copy-popup-wrapper "><span
+                            class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+                                        <div>
+                                            <div class="title">
+                                                <div class="platform-hinted "
+                                                     data-platform-hinted="data-platform-hinted">
+                                                    <div class="content sourceset-dependent-content" data-active=""
+                                                         data-togglable=":backend:dokkaHtmlPartial/main">
+                                                        <div class="symbol monospace">
+                                                            <div class="block">
+                                                                <div class="block"><span
+                                                                        class="token annotation builtin">@</span><span
+                                                                        data-unresolved-link="org.springframework.data.jpa.repository/Modifying///PointingToDeclaration/"><span
+                                                                        class="token annotation builtin">Modifying</span></span><span
+                                                                        class="token punctuation">(</span><span>clearAutomatically<span
+                                                                        class="token operator"> = </span><span
+                                                                        class="breakable-word"><span
+                                                                        class="token boolean">true</span></span></span>
+                                                                    <wbr>
+                                                                    <span class="token punctuation">)</span></div>
+                                                                <div class="block"><span
+                                                                        class="token annotation builtin">@</span><span
+                                                                        data-unresolved-link="org.springframework.data.jpa.repository/Query///PointingToDeclaration/"><span
+                                                                        class="token annotation builtin">Query</span></span><span
+                                                                        class="token punctuation">(</span><span>value<span
+                                                                        class="token operator"> = </span><span
+                                                                        class="breakable-word"><span
+                                                                        class="token string">""UPDATE " + NOTES_KEY + " SET " +
+                    UPDATE_ESCAPED_KEY + "=:" + DESTINATION_UPDATE_IDENTIFIER_KEY +
+                    _WHERE_ + IDENTIFIER_KEY + "=:" + IDENTIFIER_KEY"</span></span><span
+                                                                        class="token punctuation">, </span></span>
+                                                                    <wbr>
+                                                                    <span>nativeQuery<span
+                                                                            class="token operator"> = </span><span
+                                                                            class="breakable-word"><span
+                                                                            class="token boolean">true</span></span></span>
+                                                                    <wbr>
+                                                                    <span class="token punctuation">)</span></div>
+                                                            </div>
+                                                            <span class="token keyword">abstract </span><span
+                                                                class="token keyword">fun </span><a
+                                                                href="move-change-note.html"><span
+                                                                class="token function">moveChangeNote</span></a><span
+                                                                class="token punctuation">(</span><span
+                                                                class="parameters "><span class="parameter "><span><span
+                                                                class="token annotation builtin">@</span><span
+                                                                data-unresolved-link="org.springframework.data.repository.query/Param///PointingToDeclaration/"><span
+                                                                class="token annotation builtin">Param</span></span><span
+                                                                class="token punctuation">(</span><span>value<span
+                                                                class="token operator"> = </span><span
+                                                                class="breakable-word"><span
+                                                                class="token string">"id"</span></span></span><wbr><span
+                                                                class="token punctuation">)</span>&nbsp;</span>noteId<span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a><span
+                                                                class="token punctuation">, </span></span><span
+                                                                class="parameter "><span><span
+                                                                class="token annotation builtin">@</span><span
+                                                                data-unresolved-link="org.springframework.data.repository.query/Param///PointingToDeclaration/"><span
+                                                                class="token annotation builtin">Param</span></span><span
+                                                                class="token punctuation">(</span><span>value<span
+                                                                class="token operator"> = </span><span
+                                                                class="breakable-word"><span class="token string">"destination_update_id"</span></span></span><wbr><span
+                                                                class="token punctuation">)</span>&nbsp;</span>destinationUpdateId<span
+                                                                class="token operator">: </span><a
+                                                                href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></span></span><span
+                                                                class="token punctuation">)</span></div>
+                                                        <div class="brief ">Query used to move a change note from an
+                                                            update to other
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <a data-name="-445353458%2FFunctions%2F-612206970" anchor-label="removeUserConstraints"
                                    id="-445353458%2FFunctions%2F-612206970"
                                    data-filterable-set=":backend:dokkaHtmlPartial/main"></a>
@@ -2208,7 +2297,8 @@
                                                                         class="token operator"> = </span><span
                                                                         class="breakable-word"><span
                                                                         class="token string">"DELETE FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NULL"</span></span><span class="token punctuation">, </span></span>
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NULL"</span></span><span
+                                                                        class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
                                                                             class="token operator"> = </span><span
@@ -2488,7 +2578,7 @@
                                                                         class="token string">"UPDATE " + NOTES_KEY + " SET "
                     + AUTHOR_KEY + "= NULL"
                     + " WHERE " + AUTHOR_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NOT NULL"</span></span><span
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NOT NULL"</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span
@@ -2568,7 +2658,7 @@
                                                                         class="token string">"UPDATE " + NOTES_KEY + " SET "
                     + MARKED_AS_DONE_BY_KEY + "= NULL"
                     + " WHERE " + MARKED_AS_DONE_BY_KEY + "=:" + IDENTIFIER_KEY
-                    + " AND " + UPDATE_KEY + " IS NOT NULL"</span></span><span
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NOT NULL"</span></span><span
                                                                         class="token punctuation">, </span></span>
                                                                     <wbr>
                                                                     <span>nativeQuery<span

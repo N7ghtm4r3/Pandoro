@@ -26,7 +26,7 @@ com.tecknobit.pandoro.services.projects.controller
 com.tecknobit.pandoro.services.projects.dto
 com.tecknobit.pandoro.services.projects.entities
 com.tecknobit.pandoro.services.projects.repositories
-com.tecknobit.pandoro.services.projects.service
+com.tecknobit.pandoro.services.projects.services
 com.tecknobit.pandoro.services.users.controller
 com.tecknobit.pandoro.services.users.dto
 com.tecknobit.pandoro.services.users.entities
@@ -35,4 +35,5 @@ com.tecknobit.pandoro.services.users.service
 module:core
 com.tecknobit.pandorocore
 com.tecknobit.pandorocore.enums
+com.tecknobit.pandorocore.enums.events
 com.tecknobit.pandorocore.helpers

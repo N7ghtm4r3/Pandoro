@@ -1,9 +1,10 @@
 package com.tecknobit.pandoro.services.groups.service;
 
 import com.tecknobit.equinoxbackend.annotations.TableColumns;
+import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
-import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator;
+import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.dto.GroupDTO;
 import com.tecknobit.pandoro.services.groups.entity.Group;
@@ -37,10 +38,11 @@ import static com.tecknobit.pandorocore.enums.Role.DEVELOPER;
  * The {@code GroupsService} class is useful to manage all the groups database operations
  *
  * @author N7ghtm4r3 - Tecknobit
- * @see ChangelogOperator
+ *
+ * @see EquinoxItemsHelper
  */
 @Service
-public class GroupsService extends ChangelogOperator implements PandoroResourcesManager {
+public class GroupsService extends EquinoxItemsHelper implements PandoroResourcesManager {
 
     /**
      * {@code usersRepository} instance for the users repository
@@ -63,20 +65,28 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
     private final ChangelogsRepository changelogsRepository;
 
     /**
+     * {@code changelogsNotifier} instance used to notify a changelog event
+     */
+    private final ChangelogsNotifier changelogsNotifier;
+
+    /**
      * Constructor to init the service
      *
      * @param usersRepository      The instance for the users repository
      * @param groupsRepository     The instance for the groups repository
      * @param membersRepository    The instance for the members of a group repository
      * @param changelogsRepository The instance for the changelogs repository
+     * @param changelogsNotifier The instance used to notify a changelog event
      */
     @Autowired
     public GroupsService(PandoroUsersRepository usersRepository, GroupsRepository groupsRepository,
-                         GroupMembersRepository membersRepository, ChangelogsRepository changelogsRepository) {
+                         GroupMembersRepository membersRepository, ChangelogsRepository changelogsRepository,
+                         ChangelogsNotifier changelogsNotifier) {
         this.usersRepository = usersRepository;
         this.groupsRepository = groupsRepository;
         this.membersRepository = membersRepository;
         this.changelogsRepository = changelogsRepository;
+        this.changelogsNotifier = changelogsNotifier;
     }
 
     /**
@@ -183,7 +193,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
                     query.setParameter(index++, member.getProfilePic());
                     query.setParameter(index++, DEVELOPER.name());
                     query.setParameter(index++, member.getSurname());
-                    changelogsCreator.sendGroupInvite(groupId, groupName, memberId);
+                    changelogsNotifier.sendGroupInvite(groupId, groupName, memberId);
                 }
             }
 
@@ -254,7 +264,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             @Override
             public void afterSync() {
                 for (GroupMember member : groupMembers)
-                    changelogsCreator.newMemberJoined(groupId, member.getId());
+                    changelogsNotifier.newMemberJoined(groupId, member.getId());
             }
         };
         BatchQuery<String> batchQuery = new BatchQuery<>() {
@@ -279,7 +289,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
                     query.setParameter(index++, pandoroUser.getProfilePic());
                     query.setParameter(index++, DEVELOPER);
                     query.setParameter(index++, pandoroUser.getSurname());
-                    changelogsCreator.sendGroupInvite(groupId, groupName, member);
+                    changelogsNotifier.sendGroupInvite(groupId, groupName, member);
                 }
             }
 
@@ -317,7 +327,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
         List<GroupMember> members = membersRepository.getGroupMembers(groupId);
         changelogsRepository.deleteChangelog(userId, changelogId);
         for (GroupMember member : members)
-            changelogsCreator.newMemberJoined(groupId, member.getId());
+            changelogsNotifier.newMemberJoined(groupId, member.getId());
     }
 
     /**
@@ -368,7 +378,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
      */
     public void changeMemberRole(String memberId, String groupId, com.tecknobit.pandorocore.enums.Role role) {
         membersRepository.changeMemberRole(memberId, groupId, role);
-        changelogsCreator.yourGroupRoleChanged(groupId, memberId, role);
+        changelogsNotifier.yourGroupRoleChanged(groupId, memberId, role);
     }
 
     /**
@@ -394,13 +404,13 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
         for (String project : currentProjects) {
             groupsRepository.removeGroupProject(project, groupId);
             for (GroupMember member : groupMembers)
-                changelogsCreator.removedGroupProject(project, member.getId());
+                changelogsNotifier.removedGroupProject(project, member.getId());
         }
         projects.removeAll(groupsRepository.getGroupProjectsIds(groupId));
         for (String project : projects) {
             groupsRepository.addGroupProject(project, groupId);
             for (GroupMember member : groupMembers)
-                changelogsCreator.addedGroupProject(project, member.getId());
+                changelogsNotifier.addedGroupProject(project, member.getId());
         }
     }
 
@@ -419,7 +429,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
             for (Project project : group.getProjects())
                 if (project.getAuthor().getId().equals(memberId))
                     groupsRepository.removeGroupProject(project.getId(), groupId);
-            changelogsCreator.memberLeftGroup(groupId, memberId);
+            changelogsNotifier.memberLeftGroup(groupId, memberId);
         }
     }
 
@@ -435,7 +445,7 @@ public class GroupsService extends ChangelogOperator implements PandoroResources
         groupsRepository.deleteGroup(groupId);
         deleteGroupLogoResource(groupId);
         for (GroupMember member : members)
-            changelogsCreator.groupDeleted(groupName, member.getId());
+            changelogsNotifier.groupDeleted(groupName, member.getId());
     }
 
 }

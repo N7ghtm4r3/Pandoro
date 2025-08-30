@@ -4,7 +4,7 @@ import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository;
-import com.tecknobit.pandorocore.enums.ChangelogEvent;
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP;
+import static com.tecknobit.pandorocore.enums.events.ChangelogEvent.INVITED_GROUP;
 
 /**
  * The {@code ChangelogsService} class is useful to manage all the changelogs database operations

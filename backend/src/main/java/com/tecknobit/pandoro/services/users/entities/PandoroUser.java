@@ -10,12 +10,10 @@ import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.projects.entities.Project;
+import com.tecknobit.pandoro.services.projects.entities.UpdateEvent;
 import com.tecknobit.pandoro.services.users.dto.CandidateMember;
 import com.tecknobit.pandorocore.enums.Role;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -74,6 +72,19 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
             cascade = CascadeType.ALL
     )
     private List<Note> notes;
+
+    /**
+     * {@code events} the update events the user "creates" during the lifecycle of an update
+     *
+     * @since 1.2.0
+     */
+    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
+    @OneToMany(
+            mappedBy = AUTHOR_KEY,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private List<UpdateEvent> events;
 
     /**
      * Default constructor

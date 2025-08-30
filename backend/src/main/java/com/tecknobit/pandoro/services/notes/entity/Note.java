@@ -1,11 +1,10 @@
 package com.tecknobit.pandoro.services.notes.entity;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -55,7 +54,7 @@ public class Note extends EquinoxItem {
             columnDefinition = "MEDIUMTEXT",
             nullable = false
     )
-    private final String content;
+    private String content;
 
     /**
      * {@code creationDate} when the note has been created
@@ -109,14 +108,14 @@ public class Note extends EquinoxItem {
      *
      * @apiNote usage in SQL scopes
      */
-    @JsonIgnore
+    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = UPDATE_KEY, referencedColumnName = IDENTIFIER_KEY)
+    @JoinColumn(name = UPDATE_ESCAPED_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private ProjectUpdate project_update;
+    private Update update;
 
     /**
      * Default constructor
@@ -131,12 +130,28 @@ public class Note extends EquinoxItem {
     /**
      * Constructor to init a {@link Note} object
      *
-     * @param id:               the identifier of the note
-     * @param content:          the content of the note
-     * @param creationDate:when the note has been created
-     * @param markedAsDone:     whether the note is marked as done
-     * @param markedAsDoneBy:   who marked the note as done
-     * @param markAsDoneDate:{@code markedAsDoneDate} when the note has been marked as done
+     * @param id           The identifier of the note
+     * @param author       The author of the note
+     * @param content      The content of the note
+     * @param creationDate When the note has been created
+     * @param update       The update where the note is attached
+     * @since 1.2.0
+     */
+    public Note(String id, PandoroUser author, String content, long creationDate, Update update) {
+        this(id, author, content, creationDate, false, null, -1);
+        this.update = update;
+    }
+
+    /**
+     * Constructor to init a {@link Note} object
+     *
+     * @param id The identifier of the note
+     * @param author The author of the note
+     * @param content The content of the note
+     * @param creationDate When the note has been created
+     * @param markedAsDone Whether the note is marked as done
+     * @param markedAsDoneBy Who marked the note as done
+     * @param markAsDoneDate When the note has been marked as done
      */
     public Note(String id, PandoroUser author, String content, long creationDate, boolean markedAsDone,
                 PandoroUser markedAsDoneBy, long markAsDoneDate) {
@@ -156,6 +171,16 @@ public class Note extends EquinoxItem {
      */
     public PandoroUser getAuthor() {
         return author;
+    }
+
+    /**
+     * Method used to the {@link #content} value
+     *
+     * @param content The content of the note
+     * @since 1.2.0
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 
     /**

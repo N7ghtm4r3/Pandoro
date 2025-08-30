@@ -5,7 +5,7 @@ import com.tecknobit.pandoro.services.overview.dto.Overview.OverviewFullStatsIte
 import com.tecknobit.pandoro.services.overview.dto.Overview.OverviewStatsItem;
 import com.tecknobit.pandoro.services.overview.dto.Overview.ProjectPerformanceStats;
 import com.tecknobit.pandoro.services.projects.entities.Project;
-import com.tecknobit.pandoro.services.projects.entities.ProjectUpdate;
+import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.projects.repositories.ProjectsRepository;
 import com.tecknobit.pandorocore.enums.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +115,7 @@ public class OverviewService {
         int personal = 0;
         int group = 0;
         for (Project project : projects) {
-            List<ProjectUpdate> updates = project.getUpdates();
+            List<Update> updates = project.getUpdates();
             int updatesNumber = updates.size();
             if (!updates.isEmpty()) {
                 total += updatesNumber;
@@ -156,7 +156,7 @@ public class OverviewService {
         int group = 0;
         int byMe = 0;
         for (Project project : projects) {
-            for (ProjectUpdate update : project.getUpdates()) {
+            for (Update update : project.getUpdates()) {
                 UpdateStatus updateStatus = update.getStatus();
                 if (updateStatus == status) {
                     if (project.hasGroups())

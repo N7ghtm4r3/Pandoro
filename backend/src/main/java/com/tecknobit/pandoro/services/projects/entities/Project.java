@@ -93,7 +93,10 @@ public class Project extends PandoroItem {
     /**
      * {@code groups} groups where the project has been assigned
      */
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE
+    )
     @JoinTable(
             name = PROJECTS_GROUPS_TABLE,
             joinColumns = {@JoinColumn(name = PROJECT_IDENTIFIER_KEY)},
@@ -114,7 +117,7 @@ public class Project extends PandoroItem {
             cascade = CascadeType.ALL
     )
     @OrderBy(UPDATE_TARGET_VERSION_KEY + " DESC")
-    private List<ProjectUpdate> updates;
+    private List<Update> updates;
 
     /**
      * {@code projectRepo} the project_repository of the project
@@ -148,7 +151,7 @@ public class Project extends PandoroItem {
      * @param projectRepo      the project_repository of the project
      */
     public Project(String id, String name, String icon, long creationDate, PandoroUser author, String description, String version,
-                   ArrayList<Group> groups, ArrayList<ProjectUpdate> updates, String projectRepo) {
+                   ArrayList<Group> groups, ArrayList<Update> updates, String projectRepo) {
         super(id, name);
         this.icon = icon;
         this.creationDate = creationDate;
@@ -222,28 +225,28 @@ public class Project extends PandoroItem {
      *
      * @param updates The updates list to set
      */
-    public void setUpdates(List<ProjectUpdate> updates) {
+    public void setUpdates(List<Update> updates) {
         this.updates = updates;
     }
 
     /**
      * Method to get {@link #updates} instance
      *
-     * @return {@link #updates} instance as {@link ArrayList} of {@link ProjectUpdate}
+     * @return {@link #updates} instance as {@link ArrayList} of {@link Update}
      */
-    public ArrayList<ProjectUpdate> getUpdates() {
+    public ArrayList<Update> getUpdates() {
         return new ArrayList<>(updates);
     }
 
     /**
      * Method to get the published updates
      *
-     * @return published updates as {@link ArrayList} of {@link ProjectUpdate}
+     * @return published updates as {@link ArrayList} of {@link Update}
      */
     @JsonIgnore
-    public ArrayList<ProjectUpdate> getPublishedUpdates() {
-        ArrayList<ProjectUpdate> publishedUpdates = new ArrayList<>();
-        for (ProjectUpdate update : updates)
+    public ArrayList<Update> getPublishedUpdates() {
+        ArrayList<Update> publishedUpdates = new ArrayList<>();
+        for (Update update : updates)
             if (update.getStatus() == PUBLISHED)
                 publishedUpdates.add(update);
         return publishedUpdates;
@@ -257,7 +260,7 @@ public class Project extends PandoroItem {
     @JsonIgnore
     public int getTotalDevelopmentDays() {
         int totalDevelopmentDays = 0;
-        for (ProjectUpdate update : getPublishedUpdates())
+        for (Update update : getPublishedUpdates())
             totalDevelopmentDays += update.getDevelopmentDuration();
         return totalDevelopmentDays;
     }

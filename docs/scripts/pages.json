@@ -10,6 +10,76 @@
     ]
   },
   {
+    "name": "CHANGENOTE_ADDED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_ADDED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-a-d-d-e-d/index.html",
+    "searchKeys": [
+      "CHANGENOTE_ADDED",
+      "CHANGENOTE_ADDED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_ADDED"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_DONE",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_DONE",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-d-o-n-e/index.html",
+    "searchKeys": [
+      "CHANGENOTE_DONE",
+      "CHANGENOTE_DONE",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_DONE"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_EDITED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_EDITED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-e-d-i-t-e-d/index.html",
+    "searchKeys": [
+      "CHANGENOTE_EDITED",
+      "CHANGENOTE_EDITED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_EDITED"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_MOVED_FROM",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_FROM",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-m-o-v-e-d_-f-r-o-m/index.html",
+    "searchKeys": [
+      "CHANGENOTE_MOVED_FROM",
+      "CHANGENOTE_MOVED_FROM",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_FROM"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_MOVED_TO",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_TO",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-m-o-v-e-d_-t-o/index.html",
+    "searchKeys": [
+      "CHANGENOTE_MOVED_TO",
+      "CHANGENOTE_MOVED_TO",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_MOVED_TO"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_REMOVED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_REMOVED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-r-e-m-o-v-e-d/index.html",
+    "searchKeys": [
+      "CHANGENOTE_REMOVED",
+      "CHANGENOTE_REMOVED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_REMOVED"
+    ]
+  },
+  {
+    "name": "CHANGENOTE_UNDONE",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_UNDONE",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-c-h-a-n-g-e-n-o-t-e_-u-n-d-o-n-e/index.html",
+    "searchKeys": [
+      "CHANGENOTE_UNDONE",
+      "CHANGENOTE_UNDONE",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.CHANGENOTE_UNDONE"
+    ]
+  },
+  {
     "name": "DEVELOPER",
     "description": "com.tecknobit.pandorocore.enums.Role.DEVELOPER",
     "location": "core/com.tecknobit.pandorocore.enums/-role/-d-e-v-e-l-o-p-e-r/index.html",
@@ -21,12 +91,12 @@
   },
   {
     "name": "GROUP_DELETED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.GROUP_DELETED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-g-r-o-u-p_-d-e-l-e-t-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.GROUP_DELETED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-g-r-o-u-p_-d-e-l-e-t-e-d/index.html",
     "searchKeys": [
       "GROUP_DELETED",
       "GROUP_DELETED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.GROUP_DELETED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.GROUP_DELETED"
     ]
   },
   {
@@ -51,12 +121,12 @@
   },
   {
     "name": "INVITED_GROUP",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-i-n-v-i-t-e-d_-g-r-o-u-p/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.INVITED_GROUP",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-i-n-v-i-t-e-d_-g-r-o-u-p/index.html",
     "searchKeys": [
       "INVITED_GROUP",
       "INVITED_GROUP",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.INVITED_GROUP"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.INVITED_GROUP"
     ]
   },
   {
@@ -81,22 +151,22 @@
   },
   {
     "name": "JOINED_GROUP",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.JOINED_GROUP",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-j-o-i-n-e-d_-g-r-o-u-p/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.JOINED_GROUP",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-j-o-i-n-e-d_-g-r-o-u-p/index.html",
     "searchKeys": [
       "JOINED_GROUP",
       "JOINED_GROUP",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.JOINED_GROUP"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.JOINED_GROUP"
     ]
   },
   {
     "name": "LEFT_GROUP",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.LEFT_GROUP",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-l-e-f-t_-g-r-o-u-p/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.LEFT_GROUP",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-l-e-f-t_-g-r-o-u-p/index.html",
     "searchKeys": [
       "LEFT_GROUP",
       "LEFT_GROUP",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.LEFT_GROUP"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.LEFT_GROUP"
     ]
   },
   {
@@ -121,22 +191,22 @@
   },
   {
     "name": "PROJECT_ADDED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_ADDED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-p-r-o-j-e-c-t_-a-d-d-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_ADDED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-p-r-o-j-e-c-t_-a-d-d-e-d/index.html",
     "searchKeys": [
       "PROJECT_ADDED",
       "PROJECT_ADDED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_ADDED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_ADDED"
     ]
   },
   {
     "name": "PROJECT_REMOVED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_REMOVED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-p-r-o-j-e-c-t_-r-e-m-o-v-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_REMOVED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-p-r-o-j-e-c-t_-r-e-m-o-v-e-d/index.html",
     "searchKeys": [
       "PROJECT_REMOVED",
       "PROJECT_REMOVED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.PROJECT_REMOVED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.PROJECT_REMOVED"
     ]
   },
   {
@@ -150,13 +220,23 @@
     ]
   },
   {
+    "name": "PUBLISHED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.PUBLISHED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-p-u-b-l-i-s-h-e-d/index.html",
+    "searchKeys": [
+      "PUBLISHED",
+      "PUBLISHED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.PUBLISHED"
+    ]
+  },
+  {
     "name": "ROLE_CHANGED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.ROLE_CHANGED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-r-o-l-e_-c-h-a-n-g-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.ROLE_CHANGED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-r-o-l-e_-c-h-a-n-g-e-d/index.html",
     "searchKeys": [
       "ROLE_CHANGED",
       "ROLE_CHANGED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.ROLE_CHANGED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.ROLE_CHANGED"
     ]
   },
   {
@@ -170,43 +250,63 @@
     ]
   },
   {
+    "name": "SCHEDULED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.SCHEDULED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-s-c-h-e-d-u-l-e-d/index.html",
+    "searchKeys": [
+      "SCHEDULED",
+      "SCHEDULED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.SCHEDULED"
+    ]
+  },
+  {
+    "name": "STARTED",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.STARTED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-s-t-a-r-t-e-d/index.html",
+    "searchKeys": [
+      "STARTED",
+      "STARTED",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.STARTED"
+    ]
+  },
+  {
     "name": "UPDATE_DELETED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_DELETED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-u-p-d-a-t-e_-d-e-l-e-t-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_DELETED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-u-p-d-a-t-e_-d-e-l-e-t-e-d/index.html",
     "searchKeys": [
       "UPDATE_DELETED",
       "UPDATE_DELETED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_DELETED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_DELETED"
     ]
   },
   {
     "name": "UPDATE_PUBLISHED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_PUBLISHED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_PUBLISHED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-u-p-d-a-t-e_-p-u-b-l-i-s-h-e-d/index.html",
     "searchKeys": [
       "UPDATE_PUBLISHED",
       "UPDATE_PUBLISHED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_PUBLISHED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_PUBLISHED"
     ]
   },
   {
     "name": "UPDATE_SCHEDULED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_SCHEDULED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-u-p-d-a-t-e_-s-c-h-e-d-u-l-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_SCHEDULED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-u-p-d-a-t-e_-s-c-h-e-d-u-l-e-d/index.html",
     "searchKeys": [
       "UPDATE_SCHEDULED",
       "UPDATE_SCHEDULED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_SCHEDULED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_SCHEDULED"
     ]
   },
   {
     "name": "UPDATE_STARTED",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_STARTED",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-u-p-d-a-t-e_-s-t-a-r-t-e-d/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_STARTED",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-u-p-d-a-t-e_-s-t-a-r-t-e-d/index.html",
     "searchKeys": [
       "UPDATE_STARTED",
       "UPDATE_STARTED",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.UPDATE_STARTED"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.UPDATE_STARTED"
     ]
   },
   {
@@ -280,16 +380,6 @@
     ]
   },
   {
-    "name": "const val CHANGELOG_EXTRA_CONTENT_KEY: String",
-    "description": "com.tecknobit.pandorocore.CHANGELOG_EXTRA_CONTENT_KEY",
-    "location": "core/com.tecknobit.pandorocore/-c-h-a-n-g-e-l-o-g_-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html",
-    "searchKeys": [
-      "CHANGELOG_EXTRA_CONTENT_KEY",
-      "const val CHANGELOG_EXTRA_CONTENT_KEY: String",
-      "com.tecknobit.pandorocore.CHANGELOG_EXTRA_CONTENT_KEY"
-    ]
-  },
-  {
     "name": "const val CHANGELOG_IDENTIFIER_KEY: String",
     "description": "com.tecknobit.pandorocore.CHANGELOG_IDENTIFIER_KEY",
     "location": "core/com.tecknobit.pandorocore/-c-h-a-n-g-e-l-o-g_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html",
@@ -317,16 +407,6 @@
       "CHANGELOG_READ_KEY",
       "const val CHANGELOG_READ_KEY: String",
       "com.tecknobit.pandorocore.CHANGELOG_READ_KEY"
-    ]
-  },
-  {
-    "name": "const val CHANGELOG_TIMESTAMP_KEY: String",
-    "description": "com.tecknobit.pandorocore.CHANGELOG_TIMESTAMP_KEY",
-    "location": "core/com.tecknobit.pandorocore/-c-h-a-n-g-e-l-o-g_-t-i-m-e-s-t-a-m-p_-k-e-y.html",
-    "searchKeys": [
-      "CHANGELOG_TIMESTAMP_KEY",
-      "const val CHANGELOG_TIMESTAMP_KEY: String",
-      "com.tecknobit.pandorocore.CHANGELOG_TIMESTAMP_KEY"
     ]
   },
   {
@@ -390,6 +470,16 @@
     ]
   },
   {
+    "name": "const val DESTINATION_UPDATE_IDENTIFIER_KEY: String",
+    "description": "com.tecknobit.pandorocore.DESTINATION_UPDATE_IDENTIFIER_KEY",
+    "location": "core/com.tecknobit.pandorocore/-d-e-s-t-i-n-a-t-i-o-n_-u-p-d-a-t-e_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html",
+    "searchKeys": [
+      "DESTINATION_UPDATE_IDENTIFIER_KEY",
+      "const val DESTINATION_UPDATE_IDENTIFIER_KEY: String",
+      "com.tecknobit.pandorocore.DESTINATION_UPDATE_IDENTIFIER_KEY"
+    ]
+  },
+  {
     "name": "const val EDIT_PROJECTS_ENDPOINT: String",
     "description": "com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT",
     "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-endpoints/-e-d-i-t_-p-r-o-j-e-c-t-s_-e-n-d-p-o-i-n-t.html",
@@ -397,6 +487,36 @@
       "EDIT_PROJECTS_ENDPOINT",
       "const val EDIT_PROJECTS_ENDPOINT: String",
       "com.tecknobit.pandorocore.helpers.PandoroEndpoints.EDIT_PROJECTS_ENDPOINT"
+    ]
+  },
+  {
+    "name": "const val EVENTS_KEY: String",
+    "description": "com.tecknobit.pandorocore.EVENTS_KEY",
+    "location": "core/com.tecknobit.pandorocore/-e-v-e-n-t-s_-k-e-y.html",
+    "searchKeys": [
+      "EVENTS_KEY",
+      "const val EVENTS_KEY: String",
+      "com.tecknobit.pandorocore.EVENTS_KEY"
+    ]
+  },
+  {
+    "name": "const val EVENT_IDENTIFIER_KEY: String",
+    "description": "com.tecknobit.pandorocore.EVENT_IDENTIFIER_KEY",
+    "location": "core/com.tecknobit.pandorocore/-e-v-e-n-t_-i-d-e-n-t-i-f-i-e-r_-k-e-y.html",
+    "searchKeys": [
+      "EVENT_IDENTIFIER_KEY",
+      "const val EVENT_IDENTIFIER_KEY: String",
+      "com.tecknobit.pandorocore.EVENT_IDENTIFIER_KEY"
+    ]
+  },
+  {
+    "name": "const val EXTRA_CONTENT_KEY: String",
+    "description": "com.tecknobit.pandorocore.EXTRA_CONTENT_KEY",
+    "location": "core/com.tecknobit.pandorocore/-e-x-t-r-a_-c-o-n-t-e-n-t_-k-e-y.html",
+    "searchKeys": [
+      "EXTRA_CONTENT_KEY",
+      "const val EXTRA_CONTENT_KEY: String",
+      "com.tecknobit.pandorocore.EXTRA_CONTENT_KEY"
     ]
   },
   {
@@ -600,6 +720,16 @@
     ]
   },
   {
+    "name": "const val MOVE_ENDPOINT: String",
+    "description": "com.tecknobit.pandorocore.helpers.PandoroEndpoints.MOVE_ENDPOINT",
+    "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-endpoints/-m-o-v-e_-e-n-d-p-o-i-n-t.html",
+    "searchKeys": [
+      "MOVE_ENDPOINT",
+      "const val MOVE_ENDPOINT: String",
+      "com.tecknobit.pandorocore.helpers.PandoroEndpoints.MOVE_ENDPOINT"
+    ]
+  },
+  {
     "name": "const val NOTES_KEY: String",
     "description": "com.tecknobit.pandorocore.NOTES_KEY",
     "location": "core/com.tecknobit.pandorocore/-n-o-t-e-s_-k-e-y.html",
@@ -627,6 +757,16 @@
       "NOTE_IDENTIFIER_KEY",
       "const val NOTE_IDENTIFIER_KEY: String",
       "com.tecknobit.pandorocore.NOTE_IDENTIFIER_KEY"
+    ]
+  },
+  {
+    "name": "const val NOTE_KEY: String",
+    "description": "com.tecknobit.pandorocore.NOTE_KEY",
+    "location": "core/com.tecknobit.pandorocore/-n-o-t-e_-k-e-y.html",
+    "searchKeys": [
+      "NOTE_KEY",
+      "const val NOTE_KEY: String",
+      "com.tecknobit.pandorocore.NOTE_KEY"
     ]
   },
   {
@@ -810,6 +950,16 @@
     ]
   },
   {
+    "name": "const val TIMESTAMP_KEY: String",
+    "description": "com.tecknobit.pandorocore.TIMESTAMP_KEY",
+    "location": "core/com.tecknobit.pandorocore/-t-i-m-e-s-t-a-m-p_-k-e-y.html",
+    "searchKeys": [
+      "TIMESTAMP_KEY",
+      "const val TIMESTAMP_KEY: String",
+      "com.tecknobit.pandorocore.TIMESTAMP_KEY"
+    ]
+  },
+  {
     "name": "const val UNREAD_CHANGELOGS_ENDPOINT: String",
     "description": "com.tecknobit.pandorocore.helpers.PandoroEndpoints.UNREAD_CHANGELOGS_ENDPOINT",
     "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-endpoints/-u-n-r-e-a-d_-c-h-a-n-g-e-l-o-g-s_-e-n-d-p-o-i-n-t.html",
@@ -857,6 +1007,26 @@
       "UPDATE_CREATE_DATE_KEY",
       "const val UPDATE_CREATE_DATE_KEY: String",
       "com.tecknobit.pandorocore.UPDATE_CREATE_DATE_KEY"
+    ]
+  },
+  {
+    "name": "const val UPDATE_ESCAPED_KEY: String",
+    "description": "com.tecknobit.pandorocore.UPDATE_ESCAPED_KEY",
+    "location": "core/com.tecknobit.pandorocore/-u-p-d-a-t-e_-e-s-c-a-p-e-d_-k-e-y.html",
+    "searchKeys": [
+      "UPDATE_ESCAPED_KEY",
+      "const val UPDATE_ESCAPED_KEY: String",
+      "com.tecknobit.pandorocore.UPDATE_ESCAPED_KEY"
+    ]
+  },
+  {
+    "name": "const val UPDATE_EVENTS_KEY: String",
+    "description": "com.tecknobit.pandorocore.UPDATE_EVENTS_KEY",
+    "location": "core/com.tecknobit.pandorocore/-u-p-d-a-t-e_-e-v-e-n-t-s_-k-e-y.html",
+    "searchKeys": [
+      "UPDATE_EVENTS_KEY",
+      "const val UPDATE_EVENTS_KEY: String",
+      "com.tecknobit.pandorocore.UPDATE_EVENTS_KEY"
     ]
   },
   {
@@ -941,12 +1111,12 @@
   },
   {
     "name": "enum ChangelogEvent : Enum<ChangelogEvent> ",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/index.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/index.html",
     "searchKeys": [
       "ChangelogEvent",
       "enum ChangelogEvent : Enum<ChangelogEvent> ",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent"
     ]
   },
   {
@@ -977,6 +1147,16 @@
       "Role",
       "enum Role : Enum<Role> ",
       "com.tecknobit.pandorocore.enums.Role"
+    ]
+  },
+  {
+    "name": "enum UpdateEventType : Enum<UpdateEventType> ",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/index.html",
+    "searchKeys": [
+      "UpdateEventType",
+      "enum UpdateEventType : Enum<UpdateEventType> ",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType"
     ]
   },
   {
@@ -1091,12 +1271,12 @@
   },
   {
     "name": "fun valueOf(value: String): ChangelogEvent",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.valueOf",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/value-of.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.valueOf",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/value-of.html",
     "searchKeys": [
       "valueOf",
       "fun valueOf(value: String): ChangelogEvent",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.valueOf"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.valueOf"
     ]
   },
   {
@@ -1130,6 +1310,16 @@
     ]
   },
   {
+    "name": "fun valueOf(value: String): UpdateEventType",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.valueOf",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/value-of.html",
+    "searchKeys": [
+      "valueOf",
+      "fun valueOf(value: String): UpdateEventType",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.valueOf"
+    ]
+  },
+  {
     "name": "fun valueOf(value: String): UpdateStatus",
     "description": "com.tecknobit.pandorocore.enums.UpdateStatus.valueOf",
     "location": "core/com.tecknobit.pandorocore.enums/-update-status/value-of.html",
@@ -1141,12 +1331,12 @@
   },
   {
     "name": "fun values(): Array<ChangelogEvent>",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.values",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/values.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.values",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/values.html",
     "searchKeys": [
       "values",
       "fun values(): Array<ChangelogEvent>",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.values"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.values"
     ]
   },
   {
@@ -1177,6 +1367,16 @@
       "values",
       "fun values(): Array<Role>",
       "com.tecknobit.pandorocore.enums.Role.values"
+    ]
+  },
+  {
+    "name": "fun values(): Array<UpdateEventType>",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.values",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/values.html",
+    "searchKeys": [
+      "values",
+      "fun values(): Array<UpdateEventType>",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.values"
     ]
   },
   {
@@ -1221,16 +1421,6 @@
   },
   {
     "name": "private constructor()",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.ChangelogEvent",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/-changelog-event.html",
-    "searchKeys": [
-      "ChangelogEvent",
-      "private constructor()",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.ChangelogEvent"
-    ]
-  },
-  {
-    "name": "private constructor()",
     "description": "com.tecknobit.pandorocore.enums.InvitationStatus.InvitationStatus",
     "location": "core/com.tecknobit.pandorocore.enums/-invitation-status/-invitation-status.html",
     "searchKeys": [
@@ -1270,13 +1460,33 @@
     ]
   },
   {
+    "name": "private constructor()",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.ChangelogEvent",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/-changelog-event.html",
+    "searchKeys": [
+      "ChangelogEvent",
+      "private constructor()",
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.ChangelogEvent"
+    ]
+  },
+  {
+    "name": "private constructor()",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.UpdateEventType",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/-update-event-type.html",
+    "searchKeys": [
+      "UpdateEventType",
+      "private constructor()",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.UpdateEventType"
+    ]
+  },
+  {
     "name": "val entries: EnumEntries<ChangelogEvent>",
-    "description": "com.tecknobit.pandorocore.enums.ChangelogEvent.entries",
-    "location": "core/com.tecknobit.pandorocore.enums/-changelog-event/entries.html",
+    "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent.entries",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/entries.html",
     "searchKeys": [
       "entries",
       "val entries: EnumEntries<ChangelogEvent>",
-      "com.tecknobit.pandorocore.enums.ChangelogEvent.entries"
+      "com.tecknobit.pandorocore.enums.events.ChangelogEvent.entries"
     ]
   },
   {
@@ -1307,6 +1517,16 @@
       "entries",
       "val entries: EnumEntries<Role>",
       "com.tecknobit.pandorocore.enums.Role.entries"
+    ]
+  },
+  {
+    "name": "val entries: EnumEntries<UpdateEventType>",
+    "description": "com.tecknobit.pandorocore.enums.events.UpdateEventType.entries",
+    "location": "core/com.tecknobit.pandorocore.enums.events/-update-event-type/entries.html",
+    "searchKeys": [
+      "entries",
+      "val entries: EnumEntries<UpdateEventType>",
+      "com.tecknobit.pandorocore.enums.events.UpdateEventType.entries"
     ]
   },
   {
@@ -1870,22 +2090,22 @@
     ]
   },
   {
-    "name": "abstract fun getUpdateById(projectId: String, updateId: String): ProjectUpdate",
+    "name": "abstract fun getUpdateById(projectId: String, updateId: String): Update",
     "description": "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.getUpdateById",
     "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-updates-repository/get-update-by-id.html",
     "searchKeys": [
       "getUpdateById",
-      "abstract fun getUpdateById(projectId: String, updateId: String): ProjectUpdate",
+      "abstract fun getUpdateById(projectId: String, updateId: String): Update",
       "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.getUpdateById"
     ]
   },
   {
-    "name": "abstract fun getUpdateByVersion(projectId: String, targetVersion: String): ProjectUpdate",
+    "name": "abstract fun getUpdateByVersion(projectId: String, targetVersion: String): Update",
     "description": "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.getUpdateByVersion",
     "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-updates-repository/get-update-by-version.html",
     "searchKeys": [
       "getUpdateByVersion",
-      "abstract fun getUpdateByVersion(projectId: String, targetVersion: String): ProjectUpdate",
+      "abstract fun getUpdateByVersion(projectId: String, targetVersion: String): Update",
       "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.getUpdateByVersion"
     ]
   },
@@ -1950,6 +2170,16 @@
     ]
   },
   {
+    "name": "abstract fun moveChangeNote(noteId: String, destinationUpdateId: String)",
+    "description": "com.tecknobit.pandoro.services.notes.repository.NotesRepository.moveChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.notes.repository/-notes-repository/move-change-note.html",
+    "searchKeys": [
+      "moveChangeNote",
+      "abstract fun moveChangeNote(noteId: String, destinationUpdateId: String)",
+      "com.tecknobit.pandoro.services.notes.repository.NotesRepository.moveChangeNote"
+    ]
+  },
+  {
     "name": "abstract fun publishUpdate(updateId: String, publishDate: Long, publishedBy: String)",
     "description": "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.publishUpdate",
     "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-updates-repository/publish-update.html",
@@ -1997,16 +2227,6 @@
       "removeUserConstraints",
       "abstract fun removeUserConstraints(userId: String)",
       "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.removeUserConstraints"
-    ]
-  },
-  {
-    "name": "abstract fun scheduleUpdate(updateId: String, targetVersion: String, createDate: Long, updateStatus: UpdateStatus, projectId: String, author: String)",
-    "description": "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.scheduleUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-updates-repository/schedule-update.html",
-    "searchKeys": [
-      "scheduleUpdate",
-      "abstract fun scheduleUpdate(updateId: String, targetVersion: String, createDate: Long, updateStatus: UpdateStatus, projectId: String, author: String)",
-      "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository.scheduleUpdate"
     ]
   },
   {
@@ -2161,22 +2381,12 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator.ChangelogOperator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/-changelog-operator/-changelog-operator.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.ChangelogOperator",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/-changelog-operator.html",
     "searchKeys": [
       "ChangelogOperator",
       "constructor()",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator.ChangelogOperator"
-    ]
-  },
-  {
-    "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogsCreator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/-changelogs-creator.html",
-    "searchKeys": [
-      "ChangelogsCreator",
-      "constructor()",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogsCreator"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.ChangelogOperator"
     ]
   },
   {
@@ -2271,12 +2481,22 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/-project-update.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.Update",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/-update.html",
     "searchKeys": [
-      "ProjectUpdate",
+      "Update",
       "constructor()",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate"
+      "com.tecknobit.pandoro.services.projects.entities.Update.Update"
+    ]
+  },
+  {
+    "name": "constructor()",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.UpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/-update-event.html",
+    "searchKeys": [
+      "UpdateEvent",
+      "constructor()",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.UpdateEvent"
     ]
   },
   {
@@ -2320,6 +2540,16 @@
     ]
   },
   {
+    "name": "constructor(changelogRepository: ChangelogsRepository)",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelogs-notifier.html",
+    "searchKeys": [
+      "ChangelogsNotifier",
+      "constructor(changelogRepository: ChangelogsRepository)",
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogsNotifier"
+    ]
+  },
+  {
     "name": "constructor(changelogsRepository: ChangelogsRepository, membersRepository: GroupMembersRepository)",
     "description": "com.tecknobit.pandoro.services.changelogs.service.ChangelogsService.ChangelogsService",
     "location": "backend/com.tecknobit.pandoro.services.changelogs.service/-changelogs-service/-changelogs-service.html",
@@ -2360,13 +2590,33 @@
     ]
   },
   {
-    "name": "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>)",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/-project-update.html",
+    "name": "constructor(id: String, author: PandoroUser, content: String, creationDate: Long, update: Update)",
+    "description": "com.tecknobit.pandoro.services.notes.entity.Note.Note",
+    "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/-note.html",
     "searchKeys": [
-      "ProjectUpdate",
-      "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>)",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.ProjectUpdate"
+      "Note",
+      "constructor(id: String, author: PandoroUser, content: String, creationDate: Long, update: Update)",
+      "com.tecknobit.pandoro.services.notes.entity.Note.Note"
+    ]
+  },
+  {
+    "name": "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>, project: Project, events: List<UpdateEvent>)",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.Update",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/-update.html",
+    "searchKeys": [
+      "Update",
+      "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, startedBy: PandoroUser, startDate: Long, publishedBy: PandoroUser, publishDate: Long, status: UpdateStatus, notes: ArrayList<Note>, project: Project, events: List<UpdateEvent>)",
+      "com.tecknobit.pandoro.services.projects.entities.Update.Update"
+    ]
+  },
+  {
+    "name": "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, status: UpdateStatus, project: Project)",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.Update",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/-update.html",
+    "searchKeys": [
+      "Update",
+      "constructor(id: String, author: PandoroUser, createDate: Long, targetVersion: String, status: UpdateStatus, project: Project)",
+      "com.tecknobit.pandoro.services.projects.entities.Update.Update"
     ]
   },
   {
@@ -2400,12 +2650,12 @@
     ]
   },
   {
-    "name": "constructor(id: String, name: String, icon: String, creationDate: Long, author: PandoroUser, description: String, version: String, groups: ArrayList<Group>, updates: ArrayList<ProjectUpdate>, projectRepo: String)",
+    "name": "constructor(id: String, name: String, icon: String, creationDate: Long, author: PandoroUser, description: String, version: String, groups: ArrayList<Group>, updates: ArrayList<Update>, projectRepo: String)",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.Project",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/-project.html",
     "searchKeys": [
       "Project",
-      "constructor(id: String, name: String, icon: String, creationDate: Long, author: PandoroUser, description: String, version: String, groups: ArrayList<Group>, updates: ArrayList<ProjectUpdate>, projectRepo: String)",
+      "constructor(id: String, name: String, icon: String, creationDate: Long, author: PandoroUser, description: String, version: String, groups: ArrayList<Group>, updates: ArrayList<Update>, projectRepo: String)",
       "com.tecknobit.pandoro.services.projects.entities.Project.Project"
     ]
   },
@@ -2440,6 +2690,16 @@
     ]
   },
   {
+    "name": "constructor(id: String, owner: Update, type: UpdateEventType, author: PandoroUser, timestamp: Long, noteContent: String, extraContent: String)",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.UpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/-update-event.html",
+    "searchKeys": [
+      "UpdateEvent",
+      "constructor(id: String, owner: Update, type: UpdateEventType, author: PandoroUser, timestamp: Long, noteContent: String, extraContent: String)",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.UpdateEvent"
+    ]
+  },
+  {
     "name": "constructor(id: String, token: String, name: String, surname: String, email: String, password: String, profilePic: String, language: String, changelogs: List<Changelog>, notes: List<Note>, projects: List<Project>, groups: List<Group>)",
     "description": "com.tecknobit.pandoro.services.users.entities.PandoroUser.PandoroUser",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-pandoro-user/-pandoro-user.html",
@@ -2457,6 +2717,16 @@
       "NotesService",
       "constructor(notesRepository: NotesRepository)",
       "com.tecknobit.pandoro.services.notes.service.NotesService.NotesService"
+    ]
+  },
+  {
+    "name": "constructor(notesRepository: NotesRepository, updateEventsNotifier: UpdateEventsNotifier)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.ChangeNotesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/-change-notes-service.html",
+    "searchKeys": [
+      "ChangeNotesService",
+      "constructor(notesRepository: NotesRepository, updateEventsNotifier: UpdateEventsNotifier)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.ChangeNotesService"
     ]
   },
   {
@@ -2500,32 +2770,52 @@
     ]
   },
   {
-    "name": "constructor(projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-projects-service.html",
+    "name": "constructor(projectsRepository: ProjectsRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository, changelogsNotifier: ChangelogsNotifier)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.ProjectsService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/-projects-service.html",
     "searchKeys": [
       "ProjectsService",
-      "constructor(projectsRepository: ProjectsRepository, updatesRepository: UpdatesRepository, notesRepository: NotesRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.ProjectsService"
+      "constructor(projectsRepository: ProjectsRepository, groupsRepository: GroupsRepository, groupMembersRepository: GroupMembersRepository, changelogsNotifier: ChangelogsNotifier)",
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.ProjectsService"
     ]
   },
   {
-    "name": "constructor(projectsService: ProjectsService)",
+    "name": "constructor(projectsService: ProjectsService, updatesService: UpdatesService, changeNotesService: ChangeNotesService)",
     "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController",
     "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/-projects-controller.html",
     "searchKeys": [
       "ProjectsController",
-      "constructor(projectsService: ProjectsService)",
+      "constructor(projectsService: ProjectsService, updatesService: UpdatesService, changeNotesService: ChangeNotesService)",
       "com.tecknobit.pandoro.services.projects.controller.ProjectsController.ProjectsController"
     ]
   },
   {
-    "name": "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository)",
+    "name": "constructor(updateEventsRepository: UpdateEventsRepository)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.UpdateEventsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/-update-events-notifier.html",
+    "searchKeys": [
+      "UpdateEventsNotifier",
+      "constructor(updateEventsRepository: UpdateEventsRepository)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.UpdateEventsNotifier"
+    ]
+  },
+  {
+    "name": "constructor(updatesRepository: UpdatesRepository, changelogsNotifier: ChangelogsNotifier, updateEventsNotifier: UpdateEventsNotifier)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.UpdatesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/-updates-service.html",
+    "searchKeys": [
+      "UpdatesService",
+      "constructor(updatesRepository: UpdatesRepository, changelogsNotifier: ChangelogsNotifier, updateEventsNotifier: UpdateEventsNotifier)",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.UpdatesService"
+    ]
+  },
+  {
+    "name": "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository, changelogsNotifier: ChangelogsNotifier)",
     "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService",
     "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/-groups-service.html",
     "searchKeys": [
       "GroupsService",
-      "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository)",
+      "constructor(usersRepository: PandoroUsersRepository, groupsRepository: GroupsRepository, membersRepository: GroupMembersRepository, changelogsRepository: ChangelogsRepository, changelogsNotifier: ChangelogsNotifier)",
       "com.tecknobit.pandoro.services.groups.service.GroupsService.GroupsService"
     ]
   },
@@ -2620,6 +2910,16 @@
     ]
   },
   {
+    "name": "interface UpdateEventsRepository : JpaRepository<T, ID> ",
+    "description": "com.tecknobit.pandoro.services.projects.repositories.UpdateEventsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-update-events-repository/index.html",
+    "searchKeys": [
+      "UpdateEventsRepository",
+      "interface UpdateEventsRepository : JpaRepository<T, ID> ",
+      "com.tecknobit.pandoro.services.projects.repositories.UpdateEventsRepository"
+    ]
+  },
+  {
     "name": "interface UpdatesRepository : JpaRepository<T, ID> ",
     "description": "com.tecknobit.pandoro.services.projects.repositories.UpdatesRepository",
     "location": "backend/com.tecknobit.pandoro.services.projects.repositories/-updates-repository/index.html",
@@ -2640,6 +2940,16 @@
     ]
   },
   {
+    "name": "open class ChangeNotesService",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/index.html",
+    "searchKeys": [
+      "ChangeNotesService",
+      "open class ChangeNotesService",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService"
+    ]
+  },
+  {
     "name": "open class Changelog : EquinoxItem",
     "description": "com.tecknobit.pandoro.services.changelogs.entity.Changelog",
     "location": "backend/com.tecknobit.pandoro.services.changelogs.entity/-changelog/index.html",
@@ -2651,12 +2961,12 @@
   },
   {
     "name": "open class ChangelogOperator : EquinoxItemsHelper",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/-changelog-operator/index.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/index.html",
     "searchKeys": [
       "ChangelogOperator",
       "open class ChangelogOperator : EquinoxItemsHelper",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator"
     ]
   },
   {
@@ -2670,13 +2980,13 @@
     ]
   },
   {
-    "name": "open class ChangelogsCreator",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/index.html",
+    "name": "open class ChangelogsNotifier",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/index.html",
     "searchKeys": [
-      "ChangelogsCreator",
-      "open class ChangelogsCreator",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator"
+      "ChangelogsNotifier",
+      "open class ChangelogsNotifier",
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier"
     ]
   },
   {
@@ -2740,12 +3050,12 @@
     ]
   },
   {
-    "name": "open class GroupsService : ChangelogsCreator.ChangelogOperator, PandoroResourcesManager",
+    "name": "open class GroupsService : EquinoxItemsHelper, PandoroResourcesManager",
     "description": "com.tecknobit.pandoro.services.groups.service.GroupsService",
     "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/index.html",
     "searchKeys": [
       "GroupsService",
-      "open class GroupsService : ChangelogsCreator.ChangelogOperator, PandoroResourcesManager",
+      "open class GroupsService : EquinoxItemsHelper, PandoroResourcesManager",
       "com.tecknobit.pandoro.services.groups.service.GroupsService"
     ]
   },
@@ -2860,16 +3170,6 @@
     ]
   },
   {
-    "name": "open class ProjectUpdate : EquinoxItem",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/index.html",
-    "searchKeys": [
-      "ProjectUpdate",
-      "open class ProjectUpdate : EquinoxItem",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate"
-    ]
-  },
-  {
     "name": "open class ProjectsController : DefaultPandoroController",
     "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController",
     "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/index.html",
@@ -2880,13 +3180,13 @@
     ]
   },
   {
-    "name": "open class ProjectsService : ChangelogsCreator.ChangelogOperator, PandoroResourcesManager",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/index.html",
+    "name": "open class ProjectsService : EquinoxItemsHelper, PandoroResourcesManager",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/index.html",
     "searchKeys": [
       "ProjectsService",
-      "open class ProjectsService : ChangelogsCreator.ChangelogOperator, PandoroResourcesManager",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService"
+      "open class ProjectsService : EquinoxItemsHelper, PandoroResourcesManager",
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService"
     ]
   },
   {
@@ -2897,6 +3197,46 @@
       "ResourcesConfig",
       "open class ResourcesConfig : WebMvcConfigurer",
       "com.tecknobit.pandoro.configuration.ResourcesConfig"
+    ]
+  },
+  {
+    "name": "open class Update : EquinoxItem",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/index.html",
+    "searchKeys": [
+      "Update",
+      "open class Update : EquinoxItem",
+      "com.tecknobit.pandoro.services.projects.entities.Update"
+    ]
+  },
+  {
+    "name": "open class UpdateEvent : EquinoxItem",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/index.html",
+    "searchKeys": [
+      "UpdateEvent",
+      "open class UpdateEvent : EquinoxItem",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent"
+    ]
+  },
+  {
+    "name": "open class UpdateEventsNotifier",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/index.html",
+    "searchKeys": [
+      "UpdateEventsNotifier",
+      "open class UpdateEventsNotifier",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier"
+    ]
+  },
+  {
+    "name": "open class UpdatesService : EquinoxItemsHelper",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/index.html",
+    "searchKeys": [
+      "UpdatesService",
+      "open class UpdatesService : EquinoxItemsHelper",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService"
     ]
   },
   {
@@ -3060,13 +3400,13 @@
     ]
   },
   {
-    "name": "open fun addChangeNote(userId: String, noteId: String, contentNote: String, updateId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.addChangeNote",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/add-change-note.html",
+    "name": "open fun addChangeNote(user: PandoroUser, noteId: String, contentNote: String, update: Update)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.addChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/add-change-note.html",
     "searchKeys": [
       "addChangeNote",
-      "open fun addChangeNote(userId: String, noteId: String, contentNote: String, updateId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.addChangeNote"
+      "open fun addChangeNote(user: PandoroUser, noteId: String, contentNote: String, update: Update)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.addChangeNote"
     ]
   },
   {
@@ -3111,12 +3451,12 @@
   },
   {
     "name": "open fun addedGroupProject(projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.addedGroupProject",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/added-group-project.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.addedGroupProject",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/added-group-project.html",
     "searchKeys": [
       "addedGroupProject",
       "open fun addedGroupProject(projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.addedGroupProject"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.addedGroupProject"
     ]
   },
   {
@@ -3150,13 +3490,53 @@
     ]
   },
   {
-    "name": "open fun changeNoteExists(updateId: String, noteId: String): Boolean",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.changeNoteExists",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/change-note-exists.html",
+    "name": "open fun changeNoteAdded(author: PandoroUser, owner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteAdded",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-added.html",
     "searchKeys": [
-      "changeNoteExists",
-      "open fun changeNoteExists(updateId: String, noteId: String): Boolean",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.changeNoteExists"
+      "changeNoteAdded",
+      "open fun changeNoteAdded(author: PandoroUser, owner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteAdded"
+    ]
+  },
+  {
+    "name": "open fun changeNoteDone(author: PandoroUser, owner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteDone",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-done.html",
+    "searchKeys": [
+      "changeNoteDone",
+      "open fun changeNoteDone(author: PandoroUser, owner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteDone"
+    ]
+  },
+  {
+    "name": "open fun changeNoteEdited(author: PandoroUser, owner: Update, changeNote: Note, oldContent: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteEdited",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-edited.html",
+    "searchKeys": [
+      "changeNoteEdited",
+      "open fun changeNoteEdited(author: PandoroUser, owner: Update, changeNote: Note, oldContent: String)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteEdited"
+    ]
+  },
+  {
+    "name": "open fun changeNoteMoved(author: PandoroUser, currentOwner: Update, nextOwner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteMoved",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-moved.html",
+    "searchKeys": [
+      "changeNoteMoved",
+      "open fun changeNoteMoved(author: PandoroUser, currentOwner: Update, nextOwner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteMoved"
+    ]
+  },
+  {
+    "name": "open fun changeNoteRemoved(author: PandoroUser, owner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteRemoved",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-removed.html",
+    "searchKeys": [
+      "changeNoteRemoved",
+      "open fun changeNoteRemoved(author: PandoroUser, owner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteRemoved"
     ]
   },
   {
@@ -3167,6 +3547,16 @@
       "changeNoteStatus",
       "open fun changeNoteStatus(id: String, token: String, noteId: String, payload: Map<String, Any>): String",
       "com.tecknobit.pandoro.services.notes.controller.NotesController.changeNoteStatus"
+    ]
+  },
+  {
+    "name": "open fun changeNoteUndone(author: PandoroUser, owner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteUndone",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/change-note-undone.html",
+    "searchKeys": [
+      "changeNoteUndone",
+      "open fun changeNoteUndone(author: PandoroUser, owner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.changeNoteUndone"
     ]
   },
   {
@@ -3310,13 +3700,13 @@
     ]
   },
   {
-    "name": "open fun deleteChangeNote(updateId: String, noteId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteChangeNote",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/delete-change-note.html",
+    "name": "open fun deleteChangeNote(update: Update, changeNote: Note, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.deleteChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/delete-change-note.html",
     "searchKeys": [
       "deleteChangeNote",
-      "open fun deleteChangeNote(updateId: String, noteId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteChangeNote"
+      "open fun deleteChangeNote(update: Update, changeNote: Note, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.deleteChangeNote"
     ]
   },
   {
@@ -3401,12 +3791,12 @@
   },
   {
     "name": "open fun deleteProject(userId: String, projectId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteProject",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/delete-project.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.deleteProject",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/delete-project.html",
     "searchKeys": [
       "deleteProject",
       "open fun deleteProject(userId: String, projectId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteProject"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.deleteProject"
     ]
   },
   {
@@ -3430,13 +3820,13 @@
     ]
   },
   {
-    "name": "open fun deleteUpdate(projectId: String, updateId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/delete-update.html",
+    "name": "open fun deleteUpdate(project: Project, update: Update, userId: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.deleteUpdate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/delete-update.html",
     "searchKeys": [
       "deleteUpdate",
-      "open fun deleteUpdate(projectId: String, updateId: String, userId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.deleteUpdate"
+      "open fun deleteUpdate(project: Project, update: Update, userId: String)",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.deleteUpdate"
     ]
   },
   {
@@ -3460,13 +3850,13 @@
     ]
   },
   {
-    "name": "open fun editChangeNote(userId: String, noteId: String, contentNote: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.editChangeNote",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/edit-change-note.html",
+    "name": "open fun editChangeNote(user: PandoroUser, update: Update, changeNote: Note, contentNote: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.editChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/edit-change-note.html",
     "searchKeys": [
       "editChangeNote",
-      "open fun editChangeNote(userId: String, noteId: String, contentNote: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.editChangeNote"
+      "open fun editChangeNote(user: PandoroUser, update: Update, changeNote: Note, contentNote: String)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.editChangeNote"
     ]
   },
   {
@@ -3561,12 +3951,12 @@
   },
   {
     "name": "open fun getAuthoredProjects(userId: String): List<Project>",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.getAuthoredProjects",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/get-authored-projects.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.getAuthoredProjects",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/get-authored-projects.html",
     "searchKeys": [
       "getAuthoredProjects",
       "open fun getAuthoredProjects(userId: String): List<Project>",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.getAuthoredProjects"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.getAuthoredProjects"
     ]
   },
   {
@@ -3610,6 +4000,16 @@
     ]
   },
   {
+    "name": "open fun getChangeNote(updateId: String, noteId: String): Note",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.getChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/get-change-note.html",
+    "searchKeys": [
+      "getChangeNote",
+      "open fun getChangeNote(updateId: String, noteId: String): Note",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.getChangeNote"
+    ]
+  },
+  {
     "name": "open fun getChangelogs(): ArrayList<Changelog>",
     "description": "com.tecknobit.pandoro.services.users.entities.PandoroUser.getChangelogs",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-pandoro-user/get-changelogs.html",
@@ -3641,12 +4041,12 @@
   },
   {
     "name": "open fun getCreateTimestamp(): Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getCreateTimestamp",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-create-timestamp.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.getCreateTimestamp",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/get-create-timestamp.html",
     "searchKeys": [
       "getCreateTimestamp",
       "open fun getCreateTimestamp(): Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getCreateTimestamp"
+      "com.tecknobit.pandoro.services.projects.entities.Update.getCreateTimestamp"
     ]
   },
   {
@@ -3681,12 +4081,12 @@
   },
   {
     "name": "open fun getDevelopmentDuration(): Int",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getDevelopmentDuration",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-development-duration.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.getDevelopmentDuration",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/get-development-duration.html",
     "searchKeys": [
       "getDevelopmentDuration",
       "open fun getDevelopmentDuration(): Int",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getDevelopmentDuration"
+      "com.tecknobit.pandoro.services.projects.entities.Update.getDevelopmentDuration"
     ]
   },
   {
@@ -3761,12 +4161,12 @@
   },
   {
     "name": "open fun getInDevelopmentProjects(userId: String, page: Int, pageSize: Int, filters: Set<String>): PaginatedResponse<Project>",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.getInDevelopmentProjects",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/get-in-development-projects.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.getInDevelopmentProjects",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/get-in-development-projects.html",
     "searchKeys": [
       "getInDevelopmentProjects",
       "open fun getInDevelopmentProjects(userId: String, page: Int, pageSize: Int, filters: Set<String>): PaginatedResponse<Project>",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.getInDevelopmentProjects"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.getInDevelopmentProjects"
     ]
   },
   {
@@ -3811,12 +4211,12 @@
   },
   {
     "name": "open fun getNotes(): ArrayList<Note>",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getNotes",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-notes.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.getNotes",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/get-notes.html",
     "searchKeys": [
       "getNotes",
       "open fun getNotes(): ArrayList<Note>",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getNotes"
+      "com.tecknobit.pandoro.services.projects.entities.Update.getNotes"
     ]
   },
   {
@@ -3851,22 +4251,22 @@
   },
   {
     "name": "open fun getProject(userId: String, projectId: String): Project",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProject",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/get-project.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProject",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/get-project.html",
     "searchKeys": [
       "getProject",
       "open fun getProject(userId: String, projectId: String): Project",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProject"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProject"
     ]
   },
   {
     "name": "open fun getProjectById(projectId: String): Project",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProjectById",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/get-project-by-id.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProjectById",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/get-project-by-id.html",
     "searchKeys": [
       "getProjectById",
       "open fun getProjectById(projectId: String): Project",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProjectById"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProjectById"
     ]
   },
   {
@@ -3891,12 +4291,12 @@
   },
   {
     "name": "open fun getProjects(userId: String, page: Int, pageSize: Int, filters: Set<String>): PaginatedResponse<Project>",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProjects",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/get-projects.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProjects",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/get-projects.html",
     "searchKeys": [
       "getProjects",
       "open fun getProjects(userId: String, page: Int, pageSize: Int, filters: Set<String>): PaginatedResponse<Project>",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.getProjects"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.getProjects"
     ]
   },
   {
@@ -3921,32 +4321,32 @@
   },
   {
     "name": "open fun getPublishTimestamp(): Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getPublishTimestamp",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-publish-timestamp.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.getPublishTimestamp",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/get-publish-timestamp.html",
     "searchKeys": [
       "getPublishTimestamp",
       "open fun getPublishTimestamp(): Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getPublishTimestamp"
+      "com.tecknobit.pandoro.services.projects.entities.Update.getPublishTimestamp"
     ]
   },
   {
-    "name": "open fun getPublishedUpdates(): ArrayList<ProjectUpdate>",
+    "name": "open fun getPublishedUpdates(): ArrayList<Update>",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.getPublishedUpdates",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/get-published-updates.html",
     "searchKeys": [
       "getPublishedUpdates",
-      "open fun getPublishedUpdates(): ArrayList<ProjectUpdate>",
+      "open fun getPublishedUpdates(): ArrayList<Update>",
       "com.tecknobit.pandoro.services.projects.entities.Project.getPublishedUpdates"
     ]
   },
   {
     "name": "open fun getStartTimestamp(): Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getStartTimestamp",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/get-start-timestamp.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.getStartTimestamp",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/get-start-timestamp.html",
     "searchKeys": [
       "getStartTimestamp",
       "open fun getStartTimestamp(): Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.getStartTimestamp"
+      "com.tecknobit.pandoro.services.projects.entities.Update.getStartTimestamp"
     ]
   },
   {
@@ -3980,12 +4380,12 @@
     ]
   },
   {
-    "name": "open fun getUpdates(): ArrayList<ProjectUpdate>",
+    "name": "open fun getUpdates(): ArrayList<Update>",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.getUpdates",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/get-updates.html",
     "searchKeys": [
       "getUpdates",
-      "open fun getUpdates(): ArrayList<ProjectUpdate>",
+      "open fun getUpdates(): ArrayList<Update>",
       "com.tecknobit.pandoro.services.projects.entities.Project.getUpdates"
     ]
   },
@@ -4011,12 +4411,12 @@
   },
   {
     "name": "open fun groupDeleted(groupName: String, memberId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.groupDeleted",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/group-deleted.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.groupDeleted",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/group-deleted.html",
     "searchKeys": [
       "groupDeleted",
       "open fun groupDeleted(groupName: String, memberId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.groupDeleted"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.groupDeleted"
     ]
   },
   {
@@ -4087,6 +4487,16 @@
       "isMarkedAsDone",
       "open fun isMarkedAsDone(): Boolean",
       "com.tecknobit.pandoro.services.notes.entity.Note.isMarkedAsDone"
+    ]
+  },
+  {
+    "name": "open fun isPublished(): Boolean",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.isPublished",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/is-published.html",
+    "searchKeys": [
+      "isPublished",
+      "open fun isPublished(): Boolean",
+      "com.tecknobit.pandoro.services.projects.entities.Update.isPublished"
     ]
   },
   {
@@ -4180,13 +4590,13 @@
     ]
   },
   {
-    "name": "open fun markChangeNoteAsDone(updateId: String, noteId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.markChangeNoteAsDone",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/mark-change-note-as-done.html",
+    "name": "open fun markChangeNoteAsDone(update: Update, changeNote: Note, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.markChangeNoteAsDone",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/mark-change-note-as-done.html",
     "searchKeys": [
       "markChangeNoteAsDone",
-      "open fun markChangeNoteAsDone(updateId: String, noteId: String, userId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.markChangeNoteAsDone"
+      "open fun markChangeNoteAsDone(update: Update, changeNote: Note, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.markChangeNoteAsDone"
     ]
   },
   {
@@ -4200,23 +4610,23 @@
     ]
   },
   {
-    "name": "open fun markChangeNoteAsToDo(updateId: String, noteId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.markChangeNoteAsToDo",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/mark-change-note-as-to-do.html",
+    "name": "open fun markChangeNoteAsToDo(update: Update, changeNote: Note, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.markChangeNoteAsToDo",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/mark-change-note-as-to-do.html",
     "searchKeys": [
       "markChangeNoteAsToDo",
-      "open fun markChangeNoteAsToDo(updateId: String, noteId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.markChangeNoteAsToDo"
+      "open fun markChangeNoteAsToDo(update: Update, changeNote: Note, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.markChangeNoteAsToDo"
     ]
   },
   {
     "name": "open fun memberLeftGroup(groupId: String, memberId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.memberLeftGroup",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/member-left-group.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.memberLeftGroup",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/member-left-group.html",
     "searchKeys": [
       "memberLeftGroup",
       "open fun memberLeftGroup(groupId: String, memberId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.memberLeftGroup"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.memberLeftGroup"
     ]
   },
   {
@@ -4230,13 +4640,33 @@
     ]
   },
   {
+    "name": "open fun moveChangeNote(changeNote: Note, sourceUpdate: Update, destinationUpdate: Update, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.moveChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/move-change-note.html",
+    "searchKeys": [
+      "moveChangeNote",
+      "open fun moveChangeNote(changeNote: Note, sourceUpdate: Update, destinationUpdate: Update, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.moveChangeNote"
+    ]
+  },
+  {
+    "name": "open fun moveChangeNote(id: String, token: String, projectId: String, sourceUpdateId: String, noteId: String, destinationUpdateId: String): String",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.moveChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/move-change-note.html",
+    "searchKeys": [
+      "moveChangeNote",
+      "open fun moveChangeNote(id: String, token: String, projectId: String, sourceUpdateId: String, noteId: String, destinationUpdateId: String): String",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.moveChangeNote"
+    ]
+  },
+  {
     "name": "open fun newMemberJoined(groupId: String, memberId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.newMemberJoined",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/new-member-joined.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.newMemberJoined",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/new-member-joined.html",
     "searchKeys": [
       "newMemberJoined",
       "open fun newMemberJoined(groupId: String, memberId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.newMemberJoined"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.newMemberJoined"
     ]
   },
   {
@@ -4270,13 +4700,13 @@
     ]
   },
   {
-    "name": "open fun publishUpdate(projectId: String, updateId: String, userId: String, updateVersion: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.publishUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/publish-update.html",
+    "name": "open fun publishUpdate(project: Project, update: Update, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.publishUpdate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/publish-update.html",
     "searchKeys": [
       "publishUpdate",
-      "open fun publishUpdate(projectId: String, updateId: String, userId: String, updateVersion: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.publishUpdate"
+      "open fun publishUpdate(project: Project, update: Update, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.publishUpdate"
     ]
   },
   {
@@ -4311,12 +4741,12 @@
   },
   {
     "name": "open fun removedGroupProject(projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.removedGroupProject",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/removed-group-project.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.removedGroupProject",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/removed-group-project.html",
     "searchKeys": [
       "removedGroupProject",
       "open fun removedGroupProject(projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.removedGroupProject"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.removedGroupProject"
     ]
   },
   {
@@ -4330,33 +4760,33 @@
     ]
   },
   {
-    "name": "open fun scheduleUpdate(updateId: String, targetVersion: String, changeNotes: List<String>, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.scheduleUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/schedule-update.html",
+    "name": "open fun scheduleUpdate(updateId: String, targetVersion: String, changeNotes: List<String>, project: Project, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.scheduleUpdate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/schedule-update.html",
     "searchKeys": [
       "scheduleUpdate",
-      "open fun scheduleUpdate(updateId: String, targetVersion: String, changeNotes: List<String>, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.scheduleUpdate"
+      "open fun scheduleUpdate(updateId: String, targetVersion: String, changeNotes: List<String>, project: Project, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.scheduleUpdate"
     ]
   },
   {
     "name": "open fun scheduledNewUpdate(targetVersion: String, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.scheduledNewUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/scheduled-new-update.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.scheduledNewUpdate",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/scheduled-new-update.html",
     "searchKeys": [
       "scheduledNewUpdate",
       "open fun scheduledNewUpdate(targetVersion: String, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.scheduledNewUpdate"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.scheduledNewUpdate"
     ]
   },
   {
     "name": "open fun sendGroupInvite(groupId: String, groupName: String, memberId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.sendGroupInvite",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/send-group-invite.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.sendGroupInvite",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/send-group-invite.html",
     "searchKeys": [
       "sendGroupInvite",
       "open fun sendGroupInvite(groupId: String, groupName: String, memberId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.sendGroupInvite"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.sendGroupInvite"
     ]
   },
   {
@@ -4390,12 +4820,12 @@
     ]
   },
   {
-    "name": "open fun setUpdates(updates: List<ProjectUpdate>)",
+    "name": "open fun setUpdates(updates: List<Update>)",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.setUpdates",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/set-updates.html",
     "searchKeys": [
       "setUpdates",
-      "open fun setUpdates(updates: List<ProjectUpdate>)",
+      "open fun setUpdates(updates: List<Update>)",
       "com.tecknobit.pandoro.services.projects.entities.Project.setUpdates"
     ]
   },
@@ -4420,23 +4850,23 @@
     ]
   },
   {
-    "name": "open fun startUpdate(projectId: String, updateId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.startUpdate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/start-update.html",
+    "name": "open fun startUpdate(project: Project, update: Update, user: PandoroUser)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.startUpdate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/start-update.html",
     "searchKeys": [
       "startUpdate",
-      "open fun startUpdate(projectId: String, updateId: String, userId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.startUpdate"
+      "open fun startUpdate(project: Project, update: Update, user: PandoroUser)",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.startUpdate"
     ]
   },
   {
     "name": "open fun targetVersionExists(projectId: String, targetVersion: String): Boolean",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.targetVersionExists",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/target-version-exists.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.targetVersionExists",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/target-version-exists.html",
     "searchKeys": [
       "targetVersionExists",
       "open fun targetVersionExists(projectId: String, targetVersion: String): Boolean",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.targetVersionExists"
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.targetVersionExists"
     ]
   },
   {
@@ -4451,62 +4881,112 @@
   },
   {
     "name": "open fun updateDeleted(targetVersion: String, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updateDeleted",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/update-deleted.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updateDeleted",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/update-deleted.html",
     "searchKeys": [
       "updateDeleted",
       "open fun updateDeleted(targetVersion: String, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updateDeleted"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updateDeleted"
     ]
   },
   {
-    "name": "open fun updateExists(projectId: String, updateId: String): ProjectUpdate",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.updateExists",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/update-exists.html",
+    "name": "open fun updateExists(projectId: String, updateId: String): Update",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.updateExists",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/update-exists.html",
     "searchKeys": [
       "updateExists",
-      "open fun updateExists(projectId: String, updateId: String): ProjectUpdate",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.updateExists"
+      "open fun updateExists(projectId: String, updateId: String): Update",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.updateExists"
+    ]
+  },
+  {
+    "name": "open fun updateHasChangeNote(updateId: String, noteId: String): Boolean",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.updateHasChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/update-has-change-note.html",
+    "searchKeys": [
+      "updateHasChangeNote",
+      "open fun updateHasChangeNote(updateId: String, noteId: String): Boolean",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.updateHasChangeNote"
+    ]
+  },
+  {
+    "name": "open fun updateProjectVersion(userId: String, projectId: String, updateVersion: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.updateProjectVersion",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/update-project-version.html",
+    "searchKeys": [
+      "updateProjectVersion",
+      "open fun updateProjectVersion(userId: String, projectId: String, updateVersion: String)",
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.updateProjectVersion"
+    ]
+  },
+  {
+    "name": "open fun updatePublished(author: PandoroUser, owner: Update)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updatePublished",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/update-published.html",
+    "searchKeys": [
+      "updatePublished",
+      "open fun updatePublished(author: PandoroUser, owner: Update)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updatePublished"
     ]
   },
   {
     "name": "open fun updatePublished(targetVersion: String, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updatePublished",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/update-published.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updatePublished",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/update-published.html",
     "searchKeys": [
       "updatePublished",
       "open fun updatePublished(targetVersion: String, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updatePublished"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updatePublished"
+    ]
+  },
+  {
+    "name": "open fun updateScheduled(author: PandoroUser, owner: Update)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateScheduled",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/update-scheduled.html",
+    "searchKeys": [
+      "updateScheduled",
+      "open fun updateScheduled(author: PandoroUser, owner: Update)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateScheduled"
+    ]
+  },
+  {
+    "name": "open fun updateStarted(author: PandoroUser, owner: Update)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateStarted",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/update-started.html",
+    "searchKeys": [
+      "updateStarted",
+      "open fun updateStarted(author: PandoroUser, owner: Update)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateStarted"
     ]
   },
   {
     "name": "open fun updateStarted(targetVersion: String, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updateStarted",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/update-started.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updateStarted",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/update-started.html",
     "searchKeys": [
       "updateStarted",
       "open fun updateStarted(targetVersion: String, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.updateStarted"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.updateStarted"
     ]
   },
   {
     "name": "open fun workWithProject(userId: String, projectId: String, project: ProjectDTO, isAdding: Boolean)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.workWithProject",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/work-with-project.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.workWithProject",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/work-with-project.html",
     "searchKeys": [
       "workWithProject",
       "open fun workWithProject(userId: String, projectId: String, project: ProjectDTO, isAdding: Boolean)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.workWithProject"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.workWithProject"
     ]
   },
   {
     "name": "open fun yourGroupRoleChanged(groupId: String, memberId: String, role: Role)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.yourGroupRoleChanged",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/your-group-role-changed.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.yourGroupRoleChanged",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/your-group-role-changed.html",
     "searchKeys": [
       "yourGroupRoleChanged",
       "open fun yourGroupRoleChanged(groupId: String, memberId: String, role: Role)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.yourGroupRoleChanged"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.yourGroupRoleChanged"
     ]
   },
   {
@@ -4567,6 +5047,16 @@
       "bestPersonalPerformanceProject",
       "open var bestPersonalPerformanceProject: Overview.ProjectPerformanceStats",
       "com.tecknobit.pandoro.services.overview.dto.Overview.bestPersonalPerformanceProject"
+    ]
+  },
+  {
+    "name": "open var content: String",
+    "description": "com.tecknobit.pandoro.services.notes.entity.Note.content",
+    "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/content.html",
+    "searchKeys": [
+      "content",
+      "open var content: String",
+      "com.tecknobit.pandoro.services.notes.entity.Note.content"
     ]
   },
   {
@@ -4631,42 +5121,42 @@
   },
   {
     "name": "private open fun addGroupsToAProject(groups: List<String>, projectId: String)",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.addGroupsToAProject",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/add-groups-to-a-project.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.addGroupsToAProject",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/add-groups-to-a-project.html",
     "searchKeys": [
       "addGroupsToAProject",
       "private open fun addGroupsToAProject(groups: List<String>, projectId: String)",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.addGroupsToAProject"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.addGroupsToAProject"
     ]
   },
   {
     "name": "private open fun createGroupChangelog(event: ChangelogEvent, extraContent: String, groupId: String, memberId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.createGroupChangelog",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/create-group-changelog.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.createGroupChangelog",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/create-group-changelog.html",
     "searchKeys": [
       "createGroupChangelog",
       "private open fun createGroupChangelog(event: ChangelogEvent, extraContent: String, groupId: String, memberId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.createGroupChangelog"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.createGroupChangelog"
     ]
   },
   {
     "name": "private open fun createProjectChangelog(event: ChangelogEvent, targetVersion: String, projectId: String, userId: String)",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.createProjectChangelog",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/create-project-changelog.html",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.createProjectChangelog",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/create-project-changelog.html",
     "searchKeys": [
       "createProjectChangelog",
       "private open fun createProjectChangelog(event: ChangelogEvent, targetVersion: String, projectId: String, userId: String)",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.createProjectChangelog"
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.createProjectChangelog"
     ]
   },
   {
     "name": "private open fun extractProjectFilters(rawFilters: Set<String>): Pair<String, Set<String>>",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.extractProjectFilters",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/extract-project-filters.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.extractProjectFilters",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/extract-project-filters.html",
     "searchKeys": [
       "extractProjectFilters",
       "private open fun extractProjectFilters(rawFilters: Set<String>): Pair<String, Set<String>>",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.extractProjectFilters"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.extractProjectFilters"
     ]
   },
   {
@@ -4740,6 +5230,16 @@
     ]
   },
   {
+    "name": "private open fun handleChangeNote(id: String, token: String, projectId: String, updateId: String, noteId: String, operation: ProjectsController.ChangeNoteOperation): String",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.handleChangeNote",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/handle-change-note.html",
+    "searchKeys": [
+      "handleChangeNote",
+      "private open fun handleChangeNote(id: String, token: String, projectId: String, updateId: String, noteId: String, operation: ProjectsController.ChangeNoteOperation): String",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.handleChangeNote"
+    ]
+  },
+  {
     "name": "private open fun isNotTheAuthor(group: Group, memberId: String): Boolean",
     "description": "com.tecknobit.pandoro.services.groups.controller.GroupsController.isNotTheAuthor",
     "location": "backend/com.tecknobit.pandoro.services.groups.controller/-groups-controller/is-not-the-author.html",
@@ -4757,16 +5257,6 @@
       "isValidRequest",
       "private open fun isValidRequest(id: String, token: String, payload: GroupDTO, editingMode: Boolean): String",
       "com.tecknobit.pandoro.services.groups.controller.GroupsController.isValidRequest"
-    ]
-  },
-  {
-    "name": "private open fun manageChangeNote(id: String, token: String, projectId: String, updateId: String, noteId: String, ope: String): String",
-    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.manageChangeNote",
-    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/manage-change-note.html",
-    "searchKeys": [
-      "manageChangeNote",
-      "private open fun manageChangeNote(id: String, token: String, projectId: String, updateId: String, noteId: String, ope: String): String",
-      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.manageChangeNote"
     ]
   },
   {
@@ -4810,6 +5300,46 @@
     ]
   },
   {
+    "name": "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/store-update-event.html",
+    "searchKeys": [
+      "storeUpdateEvent",
+      "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent"
+    ]
+  },
+  {
+    "name": "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, changeNote: Note)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/store-update-event.html",
+    "searchKeys": [
+      "storeUpdateEvent",
+      "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, changeNote: Note)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent"
+    ]
+  },
+  {
+    "name": "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, changeNote: Note, extraContent: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/store-update-event.html",
+    "searchKeys": [
+      "storeUpdateEvent",
+      "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, changeNote: Note, extraContent: String)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent"
+    ]
+  },
+  {
+    "name": "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, extraContent: String)",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/store-update-event.html",
+    "searchKeys": [
+      "storeUpdateEvent",
+      "private open fun storeUpdateEvent(author: PandoroUser, type: UpdateEventType, owner: Update, extraContent: String)",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.storeUpdateEvent"
+    ]
+  },
+  {
     "name": "private open fun workWithProject(id: String, token: String, payload: ProjectDTO, projectId: String): String",
     "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.workWithProject",
     "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/work-with-project.html",
@@ -4840,13 +5370,13 @@
     ]
   },
   {
-    "name": "private open var changelogRepository: ChangelogsRepository",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.changelogRepository",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/changelog-repository.html",
+    "name": "private open var events: List<UpdateEvent>",
+    "description": "com.tecknobit.pandoro.services.users.entities.PandoroUser.events",
+    "location": "backend/com.tecknobit.pandoro.services.users.entities/-pandoro-user/events.html",
     "searchKeys": [
-      "changelogRepository",
-      "private open var changelogRepository: ChangelogsRepository",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.changelogRepository"
+      "events",
+      "private open var events: List<UpdateEvent>",
+      "com.tecknobit.pandoro.services.users.entities.PandoroUser.events"
     ]
   },
   {
@@ -4910,26 +5440,6 @@
     ]
   },
   {
-    "name": "private open var project: Project",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.project",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/project.html",
-    "searchKeys": [
-      "project",
-      "private open var project: Project",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.project"
-    ]
-  },
-  {
-    "name": "private open var project_update: ProjectUpdate",
-    "description": "com.tecknobit.pandoro.services.notes.entity.Note.project_update",
-    "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/project_update.html",
-    "searchKeys": [
-      "project_update",
-      "private open var project_update: ProjectUpdate",
-      "com.tecknobit.pandoro.services.notes.entity.Note.project_update"
-    ]
-  },
-  {
     "name": "private open var projects: List<Project>",
     "description": "com.tecknobit.pandoro.services.users.entities.PandoroUser.projects",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-pandoro-user/projects.html",
@@ -4940,12 +5450,22 @@
     ]
   },
   {
-    "name": "private open var updates: List<ProjectUpdate>",
+    "name": "private open var update: Update",
+    "description": "com.tecknobit.pandoro.services.notes.entity.Note.update",
+    "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/update.html",
+    "searchKeys": [
+      "update",
+      "private open var update: Update",
+      "com.tecknobit.pandoro.services.notes.entity.Note.update"
+    ]
+  },
+  {
+    "name": "private open var updates: List<Update>",
     "description": "com.tecknobit.pandoro.services.projects.entities.Project.updates",
     "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project/updates.html",
     "searchKeys": [
       "updates",
-      "private open var updates: List<ProjectUpdate>",
+      "private open var updates: List<Update>",
       "com.tecknobit.pandoro.services.projects.entities.Project.updates"
     ]
   },
@@ -4961,42 +5481,62 @@
   },
   {
     "name": "private val PROJECT_NAME_PATTERN: Pattern",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_NAME_PATTERN",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-p-r-o-j-e-c-t_-n-a-m-e_-p-a-t-t-e-r-n.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_NAME_PATTERN",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/-p-r-o-j-e-c-t_-n-a-m-e_-p-a-t-t-e-r-n.html",
     "searchKeys": [
       "PROJECT_NAME_PATTERN",
       "private val PROJECT_NAME_PATTERN: Pattern",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_NAME_PATTERN"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_NAME_PATTERN"
     ]
   },
   {
     "name": "private val PROJECT_NAME_REGEX: String = \"^[a-zA-Z0-9_-]{1,15}$\"",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_NAME_REGEX",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-p-r-o-j-e-c-t_-n-a-m-e_-r-e-g-e-x.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_NAME_REGEX",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/-p-r-o-j-e-c-t_-n-a-m-e_-r-e-g-e-x.html",
     "searchKeys": [
       "PROJECT_NAME_REGEX",
       "private val PROJECT_NAME_REGEX: String = \"^[a-zA-Z0-9_-]{1,15}$\"",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_NAME_REGEX"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_NAME_REGEX"
     ]
   },
   {
     "name": "private val PROJECT_VERSION_PATTERN: Pattern",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_VERSION_PATTERN",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-p-a-t-t-e-r-n.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_VERSION_PATTERN",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-p-a-t-t-e-r-n.html",
     "searchKeys": [
       "PROJECT_VERSION_PATTERN",
       "private val PROJECT_VERSION_PATTERN: Pattern",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_VERSION_PATTERN"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_VERSION_PATTERN"
     ]
   },
   {
     "name": "private val PROJECT_VERSION_REGEX: String = \"^v?(?:\\d+[-.]?)+(-[a-zA-Z]+\\d*)?$\"",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_VERSION_REGEX",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-r-e-g-e-x.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_VERSION_REGEX",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/-p-r-o-j-e-c-t_-v-e-r-s-i-o-n_-r-e-g-e-x.html",
     "searchKeys": [
       "PROJECT_VERSION_REGEX",
       "private val PROJECT_VERSION_REGEX: String = \"^v?(?:\\d+[-.]?)+(-[a-zA-Z]+\\d*)?$\"",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.PROJECT_VERSION_REGEX"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.PROJECT_VERSION_REGEX"
+    ]
+  },
+  {
+    "name": "private val changeNotesService: ChangeNotesService",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.changeNotesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/change-notes-service.html",
+    "searchKeys": [
+      "changeNotesService",
+      "private val changeNotesService: ChangeNotesService",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.changeNotesService"
+    ]
+  },
+  {
+    "name": "private val changelogRepository: ChangelogsRepository",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.changelogRepository",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/changelog-repository.html",
+    "searchKeys": [
+      "changelogRepository",
+      "private val changelogRepository: ChangelogsRepository",
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.changelogRepository"
     ]
   },
   {
@@ -5007,6 +5547,36 @@
       "changelogs",
       "private val changelogs: List<Changelog>",
       "com.tecknobit.pandoro.services.users.entities.PandoroUser.changelogs"
+    ]
+  },
+  {
+    "name": "private val changelogsNotifier: ChangelogsNotifier",
+    "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/changelogs-notifier.html",
+    "searchKeys": [
+      "changelogsNotifier",
+      "private val changelogsNotifier: ChangelogsNotifier",
+      "com.tecknobit.pandoro.services.groups.service.GroupsService.changelogsNotifier"
+    ]
+  },
+  {
+    "name": "private val changelogsNotifier: ChangelogsNotifier",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.changelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/changelogs-notifier.html",
+    "searchKeys": [
+      "changelogsNotifier",
+      "private val changelogsNotifier: ChangelogsNotifier",
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.changelogsNotifier"
+    ]
+  },
+  {
+    "name": "private val changelogsNotifier: ChangelogsNotifier",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.changelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/changelogs-notifier.html",
+    "searchKeys": [
+      "changelogsNotifier",
+      "private val changelogsNotifier: ChangelogsNotifier",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.changelogsNotifier"
     ]
   },
   {
@@ -5041,12 +5611,12 @@
   },
   {
     "name": "private val createDate: Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.createDate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/create-date.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.createDate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/create-date.html",
     "searchKeys": [
       "createDate",
       "private val createDate: Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.createDate"
+      "com.tecknobit.pandoro.services.projects.entities.Update.createDate"
     ]
   },
   {
@@ -5091,12 +5661,12 @@
   },
   {
     "name": "private val groupMembersRepository: GroupMembersRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/group-members-repository.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.groupMembersRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/group-members-repository.html",
     "searchKeys": [
       "groupMembersRepository",
       "private val groupMembersRepository: GroupMembersRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupMembersRepository"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.groupMembersRepository"
     ]
   },
   {
@@ -5121,12 +5691,12 @@
   },
   {
     "name": "private val groupsRepository: GroupsRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/groups-repository.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.groupsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/groups-repository.html",
     "searchKeys": [
       "groupsRepository",
       "private val groupsRepository: GroupsRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.groupsRepository"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.groupsRepository"
     ]
   },
   {
@@ -5181,12 +5751,12 @@
   },
   {
     "name": "private val notes: List<Note>",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.notes",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/notes.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.notes",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/notes.html",
     "searchKeys": [
       "notes",
       "private val notes: List<Note>",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.notes"
+      "com.tecknobit.pandoro.services.projects.entities.Update.notes"
     ]
   },
   {
@@ -5201,12 +5771,12 @@
   },
   {
     "name": "private val notesRepository: NotesRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/notes-repository.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.notesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/notes-repository.html",
     "searchKeys": [
       "notesRepository",
       "private val notesRepository: NotesRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.notesRepository"
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.notesRepository"
     ]
   },
   {
@@ -5237,6 +5807,16 @@
       "overviewService",
       "private val overviewService: OverviewService",
       "com.tecknobit.pandoro.services.overview.controller.OverviewController.overviewService"
+    ]
+  },
+  {
+    "name": "private val project: Project",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.project",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/project.html",
+    "searchKeys": [
+      "project",
+      "private val project: Project",
+      "com.tecknobit.pandoro.services.projects.entities.Update.project"
     ]
   },
   {
@@ -5271,12 +5851,12 @@
   },
   {
     "name": "private val projectsRepository: ProjectsRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/projects-repository.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.ProjectsService.projectsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-projects-service/projects-repository.html",
     "searchKeys": [
       "projectsRepository",
       "private val projectsRepository: ProjectsRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.projectsRepository"
+      "com.tecknobit.pandoro.services.projects.services.ProjectsService.projectsRepository"
     ]
   },
   {
@@ -5301,12 +5881,12 @@
   },
   {
     "name": "private val publishDate: Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.publishDate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/publish-date.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.publishDate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/publish-date.html",
     "searchKeys": [
       "publishDate",
       "private val publishDate: Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.publishDate"
+      "com.tecknobit.pandoro.services.projects.entities.Update.publishDate"
     ]
   },
   {
@@ -5321,22 +5901,52 @@
   },
   {
     "name": "private val startDate: Long",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.startDate",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/start-date.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.startDate",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/start-date.html",
     "searchKeys": [
       "startDate",
       "private val startDate: Long",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.startDate"
+      "com.tecknobit.pandoro.services.projects.entities.Update.startDate"
+    ]
+  },
+  {
+    "name": "private val updateEventsNotifier: UpdateEventsNotifier",
+    "description": "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.updateEventsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-change-notes-service/update-events-notifier.html",
+    "searchKeys": [
+      "updateEventsNotifier",
+      "private val updateEventsNotifier: UpdateEventsNotifier",
+      "com.tecknobit.pandoro.services.projects.services.ChangeNotesService.updateEventsNotifier"
+    ]
+  },
+  {
+    "name": "private val updateEventsNotifier: UpdateEventsNotifier",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.updateEventsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/update-events-notifier.html",
+    "searchKeys": [
+      "updateEventsNotifier",
+      "private val updateEventsNotifier: UpdateEventsNotifier",
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.updateEventsNotifier"
+    ]
+  },
+  {
+    "name": "private val updateEventsRepository: UpdateEventsRepository",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateEventsRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-update-events-notifier/update-events-repository.html",
+    "searchKeys": [
+      "updateEventsRepository",
+      "private val updateEventsRepository: UpdateEventsRepository",
+      "com.tecknobit.pandoro.services.projects.services.UpdateEventsNotifier.updateEventsRepository"
     ]
   },
   {
     "name": "private val updatesRepository: UpdatesRepository",
-    "description": "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository",
-    "location": "backend/com.tecknobit.pandoro.services.projects.service/-projects-service/updates-repository.html",
+    "description": "com.tecknobit.pandoro.services.projects.services.UpdatesService.updatesRepository",
+    "location": "backend/com.tecknobit.pandoro.services.projects.services/-updates-service/updates-repository.html",
     "searchKeys": [
       "updatesRepository",
       "private val updatesRepository: UpdatesRepository",
-      "com.tecknobit.pandoro.services.projects.service.ProjectsService.updatesRepository"
+      "com.tecknobit.pandoro.services.projects.services.UpdatesService.updatesRepository"
     ]
   },
   {
@@ -5350,6 +5960,16 @@
     ]
   },
   {
+    "name": "private val updatesService: UpdatesService",
+    "description": "com.tecknobit.pandoro.services.projects.controller.ProjectsController.updatesService",
+    "location": "backend/com.tecknobit.pandoro.services.projects.controller/-projects-controller/updates-service.html",
+    "searchKeys": [
+      "updatesService",
+      "private val updatesService: UpdatesService",
+      "com.tecknobit.pandoro.services.projects.controller.ProjectsController.updatesService"
+    ]
+  },
+  {
     "name": "private val usersRepository: PandoroUsersRepository",
     "description": "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository",
     "location": "backend/com.tecknobit.pandoro.services.groups.service/-groups-service/users-repository.html",
@@ -5360,13 +5980,13 @@
     ]
   },
   {
-    "name": "protected open var changelogsCreator: ChangelogsCreator",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator.changelogsCreator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-creator/-changelog-operator/changelogs-creator.html",
+    "name": "protected open var changelogsNotifier: ChangelogsNotifier",
+    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.changelogsNotifier",
+    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/changelogs-notifier.html",
     "searchKeys": [
-      "changelogsCreator",
-      "protected open var changelogsCreator: ChangelogsCreator",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsCreator.ChangelogOperator.changelogsCreator"
+      "changelogsNotifier",
+      "protected open var changelogsNotifier: ChangelogsNotifier",
+      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.changelogsNotifier"
     ]
   },
   {
@@ -5621,12 +6241,22 @@
   },
   {
     "name": "val author: PandoroUser",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.author",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/author.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.author",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/author.html",
     "searchKeys": [
       "author",
       "val author: PandoroUser",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.author"
+      "com.tecknobit.pandoro.services.projects.entities.Update.author"
+    ]
+  },
+  {
+    "name": "val author: PandoroUser",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.author",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/author.html",
+    "searchKeys": [
+      "author",
+      "val author: PandoroUser",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.author"
     ]
   },
   {
@@ -5637,16 +6267,6 @@
       "changelogEvent",
       "val changelogEvent: ChangelogEvent",
       "com.tecknobit.pandoro.services.changelogs.entity.Changelog.changelogEvent"
-    ]
-  },
-  {
-    "name": "val content: String",
-    "description": "com.tecknobit.pandoro.services.notes.entity.Note.content",
-    "location": "backend/com.tecknobit.pandoro.services.notes.entity/-note/content.html",
-    "searchKeys": [
-      "content",
-      "val content: String",
-      "com.tecknobit.pandoro.services.notes.entity.Note.content"
     ]
   },
   {
@@ -5680,6 +6300,16 @@
     ]
   },
   {
+    "name": "val events: List<UpdateEvent>",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.events",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/events.html",
+    "searchKeys": [
+      "events",
+      "val events: List<UpdateEvent>",
+      "com.tecknobit.pandoro.services.projects.entities.Update.events"
+    ]
+  },
+  {
     "name": "val extraContent: String",
     "description": "com.tecknobit.pandoro.services.changelogs.entity.Changelog.extraContent",
     "location": "backend/com.tecknobit.pandoro.services.changelogs.entity/-changelog/extra-content.html",
@@ -5687,6 +6317,16 @@
       "extraContent",
       "val extraContent: String",
       "com.tecknobit.pandoro.services.changelogs.entity.Changelog.extraContent"
+    ]
+  },
+  {
+    "name": "val extraContent: String",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.extraContent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/extra-content.html",
+    "searchKeys": [
+      "extraContent",
+      "val extraContent: String",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.extraContent"
     ]
   },
   {
@@ -5750,6 +6390,26 @@
     ]
   },
   {
+    "name": "val noteContent: String",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.noteContent",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/note-content.html",
+    "searchKeys": [
+      "noteContent",
+      "val noteContent: String",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.noteContent"
+    ]
+  },
+  {
+    "name": "val owner: Update",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.owner",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/owner.html",
+    "searchKeys": [
+      "owner",
+      "val owner: Update",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.owner"
+    ]
+  },
+  {
     "name": "val profilePic: String",
     "description": "com.tecknobit.pandoro.services.users.entities.GroupMember.profilePic",
     "location": "backend/com.tecknobit.pandoro.services.users.entities/-group-member/profile-pic.html",
@@ -5781,12 +6441,12 @@
   },
   {
     "name": "val publishedBy: PandoroUser",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.publishedBy",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/published-by.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.publishedBy",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/published-by.html",
     "searchKeys": [
       "publishedBy",
       "val publishedBy: PandoroUser",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.publishedBy"
+      "com.tecknobit.pandoro.services.projects.entities.Update.publishedBy"
     ]
   },
   {
@@ -5801,22 +6461,22 @@
   },
   {
     "name": "val startedBy: PandoroUser",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.startedBy",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/started-by.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.startedBy",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/started-by.html",
     "searchKeys": [
       "startedBy",
       "val startedBy: PandoroUser",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.startedBy"
+      "com.tecknobit.pandoro.services.projects.entities.Update.startedBy"
     ]
   },
   {
     "name": "val status: UpdateStatus",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.status",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/status.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.status",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/status.html",
     "searchKeys": [
       "status",
       "val status: UpdateStatus",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.status"
+      "com.tecknobit.pandoro.services.projects.entities.Update.status"
     ]
   },
   {
@@ -5831,12 +6491,12 @@
   },
   {
     "name": "val targetVersion: String",
-    "description": "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.targetVersion",
-    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-project-update/target-version.html",
+    "description": "com.tecknobit.pandoro.services.projects.entities.Update.targetVersion",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update/target-version.html",
     "searchKeys": [
       "targetVersion",
       "val targetVersion: String",
-      "com.tecknobit.pandoro.services.projects.entities.ProjectUpdate.targetVersion"
+      "com.tecknobit.pandoro.services.projects.entities.Update.targetVersion"
     ]
   },
   {
@@ -5847,6 +6507,26 @@
       "timestamp",
       "val timestamp: Long",
       "com.tecknobit.pandoro.services.changelogs.entity.Changelog.timestamp"
+    ]
+  },
+  {
+    "name": "val timestamp: Long",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.timestamp",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/timestamp.html",
+    "searchKeys": [
+      "timestamp",
+      "val timestamp: Long",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.timestamp"
+    ]
+  },
+  {
+    "name": "val type: UpdateEventType",
+    "description": "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.type",
+    "location": "backend/com.tecknobit.pandoro.services.projects.entities/-update-event/type.html",
+    "searchKeys": [
+      "type",
+      "val type: UpdateEventType",
+      "com.tecknobit.pandoro.services.projects.entities.UpdateEvent.type"
     ]
   },
   {

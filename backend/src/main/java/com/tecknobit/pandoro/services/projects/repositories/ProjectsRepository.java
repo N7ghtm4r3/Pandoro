@@ -54,9 +54,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      */
     @Query(
             value = "SELECT " + PROJECTS_KEY + ".*" + " FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY +
-                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
-                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
-                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_ESCAPED_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_ESCAPED_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_ESCAPED_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
@@ -67,9 +67,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
                     IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
                     " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY +
-                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
-                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
-                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_ESCAPED_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_ESCAPED_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_ESCAPED_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + GROUP_MEMBERS_TABLE + "." +
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +
@@ -98,9 +98,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
      */
     @Query(
             value = "SELECT " + PROJECTS_KEY + ".*" + " FROM " + PROJECTS_KEY + " AS " + PROJECTS_KEY +
-                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
-                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
-                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_ESCAPED_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_ESCAPED_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_ESCAPED_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + PROJECTS_KEY + "." + AUTHOR_KEY + "=:" + AUTHOR_KEY +
                     " AND " + PROJECTS_KEY + "." + NAME_KEY + " LIKE %:" + NAME_KEY + "%" +
                     " AND COALESCE(:" + FILTERS_KEY + ") IS NULL" +
@@ -111,9 +111,9 @@ public interface ProjectsRepository extends JpaRepository<Project, String> {
                     GROUPS_KEY + " ON " + PROJECTS_GROUPS_TABLE + "." + GROUP_IDENTIFIER_KEY + " = " + GROUPS_KEY + "." +
                     IDENTIFIER_KEY + " LEFT JOIN " + GROUP_MEMBERS_TABLE + " ON " + GROUPS_KEY + "." + IDENTIFIER_KEY +
                     " = " + GROUP_MEMBERS_TABLE + "." + GROUP_MEMBER_KEY +
-                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_KEY + " ON " +
-                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_KEY + "." + PROJECT_KEY +
-                    " AND " + UPDATE_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
+                    " INNER JOIN " + UPDATES_KEY + " as " + UPDATE_ESCAPED_KEY + " ON " +
+                    PROJECTS_KEY + "." + IDENTIFIER_KEY + "=" + UPDATE_ESCAPED_KEY + "." + PROJECT_KEY +
+                    " AND " + UPDATE_ESCAPED_KEY + "." + UPDATE_STATUS_KEY + " = 'IN_DEVELOPMENT'" +
                     " WHERE " + GROUP_MEMBERS_TABLE + "." +
                     IDENTIFIER_KEY + " =:" + AUTHOR_KEY +
                     " AND " + GROUP_MEMBERS_TABLE + "." + INVITATION_STATUS_KEY + " = 'JOINED'" +

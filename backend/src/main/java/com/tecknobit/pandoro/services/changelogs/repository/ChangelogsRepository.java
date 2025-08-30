@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.changelogs.repository;
 
 import com.tecknobit.pandoro.services.changelogs.entity.Changelog;
-import com.tecknobit.pandorocore.enums.ChangelogEvent;
+import com.tecknobit.pandorocore.enums.events.ChangelogEvent;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -67,7 +67,7 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
      */
     @Query(
             value = "SELECT * FROM " + CHANGELOGS_KEY + " WHERE " + CHANGELOG_OWNER_KEY + "=:" + CHANGELOG_OWNER_KEY
-                    + " ORDER BY " + CHANGELOG_TIMESTAMP_KEY + " DESC ",
+                    + " ORDER BY " + TIMESTAMP_KEY + " DESC ",
             nativeQuery = true
     )
     List<Changelog> getChangelogs(
@@ -100,17 +100,17 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
-                    + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_READ_KEY + ","
-                    + CHANGELOG_TIMESTAMP_KEY + ","
+                    + TIMESTAMP_KEY + ","
                     + PROJECT_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
-                    + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + ":" + EXTRA_CONTENT_KEY + ","
                     + "false,"
-                    + ":" + CHANGELOG_TIMESTAMP_KEY + ","
+                    + ":" + TIMESTAMP_KEY + ","
                     + ":" + PROJECT_IDENTIFIER_KEY + ","
                     + ":" + CHANGELOG_OWNER_KEY + ")",
             nativeQuery = true
@@ -118,8 +118,8 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     void addProjectChangelog(
             @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
-            @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
-            @Param(CHANGELOG_TIMESTAMP_KEY) long changelogTimestamp,
+            @Param(EXTRA_CONTENT_KEY) String extraContent,
+            @Param(TIMESTAMP_KEY) long changelogTimestamp,
             @Param(PROJECT_IDENTIFIER_KEY) String projectId,
             @Param(CHANGELOG_OWNER_KEY) String owner
     );
@@ -132,17 +132,17 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
                     + "( "
                     + IDENTIFIER_KEY + ","
                     + CHANGELOG_EVENT_KEY + ","
-                    + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + EXTRA_CONTENT_KEY + ","
                     + CHANGELOG_READ_KEY + ","
-                    + CHANGELOG_TIMESTAMP_KEY + ","
+                    + TIMESTAMP_KEY + ","
                     + GROUP_IDENTIFIER_KEY + ","
                     + CHANGELOG_OWNER_KEY + ") VALUES "
                     + "( "
                     + ":" + IDENTIFIER_KEY + ","
                     + ":#{#" + CHANGELOG_EVENT_KEY + ".name()},"
-                    + ":" + CHANGELOG_EXTRA_CONTENT_KEY + ","
+                    + ":" + EXTRA_CONTENT_KEY + ","
                     + "false,"
-                    + ":" + CHANGELOG_TIMESTAMP_KEY + ","
+                    + ":" + TIMESTAMP_KEY + ","
                     + ":" + GROUP_IDENTIFIER_KEY + ","
                     + ":" + CHANGELOG_OWNER_KEY + ")",
             nativeQuery = true
@@ -150,8 +150,8 @@ public interface ChangelogsRepository extends JpaRepository<Changelog, String> {
     void addGroupChangelog(
             @Param(IDENTIFIER_KEY) String changelogId,
             @Param(CHANGELOG_EVENT_KEY) ChangelogEvent changelogEvent,
-            @Param(CHANGELOG_EXTRA_CONTENT_KEY) String extraContent,
-            @Param(CHANGELOG_TIMESTAMP_KEY) long changelogTimestamp,
+            @Param(EXTRA_CONTENT_KEY) String extraContent,
+            @Param(TIMESTAMP_KEY) long changelogTimestamp,
             @Param(GROUP_IDENTIFIER_KEY) String groupId,
             @Param(CHANGELOG_OWNER_KEY) String owner
     );

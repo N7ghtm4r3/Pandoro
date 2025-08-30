@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tecknobit.pandoro"
-version = "1.0.8"
+version = "1.2.0"
 
 repositories {
     google()
@@ -70,7 +70,7 @@ kotlin {
 
 android {
     namespace = "com.tecknobit.pandorocore"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 24
     }
@@ -82,7 +82,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandorocore"
                 artifactId = "pandorocore"
-                version = "1.0.8"
+                version = "1.2.0"
                 from(components["kotlin"])
             }
         }

@@ -6,6 +6,20 @@ package com.tecknobit.pandorocore
 const val GROUP_MEMBERS_TABLE = "group_members"
 
 /**
+ * `EVENTS_KEY` events key
+ *
+ * @since 1.2.0
+ */
+const val EVENTS_KEY = "events"
+
+/**
+ * `EVENT_IDENTIFIER_KEY` event identifier key
+ *
+ * @since 1.2.0
+ */
+const val EVENT_IDENTIFIER_KEY = "event_id"
+
+/**
  * `PROJECTS_KEY` projects key
  */
 const val PROJECTS_KEY = "projects"
@@ -61,9 +75,21 @@ const val UPDATES_KEY = "updates"
 const val UPDATE_IDENTIFIER_KEY = "update_id"
 
 /**
- * `UPDATE_KEY` project update key
+ * `DESTINATION_UPDATE_IDENTIFIER_KEY` destination update identifier key
  */
-const val UPDATE_KEY = "project_update"
+const val DESTINATION_UPDATE_IDENTIFIER_KEY = "destination_update_id"
+
+/**
+ * `UPDATE_KEY` update key
+ */
+const val UPDATE_KEY = "update"
+
+/**
+ * `UPDATE_ESCAPED_KEY` `update` key, it is used in the queries
+ *
+ * @since 1.2.0
+ */
+const val UPDATE_ESCAPED_KEY = "`$UPDATE_KEY`"
 
 /**
  * `UPDATE_CREATE_DATE_KEY` create date key
@@ -104,6 +130,13 @@ const val UPDATE_PUBLISHED_BY_KEY = "published_by"
  * `UPDATE_PUBLISH_DATE_KEY` publish date key
  */
 const val UPDATE_PUBLISH_DATE_KEY = "publish_date"
+
+/**
+ * `UPDATE_EVENTS_KEY` update events key
+ *
+ * @since 1.2.0
+ */
+const val UPDATE_EVENTS_KEY = "update_events"
 
 /**
  * `GROUPS_KEY` groups key
@@ -196,6 +229,13 @@ const val MARKED_AS_DONE_BY_KEY = "marked_as_done_by"
 const val MARKED_AS_DONE_DATE_KEY = "marked_as_done_date"
 
 /**
+ * `NOTE_KEY` note key
+ *
+ * @since 1.2.0
+ */
+const val NOTE_KEY = "note"
+
+/**
  * `CHANGELOGS_KEY` changelogs key
  */
 const val CHANGELOGS_KEY = "changelogs"
@@ -211,14 +251,9 @@ const val CHANGELOG_IDENTIFIER_KEY = "changelog_id"
 const val CHANGELOG_EVENT_KEY = "changelog_event"
 
 /**
- * `CHANGELOG_TIMESTAMP_KEY` changelog timestamp key
+ * `TIMESTAMP_KEY` changelog timestamp key
  */
-const val CHANGELOG_TIMESTAMP_KEY = "timestamp"
-
-/**
- * `CHANGELOG_EXTRA_CONTENT_KEY` extra content of the changelog key
- */
-const val CHANGELOG_EXTRA_CONTENT_KEY = "extra_content"
+const val TIMESTAMP_KEY = "timestamp"
 
 /**
  * `CHANGELOG_READ_KEY` whether the changelog is read key
@@ -229,3 +264,10 @@ const val CHANGELOG_READ_KEY = "is_read"
  * `CHANGELOG_OWNER_KEY` owner of the changelog key
  */
 const val CHANGELOG_OWNER_KEY = "owner"
+
+/**
+ * `EXTRA_CONTENT_KEY` extra content key
+ *
+ * @since 1.2.0
+ */
+const val EXTRA_CONTENT_KEY = "extra_content"

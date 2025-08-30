@@ -114,4 +114,9 @@ object PandoroEndpoints : EquinoxBaseEndpointsSet() {
      */
     const val OVERVIEW_ENDPOINT = "overview"
 
+    /**
+     * `MOVE_ENDPOINT` endpoint to move a content from a source to a destination
+     */
+    const val MOVE_ENDPOINT = "/move/"
+
 }

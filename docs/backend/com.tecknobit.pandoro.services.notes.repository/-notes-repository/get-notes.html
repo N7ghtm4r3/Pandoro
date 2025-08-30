@@ -123,7 +123,7 @@
                                         class="token punctuation">(</span><span>value<span
                                         class="token operator"> = </span><span class="breakable-word"><span
                                         class="token string">"SELECT * FROM " + NOTES_KEY + " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY
-                    + " AND " + UPDATE_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
+                    + " AND " + UPDATE_ESCAPED_KEY + " IS NULL ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
                                         class="token punctuation">, </span></span>
                                     <wbr>
                                     <span>nativeQuery<span class="token operator"> = </span><span
@@ -190,7 +190,7 @@
                                         class="token operator"> = </span><span class="breakable-word"><span
                                         class="token string">"SELECT * FROM " + NOTES_KEY +
                     " WHERE " + AUTHOR_KEY + "=:" + AUTHOR_KEY +
-                    " AND " + UPDATE_KEY + " IS NULL" +
+                    " AND " + UPDATE_ESCAPED_KEY + " IS NULL" +
                     " AND " + MARKED_AS_DONE_KEY + "=:" + MARKED_AS_DONE_KEY +
                     " ORDER BY " + CREATION_DATE_KEY + " DESC "</span></span><span
                                         class="token punctuation">, </span></span>

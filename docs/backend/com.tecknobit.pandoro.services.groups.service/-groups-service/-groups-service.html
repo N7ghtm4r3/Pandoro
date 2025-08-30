@@ -102,7 +102,7 @@
         </div>
         <div id="main">
             <div class="main-content" data-page-type="member" id="content"
-                 pageids="backend::com.tecknobit.pandoro.services.groups.service/GroupsService/GroupsService/#com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository#com.tecknobit.pandoro.services.groups.repositories.GroupsRepository#com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository#com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository/PointingToDeclaration//-612206970">
+                 pageids="backend::com.tecknobit.pandoro.services.groups.service/GroupsService/GroupsService/#com.tecknobit.pandoro.services.users.repository.PandoroUsersRepository#com.tecknobit.pandoro.services.groups.repositories.GroupsRepository#com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository#com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository#com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier/PointingToDeclaration//-612206970">
                 <div class="breadcrumbs"><a href="../../index.html">backend</a><span class="delimiter">/</span><a
                         href="../index.html">com.tecknobit.pandoro.services.groups.service</a><span
                         class="delimiter">/</span><a href="index.html">GroupsService</a><span class="delimiter">/</span><span
@@ -133,7 +133,10 @@
                                 href="../../com.tecknobit.pandoro.services.groups.repositories/-group-members-repository/index.html">GroupMembersRepository</a><span
                                 class="token punctuation">, </span></span><span
                                 class="parameter ">changelogsRepository<span class="token operator">: </span><a
-                                href="../../com.tecknobit.pandoro.services.changelogs.repository/-changelogs-repository/index.html">ChangelogsRepository</a></span></span><span
+                                href="../../com.tecknobit.pandoro.services.changelogs.repository/-changelogs-repository/index.html">ChangelogsRepository</a><span
+                                class="token punctuation">, </span></span><span
+                                class="parameter ">changelogsNotifier<span class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/index.html">ChangelogsNotifier</a></span></span><span
                                 class="token punctuation">)</span></div>
                         <p class="paragraph">Constructor to init the service</p><h4 class="">Parameters</h4>
                         <div class="table">
@@ -178,6 +181,17 @@
                                     <div>
                                         <div class="title"><p class="paragraph">The instance for the changelogs
                                             repository</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>changelogs</span><wbr><span><span>Notifier</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The instance used to notify a changelog
+                                            event</p></div>
                                     </div>
                                 </div>
                             </div>

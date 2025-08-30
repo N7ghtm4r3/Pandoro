@@ -102,7 +102,7 @@
         </div>
         <div id="main">
             <div class="main-content" data-page-type="member" id="content"
-                 pageids="backend::com.tecknobit.pandoro.services.projects.controller/ProjectsController/ProjectsController/#com.tecknobit.pandoro.services.projects.service.ProjectsService/PointingToDeclaration//-612206970">
+                 pageids="backend::com.tecknobit.pandoro.services.projects.controller/ProjectsController/ProjectsController/#com.tecknobit.pandoro.services.projects.services.ProjectsService#com.tecknobit.pandoro.services.projects.services.UpdatesService#com.tecknobit.pandoro.services.projects.services.ChangeNotesService/PointingToDeclaration//-612206970">
                 <div class="breadcrumbs"><a href="../../index.html">backend</a><span class="delimiter">/</span><a
                         href="../index.html">com.tecknobit.pandoro.services.projects.controller</a><span
                         class="delimiter">/</span><a href="index.html">ProjectsController</a><span
@@ -124,7 +124,13 @@
                             <span class="token keyword">constructor</span><span class="token punctuation">(</span><span
                                 class="parameters "><span class="parameter ">projectsService<span
                                 class="token operator">: </span><a
-                                href="../../com.tecknobit.pandoro.services.projects.service/-projects-service/index.html">ProjectsService</a></span></span><span
+                                href="../../com.tecknobit.pandoro.services.projects.services/-projects-service/index.html">ProjectsService</a><span
+                                class="token punctuation">, </span></span><span class="parameter ">updatesService<span
+                                class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.projects.services/-updates-service/index.html">UpdatesService</a><span
+                                class="token punctuation">, </span></span><span
+                                class="parameter ">changeNotesService<span class="token operator">: </span><a
+                                href="../../com.tecknobit.pandoro.services.projects.services/-change-notes-service/index.html">ChangeNotesService</a></span></span><span
                                 class="token punctuation">)</span></div>
                         <p class="paragraph">Constructor used to init the controller</p><h4 class="">Parameters</h4>
                         <div class="table">
@@ -136,6 +142,28 @@
                                     <div>
                                         <div class="title"><p class="paragraph">The instance to manage the projects
                                             database operations</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>updates</span><wbr><span><span>Service</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The service which handles the database
+                                            operations of the updates</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-row" data-filterable-current=":backend:dokkaHtmlPartial/main"
+                                 data-filterable-set=":backend:dokkaHtmlPartial/main">
+                                <div class="main-subrow keyValue ">
+                                    <div class=""><span class="inline-flex"><div><u><span>change</span><wbr><span>Notes</span><wbr><span><span>Service</span></span></u></div></span>
+                                    </div>
+                                    <div>
+                                        <div class="title"><p class="paragraph">The service which handles the database
+                                            operations of the change notes</p></div>
                                     </div>
                                 </div>
                             </div>
