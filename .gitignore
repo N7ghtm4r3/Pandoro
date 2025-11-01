@@ -44,3 +44,4 @@ bin/
 local.properties
 gradle.properties
 /resources
+.idea
