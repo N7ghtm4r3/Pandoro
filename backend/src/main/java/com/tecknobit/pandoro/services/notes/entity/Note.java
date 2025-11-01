@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.notes.entity;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
+import com.tecknobit.equinoxbackend.annotations.MappingPurpose;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.projects.entities.Update;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
@@ -108,11 +109,11 @@ public class Note extends EquinoxItem {
      *
      * @apiNote usage in SQL scopes
      */
-    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
+    @MappingPurpose
     @JoinColumn(name = UPDATE_ESCAPED_KEY, referencedColumnName = IDENTIFIER_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Update update;

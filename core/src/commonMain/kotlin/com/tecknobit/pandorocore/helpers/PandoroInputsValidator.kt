@@ -37,6 +37,19 @@ object PandoroInputsValidator : InputsValidator() {
     const val TARGET_VERSION_MAX_LENGTH: Int = 20
 
     /**
+     * `URL_REGEX` regular expression to validate the urls value
+     */
+    // TODO: TO REMOVE WHEN FIXED INTO InputsValidator
+    const val URL_REGEX =
+        "^[a-zA-Z][a-zA-Z0-9+.-]*://(([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d{1,5})?(/\\S*)?(\\?(\\S*))?(#(\\S*))?$"
+
+    /**
+     * `urlValidator` helper to validate the urls values
+     */
+    // TODO: TO REMOVE WHEN FIXED INTO InputsValidator
+    val urlValidator = Regex(URL_REGEX)
+
+    /**
      * Function to check if all the notes of the list are correct
      *
      * @param notes: list of notes

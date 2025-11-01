@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
+import com.tecknobit.equinoxbackend.annotations.MappingPurpose;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.pandoro.services.notes.entity.Note;
 import com.tecknobit.pandoro.services.users.entities.PandoroUser;
@@ -134,11 +135,11 @@ public class Update extends EquinoxItem {
     /**
      * {@code project} the project owner
      */
-    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
+    @MappingPurpose
     @JoinColumn(name = PROJECT_KEY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final Project project;

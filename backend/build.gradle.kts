@@ -7,12 +7,11 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 group = "com.tecknobit.pandoro"
-version = "1.2.0"
+version = "1.2.1"
 
 repositories {
     mavenCentral()
     maven("https://jitpack.io")
-    maven("https://repo.clojars.org")
 }
 
 dependencies {

@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tecknobit.pandoro"
-version = "1.2.0"
+version = "1.2.1"
 
 repositories {
     google()
@@ -36,9 +36,11 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+        iosSimulatorArm64(),
+        macosArm64(),
+        macosX64()
+    ).forEach { appleTarget ->
+        appleTarget.binaries.framework {
             baseName = "pandorocore"
             isStatic = true
         }
@@ -48,8 +50,6 @@ kotlin {
         binaries.executable()
         browser {
             webpackTask {
-                dependencies {
-                }
             }
         }
     }
@@ -82,7 +82,7 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 groupId = "com.tecknobit.pandorocore"
                 artifactId = "pandorocore"
-                version = "1.2.0"
+                version = "1.2.1"
                 from(components["kotlin"])
             }
         }

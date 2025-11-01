@@ -1,7 +1,6 @@
 package com.tecknobit.pandoro.services.changelogs.helpers;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
-import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
 import com.tecknobit.pandoro.services.changelogs.repository.ChangelogsRepository;
 import com.tecknobit.pandoro.services.groups.entity.Group;
 import com.tecknobit.pandoro.services.projects.entities.Project;
@@ -190,28 +189,6 @@ public class ChangelogsNotifier {
     private void createProjectChangelog(ChangelogEvent event, String targetVersion, String projectId, String userId) {
         changelogRepository.addProjectChangelog(generateIdentifier(), event, targetVersion, currentTimeMillis(),
                 projectId, userId);
-    }
-
-    /**
-     * The {@code ChangelogOperator} class is useful to manage the creation of the changelogs
-     *
-     * @author N7ghtm4r3 - Tecknobit
-     *
-     * @deprecated To use directly the {@link ChangelogsNotifier} instance instead
-     */
-    @Service
-    @Deprecated(
-            since = "1.2.0",
-            forRemoval = true
-    )
-    public static class ChangelogOperator extends EquinoxItemsHelper {
-
-        /**
-         * {@code changelogsNotifier} the changelogs creator helper
-         */
-        @Autowired
-        protected ChangelogsNotifier changelogsNotifier;
-
     }
 
 }

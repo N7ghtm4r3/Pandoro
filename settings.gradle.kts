@@ -2,8 +2,8 @@ rootProject.name = "Pandoro"
 
 pluginManagement {
     plugins {
-        kotlin("jvm") version "2.2.10"
-        kotlin("multiplatform") version "2.2.10"
+        kotlin("jvm") version "2.2.20"
+        kotlin("multiplatform") version "2.2.20"
     }
     repositories {
         google()
