@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper._WHERE_;
+import static com.tecknobit.equinoxbackend.apis.database.SQLConstants._WHERE_;
 import static com.tecknobit.equinoxcore.helpers.CommonKeysKt.*;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 
@@ -191,47 +191,6 @@ public interface NotesRepository extends JpaRepository<Note, String> {
             @Param(AUTHOR_KEY) String authorId,
             @Param(IDENTIFIER_KEY) String noteId,
             @Param(CONTENT_NOTE_KEY) String contentNote
-    );
-
-    /**
-     * Method to execute the query to add a new change note
-     *
-     * @param authorId The author of the note identifier
-     * @param noteId The note identifier
-     * @param contentNote The content of the note
-     * @param creationDate The creation date of the note
-     * @param updateId The update identifier
-     */
-    @Modifying(clearAutomatically = true)
-    @Transactional
-    @Query(
-            value = "INSERT INTO " + NOTES_KEY
-                    + " (" + IDENTIFIER_KEY + ","
-                    + AUTHOR_KEY + ","
-                    + CONTENT_NOTE_KEY + ","
-                    + CREATION_DATE_KEY + ","
-                    + MARKED_AS_DONE_KEY + ","
-                    + MARKED_AS_DONE_BY_KEY + ","
-                    + MARKED_AS_DONE_DATE_KEY + ","
-                    + UPDATE_ESCAPED_KEY + ") "
-                    + "VALUES ("
-                    + ":" + IDENTIFIER_KEY + ","
-                    + ":" + AUTHOR_KEY + ","
-                    + ":" + CONTENT_NOTE_KEY + ","
-                    + ":" + CREATION_DATE_KEY + ","
-                    + "false,"
-                    + "NULL,"
-                    + "-1,"
-                    + ":" + UPDATE_KEY
-                    + ")",
-            nativeQuery = true
-    )
-    void addChangeNote(
-            @Param(AUTHOR_KEY) String authorId,
-            @Param(IDENTIFIER_KEY) String noteId,
-            @Param(CONTENT_NOTE_KEY) String contentNote,
-            @Param(CREATION_DATE_KEY) long creationDate,
-            @Param(UPDATE_KEY) String updateId
     );
 
     /**

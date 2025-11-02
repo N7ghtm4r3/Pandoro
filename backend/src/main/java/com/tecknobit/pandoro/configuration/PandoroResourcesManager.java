@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.configuration;
 
 import com.tecknobit.apimanager.annotations.Wrapper;
-import com.tecknobit.equinoxbackend.resourcesutils.ResourcesManager;
+import com.tecknobit.equinoxbackend.apis.resources.ResourcesManager;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface PandoroResourcesManager extends ResourcesManager {
