@@ -3,6 +3,7 @@ package com.tecknobit.pandoro.services.users.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tecknobit.equinoxbackend.annotations.EmptyConstructor;
+import com.tecknobit.equinoxbackend.annotations.MappingPurpose;
 import com.tecknobit.equinoxbackend.environment.services.builtin.entity.EquinoxItem;
 import com.tecknobit.equinoxbackend.environment.services.users.entity.EquinoxUser;
 import com.tecknobit.equinoxcore.dtoutils.DTOConvertible;
@@ -78,12 +79,12 @@ public class PandoroUser extends EquinoxUser implements DTOConvertible<Candidate
      *
      * @since 1.2.0
      */
-    // TODO: 27/08/2025 TO USE THE DEDICATED ANNOTATION
     @OneToMany(
             mappedBy = AUTHOR_KEY,
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
+    @MappingPurpose
     private List<UpdateEvent> events;
 
     /**

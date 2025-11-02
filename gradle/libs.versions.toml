@@ -1,8 +1,8 @@
 [versions]
-agp = "8.11.1"
+agp = "8.12.3"
 dokka = "2.0.0"
-equinox-backend = "1.1.4"
-equinox = "1.1.5"
+equinox-backend = "1.1.6"
+equinox = "1.1.7"
 # backend
 apimanager = "2.2.4"
 jacksonDatabind = "2.15.4"

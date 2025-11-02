@@ -1,7 +1,7 @@
 package com.tecknobit.pandoro.services.projects.services;
 
 import com.tecknobit.equinoxbackend.annotations.TableColumns;
-import com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper;
+import com.tecknobit.equinoxbackend.apis.batch.EquinoxItemsHelper;
 import com.tecknobit.equinoxcore.pagination.PaginatedResponse;
 import com.tecknobit.pandoro.configuration.PandoroResourcesManager;
 import com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier;
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static com.tecknobit.equinoxbackend.environment.services.builtin.service.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
+import static com.tecknobit.equinoxbackend.apis.batch.EquinoxItemsHelper.InsertCommand.INSERT_INTO;
 import static com.tecknobit.pandorocore.ConstantsKt.*;
 import static com.tecknobit.pandorocore.enums.UpdateStatus.IN_DEVELOPMENT;
 

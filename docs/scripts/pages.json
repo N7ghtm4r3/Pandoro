@@ -1110,6 +1110,16 @@
     ]
   },
   {
+    "name": "const val URL_REGEX: String",
+    "description": "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.URL_REGEX",
+    "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-inputs-validator/-u-r-l_-r-e-g-e-x.html",
+    "searchKeys": [
+      "URL_REGEX",
+      "const val URL_REGEX: String",
+      "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.URL_REGEX"
+    ]
+  },
+  {
     "name": "enum ChangelogEvent : Enum<ChangelogEvent> ",
     "description": "com.tecknobit.pandorocore.enums.events.ChangelogEvent",
     "location": "core/com.tecknobit.pandorocore.enums.events/-changelog-event/index.html",
@@ -1540,6 +1550,16 @@
     ]
   },
   {
+    "name": "val urlValidator: Regex",
+    "description": "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.urlValidator",
+    "location": "core/com.tecknobit.pandorocore.helpers/-pandoro-inputs-validator/url-validator.html",
+    "searchKeys": [
+      "urlValidator",
+      "val urlValidator: Regex",
+      "com.tecknobit.pandorocore.helpers.PandoroInputsValidator.urlValidator"
+    ]
+  },
+  {
     "name": "abstract class PandoroItem : EquinoxItem, Serializable",
     "description": "com.tecknobit.pandoro.services.PandoroItem",
     "location": "backend/com.tecknobit.pandoro.services/-pandoro-item/index.html",
@@ -1557,16 +1577,6 @@
       "acceptGroupInvitation",
       "abstract fun acceptGroupInvitation(memberId: String, groupId: String)",
       "com.tecknobit.pandoro.services.groups.repositories.GroupMembersRepository.acceptGroupInvitation"
-    ]
-  },
-  {
-    "name": "abstract fun addChangeNote(authorId: String, noteId: String, contentNote: String, creationDate: Long, updateId: String)",
-    "description": "com.tecknobit.pandoro.services.notes.repository.NotesRepository.addChangeNote",
-    "location": "backend/com.tecknobit.pandoro.services.notes.repository/-notes-repository/add-change-note.html",
-    "searchKeys": [
-      "addChangeNote",
-      "abstract fun addChangeNote(authorId: String, noteId: String, contentNote: String, creationDate: Long, updateId: String)",
-      "com.tecknobit.pandoro.services.notes.repository.NotesRepository.addChangeNote"
     ]
   },
   {
@@ -2381,16 +2391,6 @@
   },
   {
     "name": "constructor()",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.ChangelogOperator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/-changelog-operator.html",
-    "searchKeys": [
-      "ChangelogOperator",
-      "constructor()",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.ChangelogOperator"
-    ]
-  },
-  {
-    "name": "constructor()",
     "description": "com.tecknobit.pandoro.services.groups.dto.GroupDTO.GroupDTO",
     "location": "backend/com.tecknobit.pandoro.services.groups.dto/-group-d-t-o/-group-d-t-o.html",
     "searchKeys": [
@@ -2957,16 +2957,6 @@
       "Changelog",
       "open class Changelog : EquinoxItem",
       "com.tecknobit.pandoro.services.changelogs.entity.Changelog"
-    ]
-  },
-  {
-    "name": "open class ChangelogOperator : EquinoxItemsHelper",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/index.html",
-    "searchKeys": [
-      "ChangelogOperator",
-      "open class ChangelogOperator : EquinoxItemsHelper",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator"
     ]
   },
   {
@@ -5977,16 +5967,6 @@
       "usersRepository",
       "private val usersRepository: PandoroUsersRepository",
       "com.tecknobit.pandoro.services.groups.service.GroupsService.usersRepository"
-    ]
-  },
-  {
-    "name": "protected open var changelogsNotifier: ChangelogsNotifier",
-    "description": "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.changelogsNotifier",
-    "location": "backend/com.tecknobit.pandoro.services.changelogs.helpers/-changelogs-notifier/-changelog-operator/changelogs-notifier.html",
-    "searchKeys": [
-      "changelogsNotifier",
-      "protected open var changelogsNotifier: ChangelogsNotifier",
-      "com.tecknobit.pandoro.services.changelogs.helpers.ChangelogsNotifier.ChangelogOperator.changelogsNotifier"
     ]
   },
   {

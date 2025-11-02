@@ -74,13 +74,21 @@ public class UpdateEvent extends EquinoxItem {
     /**
      * {@code noteContent} the content of the note if it is an event related to a change note
      */
-    @Column(name = CONTENT_NOTE_KEY)
+    @Lob
+    @Column(
+            name = CONTENT_NOTE_KEY,
+            columnDefinition = "MEDIUMTEXT"
+    )
     private final String noteContent;
 
     /**
      * {@code extraContent} extra content used when it is necessary add extra information such update version, etc...
      */
-    @Column(name = EXTRA_CONTENT_KEY)
+    @Lob
+    @Column(
+            name = EXTRA_CONTENT_KEY,
+            columnDefinition = "MEDIUMTEXT"
+    )
     private final String extraContent;
 
     /**
